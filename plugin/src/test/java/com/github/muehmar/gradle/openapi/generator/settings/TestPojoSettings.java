@@ -14,7 +14,7 @@ public class TestPojoSettings {
   public static PojoSettings defaultTestSettings() {
     return fullPojoSettingsBuilder()
         .jsonSupport(JsonSupport.JACKSON)
-        .packageName("com.github.muehmar")
+        .packageName(PackageName.fromString("com.github.muehmar"))
         .suffix("Dto")
         .stagedBuilder(defaultStagedBuilderSettings())
         .builderMethodPrefix("set")

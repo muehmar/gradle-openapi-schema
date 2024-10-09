@@ -7,6 +7,6 @@ import io.github.muehmar.codegenerator.writer.Writer;
 public class PackageGenerator<T> implements Generator<T, PojoSettings> {
   @Override
   public Writer generate(T data, PojoSettings settings, Writer writer) {
-    return writer.println("package %s;", settings.getPackageName());
+    return writer.println("package %s;", settings.getPackageName().getName());
   }
 }

@@ -6,6 +6,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
+import com.github.muehmar.gradle.openapi.generator.settings.PackageName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettings;
@@ -149,10 +150,12 @@ public class SingleSchemaExtension implements Serializable {
     return validationMethods;
   }
 
-  public String getPackageName(Project project) {
-    return Optional.ofNullable(packageName)
-        .orElseGet(() -> String.format("%s.%s.api.model", project.getGroup(), project.getName()))
-        .replace("-", "");
+  public PackageName getPackageName(Project project) {
+    return PackageName.fromString(
+        Optional.ofNullable(packageName)
+            .orElseGet(
+                () -> String.format("%s.%s.api.model", project.getGroup(), project.getName()))
+            .replace("-", ""));
   }
 
   // DSL API

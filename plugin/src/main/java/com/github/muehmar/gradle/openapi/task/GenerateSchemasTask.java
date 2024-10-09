@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.dsl.SingleSchemaExtension;
 import com.github.muehmar.gradle.openapi.dsl.WarningsConfig;
+import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.Generators;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
@@ -23,10 +24,15 @@ import com.github.muehmar.gradle.openapi.warnings.WarningsHandler;
 import com.github.muehmar.gradle.openapi.writer.BaseDirFileWriter;
 import com.github.muehmar.gradle.openapi.writer.FileWriter;
 import com.github.muehmar.gradle.openapi.writer.GeneratedFile;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 import javax.inject.Inject;
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
@@ -80,6 +86,8 @@ public class GenerateSchemasTask extends DefaultTask {
     final MapResult mapResult = cachedMapping.get();
     final Generators generators = GeneratorFactory.create(Language.JAVA);
 
+    cleanOutputDir();
+
     mapResult.getPojos().flatMap(pojo -> createPojo(pojo, generators)).forEach(this::writeFile);
 
     mapResult
@@ -106,6 +114,19 @@ public class GenerateSchemasTask extends DefaultTask {
 
   private GeneratedFile createParameter(Parameter parameter, Generators generators) {
     return generators.getParametersGenerator().generate(parameter, pojoSettings.get());
+  }
+
+  private void cleanOutputDir() {
+    final Path directory =
+        Paths.get(outputDir.get()).resolve(pojoSettings.get().getPackageName().asPath());
+    if (Files.exists(directory)) {
+      try (final Stream<Path> paths = Files.walk(directory)) {
+        paths.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+      } catch (IOException e) {
+        throw new OpenApiGeneratorException(
+            "Error while cleaning the output directory: " + e.getMessage(), e);
+      }
+    }
   }
 
   private void writeFile(GeneratedFile file) {
