@@ -1,6 +1,7 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
+        mavenLocal()
     }
 }
 
@@ -81,7 +82,7 @@ dependencyResolutionManagement {
         }
 
         pluginLibs {
-            plugin('openApiSchema', 'com.github.muehmar.openapischema').version('3.2.0')
+            plugin('openApiSchema', 'com.github.muehmar.openapischema').version('3.2.1-SNAPSHOT')
             plugin('springboot2', 'org.springframework.boot').version('2.7.9')
             plugin('springboot3', 'org.springframework.boot').version('3.2.3')
             plugin('springDependencyManagement', 'io.spring.dependency-management').version('1.1.4')
