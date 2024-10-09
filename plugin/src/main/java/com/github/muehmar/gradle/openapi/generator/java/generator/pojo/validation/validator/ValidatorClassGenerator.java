@@ -31,6 +31,7 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -131,7 +132,11 @@ public class ValidatorClassGenerator {
 
   private static Condition methodContentOneOfCondition() {
     return Condition.constant("getOneOfValidCount() == 1")
-        .filter(JavaObjectPojo::hasOneOfComposition);
+        .filter(
+            (pojo, settings) ->
+                pojo.getOneOfComposition()
+                    .map(comp -> comp.validateExactlyOneMatch(settings))
+                    .orElse(false));
   }
 
   private static Condition methodContentOneOfDiscriminatorCondition() {
@@ -205,6 +210,12 @@ public class ValidatorClassGenerator {
     default Condition filter(Predicate<JavaObjectPojo> predicate) {
       final Generator<JavaObjectPojo, PojoSettings> self = this;
       return (p, s, w) -> predicate.test(p) ? self.generate(p, s, w) : w;
+    }
+
+    @Override
+    default Condition filter(BiPredicate<JavaObjectPojo, PojoSettings> predicate) {
+      final Generator<JavaObjectPojo, PojoSettings> self = this;
+      return (p, s, w) -> predicate.test(p, s) ? self.generate(p, s, w) : w;
     }
   }
 }

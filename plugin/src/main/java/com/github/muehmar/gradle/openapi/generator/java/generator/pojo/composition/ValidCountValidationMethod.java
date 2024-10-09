@@ -87,6 +87,7 @@ public class ValidCountValidationMethod {
         .append(annotation)
         .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method)
-        .prependNewLine();
+        .prependNewLine()
+        .filter(DiscriminatableJavaComposition::validateExactlyOneMatch);
   }
 }

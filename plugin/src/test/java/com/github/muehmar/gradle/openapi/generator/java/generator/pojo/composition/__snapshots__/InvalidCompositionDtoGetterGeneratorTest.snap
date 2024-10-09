@@ -124,6 +124,35 @@ private Map<String, Object> getInvalidOneOf() {
 ]
 
 
+oneOfPojoWithDiscriminatorAndNonStrictValidation=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.HashMap
+java.util.Map
+javax.validation.Valid
+
+@Valid
+@JsonIgnore
+private Map<String, Object> getInvalidOneOf() {
+  final Map<String, Object> dtos = new HashMap<>();
+  if(getOneOfValidCount() == 0 || !isValidAgainstTheCorrectOneOfSchema()) {
+    if(color != null) {
+      switch(color.getValue()) {
+        case "yellow":
+          dtos.put("Yellow", asYellowDto());
+          return dtos;
+        case "orange":
+          dtos.put("Orange", asOrangeDto());
+          return dtos;
+      }
+    }
+    dtos.put("Yellow", asYellowDto());
+    dtos.put("Orange", asOrangeDto());
+  }
+  return dtos;
+}
+]
+
+
 oneOfPojoWithEnumDiscriminator=[
 com.fasterxml.jackson.annotation.JsonIgnore
 java.util.HashMap

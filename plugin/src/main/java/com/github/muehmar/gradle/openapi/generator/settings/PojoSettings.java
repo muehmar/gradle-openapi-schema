@@ -24,6 +24,7 @@ public class PojoSettings implements Serializable {
   StagedBuilderSettings stagedBuilder;
   String builderMethodPrefix;
   boolean enableValidation;
+  boolean nonStrictOneOfValidation;
 
   ValidationApi validationApi;
   List<ClassTypeMapping> classTypeMappings;
@@ -42,6 +43,10 @@ public class PojoSettings implements Serializable {
 
   public boolean isEnableValidation() {
     return enableValidation;
+  }
+
+  public boolean isNonStrictOneOfValidation() {
+    return nonStrictOneOfValidation;
   }
 
   public List<ClassTypeMapping> getClassTypeMappingsList() {

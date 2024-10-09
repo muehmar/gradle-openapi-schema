@@ -19,6 +19,7 @@ public class TestPojoSettings {
         .stagedBuilder(defaultStagedBuilderSettings())
         .builderMethodPrefix("set")
         .enableValidation(true)
+        .nonStrictOneOfValidation(false)
         .validationApi(ValidationApi.JAKARTA_2_0)
         .classTypeMappings(Collections.emptyList())
         .formatTypeMappings(Collections.emptyList())

@@ -34,6 +34,20 @@ class ValidCountValidationMethodTest {
   }
 
   @Test
+  @SnapshotName("oneOfPojoWithDiscriminatorAndNonStrictValidation")
+  void generate_when_oneOfPojoWithDiscriminatorAndNonStrictValidation_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        ValidCountValidationMethod.validCountValidationMethodGenerator();
+
+    final JavaObjectPojo javaPojo = JavaPojos.oneOfPojoWithEnumDiscriminator();
+    final Writer writer =
+        generator.generate(
+            javaPojo, defaultTestSettings().withNonStrictOneOfValidation(true), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("anyOf")
   void generate_when_anyOfPojo_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =

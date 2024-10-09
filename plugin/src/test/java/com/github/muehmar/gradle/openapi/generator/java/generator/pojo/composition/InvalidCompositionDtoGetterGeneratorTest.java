@@ -48,6 +48,21 @@ class InvalidCompositionDtoGetterGeneratorTest {
   }
 
   @Test
+  @SnapshotName("oneOfPojoWithDiscriminatorAndNonStrictValidation")
+  void generate_when_oneOfPojoWithDiscriminatorAndNonStrictValidation_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        invalidCompositionDtoGetterGenerator();
+
+    final Writer writer =
+        generator.generate(
+            JavaPojos.oneOfPojoWithEnumDiscriminator(),
+            defaultTestSettings().withNonStrictOneOfValidation(true),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("oneOfPojoWithPublicDeprecatedValidationMethods")
   void generate_when_oneOfPojoWithPublicDeprecatedValidationMethods_then_correctOutput() {
     final Generator<JavaObjectPojo, PojoSettings> generator =

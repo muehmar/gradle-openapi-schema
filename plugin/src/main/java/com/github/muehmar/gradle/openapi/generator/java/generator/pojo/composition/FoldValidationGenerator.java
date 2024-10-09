@@ -54,7 +54,7 @@ public class FoldValidationGenerator {
             (comp, s, w) ->
                 w.println(
                     "if (%s() %s) {",
-                    getValidCountMethodName(comp.getType()), getCountCondition(comp.getType())))
+                    getValidCountMethodName(comp.getType()), getCountCondition(comp, s)))
         .append(constant("return null;"), 1)
         .append(constant("}"))
         .append(
@@ -66,8 +66,9 @@ public class FoldValidationGenerator {
                     additionalFoldArguments(composition.getType())));
   }
 
-  private static String getCountCondition(DiscriminatableJavaComposition.Type type) {
-    return type.equals(ONE_OF) ? "!= 1" : "== 0";
+  private static String getCountCondition(
+      DiscriminatableJavaComposition composition, PojoSettings settings) {
+    return composition.validateExactlyOneMatch(settings) ? "!= 1" : "== 0";
   }
 
   private static String additionalFoldArguments(DiscriminatableJavaComposition.Type type) {
