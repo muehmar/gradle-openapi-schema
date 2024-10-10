@@ -28,27 +28,19 @@ public class JavaFileName {
   }
 
   public static JavaFileName fromSettingsAndClassname(PojoSettings settings, JavaName className) {
-    final String packagePath =
-        settings
-            .getPackageName()
-            .replace(".", File.separator)
-            .replaceFirst("^" + File.separator, "");
+    final Path packagePath = settings.getPackageName().asPath();
     final String fileNameString =
-        String.format("%s%s%s.java", packagePath, File.separator, className);
+        String.format("%s%s%s.java", packagePath.toFile(), File.separator, className);
     return new JavaFileName(Paths.get(fileNameString));
   }
 
   public static JavaFileName fromSettingsAndParameter(
       PojoSettings settings, JavaParameter parameter) {
-    final String packagePath =
-        settings
-            .getPackageName()
-            .replace(".", File.separator)
-            .replaceFirst("^" + File.separator, "");
+    final Path packagePath = settings.getPackageName().asPath();
     final String fileNameString =
         String.format(
             "%s%sparameter%s%s.java",
-            packagePath, File.separator, File.separator, parameter.getParamClassName());
+            packagePath.toFile(), File.separator, File.separator, parameter.getParamClassName());
     return new JavaFileName(Paths.get(fileNameString));
   }
 

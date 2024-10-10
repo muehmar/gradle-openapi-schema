@@ -19,7 +19,7 @@ import lombok.With;
 @PojoBuilder
 public class PojoSettings implements Serializable {
   JsonSupport jsonSupport;
-  String packageName;
+  PackageName packageName;
   String suffix;
   StagedBuilderSettings stagedBuilder;
   String builderMethodPrefix;
