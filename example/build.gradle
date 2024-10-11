@@ -315,6 +315,18 @@ openApiGenerator {
                 conversion.fromCustomType = "asList"
                 conversion.toCustomType = "CustomList#fromList"
             }
+
+            dtoMapping {
+                dtoName = "AddressDto"
+                customType = "com.github.muehmar.gradle.openapi.typemappingwithconversion.CustomAddress"
+                conversion.fromCustomType = "toDto"
+                conversion.toCustomType = "CustomAddress#fromDto"
+            }
+
+            dtoMapping {
+                dtoName = "FhirDataDto"
+                customType = "com.github.muehmar.gradle.openapi.typemappingwithconversion.FhirData"
+            }
         }
         nonStrictOneOfValidation {
             inputSpec = "$projectDir/src/main/resources/openapi-non-strict-oneof-validation.yml"

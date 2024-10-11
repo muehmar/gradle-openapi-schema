@@ -1,4 +1,5 @@
 allGeneratedClasses=[
+AddressDto
 AllOfListObjectAllOfDto
 AllOfListObjectDto
 AllOfMapObjectAllOfDto
@@ -11,6 +12,7 @@ AnyOfMapObjectAnyOfDto
 AnyOfMapObjectDto
 ArrayAdditionalPropertiesDto
 ArrayAdditionalPropertiesPropertyDto
+FhirDataDto
 ListObjectDto
 MapObjectDto
 OneOfListObjectDto
@@ -19,6 +21,7 @@ OneOfListObjectOneOfDto
 OneOfMapObjectDto
 OneOfMapObjectOneOfContainerDto
 OneOfMapObjectOneOfDto
+PatientDto
 PosologyDto
 UserDto
 ]
