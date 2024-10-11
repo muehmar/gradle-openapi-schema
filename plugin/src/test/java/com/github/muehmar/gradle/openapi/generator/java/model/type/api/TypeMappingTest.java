@@ -1,5 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type.api;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.DtoMappings.DTO_CONVERSION;
+import static com.github.muehmar.gradle.openapi.generator.settings.DtoMappings.DTO_MAPPING_WITHOUT_CONVERSION;
+import static com.github.muehmar.gradle.openapi.generator.settings.DtoMappings.DTO_MAPPING_WITH_CONVERSION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -142,6 +145,44 @@ class TypeMappingTest {
 
     assertEquals(Optional.of(expectedApiType), typeMapping.getApiType());
     assertEquals(QualifiedClassNames.STRING, typeMapping.getClassName());
+  }
+
+  @Test
+  void fromDtoMappings_when_wrongMapping_then_noApiTypeAndCorrectClassName() {
+    final QualifiedClassName adminDtoClassName = QualifiedClassName.ofName("AdminDto");
+    final TypeMapping typeMapping =
+        TypeMapping.fromDtoMappings(adminDtoClassName, PList.of(DTO_MAPPING_WITH_CONVERSION));
+
+    assertEquals(Optional.empty(), typeMapping.getApiType());
+    assertEquals(adminDtoClassName, typeMapping.getClassName());
+  }
+
+  @Test
+  void fromDtoMappings_when_mappingWithoutConversion_then_noApiTypeAndCorrectClassName() {
+    final QualifiedClassName userDtoClassName = QualifiedClassName.ofName("UserDto");
+    final TypeMapping typeMapping =
+        TypeMapping.fromDtoMappings(userDtoClassName, PList.of(DTO_MAPPING_WITHOUT_CONVERSION));
+
+    assertEquals(Optional.empty(), typeMapping.getApiType());
+    assertEquals(
+        QualifiedClassName.ofQualifiedClassName(DTO_MAPPING_WITHOUT_CONVERSION.getCustomType()),
+        typeMapping.getClassName());
+  }
+
+  @Test
+  void fromDtoMappings_when_mappingWithConversion_then_correctApiTypeAndClassName() {
+    final QualifiedClassName userDtoClassName = QualifiedClassName.ofName("UserDto");
+    final TypeMapping typeMapping =
+        TypeMapping.fromDtoMappings(userDtoClassName, PList.of(DTO_MAPPING_WITH_CONVERSION));
+
+    final ApiType expectedApiType =
+        ApiType.fromConversion(
+            QualifiedClassName.ofQualifiedClassName(DTO_MAPPING_WITHOUT_CONVERSION.getCustomType()),
+            DTO_CONVERSION,
+            PList.empty());
+
+    assertEquals(Optional.of(expectedApiType), typeMapping.getApiType());
+    assertEquals(userDtoClassName, typeMapping.getClassName());
   }
 
   @ParameterizedTest

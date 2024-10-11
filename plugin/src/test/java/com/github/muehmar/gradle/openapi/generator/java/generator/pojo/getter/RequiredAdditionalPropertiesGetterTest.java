@@ -41,8 +41,8 @@ class RequiredAdditionalPropertiesGetterTest {
                     new JavaRequiredAdditionalProperty(
                         JavaName.fromString("prop1"),
                         JavaObjectType.wrap(
-                            StandardObjectType.ofName(
-                                PojoName.ofName(Name.ofString("AdminDto")))))));
+                            StandardObjectType.ofName(PojoName.ofName(Name.ofString("AdminDto"))),
+                            TypeMappings.empty()))));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 
@@ -62,8 +62,8 @@ class RequiredAdditionalPropertiesGetterTest {
                     new JavaRequiredAdditionalProperty(
                         JavaName.fromString("prop1"),
                         JavaObjectType.wrap(
-                            StandardObjectType.ofName(
-                                PojoName.ofName(Name.ofString("AdminDto")))))));
+                            StandardObjectType.ofName(PojoName.ofName(Name.ofString("AdminDto"))),
+                            TypeMappings.empty()))));
 
     final Writer writer =
         generator.generate(

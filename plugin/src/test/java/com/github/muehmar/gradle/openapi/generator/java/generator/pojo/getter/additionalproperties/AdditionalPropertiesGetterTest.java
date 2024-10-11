@@ -39,7 +39,8 @@ class AdditionalPropertiesGetterTest {
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
-            JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Object", "Dto"))));
+            JavaObjectType.wrap(
+                StandardObjectType.ofName(pojoName("Object", "Dto")), TypeMappings.empty()));
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty(), additionalProperties);
 
     final Writer writer =

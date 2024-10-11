@@ -24,4 +24,8 @@ public class TypeMappings {
   public static TypeMappings ofSingleFormatTypeMapping(FormatTypeMapping formatTypeMapping) {
     return new TypeMappings(PList.empty(), PList.single(formatTypeMapping), PList.empty());
   }
+
+  public static TypeMappings ofSingleDtoMapping(DtoMapping dtoMapping) {
+    return new TypeMappings(PList.empty(), PList.empty(), PList.single(dtoMapping));
+  }
 }

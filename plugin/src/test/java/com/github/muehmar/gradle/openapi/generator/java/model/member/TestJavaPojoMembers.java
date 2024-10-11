@@ -482,8 +482,12 @@ public class TestJavaPojoMembers {
     return object(JavaObjectType.fromClassName(objectClassName));
   }
 
+  public static JavaPojoMember object(ObjectType objectType, TypeMappings typeMappings) {
+    return object(JavaObjectType.wrap(objectType, typeMappings));
+  }
+
   public static JavaPojoMember object(ObjectType objectType) {
-    return object(JavaObjectType.wrap(objectType));
+    return object(JavaObjectType.wrap(objectType, TypeMappings.empty()));
   }
 
   private static JavaPojoMember object(JavaObjectType objectType) {
