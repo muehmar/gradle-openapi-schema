@@ -457,7 +457,8 @@ class ObjectPojoGeneratorTest {
         JavaPojos.objectPojo(
             PList.empty(),
             JavaAdditionalProperties.allowedFor(
-                JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Hello", "Dto")))));
+                JavaObjectType.wrap(
+                    StandardObjectType.ofName(pojoName("Hello", "Dto")), TypeMappings.empty())));
     final String content =
         generator.generate(objectPojo, defaultTestSettings(), javaWriter()).asString();
 
@@ -499,7 +500,8 @@ class ObjectPojoGeneratorTest {
         JavaPojos.objectPojo(
             PList.empty(),
             JavaAdditionalProperties.allowedFor(
-                JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Hello", "Dto")))));
+                JavaObjectType.wrap(
+                    StandardObjectType.ofName(pojoName("Hello", "Dto")), TypeMappings.empty())));
     final String content =
         generator
             .generate(objectPojo, defaultTestSettings().withEnableValidation(false), javaWriter())
@@ -516,7 +518,8 @@ class ObjectPojoGeneratorTest {
         JavaPojos.objectPojo(
             PList.empty(),
             JavaAdditionalProperties.allowedFor(
-                JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Hello", "Dto")))));
+                JavaObjectType.wrap(
+                    StandardObjectType.ofName(pojoName("Hello", "Dto")), TypeMappings.empty())));
     final String content =
         generator
             .generate(

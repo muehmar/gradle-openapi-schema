@@ -55,7 +55,7 @@ public class JavaTypes {
 
   public static JavaObjectType objectType() {
     return JavaObjectType.wrap(
-        StandardObjectType.ofName(PojoName.ofName(Name.ofString("UserDto"))));
+        StandardObjectType.ofName(PojoName.ofName(Name.ofString("UserDto"))), TypeMappings.empty());
   }
 
   public static JavaAnyType anyType() {

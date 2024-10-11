@@ -30,6 +30,7 @@ public class OpenApiSchemaExtension implements Serializable {
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
+  private final List<DtoMapping> dtoMappings;
   private final List<ConstantSchemaNameMapping> constantSchemaNameMappings;
   private final GetterSuffixes getterSuffixes;
   private final ValidationMethods validationMethods;
@@ -40,6 +41,7 @@ public class OpenApiSchemaExtension implements Serializable {
     this.schemaExtensions = objectFactory.domainObjectContainer(SingleSchemaExtension.class);
     this.classMappings = new ArrayList<>();
     this.formatTypeMappings = new ArrayList<>();
+    this.dtoMappings = new ArrayList<>();
     this.constantSchemaNameMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
     this.validationMethods = ValidationMethods.allUndefined();
@@ -113,6 +115,13 @@ public class OpenApiSchemaExtension implements Serializable {
   }
 
   // DSL API
+  public void dtoMapping(Action<DtoMapping> action) {
+    final DtoMapping dtoMapping = new DtoMapping();
+    action.execute(dtoMapping);
+    dtoMappings.add(dtoMapping);
+  }
+
+  // DSL API
   public void enumDescriptionExtraction(Action<EnumDescriptionExtension> action) {
     enumDescriptionExtension = new EnumDescriptionExtension();
     action.execute(enumDescriptionExtension);
@@ -155,6 +164,10 @@ public class OpenApiSchemaExtension implements Serializable {
 
   private List<FormatTypeMapping> getCommonFormatTypeMappings() {
     return formatTypeMappings;
+  }
+
+  private List<DtoMapping> getCommonDtoMappings() {
+    return dtoMappings;
   }
 
   private GetterSuffixes getCommonGetterSuffixes() {
@@ -264,6 +277,8 @@ public class OpenApiSchemaExtension implements Serializable {
         + classMappings
         + ", formatTypeMappings="
         + formatTypeMappings
+        + ", dtoMappings="
+        + dtoMappings
         + ", constantSchemaNameMappings="
         + constantSchemaNameMappings
         + ", getterSuffixes="

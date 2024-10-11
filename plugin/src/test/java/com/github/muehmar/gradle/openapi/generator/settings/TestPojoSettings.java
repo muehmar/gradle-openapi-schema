@@ -23,6 +23,7 @@ public class TestPojoSettings {
         .validationApi(ValidationApi.JAKARTA_2_0)
         .classTypeMappings(Collections.emptyList())
         .formatTypeMappings(Collections.emptyList())
+        .dtoMappings(Collections.emptyList())
         .enumDescriptionSettings(EnumDescriptionSettings.disabled())
         .getterSuffixes(defaultGetterSuffixes())
         .validationMethods(defaultValidationMethods())

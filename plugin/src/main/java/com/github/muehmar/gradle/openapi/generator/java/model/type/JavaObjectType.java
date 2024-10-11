@@ -4,9 +4,11 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.TypeMapping;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.EqualsAndHashCode;
@@ -28,6 +30,16 @@ public class JavaObjectType extends NonGenericJavaType {
     this.origin = origin;
   }
 
+  private JavaObjectType(
+      TypeMapping typeMapping,
+      Nullability nullability,
+      Constraints constraints,
+      TypeOrigin origin) {
+    super(typeMapping.getClassName(), typeMapping.getApiType(), nullability);
+    this.constraints = constraints;
+    this.origin = origin;
+  }
+
   public static JavaObjectType fromClassName(QualifiedClassName className) {
     return new JavaObjectType(className, NOT_NULLABLE, Constraints.empty(), TypeOrigin.CUSTOM);
   }
@@ -40,10 +52,15 @@ public class JavaObjectType extends NonGenericJavaType {
         TypeOrigin.OPENAPI);
   }
 
-  public static JavaObjectType wrap(ObjectType objectType) {
+  public static JavaObjectType wrap(ObjectType objectType, TypeMappings typeMappings) {
     final QualifiedClassName className = QualifiedClassName.ofPojoName(objectType.getName());
+    final TypeMapping typeMapping =
+        TypeMapping.fromDtoMappings(className, typeMappings.getDtoMappings());
     return new JavaObjectType(
-        className, objectType.getNullability(), objectType.getConstraints(), TypeOrigin.OPENAPI);
+        typeMapping,
+        objectType.getNullability(),
+        objectType.getConstraints(),
+        className.equals(typeMapping.getClassName()) ? TypeOrigin.OPENAPI : TypeOrigin.CUSTOM);
   }
 
   @Override

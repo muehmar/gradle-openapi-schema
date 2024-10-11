@@ -53,6 +53,7 @@ public class SingleSchemaExtension implements Serializable {
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
+  private final List<DtoMapping> dtoMappings;
   private final List<ConstantSchemaNameMapping> constantSchemaNameMappings;
   private List<String> excludeSchemas;
   private WarningsConfig warnings;
@@ -62,6 +63,7 @@ public class SingleSchemaExtension implements Serializable {
     this.name = name;
     this.classMappings = new ArrayList<>();
     this.formatTypeMappings = new ArrayList<>();
+    this.dtoMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
     this.stagedBuilder = StagedBuilder.allUndefined();
     this.validationMethods = ValidationMethods.allUndefined();
@@ -287,6 +289,23 @@ public class SingleSchemaExtension implements Serializable {
     return PList.fromIter(formatTypeMappings);
   }
 
+  // DSL API
+  public void dtoMapping(Action<DtoMapping> action) {
+    final DtoMapping dtoMapping = new DtoMapping();
+    action.execute(dtoMapping);
+    dtoMapping.assertCompleteTypeConversion();
+    dtoMappings.add(dtoMapping);
+  }
+
+  SingleSchemaExtension withCommonDtoMappings(List<DtoMapping> other) {
+    dtoMappings.addAll(other);
+    return this;
+  }
+
+  PList<DtoMapping> getDtoMappings() {
+    return PList.fromIter(dtoMappings);
+  }
+
   public void enumDescriptionExtraction(Action<EnumDescriptionExtension> action) {
     enumDescriptionExtension = new EnumDescriptionExtension();
     action.execute(enumDescriptionExtension);
@@ -376,6 +395,7 @@ public class SingleSchemaExtension implements Serializable {
         .classTypeMappings(getClassMappings().map(ClassMapping::toSettingsClassMapping))
         .formatTypeMappings(
             getFormatTypeMappings().map(FormatTypeMapping::toSettingsFormatTypeMapping))
+        .dtoMappings(getDtoMappings().map(DtoMapping::toSettingsDtoMapping))
         .enumDescriptionSettings(
             getEnumDescriptionExtension()
                 .map(EnumDescriptionExtension::toEnumDescriptionSettings)

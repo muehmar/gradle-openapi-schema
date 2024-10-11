@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
+import com.github.muehmar.gradle.openapi.generator.settings.DtoMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import java.util.Optional;
 import lombok.Value;
@@ -78,6 +79,27 @@ public class TypeMapping {
     return formatTypeMapping
         .getTypeConversion()
         .map(conversion -> ApiType.fromConversion(mappedClassName, conversion, generics))
+        .map(apiType -> new TypeMapping(originalClassName, Optional.of(apiType)))
+        .orElseGet(() -> fromClassName(mappedClassName));
+  }
+
+  public static TypeMapping fromDtoMappings(
+      QualifiedClassName originalClassName, PList<DtoMapping> dtoMappings) {
+    return dtoMappings
+        .filter(dtoMapping -> dtoMapping.getDtoName().equals(originalClassName.asString()))
+        .headOption()
+        .map(dtoMapping -> fromDtoMapping(originalClassName, dtoMapping))
+        .orElseGet(() -> fromClassName(originalClassName));
+  }
+
+  private static TypeMapping fromDtoMapping(
+      QualifiedClassName originalClassName, DtoMapping dtoMapping) {
+    final QualifiedClassName mappedClassName =
+        QualifiedClassName.ofQualifiedClassName(dtoMapping.getCustomType());
+
+    return dtoMapping
+        .getTypeConversion()
+        .map(conversion -> ApiType.fromConversion(mappedClassName, conversion, PList.empty()))
         .map(apiType -> new TypeMapping(originalClassName, Optional.of(apiType)))
         .orElseGet(() -> fromClassName(mappedClassName));
   }

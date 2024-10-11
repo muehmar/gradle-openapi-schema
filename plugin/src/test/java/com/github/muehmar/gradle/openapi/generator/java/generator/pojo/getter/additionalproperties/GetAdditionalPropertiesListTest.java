@@ -86,7 +86,8 @@ class GetAdditionalPropertiesListTest {
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
-            JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Object", "Dto")))
+            JavaObjectType.wrap(
+                    StandardObjectType.ofName(pojoName("Object", "Dto")), TypeMappings.empty())
                 .withNullability(NOT_NULLABLE));
     final JavaObjectPojo pojo =
         JavaPojos.objectPojo().withAdditionalProperties(additionalProperties);
@@ -104,7 +105,8 @@ class GetAdditionalPropertiesListTest {
 
     final JavaAdditionalProperties additionalProperties =
         JavaAdditionalProperties.allowedFor(
-            JavaObjectType.wrap(StandardObjectType.ofName(pojoName("Object", "Dto")))
+            JavaObjectType.wrap(
+                    StandardObjectType.ofName(pojoName("Object", "Dto")), TypeMappings.empty())
                 .withNullability(NULLABLE));
     final JavaObjectPojo pojo =
         JavaPojos.objectPojo().withAdditionalProperties(additionalProperties);

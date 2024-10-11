@@ -16,6 +16,20 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface JavaType {
+
+  static JavaType wrap(Type type, TypeMappings typeMappings) {
+    return type.fold(
+        numericType -> JavaNumericType.wrap(numericType, typeMappings),
+        numericType -> JavaIntegerType.wrap(numericType, typeMappings),
+        stringType -> JavaStringType.wrap(stringType, typeMappings),
+        arrayType -> JavaArrayType.wrap(arrayType, typeMappings),
+        booleanType -> JavaBooleanType.wrap(booleanType, typeMappings),
+        javaObjectType -> JavaObjectType.wrap(javaObjectType, typeMappings),
+        enumType -> JavaEnumType.wrap(enumType, typeMappings),
+        mapType -> JavaMapType.wrap(mapType, typeMappings),
+        JavaAnyType::javaAnyType);
+  }
+
   /**
    * Returns the qualified classname of the java type used internally in the DTO for serialization
    * and validation.
@@ -195,18 +209,5 @@ public interface JavaType {
 
   default PList<String> getImportsAsString() {
     return getImports().map(QualifiedClassName::asString);
-  }
-
-  static JavaType wrap(Type type, TypeMappings typeMappings) {
-    return type.fold(
-        numericType -> JavaNumericType.wrap(numericType, typeMappings),
-        numericType -> JavaIntegerType.wrap(numericType, typeMappings),
-        stringType -> JavaStringType.wrap(stringType, typeMappings),
-        arrayType -> JavaArrayType.wrap(arrayType, typeMappings),
-        booleanType -> JavaBooleanType.wrap(booleanType, typeMappings),
-        JavaObjectType::wrap,
-        enumType -> JavaEnumType.wrap(enumType, typeMappings),
-        mapType -> JavaMapType.wrap(mapType, typeMappings),
-        JavaAnyType::javaAnyType);
   }
 }

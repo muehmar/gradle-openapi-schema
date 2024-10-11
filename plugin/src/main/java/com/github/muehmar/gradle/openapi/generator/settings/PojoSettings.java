@@ -29,6 +29,7 @@ public class PojoSettings implements Serializable {
   ValidationApi validationApi;
   List<ClassTypeMapping> classTypeMappings;
   List<FormatTypeMapping> formatTypeMappings;
+  List<DtoMapping> dtoMappings;
   EnumDescriptionSettings enumDescriptionSettings;
   GetterSuffixes getterSuffixes;
   ValidationMethods validationMethods;
@@ -98,8 +99,16 @@ public class PojoSettings implements Serializable {
     return formatTypeMappings.toArrayList();
   }
 
+  @FieldBuilder(fieldName = "dtoMappings")
+  public static List<DtoMapping> dtoMappings(PList<DtoMapping> dtoMappings) {
+    return dtoMappings.toArrayList();
+  }
+
   public TypeMappings getTypeMappings() {
-    return new TypeMappings(PList.fromIter(classTypeMappings), PList.fromIter(formatTypeMappings));
+    return new TypeMappings(
+        PList.fromIter(classTypeMappings),
+        PList.fromIter(formatTypeMappings),
+        PList.fromIter(dtoMappings));
   }
 
   public PojoNameMapping pojoNameMapping() {

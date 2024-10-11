@@ -2,11 +2,14 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
+import com.github.muehmar.gradle.openapi.generator.settings.DtoMappings;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
@@ -16,7 +19,7 @@ class JavaObjectTypeTest {
   @Test
   void wrap_when_objectTypeWrapped_then_correctWrapped() {
     final ObjectType objectType = StandardObjectType.ofName(pojoName("User", "Dto"));
-    final JavaObjectType javaType = JavaObjectType.wrap(objectType);
+    final JavaObjectType javaType = JavaObjectType.wrap(objectType, TypeMappings.empty());
 
     assertEquals(Optional.empty(), javaType.getApiType());
 
@@ -34,7 +37,7 @@ class JavaObjectTypeTest {
   @Test
   void wrap_when_pojoNameWithSpecialCharacters_then_correctType() {
     final ObjectType objectType = StandardObjectType.ofName(pojoName("Prefixed.User", "Dto"));
-    final JavaObjectType javaType = JavaObjectType.wrap(objectType);
+    final JavaObjectType javaType = JavaObjectType.wrap(objectType, TypeMappings.empty());
 
     assertEquals(Optional.empty(), javaType.getApiType());
 
@@ -46,6 +49,40 @@ class JavaObjectTypeTest {
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)
             .sort(Comparator.comparing(Function.identity())));
+    assertEquals(JavaObjectType.TypeOrigin.OPENAPI, javaType.getOrigin());
+  }
+
+  @Test
+  void wrap_when_dtoMappingWithoutConversion_then_correctClassNameAndCustomOrigin() {
+    final ObjectType objectType = StandardObjectType.ofName(pojoName("User", "Dto"));
+    final JavaObjectType javaType =
+        JavaObjectType.wrap(
+            objectType,
+            TypeMappings.ofSingleDtoMapping(DtoMappings.DTO_MAPPING_WITHOUT_CONVERSION));
+
+    assertEquals(Optional.empty(), javaType.getApiType());
+
+    assertEquals(
+        QualifiedClassName.ofQualifiedClassName(
+            DtoMappings.DTO_MAPPING_WITHOUT_CONVERSION.getCustomType()),
+        javaType.getQualifiedClassName());
+
+    assertEquals(JavaObjectType.TypeOrigin.CUSTOM, javaType.getOrigin());
+  }
+
+  @Test
+  void wrap_when_dtoMappingWithConversion_then_correctClassNameAndOpenApiOrigin() {
+    final ObjectType objectType = StandardObjectType.ofName(pojoName("User", "Dto"));
+    final JavaObjectType javaType =
+        JavaObjectType.wrap(
+            objectType, TypeMappings.ofSingleDtoMapping(DtoMappings.DTO_MAPPING_WITH_CONVERSION));
+
+    assertTrue(javaType.getApiType().isPresent());
+
+    assertEquals(
+        QualifiedClassName.ofQualifiedClassName(objectType.getName().asString()),
+        javaType.getQualifiedClassName());
+
     assertEquals(JavaObjectType.TypeOrigin.OPENAPI, javaType.getOrigin());
   }
 
