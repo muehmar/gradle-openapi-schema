@@ -45,7 +45,9 @@ public class ParameterGenerator implements Generator<JavaParameter, PojoSettings
 
   @Override
   public Writer generate(JavaParameter parameter, PojoSettings settings, Writer writer) {
-    return delegate.generate(parameter, settings, writer);
+    return DeprecatedSectionGenerator.<JavaParameter, PojoSettings>deprecatedSectionGenerator()
+        .append(delegate)
+        .generate(parameter, settings, writer);
   }
 
   private Generator<JavaParameter, PojoSettings> content() {
