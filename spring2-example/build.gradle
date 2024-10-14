@@ -1,5 +1,6 @@
 plugins {
     alias(pluginLibs.plugins.openApiSchema)
+    alias(pluginLibs.plugins.openapiGenerator)
     id "com.diffplug.spotless"
     id 'openapischema.java8'
     id 'idea'
@@ -13,6 +14,8 @@ plugins {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation sampleLibs.swagger.annotations
 
     testImplementation testLibs.junit
     testImplementation testLibs.junit.params
@@ -28,6 +31,33 @@ tasks.withType(Test).configureEach {
     }
 }
 
+
+sourceSets {
+    main {
+        java {
+            srcDir "$buildDir/generated/openapi-server/src/main/java"
+        }
+    }
+}
+
+def modelPackageName = "${project.group.replaceAll("-", "")}.${project.name.replaceAll("-", "")}.api.v1.model"
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
+    outputDir = "$buildDir/generated/openapi-server"
+    apiPackage = "com.github.muehmar.openapischema.spring"
+    modelPackage = modelPackageName
+    ignoreFileOverride = "$projectDir/.openapi-ignore"
+    modelNameSuffix = "Dto"
+    configOptions = [
+            delegatePattern: 'true',
+            useTags        : 'true'
+    ]
+}
+
+compileJava.dependsOn(tasks.openApiGenerate)
+
 openApiGenerator {
     validationMethods {
         getterSuffix = "Raw"
@@ -39,8 +69,8 @@ openApiGenerator {
         apiV1 {
             sourceSet = 'main'
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
-            outputDir = project.layout.buildDirectory.dir("generated/openapi")
-            packageName = "${project.group}.${project.name}.api.v1.model"
+            outputDir = project.layout.buildDirectory.dir("generated/openapi-model")
+            packageName = modelPackageName
             jsonSupport = "jackson"
             suffix = "Dto"
             enableValidation = true
