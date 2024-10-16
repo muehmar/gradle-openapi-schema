@@ -62,6 +62,14 @@ openApiGenerator {
                 toClass = "java.util.ArrayList"
             }
             
+            // Additional DTO mapping
+            dtoMapping {
+                dtoName = "AddressDto"
+                customType = "com.package.CustomAddress"
+                conversion.fromCustomType = "toDto"
+                conversion.toCustomType = "CustomAddress#fromDto"
+            }
+            
             // Additional mapping removing 'ApiV1' from the generated classname
             constantSchemaNameMapping {
                 constant = "ApiV1"
@@ -230,6 +238,25 @@ fully qualified classname to properly generate import-statements. The `conversio
 see [Conversion for Mappings](#conversions-for-mappings).
 
 Repeat this block for each format type mapping.
+
+## DTO Mapping
+
+The plugin allows to replace a a generated DTO with a custom class.
+
+```
+dtoMapping {
+    dtoName = "AddressDto"
+    customType = "com.package.CustomAddress"
+    conversion.fromCustomType = "toDto"
+    conversion.toCustomType = "CustomAddress#fromDto"
+}
+```
+
+The config-property `dtoName` is the full name of the generated DTO class which should get replaced by the customType
+defined with `customType`. The `customType` should be the fully qualified classname to properly generate the import. The
+`conversion.fromCustomType` and
+`conversion.toCustomType` are used in the DTO to convert from and to the custom type,
+see [Conversion for Mappings](#conversions-for-mappings).
 
 ### Conversions for mappings
 
