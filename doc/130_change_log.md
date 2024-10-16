@@ -1,5 +1,10 @@
 ## Change Log
 
+* 3.3.0
+    * Option to replace a generated DTO with a custom type (issue `#291`)
+    * Remove old DTO's after changes (issue `#279`)
+    * Option for non-strict oneOf validation (issue `#285`)
+    * Deprecate parameters generation (issue `#298`)
 * 3.2.0
     * Support for conversions of type and class mappings (issue `#160`)
     * Fix serialisation of multiple nested required and nullable property in anyOf or oneOf compositions (issue `#278`)
