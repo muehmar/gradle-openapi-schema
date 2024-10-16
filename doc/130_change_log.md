@@ -1,5 +1,6 @@
 ## Change Log
 
+* 3.3.1 - Fix parameter classes deperecation (issue `#304`)
 * 3.3.0
     * Option to replace a generated DTO with a custom type (issue `#291`)
     * Remove old DTO's after changes (issue `#279`)
