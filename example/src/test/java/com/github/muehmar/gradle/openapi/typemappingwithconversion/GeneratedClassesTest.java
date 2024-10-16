@@ -20,6 +20,8 @@ class GeneratedClassesTest {
             .filter(className -> !className.equals("CustomStrings"))
             .filter(className -> !className.equals("CustomString"))
             .filter(className -> !className.equals("CustomList"))
+            .filter(className -> !className.equals("CustomAddress"))
+            .filter(className -> !className.equals("FhirData"))
             .collect(Collectors.toList());
 
     expect.toMatchSnapshot(String.join("\n", classNames));

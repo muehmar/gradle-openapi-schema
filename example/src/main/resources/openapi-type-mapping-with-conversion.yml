@@ -174,5 +174,44 @@ components:
         items:
           type: string
 
+    Patient:
+      type: object
+      required:
+        - id
+        - address
+        - fhirData
+      properties:
+        id:
+          type: integer
+        address:
+          $ref: '#/components/schemas/Address'
+        fhirData:
+          $ref: '#/components/schemas/FhirData'
+
+    Address:
+      type: object
+      required:
+        - street
+        - number
+        - zipCode
+        - city
+      properties:
+        street:
+          type: string
+          maxLength: 15
+        number:
+          type: integer
+        zipCode:
+          type: integer
+          minimum: 1000
+          maximum: 9999
+        city:
+          type: string
+
+    FhirData:
+      type: object
+
+
+
 
 

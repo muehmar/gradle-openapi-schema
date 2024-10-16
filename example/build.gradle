@@ -67,7 +67,8 @@ def specifications =
                 [name: 'promotion', file: 'openapi-promotion.yml'],
                 [name: 'overrideglobalconfig', file: 'openapi-override-global-config.yml'],
                 [name: 'nullableitemslist', file: 'openapi-nullable-items-list.yml'],
-                [name: 'typemappingwithconversion', file: 'openapi-type-mapping-with-conversion.yml']
+                [name: 'typemappingwithconversion', file: 'openapi-type-mapping-with-conversion.yml'],
+                [name: 'nonstrictoneofvalidation', file: 'openapi-non-strict-oneof-validation.yml']
         ]
 
 def issueNumbers = [
@@ -314,6 +315,23 @@ openApiGenerator {
                 conversion.fromCustomType = "asList"
                 conversion.toCustomType = "CustomList#fromList"
             }
+
+            dtoMapping {
+                dtoName = "AddressDto"
+                customType = "com.github.muehmar.gradle.openapi.typemappingwithconversion.CustomAddress"
+                conversion.fromCustomType = "toDto"
+                conversion.toCustomType = "CustomAddress#fromDto"
+            }
+
+            dtoMapping {
+                dtoName = "FhirDataDto"
+                customType = "com.github.muehmar.gradle.openapi.typemappingwithconversion.FhirData"
+            }
+        }
+        nonStrictOneOfValidation {
+            inputSpec = "$projectDir/src/main/resources/openapi-non-strict-oneof-validation.yml"
+            packageName = "com.github.muehmar.gradle.openapi.nonstrictoneofvalidation"
+            nonStrictOneOfValidation = true
         }
         issueNumbers.forEach { issueNumber ->
             {
