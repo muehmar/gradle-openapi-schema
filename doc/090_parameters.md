@@ -1,7 +1,9 @@
 ## Parameters
 
-The OpenAPI supports parameters in the `#/components/parameters` section. The plugin will generate for each
-parameter a class which contains the constraints of the parameter. For example the specification
+NOTE: This feature is deprecated and will be removed in the next major version 4.x.
+
+The OpenAPI supports parameters in the `#/components/parameters` section. The plugin will generate for each parameter a
+class which contains the constraints of the parameter. For example the specification
 
 ```
 components:
@@ -38,8 +40,7 @@ public final class LimitParam {
 The method `exceedLimits` will contain the conditions depending on the presence of the `minimum` and `maximum`
 constraint. In the case both are missing, the method will simply return `false`.
 
-A default number is also rendered as string which may be used as default value in Spring annotations for
-parameters.
+A default number is also rendered as string which may be used as default value in Spring annotations for parameters.
 
 ### Supported schemas
 
