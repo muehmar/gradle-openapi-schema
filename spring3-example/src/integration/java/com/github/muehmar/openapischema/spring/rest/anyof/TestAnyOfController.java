@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 @WebMvcTest
 public class TestAnyOfController extends ControllerUnitTest {
-  public static final String API_V1_ANYOF = "/api/v1/anyof";
+  private static final String API_V1_ANYOF = "/api/v1/anyof";
   @Autowired private AnyOfInterface anyOfInterface;
 
   @Autowired private MockMvc mockMvc;

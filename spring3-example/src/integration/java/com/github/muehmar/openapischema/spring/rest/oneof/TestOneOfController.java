@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 @WebMvcTest
 public class TestOneOfController extends ControllerUnitTest {
-  public static final String API_V1_ONEOF = "/api/v1/oneof";
+  private static final String API_V1_ONEOF = "/api/v1/oneof";
   @Autowired private OneOfInterface oneOfInterface;
 
   @Autowired private MockMvc mockMvc;

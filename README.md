@@ -7,7 +7,7 @@ This is a gradle plugin to generate Java code given an openapi 3.0.x or 3.1.0 sp
 this focuses mainly on the `#/component/schema` section. It generates immutable classes and a staged builder to support
 a safe way creating instances. The data classes support JSON conversions via jackson.
 
-This plugin has three main advantages over using the standard swagger code generator for schemas:
+This plugin has three main advantages over using the standard OpenAPI Generator for schemas:
 
 * Extended support of schema specifications: The generator can create classes for almost every possible schema
   definition
@@ -28,6 +28,7 @@ The main features are:
 * Supports processing multiple specifications
 * Support compositions (`allOf`, `anyOf`, `oneOf`)
 * Customization of DTO classnames
+* Easy integration with the official OpenAPI Generator
 
 The implementation is based on the
 [swagger-parser](https://github.com/swagger-api/swagger-parser)
@@ -66,10 +67,11 @@ openApiGenerator {
 7. [Validation](doc/070_validation.md)
 8. [Extraction of enum-description](doc/080_extraction_of_enum_description.md)
 9. [Parameters](doc/090_parameters.md)
-10. [Incremental Build](doc/100_incremental_build.md)
-11. [Limitations](doc/110_limitations.md)
-12. [Migration Guides](doc/120_migration_guides.md)
-13. [Change Log](doc/130_change_log.md)
+10. [Integration with OpenAPI Generator](doc/095_official_openapi_generator_integration.md)
+11. [Incremental Build](doc/100_incremental_build.md)
+12. [Limitations](doc/110_limitations.md)
+13. [Migration Guides](doc/120_migration_guides.md)
+14. [Change Log](doc/130_change_log.md)
 
 ## Credits
 

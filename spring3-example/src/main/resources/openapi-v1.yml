@@ -5,6 +5,8 @@ info:
 paths:
   /api/v1/oneof:
     get:
+      tags:
+        - oneof
       summary: OneOf Get Endpoint
       responses:
         '200':
@@ -14,6 +16,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/AdminOrUserDiscriminator"
     post:
+      tags:
+        - oneof
       summary: OneOf Post Endpoint
       requestBody:
         required: true
@@ -24,8 +28,11 @@ paths:
       responses:
         '200':
           description: OK
+
   /api/v1/anyof:
     get:
+      tags:
+        - anyof
       summary: AnyOf Get Endpoint
       responses:
         '200':
@@ -35,6 +42,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/AdminAndOrUser"
     post:
+      tags:
+        - anyof
       summary: AnyOf Post Endpoint
       requestBody:
         required: true
