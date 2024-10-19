@@ -13,10 +13,12 @@ public class SuperObject {
     this.hello = hello;
   }
 
+  @JsonProperty("feature")
   public MultiType getFeature() {
     return feature;
   }
 
+  @JsonProperty("hello")
   public String getHello() {
     return hello;
   }
