@@ -4,8 +4,9 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MultiTypeDeserializer extends StdDeserializer<MultiType> {
   protected MultiTypeDeserializer() {
@@ -13,8 +14,7 @@ public class MultiTypeDeserializer extends StdDeserializer<MultiType> {
   }
 
   @Override
-  public MultiType deserialize(JsonParser p, DeserializationContext ctxt)
-      throws IOException {
+  public MultiType deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
 
     final JsonNode node = p.getCodec().readTree(p);
 
@@ -24,6 +24,13 @@ public class MultiTypeDeserializer extends StdDeserializer<MultiType> {
       return MultiType.fromString(node.asText());
     } else if (node.isBoolean()) {
       return MultiType.fromBoolean(node.asBoolean());
+    } else if (node.isArray()) {
+      final Iterator<JsonNode> elements = node.elements();
+      final ArrayList<String> list = new ArrayList<>();
+      for (JsonNode e : (Iterable<JsonNode>) (() -> elements)) {
+        list.add(p.getCodec().treeToValue(e, String.class));
+      }
+      return MultiType.fromList(list);
     }
 
     // Parse objects
