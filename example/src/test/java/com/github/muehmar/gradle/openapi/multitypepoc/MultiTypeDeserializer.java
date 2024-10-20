@@ -18,13 +18,40 @@ public class MultiTypeDeserializer extends StdDeserializer<MultiType> {
 
     final JsonNode node = p.getCodec().readTree(p);
 
+    if (node.isNull()) {
+      return MultiType.fromNull();
+    }
+
+    if (node.isFloat()) {
+      return MultiType.fromFloat(node.floatValue());
+    }
+
+    if (node.isDouble()) {
+      final double doubleValue = node.asDouble();
+      final float floatValue = node.floatValue();
+      if (doubleValue == floatValue) {
+        return MultiType.fromFloat(floatValue);
+      }
+      return MultiType.fromDouble(node.asDouble());
+    }
+
+    if (node.canConvertToInt()) {
+      return MultiType.fromInt(node.asInt());
+    }
+
     if (node.canConvertToLong()) {
       return MultiType.fromLong(node.asLong());
-    } else if (node.isTextual()) {
+    }
+
+    if (node.isTextual()) {
       return MultiType.fromString(node.asText());
-    } else if (node.isBoolean()) {
+    }
+
+    if (node.isBoolean()) {
       return MultiType.fromBoolean(node.asBoolean());
-    } else if (node.isArray()) {
+    }
+
+    if (node.isArray()) {
       final Iterator<JsonNode> elements = node.elements();
       final ArrayList<String> list = new ArrayList<>();
       for (JsonNode e : (Iterable<JsonNode>) (() -> elements)) {
