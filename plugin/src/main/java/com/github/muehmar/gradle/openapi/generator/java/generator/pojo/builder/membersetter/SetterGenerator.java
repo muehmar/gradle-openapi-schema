@@ -19,8 +19,14 @@ public class SetterGenerator {
         .appendList(memberSetterMethods(), JavaObjectPojo::getAllMembers);
   }
 
+  private static Generator<JavaPojoMember, PojoSettings> newSetterGenerator() {
+    return com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.SetterGenerator
+        .setterGenerator();
+  }
+
   static Generator<JavaPojoMember, PojoSettings> memberSetterMethods() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(newSetterGenerator())
         .appendList(memberSetterMethod(), MemberSetter::fromMember);
   }
 

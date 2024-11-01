@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.definition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.JsonSetter.jsonSetterGenerator;
+
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -11,9 +13,12 @@ enum SetterMethod {
   OPTIONAL_SETTER(ignore -> Generator.emptyGen()),
   TRISTATE_SETTER(ignore -> Generator.emptyGen()),
   CONTAINER_STANDARD_SETTER(ignore -> Generator.emptyGen()),
+  CONTAINER_NULLABLE_VALUE_STANDARD_SETTER(ignore -> Generator.emptyGen()),
   CONTAINER_OPTIONAL_SETTER(ignore -> Generator.emptyGen()),
+  CONTAINER_NULLABLE_VALUE_OPTIONAL_SETTER(ignore -> Generator.emptyGen()),
   CONTAINER_TRISTATE_SETTER(ignore -> Generator.emptyGen()),
-  JSON_SETTER(ignore -> Generator.emptyGen());
+  CONTAINER_NULLABLE_VALUE_TRISTATE_SETTER(ignore -> Generator.emptyGen()),
+  JSON_SETTER(ignore -> jsonSetterGenerator());
 
   private final Function<SetterGeneratorSettings, Generator<JavaPojoMember, PojoSettings>>
       generator;
