@@ -1,6 +1,8 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import io.github.muehmar.codegenerator.Generator;
 import java.util.Optional;
 
 public class FlagAssignments {
@@ -54,5 +56,10 @@ public class FlagAssignments {
       return Optional.of(Raw.optionalNullableFlagAssignment(member));
     }
     return Optional.empty();
+  }
+
+  public static Generator<JavaPojoMember, PojoSettings> forStandardMemberSetter() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .appendOptional((v, s, w) -> w.println(v), FlagAssignments::forStandardMemberSetter);
   }
 }

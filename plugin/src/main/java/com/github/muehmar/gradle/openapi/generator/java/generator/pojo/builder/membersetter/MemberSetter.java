@@ -19,8 +19,7 @@ import java.util.Optional;
 public interface MemberSetter {
 
   static PList<MemberSetter> fromMember(JavaPojoMember member) {
-    return PList.<MemberSetter>single(new JacksonMemberSetter(member))
-        .concat(StandardMemberSetters.fromMember(member))
+    return StandardMemberSetters.fromMember(member)
         .concat(ApiTypeMemberSetters.fromMember(member))
         .concat(ApiTypeListMemberSetters.fromMember(member))
         .concat(NullableItemsListMemberSetters.fromMember(member))

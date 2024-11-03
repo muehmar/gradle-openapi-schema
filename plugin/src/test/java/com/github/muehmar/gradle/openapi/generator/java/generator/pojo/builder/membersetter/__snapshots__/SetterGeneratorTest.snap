@@ -3,12 +3,11 @@ com.custom.CustomList
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalListWithNullableItems
- */
+.
+.
 @JsonProperty("optionalListWithNullableItems")
 private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWithNullableItems) {
   this.optionalListWithNullableItems = optionalListWithNullableItems;
@@ -93,12 +92,11 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
+java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalNullableListWithNullableItems
- */
+.
+.
 @JsonProperty("optionalNullableListWithNullableItems")
 private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
   this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
@@ -182,11 +180,10 @@ com.custom.CustomList
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.function.Function
-
-/**
- * RequiredListWithNullableItems
- */
+.
+.
 @JsonProperty("requiredListWithNullableItems")
 private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWithNullableItems) {
   this.requiredListWithNullableItems = requiredListWithNullableItems;
@@ -233,12 +230,11 @@ com.custom.CustomList
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * RequiredNullableListWithNullableItems
- */
+.
+.
 @JsonProperty("requiredNullableListWithNullableItems")
 private Builder setRequiredNullableListWithNullableItemsJson(List<String> requiredNullableListWithNullableItems) {
   this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
@@ -321,12 +317,11 @@ allListNecessityAndNullabilityVariantsOnlyListTypeMapped[optionalListWithNullabl
 com.custom.CustomList
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalListWithNullableItems
- */
+.
+.
 @JsonProperty("optionalListWithNullableItems")
 private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWithNullableItems) {
   this.optionalListWithNullableItems = optionalListWithNullableItems;
@@ -410,12 +405,11 @@ com.custom.CustomList
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
+java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalNullableListWithNullableItems
- */
+.
+.
 @JsonProperty("optionalNullableListWithNullableItems")
 private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
   this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
@@ -498,11 +492,10 @@ allListNecessityAndNullabilityVariantsOnlyListTypeMapped[requiredListWithNullabl
 com.custom.CustomList
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.function.Function
-
-/**
- * RequiredListWithNullableItems
- */
+.
+.
 @JsonProperty("requiredListWithNullableItems")
 private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWithNullableItems) {
   this.requiredListWithNullableItems = requiredListWithNullableItems;
@@ -548,12 +541,11 @@ allListNecessityAndNullabilityVariantsOnlyListTypeMapped[requiredNullableListWit
 com.custom.CustomList
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * RequiredNullableListWithNullableItems
- */
+.
+.
 @JsonProperty("requiredNullableListWithNullableItems")
 private Builder setRequiredNullableListWithNullableItemsJson(List<String> requiredNullableListWithNullableItems) {
   this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
@@ -638,12 +630,11 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.lang.String
+java.util.Map
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalMap
- */
+.
+.
 @JsonProperty("optionalMap")
 private Builder setOptionalMapJson(Map<String, String> optionalMap) {
   this.optionalMap = optionalMap;
@@ -694,12 +685,11 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.lang.String
+java.util.Map
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalNullableMap
- */
+.
+.
 @JsonProperty("optionalNullableMap")
 private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
   this.optionalNullableMap = optionalNullableMap;
@@ -750,11 +740,10 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.lang.String
+java.util.Map
 java.util.function.Function
-
-/**
- * RequiredMap
- */
+.
+.
 @JsonProperty("requiredMap")
 private Builder setRequiredMapJson(Map<String, String> requiredMap) {
   this.requiredMap = requiredMap;
@@ -786,12 +775,11 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.lang.String
+java.util.Map
 java.util.Optional
 java.util.function.Function
-
-/**
- * RequiredNullableMap
- */
+.
+.
 @JsonProperty("requiredNullableMap")
 private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
   this.requiredNullableMap = requiredNullableMap;
@@ -841,12 +829,11 @@ com.custom.CustomMap
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.lang.String
+java.util.Map
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalMap
- */
+.
+.
 @JsonProperty("optionalMap")
 private Builder setOptionalMapJson(Map<String, String> optionalMap) {
   this.optionalMap = optionalMap;
@@ -896,12 +883,11 @@ com.custom.CustomMap
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.lang.String
+java.util.Map
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalNullableMap
- */
+.
+.
 @JsonProperty("optionalNullableMap")
 private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
   this.optionalNullableMap = optionalNullableMap;
@@ -951,11 +937,10 @@ com.custom.CustomMap
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.lang.String
+java.util.Map
 java.util.function.Function
-
-/**
- * RequiredMap
- */
+.
+.
 @JsonProperty("requiredMap")
 private Builder setRequiredMapJson(Map<String, String> requiredMap) {
   this.requiredMap = requiredMap;
@@ -986,12 +971,11 @@ com.custom.CustomMap
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.lang.String
+java.util.Map
 java.util.Optional
 java.util.function.Function
-
-/**
- * RequiredNullableMap
- */
+.
+.
 @JsonProperty("requiredNullableMap")
 private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
   this.requiredNullableMap = requiredNullableMap;
@@ -1043,10 +1027,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalListWithNullableItems
- */
+.
+.
 @JsonProperty("optionalListWithNullableItems")
 private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWithNullableItems) {
   this.optionalListWithNullableItems = optionalListWithNullableItems;
@@ -1133,10 +1115,8 @@ java.lang.String
 java.util.Map
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalMap
- */
+.
+.
 @JsonProperty("optionalMap")
 private Builder setOptionalMapJson(Map<String, String> optionalMap) {
   this.optionalMap = optionalMap;
@@ -1189,10 +1169,8 @@ com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalNullableListWithNullableItems
- */
+.
+.
 @JsonProperty("optionalNullableListWithNullableItems")
 private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
   this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
@@ -1279,10 +1257,8 @@ java.lang.String
 java.util.Map
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalNullableMap
- */
+.
+.
 @JsonProperty("optionalNullableMap")
 private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
   this.optionalNullableMap = optionalNullableMap;
@@ -1332,10 +1308,8 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
-
-/**
- * OptionalNullableStringVal
- */
+.
+.
 @JsonProperty("optionalNullableStringVal")
 private Builder setOptionalNullableStringValJson(String optionalNullableStringVal) {
   this.optionalNullableStringVal = optionalNullableStringVal;
@@ -1371,10 +1345,8 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-
-/**
- * OptionalStringVal
- */
+.
+.
 @JsonProperty("optionalStringVal")
 private Builder setOptionalStringValJson(String optionalStringVal) {
   this.optionalStringVal = optionalStringVal;
@@ -1411,10 +1383,8 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.function.Function
-
-/**
- * RequiredListWithNullableItems
- */
+.
+.
 @JsonProperty("requiredListWithNullableItems")
 private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWithNullableItems) {
   this.requiredListWithNullableItems = requiredListWithNullableItems;
@@ -1463,10 +1433,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.lang.String
 java.util.Map
 java.util.function.Function
-
-/**
- * RequiredMap
- */
+.
+.
 @JsonProperty("requiredMap")
 private Builder setRequiredMapJson(Map<String, String> requiredMap) {
   this.requiredMap = requiredMap;
@@ -1499,10 +1467,8 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * RequiredNullableListWithNullableItems
- */
+.
+.
 @JsonProperty("requiredNullableListWithNullableItems")
 private Builder setRequiredNullableListWithNullableItemsJson(List<String> requiredNullableListWithNullableItems) {
   this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
@@ -1589,10 +1555,8 @@ java.lang.String
 java.util.Map
 java.util.Optional
 java.util.function.Function
-
-/**
- * RequiredNullableMap
- */
+.
+.
 @JsonProperty("requiredNullableMap")
 private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
   this.requiredNullableMap = requiredNullableMap;
@@ -1642,10 +1606,8 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-
-/**
- * RequiredNullableStringVal
- */
+.
+.
 @JsonProperty("requiredNullableStringVal")
 private Builder setRequiredNullableStringValJson(String requiredNullableStringVal) {
   this.requiredNullableStringVal = requiredNullableStringVal;
@@ -1681,9 +1643,6 @@ com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 
-/**
- * RequiredStringVal
- */
 @JsonProperty("requiredStringVal")
 private Builder setRequiredStringValJson(String requiredStringVal) {
   this.requiredStringVal = requiredStringVal;
@@ -1705,12 +1664,11 @@ private Builder setRequiredStringVal(CustomString requiredStringVal) {
 allNecessityAndNullabilityVariants[optionalListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalListWithNullableItems
- */
+.
+.
 @JsonProperty("optionalListWithNullableItems")
 private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWithNullableItems) {
   this.optionalListWithNullableItems = optionalListWithNullableItems;
@@ -1778,11 +1736,10 @@ public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>
 allNecessityAndNullabilityVariants[optionalMap]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.Map
 java.util.Optional
-
-/**
- * OptionalMap
- */
+.
+.
 @JsonProperty("optionalMap")
 private Builder setOptionalMapJson(Map<String, String> optionalMap) {
   this.optionalMap = optionalMap;
@@ -1817,12 +1774,11 @@ allNecessityAndNullabilityVariants[optionalNullableListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
+java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * OptionalNullableListWithNullableItems
- */
+.
+.
 @JsonProperty("optionalNullableListWithNullableItems")
 private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
   this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
@@ -1891,10 +1847,9 @@ allNecessityAndNullabilityVariants[optionalNullableMap]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
-
-/**
- * OptionalNullableMap
- */
+java.util.Map
+.
+.
 @JsonProperty("optionalNullableMap")
 private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
   this.optionalNullableMap = optionalNullableMap;
@@ -1929,10 +1884,8 @@ allNecessityAndNullabilityVariants[optionalNullableStringVal]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
-
-/**
- * OptionalNullableStringVal
- */
+.
+.
 @JsonProperty("optionalNullableStringVal")
 private Builder setOptionalNullableStringValJson(String optionalNullableStringVal) {
   this.optionalNullableStringVal = optionalNullableStringVal;
@@ -1967,10 +1920,8 @@ allNecessityAndNullabilityVariants[optionalStringVal]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-
-/**
- * OptionalStringVal
- */
+.
+.
 @JsonProperty("optionalStringVal")
 private Builder setOptionalStringValJson(String optionalStringVal) {
   this.optionalStringVal = optionalStringVal;
@@ -2004,12 +1955,11 @@ public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
 allNecessityAndNullabilityVariants[requiredListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * RequiredListWithNullableItems
- */
+.
+.
 @JsonProperty("requiredListWithNullableItems")
 private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWithNullableItems) {
   this.requiredListWithNullableItems = requiredListWithNullableItems;
@@ -2047,10 +1997,9 @@ private Builder setRequiredListWithNullableItems_(List<Optional<String>> require
 allNecessityAndNullabilityVariants[requiredMap]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-
-/**
- * RequiredMap
- */
+java.util.Map
+.
+.
 @JsonProperty("requiredMap")
 private Builder setRequiredMapJson(Map<String, String> requiredMap) {
   this.requiredMap = requiredMap;
@@ -2072,12 +2021,11 @@ private Builder setRequiredMap(Map<String, String> requiredMap) {
 allNecessityAndNullabilityVariants[requiredNullableListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.List
 java.util.Optional
 java.util.function.Function
-
-/**
- * RequiredNullableListWithNullableItems
- */
+.
+.
 @JsonProperty("requiredNullableListWithNullableItems")
 private Builder setRequiredNullableListWithNullableItemsJson(List<String> requiredNullableListWithNullableItems) {
   this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
@@ -2145,11 +2093,10 @@ private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional
 allNecessityAndNullabilityVariants[requiredNullableMap]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
+java.util.Map
 java.util.Optional
-
-/**
- * RequiredNullableMap
- */
+.
+.
 @JsonProperty("requiredNullableMap")
 private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
   this.requiredNullableMap = requiredNullableMap;
@@ -2184,10 +2131,8 @@ allNecessityAndNullabilityVariants[requiredNullableStringVal]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-
-/**
- * RequiredNullableStringVal
- */
+.
+.
 @JsonProperty("requiredNullableStringVal")
 private Builder setRequiredNullableStringValJson(String requiredNullableStringVal) {
   this.requiredNullableStringVal = requiredNullableStringVal;
@@ -2222,9 +2167,6 @@ allNecessityAndNullabilityVariants[requiredStringVal]=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 
-/**
- * RequiredStringVal
- */
 @JsonProperty("requiredStringVal")
 private Builder setRequiredStringValJson(String requiredStringVal) {
   this.requiredStringVal = requiredStringVal;

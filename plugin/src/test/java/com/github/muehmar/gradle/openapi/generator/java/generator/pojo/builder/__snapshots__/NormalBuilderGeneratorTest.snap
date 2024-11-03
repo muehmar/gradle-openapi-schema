@@ -5,6 +5,7 @@ com.fasterxml.jackson.annotation.JsonProperty
 com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
+java.util.List
 java.util.Map
 java.util.Optional
 java.util.function.Function
@@ -38,9 +39,6 @@ public static final class Builder {
   private boolean isOptionalNullableMapNull = false;
   private Map<String, Object> additionalProperties = new HashMap<>();
 
-  /**
-   * RequiredStringVal
-   */
   @JsonProperty("requiredStringVal")
   private Builder setRequiredStringValJson(String requiredStringVal) {
     this.requiredStringVal = requiredStringVal;
@@ -56,9 +54,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * RequiredNullableStringVal
-   */
   @JsonProperty("requiredNullableStringVal")
   private Builder setRequiredNullableStringValJson(String requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal;
@@ -86,9 +81,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalStringVal
-   */
   @JsonProperty("optionalStringVal")
   private Builder setOptionalStringValJson(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
@@ -116,9 +108,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalNullableStringVal
-   */
   @JsonProperty("optionalNullableStringVal")
   private Builder setOptionalNullableStringValJson(String optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal;
@@ -146,9 +135,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * RequiredListWithNullableItems
-   */
   @JsonProperty("requiredListWithNullableItems")
   private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWithNullableItems) {
     this.requiredListWithNullableItems = requiredListWithNullableItems;
@@ -180,9 +166,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * RequiredNullableListWithNullableItems
-   */
   @JsonProperty("requiredNullableListWithNullableItems")
   private Builder setRequiredNullableListWithNullableItemsJson(List<String> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
@@ -244,9 +227,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalListWithNullableItems
-   */
   @JsonProperty("optionalListWithNullableItems")
   private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems;
@@ -308,9 +288,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalNullableListWithNullableItems
-   */
   @JsonProperty("optionalNullableListWithNullableItems")
   private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
@@ -372,9 +349,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * RequiredMap
-   */
   @JsonProperty("requiredMap")
   private Builder setRequiredMapJson(Map<String, String> requiredMap) {
     this.requiredMap = requiredMap;
@@ -390,9 +364,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * RequiredNullableMap
-   */
   @JsonProperty("requiredNullableMap")
   private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
     this.requiredNullableMap = requiredNullableMap;
@@ -420,9 +391,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalMap
-   */
   @JsonProperty("optionalMap")
   private Builder setOptionalMapJson(Map<String, String> optionalMap) {
     this.optionalMap = optionalMap;
@@ -450,9 +418,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalNullableMap
-   */
   @JsonProperty("optionalNullableMap")
   private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
     this.optionalNullableMap = optionalNullableMap;
@@ -526,6 +491,7 @@ public static final class Builder {
 allNecessityAndNullabilityVariantsDisabledJackson=[
 com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
+java.util.List
 java.util.Map
 java.util.Optional
 java.util.function.Function
@@ -900,6 +866,7 @@ com.fasterxml.jackson.annotation.JsonProperty
 com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
+java.util.List
 java.util.Map
 java.util.Optional
 java.util.function.Function
@@ -934,9 +901,6 @@ public static final class Builder {
   private boolean isOptionalNullableMapNull = false;
   private Map<String, Object> additionalProperties = new HashMap<>();
 
-  /**
-   * RequiredStringVal
-   */
   @JsonProperty("requiredStringVal")
   private Builder setRequiredStringValJson(String requiredStringVal) {
     this.requiredStringVal = requiredStringVal;
@@ -952,9 +916,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * RequiredNullableStringVal
-   */
   @JsonProperty("requiredNullableStringVal")
   private Builder setRequiredNullableStringValJson(String requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal;
@@ -982,9 +943,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalStringVal
-   */
   @JsonProperty("optionalStringVal")
   private Builder setOptionalStringValJson(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
@@ -1012,9 +970,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalNullableStringVal
-   */
   @JsonProperty("optionalNullableStringVal")
   private Builder setOptionalNullableStringValJson(String optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal;
@@ -1042,9 +997,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * RequiredListWithNullableItems
-   */
   @JsonProperty("requiredListWithNullableItems")
   private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWithNullableItems) {
     this.requiredListWithNullableItems = requiredListWithNullableItems;
@@ -1076,9 +1028,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * RequiredNullableListWithNullableItems
-   */
   @JsonProperty("requiredNullableListWithNullableItems")
   private Builder setRequiredNullableListWithNullableItemsJson(List<String> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
@@ -1140,9 +1089,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalListWithNullableItems
-   */
   @JsonProperty("optionalListWithNullableItems")
   private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems;
@@ -1204,9 +1150,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalNullableListWithNullableItems
-   */
   @JsonProperty("optionalNullableListWithNullableItems")
   private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
@@ -1268,9 +1211,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * RequiredMap
-   */
   @JsonProperty("requiredMap")
   private Builder setRequiredMapJson(Map<String, String> requiredMap) {
     this.requiredMap = requiredMap;
@@ -1286,9 +1226,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * RequiredNullableMap
-   */
   @JsonProperty("requiredNullableMap")
   private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
     this.requiredNullableMap = requiredNullableMap;
@@ -1316,9 +1253,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalMap
-   */
   @JsonProperty("optionalMap")
   private Builder setOptionalMapJson(Map<String, String> optionalMap) {
     this.optionalMap = optionalMap;
@@ -1346,9 +1280,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * OptionalNullableMap
-   */
   @JsonProperty("optionalNullableMap")
   private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
     this.optionalNullableMap = optionalNullableMap;
@@ -1460,6 +1391,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
+java.time.LocalDate
 java.util.HashMap
 java.util.Map
 
@@ -1476,9 +1408,6 @@ public static final class Builder {
   private String email;
   private Map<String, Object> additionalProperties = new HashMap<>();
 
-  /**
-   * stringVal
-   */
   @JsonProperty("stringVal")
   private Builder setStringValJson(String stringVal) {
     this.stringVal = stringVal;
@@ -1494,9 +1423,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * intVal
-   */
   @JsonProperty("intVal")
   private Builder setIntValJson(Integer intVal) {
     this.intVal = intVal;
@@ -1512,9 +1438,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * doubleVal
-   */
   @JsonProperty("doubleVal")
   private Builder setDoubleValJson(Double doubleVal) {
     this.doubleVal = doubleVal;
@@ -1530,9 +1453,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * Birthdate
-   */
   @JsonProperty("birthdate")
   private Builder setBirthdateJson(LocalDate birthdate) {
     this.birthdate = birthdate;
@@ -1548,9 +1468,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * email
-   */
   @JsonProperty("email")
   private Builder setEmailJson(String email) {
     this.email = email;
@@ -1621,6 +1538,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
+java.time.LocalDate
 java.util.HashMap
 java.util.Map
 
@@ -1637,9 +1555,6 @@ public static final class Builder {
   private String email;
   private Map<String, Object> additionalProperties = new HashMap<>();
 
-  /**
-   * stringVal
-   */
   @JsonProperty("stringVal")
   private Builder setStringValJson(String stringVal) {
     this.stringVal = stringVal;
@@ -1655,9 +1570,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * intVal
-   */
   @JsonProperty("intVal")
   private Builder setIntValJson(Integer intVal) {
     this.intVal = intVal;
@@ -1673,9 +1585,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * doubleVal
-   */
   @JsonProperty("doubleVal")
   private Builder setDoubleValJson(Double doubleVal) {
     this.doubleVal = doubleVal;
@@ -1691,9 +1600,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * Birthdate
-   */
   @JsonProperty("birthdate")
   private Builder setBirthdateJson(LocalDate birthdate) {
     this.birthdate = birthdate;
@@ -1709,9 +1615,6 @@ public static final class Builder {
     return this;
   }
 
-  /**
-   * email
-   */
   @JsonProperty("email")
   private Builder setEmailJson(String email) {
     this.email = email;

@@ -459,9 +459,6 @@ public class SampleObjectPojo1Dto {
     private Double doubleVal;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    /**
-     * stringVal
-     */
     @JsonProperty("stringVal")
     private Builder setStringValJson(String stringVal) {
       this.stringVal = stringVal;
@@ -477,9 +474,6 @@ public class SampleObjectPojo1Dto {
       return this;
     }
 
-    /**
-     * intVal
-     */
     @JsonProperty("intVal")
     private Builder setIntValJson(Integer intVal) {
       this.intVal = intVal;
@@ -495,9 +489,6 @@ public class SampleObjectPojo1Dto {
       return this;
     }
 
-    /**
-     * doubleVal
-     */
     @JsonProperty("doubleVal")
     private Builder setDoubleValJson(Double doubleVal) {
       this.doubleVal = doubleVal;
