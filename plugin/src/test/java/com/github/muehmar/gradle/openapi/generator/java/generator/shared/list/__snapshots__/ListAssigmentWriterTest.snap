@@ -27,6 +27,13 @@ optionalListWithNullableItems
 ]
 
 
+onlyOptionalMapUnwrapping=[
+.
+.
+this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
+]
+
+
 unmapListAndListItemType=[
 com.custom.CustomList
 com.custom.CustomString

@@ -124,4 +124,20 @@ class ListAssigmentWriterTest {
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
+
+  @Test
+  @SnapshotName("onlyOptionalMapUnwrapping")
+  void fullListAssigmentWriterBuilder_when_onlyOptionalMapUnwrapping_then_matchSnapshot() {
+    final Writer writer =
+        fullListAssigmentWriterBuilder()
+            .member(MEMBER)
+            .fieldAssigment()
+            .unwrapOptionalList()
+            .unmapListTypeNotNecessary()
+            .unwrapListItemNotNecessary()
+            .unmapListItemTypeNotNecessary()
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
 }

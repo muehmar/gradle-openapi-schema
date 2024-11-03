@@ -629,7 +629,6 @@ com.custom.CustomMap
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
 java.util.Map
 java.util.Optional
 java.util.function.Function
@@ -773,7 +772,6 @@ com.custom.CustomMap
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
 java.util.Map
 java.util.Optional
 java.util.function.Function
@@ -827,7 +825,6 @@ allMapNecessityAndNullabilityVariantsOnlyMapTypeMapped[optionalMap]=[
 com.custom.CustomMap
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
 java.util.Map
 java.util.Optional
 java.util.function.Function
@@ -968,7 +965,6 @@ allMapNecessityAndNullabilityVariantsOnlyMapTypeMapped[requiredNullableMap]=[
 com.custom.CustomMap
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
 java.util.Map
 java.util.Optional
 java.util.function.Function
@@ -1109,7 +1105,6 @@ allNecessityAndNullabilityVariantsTypeMapped[optionalMap]=[
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
 java.util.Map
 java.util.Optional
 java.util.function.Function
@@ -1367,7 +1362,7 @@ public Builder setOptionalStringVal(CustomString optionalStringVal) {
  */
 @JsonIgnore
 public Builder setOptionalStringVal(Optional<CustomString> optionalStringVal) {
-  this.optionalStringVal = optionalStringVal.map(val -> CustomString.toString(val)).orElse(null);
+  this.optionalStringVal = optionalStringVal.map(optionalStringVal_ -> CustomString.toString(optionalStringVal_)).orElse(null);
   this.isOptionalStringValNotNull = true;
   return this;
 }
@@ -1548,7 +1543,6 @@ allNecessityAndNullabilityVariantsTypeMapped[requiredNullableMap]=[
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
 java.util.Map
 java.util.Optional
 java.util.function.Function
@@ -1627,7 +1621,7 @@ private Builder setRequiredNullableStringVal(CustomString requiredNullableString
  */
 @JsonIgnore
 private Builder setRequiredNullableStringVal(Optional<CustomString> requiredNullableStringVal) {
-  this.requiredNullableStringVal = requiredNullableStringVal.map(val -> CustomString.toString(val)).orElse(null);
+  this.requiredNullableStringVal = requiredNullableStringVal.map(requiredNullableStringVal_ -> CustomString.toString(requiredNullableStringVal_)).orElse(null);
   this.isRequiredNullableStringValPresent = true;
   return this;
 }

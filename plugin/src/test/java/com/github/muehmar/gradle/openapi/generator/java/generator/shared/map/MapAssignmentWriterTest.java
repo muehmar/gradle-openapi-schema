@@ -108,4 +108,20 @@ class MapAssignmentWriterTest {
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
+
+  @Test
+  @SnapshotName("onlyUnwrapOptionalMap")
+  void fullMapAssigmentWriterBuilder_when_onlyUnwrapOptionalMap_then_matchSnapshot() {
+    final Writer writer =
+        fullMapAssignmentWriterBuilder()
+            .member(MEMBER)
+            .fieldAssigment()
+            .unwrapOptionalMap()
+            .unmapMapTypeNotNecessary()
+            .unwrapMapItemNotNecessary()
+            .unmapMapItemTypeNotNecessary()
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
 }

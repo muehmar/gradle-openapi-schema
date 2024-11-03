@@ -6793,13 +6793,7 @@ public class NecessityAndNullabilityDto {
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
         requiredListWithNullableItems,
-        unmapList(
-            requiredNullableListWithNullableItems,
-            l -> l.orElse(null),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        requiredNullableListWithNullableItems.orElse(null),
         true,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
@@ -6937,13 +6931,7 @@ public class NecessityAndNullabilityDto {
         requiredListWithNullableItems,
         requiredNullableListWithNullableItems,
         isRequiredNullableListWithNullableItemsPresent,
-        unmapList(
-            optionalListWithNullableItems,
-            l -> l.orElse(null),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        optionalListWithNullableItems.orElse(null),
         true,
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
@@ -7257,13 +7245,7 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
-        unmapMap(
-            requiredNullableMap,
-            l -> l.orElse(null),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        requiredNullableMap.orElse(null),
         true,
         optionalMap,
         isOptionalMapNotNull,
@@ -7327,13 +7309,7 @@ public class NecessityAndNullabilityDto {
         requiredMap,
         requiredNullableMap,
         isRequiredNullableMapPresent,
-        unmapMap(
-            optionalMap,
-            l -> l.orElse(null),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        optionalMap.orElse(null),
         true,
         optionalNullableMap,
         isOptionalNullableMapNull,

@@ -204,13 +204,7 @@ public NecessityAndNullabilityDto withOptionalListWithNullableItems(Optional<Lis
       requiredListWithNullableItems,
       requiredNullableListWithNullableItems,
       isRequiredNullableListWithNullableItemsPresent,
-      unmapList(
-          optionalListWithNullableItems,
-          l -> l.orElse(null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalListWithNullableItems.orElse(null),
       true,
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
@@ -384,7 +378,6 @@ public NecessityAndNullabilityDto withOptionalMapMapped(Optional<Map<String, Cus
 
 allNullabilityAndNecessityVariants[optionalMap]=[
 java.util.Optional
-java.util.function.Function
 
 /**
  * OptionalMap
@@ -440,13 +433,7 @@ public NecessityAndNullabilityDto withOptionalMap(Optional<Map<String, String>> 
       requiredMap,
       requiredNullableMap,
       isRequiredNullableMapPresent,
-      unmapMap(
-          optionalMap,
-          l -> l.orElse(null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalMap.orElse(null),
       true,
       optionalNullableMap,
       isOptionalNullableMapNull,
@@ -1624,13 +1611,7 @@ public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(Opti
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
       requiredListWithNullableItems,
-      unmapList(
-          requiredNullableListWithNullableItems,
-          l -> l.orElse(null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      requiredNullableListWithNullableItems.orElse(null),
       true,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
@@ -1806,7 +1787,6 @@ public NecessityAndNullabilityDto withRequiredNullableMapMapped(Optional<Map<Str
 
 allNullabilityAndNecessityVariants[requiredNullableMap]=[
 java.util.Optional
-java.util.function.Function
 
 /**
  * RequiredNullableMap
@@ -1860,13 +1840,7 @@ public NecessityAndNullabilityDto withRequiredNullableMap(Optional<Map<String, S
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
       requiredMap,
-      unmapMap(
-          requiredNullableMap,
-          l -> l.orElse(null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      requiredNullableMap.orElse(null),
       true,
       optionalMap,
       isOptionalMapNotNull,

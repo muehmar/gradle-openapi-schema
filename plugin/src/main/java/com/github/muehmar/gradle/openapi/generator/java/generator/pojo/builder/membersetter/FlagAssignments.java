@@ -62,4 +62,20 @@ public class FlagAssignments {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .appendOptional((v, s, w) -> w.println(v), FlagAssignments::forStandardMemberSetter);
   }
+
+  public static Optional<String> forWrappedMemberSetter(JavaPojoMember member) {
+    if (member.isRequiredAndNullable()) {
+      return Optional.of(Wrapped.requiredNullableFlagAssignment(member));
+    } else if (member.isOptionalAndNotNullable()) {
+      return Optional.of(Wrapped.optionalNotNullableFlagAssignment(member));
+    } else if (member.isOptionalAndNullable()) {
+      return Optional.of(Wrapped.optionalNullableFlagAssignment(member));
+    }
+    return Optional.empty();
+  }
+
+  public static Generator<JavaPojoMember, PojoSettings> forWrappedMemberSetter() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .appendOptional((v, s, w) -> w.println(v), FlagAssignments::forWrappedMemberSetter);
+  }
 }

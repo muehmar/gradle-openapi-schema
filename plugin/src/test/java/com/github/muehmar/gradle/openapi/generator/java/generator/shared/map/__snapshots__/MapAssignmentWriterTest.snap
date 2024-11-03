@@ -28,6 +28,13 @@ optionalMap
 ]
 
 
+onlyUnwrapOptionalMap=[
+.
+.
+this.optionalMap = optionalMap.orElse(null);
+]
+
+
 unmapMapAndMapItemType=[
 com.custom.CustomMap
 com.custom.CustomString

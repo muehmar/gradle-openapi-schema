@@ -174,6 +174,14 @@ public class ListAssigmentWriter {
           .println("%s%s", listAssigmentWriter.member.getName(), mode.trailingComma());
     }
 
+    if (isUnwrapOptionalListWriter(listAssigmentWriter.unwrapList)
+        && isIdentityWriter(listAssigmentWriter.unmapListType)
+        && isIdentityWriter(listAssigmentWriter.unwrapListItem)
+        && isIdentityWriter(listAssigmentWriter.unmapListItemType)) {
+      return mode.initialWriter(listAssigmentWriter.member, false)
+          .println("%s.orElse(null)%s", listAssigmentWriter.member.getName(), mode.trailingComma());
+    }
+
     return mode.initialWriter(listAssigmentWriter.member, true)
         .tab(mode.tabOffset())
         .println("%s(", UnmapListMethod.METHOD_NAME)
@@ -189,6 +197,12 @@ public class ListAssigmentWriter {
 
   private static boolean isIdentityWriter(Writer writer) {
     return writer.asString().equals("Function.identity()");
+  }
+
+  private static boolean isUnwrapOptionalListWriter(Writer writer) {
+    return writer
+        .asString()
+        .equals(ListAssigmentWriter.UnwrapListFieldBuilder.unwrapOptionalList().asString());
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {

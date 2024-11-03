@@ -173,6 +173,15 @@ public class MapAssignmentWriter {
           .println("%s%s", mapAssignmentWriter.member.getName(), mode.trailingComma());
     }
 
+    if (isIdentityWriter(mapAssignmentWriter.unmapMapType)
+        && isIdentityWriter(mapAssignmentWriter.unwrapMapItem)
+        && isIdentityWriter(mapAssignmentWriter.unmapMapItemType)
+        && isUnwrapOptionalMapWriter(mapAssignmentWriter.unwrapMap)) {
+      return mode.initialWriter(mapAssignmentWriter.member, false)
+          .tab(mode.tabOffset())
+          .println("%s.orElse(null)%s", mapAssignmentWriter.member.getName(), mode.trailingComma());
+    }
+
     return mode.initialWriter(mapAssignmentWriter.member, true)
         .tab(mode.tabOffset())
         .println("%s(", UnmapMapMethod.METHOD_NAME)
@@ -188,6 +197,10 @@ public class MapAssignmentWriter {
 
   private static boolean isIdentityWriter(Writer writer) {
     return writer.asString().equals("Function.identity()");
+  }
+
+  private static boolean isUnwrapOptionalMapWriter(Writer writer) {
+    return writer.asString().equals(UnwrapMapFieldBuilder.unwrapOptionalMap().asString());
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {
