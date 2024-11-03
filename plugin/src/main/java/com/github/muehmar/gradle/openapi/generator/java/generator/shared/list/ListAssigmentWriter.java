@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.list;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.list.ListAssigmentWriterBuilder.fullListAssigmentWriterBuilder;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.UnmapListMethod;
@@ -24,6 +25,17 @@ public class ListAssigmentWriter {
   private final Writer unmapListType;
   private final Writer unwrapListItem;
   private final Writer unmapListItemType;
+
+  public static Writer fullAutoListAssignmentWriter(JavaPojoMember member) {
+    return fullListAssigmentWriterBuilder()
+        .member(member)
+        .fieldAssigment()
+        .autoUnwrapList(member)
+        .autoUnmapListType(member)
+        .autoUnwrapListItem(member)
+        .autoUnmapListItemType(member)
+        .build();
+  }
 
   @FieldBuilder(fieldName = "mode", disableDefaultMethods = true)
   public static class ModeFieldBuilder {
@@ -63,6 +75,16 @@ public class ListAssigmentWriter {
           throw new IllegalArgumentException("Unknown unwrap list function: " + function);
       }
     }
+
+    static Writer autoUnwrapList(JavaPojoMember member) {
+      if (member.isRequiredAndNullable() || member.isOptionalAndNotNullable()) {
+        return unwrapOptionalList();
+      } else if (member.isOptionalAndNullable()) {
+        return unwrapTristateList();
+      } else {
+        return unwrapListNotNecessary();
+      }
+    }
   }
 
   @FieldBuilder(fieldName = "unmapListType", disableDefaultMethods = true)
@@ -77,6 +99,14 @@ public class ListAssigmentWriter {
           .map(listApiType -> conversionWriter(listApiType, "l"))
           .map(writer -> javaWriter().print("l -> %s", writer.asString()).refs(writer.getRefs()))
           .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
+    }
+
+    static Writer autoUnmapListType(JavaPojoMember member) {
+      return member
+          .getJavaType()
+          .onArrayType()
+          .map(UnmapListTypeFieldBuilder::unmapListType)
+          .orElseGet(UnmapListTypeFieldBuilder::unmapListTypeNotNecessary);
     }
   }
 
@@ -100,6 +130,12 @@ public class ListAssigmentWriter {
           throw new IllegalArgumentException("Unknown unwrap list item function: " + function);
       }
     }
+
+    static Writer autoUnwrapListItem(JavaPojoMember member) {
+      return member.getJavaType().isNullableItemsArrayType()
+          ? unwrapOptionalListItem()
+          : unwrapListItemNotNecessary();
+    }
   }
 
   @FieldBuilder(fieldName = "unmapListItemType", disableDefaultMethods = true)
@@ -116,6 +152,14 @@ public class ListAssigmentWriter {
           .map(writer -> javaWriter().print("i -> %s", writer.asString()).refs(writer.getRefs()))
           .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
     }
+
+    static Writer autoUnmapListItemType(JavaPojoMember member) {
+      return member
+          .getJavaType()
+          .onArrayType()
+          .map(UnmapListItemTypeFieldBuilder::unmapListItemType)
+          .orElseGet(UnmapListItemTypeFieldBuilder::unmapListItemTypeNotNecessary);
+    }
   }
 
   @BuildMethod
@@ -126,11 +170,11 @@ public class ListAssigmentWriter {
         && isIdentityWriter(listAssigmentWriter.unmapListType)
         && isIdentityWriter(listAssigmentWriter.unwrapListItem)
         && isIdentityWriter(listAssigmentWriter.unmapListItemType)) {
-      return mode.initialWriter(listAssigmentWriter.member)
+      return mode.initialWriter(listAssigmentWriter.member, false)
           .println("%s%s", listAssigmentWriter.member.getName(), mode.trailingComma());
     }
 
-    return mode.initialWriter(listAssigmentWriter.member)
+    return mode.initialWriter(listAssigmentWriter.member, true)
         .tab(mode.tabOffset())
         .println("%s(", UnmapListMethod.METHOD_NAME)
         .tab(mode.tabOffset() + 2)
@@ -155,7 +199,7 @@ public class ListAssigmentWriter {
   enum Mode {
     EXPRESSION_ONLY {
       @Override
-      Writer initialWriter(JavaPojoMember member) {
+      Writer initialWriter(JavaPojoMember member, boolean newLine) {
         return javaWriter();
       }
 
@@ -171,8 +215,9 @@ public class ListAssigmentWriter {
     },
     FIELD_ASSIGNMENT {
       @Override
-      Writer initialWriter(JavaPojoMember member) {
-        return javaWriter().println("this.%s =", member.getName());
+      Writer initialWriter(JavaPojoMember member, boolean newLine) {
+        final Writer writer = javaWriter().print("this.%s =", member.getName());
+        return newLine ? writer.println() : writer.print(" ");
       }
 
       @Override
@@ -186,7 +231,7 @@ public class ListAssigmentWriter {
       }
     };
 
-    abstract Writer initialWriter(JavaPojoMember member);
+    abstract Writer initialWriter(JavaPojoMember member, boolean newLine);
 
     abstract int tabOffset();
 

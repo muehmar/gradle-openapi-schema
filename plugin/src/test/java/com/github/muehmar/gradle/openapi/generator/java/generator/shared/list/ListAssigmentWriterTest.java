@@ -108,4 +108,20 @@ class ListAssigmentWriterTest {
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
+
+  @Test
+  @SnapshotName("autoMapping")
+  void fullListAssigmentWriterBuilder_when_autoMapping_then_matchSnapshot() {
+    final Writer writer =
+        fullListAssigmentWriterBuilder()
+            .member(MEMBER)
+            .fieldAssigment()
+            .autoUnwrapList(MEMBER)
+            .autoUnmapListType(MEMBER)
+            .autoUnwrapListItem(MEMBER)
+            .autoUnmapListItemType(MEMBER)
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
 }

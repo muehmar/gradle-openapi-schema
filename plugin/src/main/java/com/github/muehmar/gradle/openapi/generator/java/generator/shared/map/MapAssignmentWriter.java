@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.map;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.map.MapAssignmentWriterBuilder.fullMapAssignmentWriterBuilder;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.mapmapping.UnmapMapMethod;
@@ -24,6 +25,17 @@ public class MapAssignmentWriter {
   private final Writer unmapMapType;
   private final Writer unwrapMapItem;
   private final Writer unmapMapItemType;
+
+  public static Writer fullAutoMapAssignmentWriter(JavaPojoMember member) {
+    return fullMapAssignmentWriterBuilder()
+        .member(member)
+        .expressionOnly()
+        .autoUnwrapMap(member)
+        .autoUnmapMapType(member)
+        .autoUnwrapMapItem(member)
+        .autoUnmapMapItemType(member)
+        .build();
+  }
 
   @FieldBuilder(fieldName = "mode", disableDefaultMethods = true)
   public static class ModeFieldBuilder {
@@ -63,6 +75,16 @@ public class MapAssignmentWriter {
           throw new IllegalArgumentException("Unknown unwrap list function: " + function);
       }
     }
+
+    static Writer autoUnwrapMap(JavaPojoMember member) {
+      if (member.isRequiredAndNotNullable()) {
+        return unwrapMapNotNecessary();
+      } else if (member.isRequiredAndNullable() || member.isOptionalAndNotNullable()) {
+        return unwrapOptionalMap();
+      } else {
+        return unwrapTristateMap();
+      }
+    }
   }
 
   @FieldBuilder(fieldName = "unmapMapType", disableDefaultMethods = true)
@@ -77,6 +99,14 @@ public class MapAssignmentWriter {
           .map(mapApiType -> conversionWriter(mapApiType, "l"))
           .map(writer -> javaWriter().print("l -> %s", writer.asString()).refs(writer.getRefs()))
           .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
+    }
+
+    static Writer autoUnmapMapType(JavaPojoMember member) {
+      return member
+          .getJavaType()
+          .onMapType()
+          .map(UnmapMapTypeFieldBuilder::unmapMapType)
+          .orElseGet(UnmapMapTypeFieldBuilder::unmapMapTypeNotNecessary);
     }
   }
 
@@ -100,6 +130,10 @@ public class MapAssignmentWriter {
           throw new IllegalArgumentException("Unknown unwrap list item function: " + function);
       }
     }
+
+    static Writer autoUnwrapMapItem(JavaPojoMember member) {
+      return unwrapMapItemNotNecessary();
+    }
   }
 
   @FieldBuilder(fieldName = "unmapMapItemType", disableDefaultMethods = true)
@@ -116,6 +150,14 @@ public class MapAssignmentWriter {
           .map(writer -> javaWriter().print("i -> %s", writer.asString()).refs(writer.getRefs()))
           .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
     }
+
+    static Writer autoUnmapMapItemType(JavaPojoMember member) {
+      return member
+          .getJavaType()
+          .onMapType()
+          .map(UnmapMapItemTypeFieldBuilder::unmapMapItemType)
+          .orElseGet(UnmapMapItemTypeFieldBuilder::unmapMapItemTypeNotNecessary);
+    }
   }
 
   @BuildMethod
@@ -126,12 +168,12 @@ public class MapAssignmentWriter {
         && isIdentityWriter(mapAssignmentWriter.unmapMapType)
         && isIdentityWriter(mapAssignmentWriter.unwrapMapItem)
         && isIdentityWriter(mapAssignmentWriter.unmapMapItemType)) {
-      return mode.initialWriter(mapAssignmentWriter.member)
+      return mode.initialWriter(mapAssignmentWriter.member, false)
           .tab(mode.tabOffset())
           .println("%s%s", mapAssignmentWriter.member.getName(), mode.trailingComma());
     }
 
-    return mode.initialWriter(mapAssignmentWriter.member)
+    return mode.initialWriter(mapAssignmentWriter.member, true)
         .tab(mode.tabOffset())
         .println("%s(", UnmapMapMethod.METHOD_NAME)
         .tab(mode.tabOffset() + 2)
@@ -156,7 +198,7 @@ public class MapAssignmentWriter {
   enum Mode {
     EXPRESSION_ONLY {
       @Override
-      Writer initialWriter(JavaPojoMember member) {
+      Writer initialWriter(JavaPojoMember member, boolean newLine) {
         return javaWriter();
       }
 
@@ -172,8 +214,9 @@ public class MapAssignmentWriter {
     },
     FIELD_ASSIGNMENT {
       @Override
-      Writer initialWriter(JavaPojoMember member) {
-        return javaWriter().println("this.%s =", member.getName());
+      Writer initialWriter(JavaPojoMember member, boolean newLine) {
+        final Writer writer = javaWriter().print("this.%s =", member.getName());
+        return newLine ? writer.println() : writer.print(" ");
       }
 
       @Override
@@ -187,7 +230,7 @@ public class MapAssignmentWriter {
       }
     };
 
-    abstract Writer initialWriter(JavaPojoMember member);
+    abstract Writer initialWriter(JavaPojoMember member, boolean newLine);
 
     abstract int tabOffset();
 

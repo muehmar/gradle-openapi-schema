@@ -92,4 +92,20 @@ class MapAssignmentWriterTest {
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
+
+  @Test
+  @SnapshotName("autoMapping")
+  void fullMapAssigmentWriterBuilder_when_autoMapping_then_matchSnapshot() {
+    final Writer writer =
+        fullMapAssignmentWriterBuilder()
+            .member(MEMBER)
+            .fieldAssigment()
+            .autoUnwrapMap(MEMBER)
+            .autoUnmapMapType(MEMBER)
+            .autoUnwrapMapItem(MEMBER)
+            .autoUnmapMapItemType(MEMBER)
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
 }

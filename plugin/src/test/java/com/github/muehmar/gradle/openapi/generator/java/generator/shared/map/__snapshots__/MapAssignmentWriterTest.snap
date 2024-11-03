@@ -1,8 +1,23 @@
 allUnnecessary=[
 .
 .
+this.optionalMap = optionalMap;
+]
+
+
+autoMapping=[
+com.custom.CustomMap
+com.custom.CustomString
+java.util.function.Function
+
 this.optionalMap =
-    optionalMap;
+    unmapMap(
+        optionalMap,
+        l -> l.orElse(null),
+        l -> CustomMap.toMap(l),
+        Function.identity(),
+        i -> CustomString.toString(i)
+    );
 ]
 
 

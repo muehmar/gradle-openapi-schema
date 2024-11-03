@@ -739,7 +739,6 @@ com.custom.CustomMap
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
 java.util.Map
 java.util.function.Function
 .
@@ -936,7 +935,6 @@ allMapNecessityAndNullabilityVariantsOnlyMapTypeMapped[requiredMap]=[
 com.custom.CustomMap
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
 java.util.Map
 java.util.function.Function
 .
@@ -1430,7 +1428,6 @@ allNecessityAndNullabilityVariantsTypeMapped[requiredMap]=[
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
 java.util.Map
 java.util.function.Function
 .

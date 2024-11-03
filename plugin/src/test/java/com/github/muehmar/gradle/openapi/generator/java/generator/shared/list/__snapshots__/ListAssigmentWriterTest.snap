@@ -1,8 +1,22 @@
 allUnnecessary=[
 .
 .
+this.optionalListWithNullableItems = optionalListWithNullableItems;
+]
+
+
+autoMapping=[
+com.custom.CustomList
+com.custom.CustomString
+
 this.optionalListWithNullableItems =
-optionalListWithNullableItems;
+    unmapList(
+        optionalListWithNullableItems,
+        l -> l.orElse(null),
+        l -> CustomList.toList(l),
+        i -> i.orElse(null),
+        i -> CustomString.toString(i)
+    );
 ]
 
 
