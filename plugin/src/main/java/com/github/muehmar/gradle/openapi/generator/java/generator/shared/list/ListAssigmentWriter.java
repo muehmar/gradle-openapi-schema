@@ -182,6 +182,18 @@ public class ListAssigmentWriter {
           .println("%s.orElse(null)%s", listAssigmentWriter.member.getName(), mode.trailingComma());
     }
 
+    if (isUnwrapTristateListWriter(listAssigmentWriter.unwrapList)
+        && isIdentityWriter(listAssigmentWriter.unmapListType)
+        && isIdentityWriter(listAssigmentWriter.unwrapListItem)
+        && isIdentityWriter(listAssigmentWriter.unmapListItemType)) {
+      return mode.initialWriter(listAssigmentWriter.member, false)
+          .println(
+              "%s.%s%s",
+              listAssigmentWriter.member.getName(),
+              listAssigmentWriter.member.tristateToProperty(),
+              mode.trailingComma());
+    }
+
     return mode.initialWriter(listAssigmentWriter.member, true)
         .tab(mode.tabOffset())
         .println("%s(", UnmapListMethod.METHOD_NAME)
@@ -203,6 +215,12 @@ public class ListAssigmentWriter {
     return writer
         .asString()
         .equals(ListAssigmentWriter.UnwrapListFieldBuilder.unwrapOptionalList().asString());
+  }
+
+  private static boolean isUnwrapTristateListWriter(Writer writer) {
+    return writer
+        .asString()
+        .equals(ListAssigmentWriter.UnwrapListFieldBuilder.unwrapTristateList().asString());
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {

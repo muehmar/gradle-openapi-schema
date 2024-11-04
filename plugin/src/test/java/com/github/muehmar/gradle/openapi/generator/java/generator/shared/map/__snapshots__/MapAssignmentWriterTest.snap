@@ -35,6 +35,13 @@ this.optionalMap = optionalMap.orElse(null);
 ]
 
 
+onlyUnwrapTristateMap=[
+.
+.
+this.optionalMap = optionalMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+]
+
+
 unmapMapAndMapItemType=[
 com.custom.CustomMap
 com.custom.CustomString
@@ -52,14 +59,7 @@ this.optionalMap =
 
 
 unwrapTristateMap=[
-java.util.function.Function
-
-this.optionalMap =
-    unmapMap(
-        optionalMap,
-        l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-        Function.identity(),
-        Function.identity(),
-        Function.identity()
-    );
+.
+.
+this.optionalMap = optionalMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
 ]

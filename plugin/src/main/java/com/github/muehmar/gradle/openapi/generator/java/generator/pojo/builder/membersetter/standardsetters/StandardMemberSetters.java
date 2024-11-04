@@ -13,6 +13,6 @@ public class StandardMemberSetters {
   private StandardMemberSetters() {}
 
   public static PList<MemberSetter> fromMember(JavaPojoMember member) {
-    return PList.of(new OptionalNullableMemberSetter(member));
+    return PList.of();
   }
 }

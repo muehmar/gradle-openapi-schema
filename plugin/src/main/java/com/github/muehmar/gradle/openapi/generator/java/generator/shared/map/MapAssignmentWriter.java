@@ -173,13 +173,26 @@ public class MapAssignmentWriter {
           .println("%s%s", mapAssignmentWriter.member.getName(), mode.trailingComma());
     }
 
-    if (isIdentityWriter(mapAssignmentWriter.unmapMapType)
+    if (isUnwrapOptionalMapWriter(mapAssignmentWriter.unwrapMap)
+        && isIdentityWriter(mapAssignmentWriter.unmapMapType)
         && isIdentityWriter(mapAssignmentWriter.unwrapMapItem)
-        && isIdentityWriter(mapAssignmentWriter.unmapMapItemType)
-        && isUnwrapOptionalMapWriter(mapAssignmentWriter.unwrapMap)) {
+        && isIdentityWriter(mapAssignmentWriter.unmapMapItemType)) {
       return mode.initialWriter(mapAssignmentWriter.member, false)
           .tab(mode.tabOffset())
           .println("%s.orElse(null)%s", mapAssignmentWriter.member.getName(), mode.trailingComma());
+    }
+
+    if (isUnwrapTristateMapWriter(mapAssignmentWriter.unwrapMap)
+        && isIdentityWriter(mapAssignmentWriter.unmapMapType)
+        && isIdentityWriter(mapAssignmentWriter.unwrapMapItem)
+        && isIdentityWriter(mapAssignmentWriter.unmapMapItemType)) {
+      return mode.initialWriter(mapAssignmentWriter.member, false)
+          .tab(mode.tabOffset())
+          .println(
+              "%s.%s%s",
+              mapAssignmentWriter.member.getName(),
+              mapAssignmentWriter.member.tristateToProperty(),
+              mode.trailingComma());
     }
 
     return mode.initialWriter(mapAssignmentWriter.member, true)
@@ -201,6 +214,10 @@ public class MapAssignmentWriter {
 
   private static boolean isUnwrapOptionalMapWriter(Writer writer) {
     return writer.asString().equals(UnwrapMapFieldBuilder.unwrapOptionalMap().asString());
+  }
+
+  private static boolean isUnwrapTristateMapWriter(Writer writer) {
+    return writer.asString().equals(UnwrapMapFieldBuilder.unwrapTristateMap().asString());
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {

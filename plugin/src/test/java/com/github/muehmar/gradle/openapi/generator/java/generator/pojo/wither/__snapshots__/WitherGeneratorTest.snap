@@ -653,13 +653,7 @@ public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(Tris
       isRequiredNullableListWithNullableItemsPresent,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
-      unmapList(
-          optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
       optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
       requiredMap,
       requiredNullableMap,
@@ -831,7 +825,6 @@ public NecessityAndNullabilityDto withOptionalNullableMapMapped(Tristate<Map<Str
 
 allNullabilityAndNecessityVariants[optionalNullableMap]=[
 com.github.muehmar.openapi.util.Tristate
-java.util.function.Function
 
 /**
  * OptionalNullableMap
@@ -889,13 +882,7 @@ public NecessityAndNullabilityDto withOptionalNullableMap(Tristate<Map<String, S
       isRequiredNullableMapPresent,
       optionalMap,
       isOptionalMapNotNull,
-      unmapMap(
-          optionalNullableMap,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
       optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
       additionalProperties
     );

@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.m
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.membersetter.apitypelist.Refs;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
+import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.java.JavaModifier;
 import io.github.muehmar.codegenerator.writer.Writer;
@@ -82,6 +83,9 @@ public class OptionalNotNullableOptionalOverloadMemberSetter implements MemberSe
 
   @Override
   public PList<String> getRefs() {
-    return listAssigmentWriter.getRefs().concat(Refs.forApiType(javaArrayType));
+    return listAssigmentWriter
+        .getRefs()
+        .concat(Refs.forApiType(javaArrayType))
+        .add(JavaRefs.JAVA_UTIL_OPTIONAL);
   }
 }

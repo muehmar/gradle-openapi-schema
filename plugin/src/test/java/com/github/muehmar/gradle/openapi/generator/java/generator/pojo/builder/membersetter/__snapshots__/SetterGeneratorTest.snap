@@ -93,7 +93,6 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
 java.util.List
-java.util.Optional
 java.util.function.Function
 .
 .
@@ -406,7 +405,6 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
 java.util.List
-java.util.Optional
 java.util.function.Function
 .
 .
@@ -683,9 +681,8 @@ com.custom.CustomMap
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
+com.github.muehmar.openapi.util.Tristate
 java.util.Map
-java.util.Optional
 java.util.function.Function
 .
 .
@@ -878,9 +875,8 @@ allMapNecessityAndNullabilityVariantsOnlyMapTypeMapped[optionalNullableMap]=[
 com.custom.CustomMap
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
+com.github.muehmar.openapi.util.Tristate
 java.util.Map
-java.util.Optional
 java.util.function.Function
 .
 .
@@ -1160,7 +1156,6 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
 java.util.List
-java.util.Optional
 java.util.function.Function
 .
 .
@@ -1246,9 +1241,8 @@ allNecessityAndNullabilityVariantsTypeMapped[optionalNullableMap]=[
 com.custom.CustomString
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-java.lang.String
+com.github.muehmar.openapi.util.Tristate
 java.util.Map
-java.util.Optional
 java.util.function.Function
 .
 .

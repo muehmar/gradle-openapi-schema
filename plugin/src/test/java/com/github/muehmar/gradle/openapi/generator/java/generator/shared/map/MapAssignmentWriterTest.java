@@ -124,4 +124,20 @@ class MapAssignmentWriterTest {
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
+
+  @Test
+  @SnapshotName("onlyUnwrapTristateMap")
+  void fullMapAssigmentWriterBuilder_when_onlyUnwrapTristateMap_then_matchSnapshot() {
+    final Writer writer =
+        fullMapAssignmentWriterBuilder()
+            .member(MEMBER)
+            .fieldAssigment()
+            .unwrapTristateMap()
+            .unmapMapTypeNotNecessary()
+            .unwrapMapItemNotNecessary()
+            .unmapMapItemTypeNotNecessary()
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
 }

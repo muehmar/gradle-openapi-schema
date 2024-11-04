@@ -126,8 +126,8 @@ class ListAssigmentWriterTest {
   }
 
   @Test
-  @SnapshotName("onlyOptionalMapUnwrapping")
-  void fullListAssigmentWriterBuilder_when_onlyOptionalMapUnwrapping_then_matchSnapshot() {
+  @SnapshotName("onlyUnwrapOptionalList")
+  void fullListAssigmentWriterBuilder_when_onlyUnwrapOptionalList_then_matchSnapshot() {
     final Writer writer =
         fullListAssigmentWriterBuilder()
             .member(MEMBER)
