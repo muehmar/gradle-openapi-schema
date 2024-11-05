@@ -1,15 +1,15 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.definition;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerNullableValueOptionalSetter.containerNullableValueOptionalSetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerNullableValueStandardSetter.containerNullableValueStandardGetter;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerNullableValueTristateSetter.containerNullableValueTristateSetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerOptionalSetter.containerOptionalSetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerStandardSetter.containerStandardSetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerTristateSetter.containerTristateSetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.JsonSetter.jsonSetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.OptionalSetter.optionalSetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.StandardSetter.standardSetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.TristateSetter.tristateSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.container.ContainerNullableValueOptionalSetter.containerNullableValueOptionalSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.container.ContainerNullableValueStandardSetter.containerNullableValueStandardGetter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.container.ContainerNullableValueTristateSetter.containerNullableValueTristateSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.container.ContainerOptionalSetter.containerOptionalSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.container.ContainerStandardSetter.containerStandardSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.container.ContainerTristateSetter.containerTristateSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.standard.JsonSetter.jsonSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.standard.OptionalSetter.optionalSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.standard.StandardSetter.standardSetterGenerator;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.standard.TristateSetter.tristateSetterGenerator;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
