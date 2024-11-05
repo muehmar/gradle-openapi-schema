@@ -9,9 +9,6 @@ public class NullableItemsListMemberSetters {
   private NullableItemsListMemberSetters() {}
 
   public static PList<MemberSetter> fromMember(JavaPojoMember member) {
-    return PList.of(
-        new RequiredNullableOptionalOverloadMemberSetter(member),
-        new OptionalNotNullableOptionalOverloadMemberSetter(member),
-        new OptionalNullableTristateOverloadMemberSetter(member));
+    return PList.of(new OptionalNullableTristateOverloadMemberSetter(member));
   }
 }

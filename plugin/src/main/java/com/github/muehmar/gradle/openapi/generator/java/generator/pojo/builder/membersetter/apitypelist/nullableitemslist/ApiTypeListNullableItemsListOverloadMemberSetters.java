@@ -7,10 +7,7 @@ import java.util.function.Function;
 
 public class ApiTypeListNullableItemsListOverloadMemberSetters {
   public static PList<MemberSetter> fromMember(JavaPojoMember member) {
-    return PList.of(
-            RequiredNullableOptionalOverloadMemberSetter.fromMember(member),
-            OptionalNotNullableOptionalOverloadMemberSetter.fromMember(member),
-            OptionalNullableTristateOverloadMemberSetter.fromMember(member))
+    return PList.of(OptionalNullableTristateOverloadMemberSetter.fromMember(member))
         .flatMapOptional(Function.identity());
   }
 }
