@@ -93,6 +93,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Optional
 java.util.function.Function
 .
 .
@@ -406,6 +407,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Optional
 java.util.function.Function
 .
 .
@@ -1158,6 +1160,7 @@ com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
 java.util.List
+java.util.Optional
 java.util.function.Function
 .
 .

@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerNullableValueOptionalSetter.containerNullableValueOptionalSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerNullableValueStandardSetter.containerNullableValueStandardGetter;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerNullableValueTristateSetter.containerNullableValueTristateSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerOptionalSetter.containerOptionalSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerStandardSetter.containerStandardSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerTristateSetter.containerTristateSetterGenerator;
@@ -26,7 +27,8 @@ enum SetterMethod {
   CONTAINER_NULLABLE_VALUE_OPTIONAL_SETTER(
       ignore -> containerNullableValueOptionalSetterGenerator()),
   CONTAINER_TRISTATE_SETTER(ignore -> containerTristateSetterGenerator()),
-  CONTAINER_NULLABLE_VALUE_TRISTATE_SETTER(ignore -> Generator.emptyGen()),
+  CONTAINER_NULLABLE_VALUE_TRISTATE_SETTER(
+      ignore -> containerNullableValueTristateSetterGenerator()),
   JSON_SETTER(ignore -> jsonSetterGenerator());
 
   private final Function<SetterGeneratorSettings, Generator<JavaPojoMember, PojoSettings>>
