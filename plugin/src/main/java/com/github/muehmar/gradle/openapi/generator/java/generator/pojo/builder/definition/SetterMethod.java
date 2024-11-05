@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.definition;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerNullableValueStandardSetter.containerNullableValueStandardGetter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerOptionalSetter.containerOptionalSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerStandardSetter.containerStandardSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.ContainerTristateSetter.containerTristateSetterGenerator;
@@ -19,7 +20,7 @@ enum SetterMethod {
   OPTIONAL_SETTER(ignore -> optionalSetterGenerator()),
   TRISTATE_SETTER(ignore -> tristateSetterGenerator()),
   CONTAINER_STANDARD_SETTER(ignore -> containerStandardSetterGenerator()),
-  CONTAINER_NULLABLE_VALUE_STANDARD_SETTER(ignore -> Generator.emptyGen()),
+  CONTAINER_NULLABLE_VALUE_STANDARD_SETTER(ignore -> containerNullableValueStandardGetter()),
   CONTAINER_OPTIONAL_SETTER(ignore -> containerOptionalSetterGenerator()),
   CONTAINER_NULLABLE_VALUE_OPTIONAL_SETTER(ignore -> Generator.emptyGen()),
   CONTAINER_TRISTATE_SETTER(ignore -> containerTristateSetterGenerator()),

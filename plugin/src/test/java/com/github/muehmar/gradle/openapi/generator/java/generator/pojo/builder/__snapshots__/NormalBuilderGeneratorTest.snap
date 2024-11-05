@@ -267,7 +267,7 @@ public static final class Builder {
             i -> i.orElse(null),
             Function.identity()
         );
-    this.isOptionalListWithNullableItemsNotNull = true;
+    this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
     return this;
   }
 
@@ -328,7 +328,7 @@ public static final class Builder {
             i -> i.orElse(null),
             Function.identity()
         );
-    isOptionalNullableListWithNullableItemsNull = false;
+    this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
     return this;
   }
 
@@ -689,7 +689,7 @@ public static final class Builder {
             i -> i.orElse(null),
             Function.identity()
         );
-    this.isOptionalListWithNullableItemsNotNull = true;
+    this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
     return this;
   }
 
@@ -739,7 +739,7 @@ public static final class Builder {
             i -> i.orElse(null),
             Function.identity()
         );
-    isOptionalNullableListWithNullableItemsNull = false;
+    this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
     return this;
   }
 
@@ -1129,7 +1129,7 @@ public static final class Builder {
             i -> i.orElse(null),
             Function.identity()
         );
-    this.isOptionalListWithNullableItemsNotNull = true;
+    this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
     return this;
   }
 
@@ -1190,7 +1190,7 @@ public static final class Builder {
             i -> i.orElse(null),
             Function.identity()
         );
-    isOptionalNullableListWithNullableItemsNull = false;
+    this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
     return this;
   }
 

@@ -8021,7 +8021,7 @@ public class NecessityAndNullabilityDto {
               i -> i.orElse(null),
               Function.identity()
           );
-      this.isOptionalListWithNullableItemsNotNull = true;
+      this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
       return this;
     }
 
@@ -8082,7 +8082,7 @@ public class NecessityAndNullabilityDto {
               i -> i.orElse(null),
               Function.identity()
           );
-      isOptionalNullableListWithNullableItemsNull = false;
+      this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
       return this;
     }
 
