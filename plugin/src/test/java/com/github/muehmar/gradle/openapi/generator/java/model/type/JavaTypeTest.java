@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapp
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
@@ -13,6 +14,8 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 class JavaTypeTest {
   @Test
@@ -49,5 +52,30 @@ class JavaTypeTest {
     final JavaType javaType = JavaMapType.wrap(mapType, TypeMappings.empty());
 
     assertEquals("Map<Integer, String>", javaType.getWriteableParameterizedClassName().asString());
+  }
+
+  @ParameterizedTest
+  @EnumSource(Nullability.class)
+  void isNullableValuesMapType_when_nullabilityForValueType_then_matchExpected(
+      Nullability nullability) {
+    final MapType mapType =
+        MapType.ofKeyAndValueType(
+            IntegerType.formatInteger(), StringType.noFormat().withNullability(nullability));
+
+    final JavaType javaType = JavaMapType.wrap(mapType, TypeMappings.empty());
+
+    assertEquals(nullability.isNullable(), javaType.isNullableValuesMapType());
+  }
+
+  @ParameterizedTest
+  @EnumSource(Nullability.class)
+  void isNullableItemsArrayType_when_nullabilityForItems_then_matchExpected(
+      Nullability nullability) {
+    final ArrayType arrayType =
+        ArrayType.ofItemType(StringType.noFormat().withNullability(nullability), NOT_NULLABLE);
+
+    final JavaType javaType = JavaArrayType.wrap(arrayType, TypeMappings.empty());
+
+    assertEquals(nullability.isNullable(), javaType.isNullableItemsArrayType());
   }
 }
