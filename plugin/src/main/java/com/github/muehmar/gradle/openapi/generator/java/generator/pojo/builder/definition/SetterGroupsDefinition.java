@@ -114,7 +114,7 @@ public class SetterGroupsDefinition {
   private static PList<SetterGroup> oneOfAnyOfMemberType() {
     return groups(
         nested(
-            isNotNullableItemsList(),
+            isNotContainerType(),
             group(
                 JavaPojoMember::isRequiredAndNotNullable,
                 generator(JSON_SETTER),
@@ -122,33 +122,70 @@ public class SetterGroupsDefinition {
             group(
                 JavaPojoMember::isRequiredAndNullable,
                 generator(JSON_SETTER),
+                generator(STANDARD_SETTER),
                 generator(OPTIONAL_SETTER)),
             group(
                 JavaPojoMember::isOptionalAndNotNullable,
                 generator(JSON_SETTER),
+                generator(STANDARD_SETTER),
                 generator(OPTIONAL_SETTER)),
             group(
                 JavaPojoMember::isOptionalAndNullable,
                 generator(JSON_SETTER),
+                generator(STANDARD_SETTER),
                 generator(TRISTATE_SETTER))),
         nested(
-            isNullableItemsList(),
-            group(
-                JavaPojoMember::isRequiredAndNotNullable,
-                generator(JSON_SETTER),
-                generator(CONTAINER_NULLABLE_VALUE_STANDARD_SETTER)),
-            group(
-                JavaPojoMember::isRequiredAndNullable,
-                generator(JSON_SETTER),
-                generator(CONTAINER_NULLABLE_VALUE_OPTIONAL_SETTER)),
-            group(
-                JavaPojoMember::isOptionalAndNotNullable,
-                generator(JSON_SETTER),
-                generator(CONTAINER_NULLABLE_VALUE_OPTIONAL_SETTER)),
-            group(
-                JavaPojoMember::isOptionalAndNullable,
-                generator(JSON_SETTER),
-                generator(CONTAINER_NULLABLE_VALUE_TRISTATE_SETTER))));
+            isContainerType(),
+            groups(
+                nested(
+                    isNotNullableItemsList(),
+                    group(
+                        JavaPojoMember::isRequiredAndNotNullable,
+                        generator(JSON_SETTER),
+                        generator(CONTAINER_STANDARD_SETTER)),
+                    group(
+                        JavaPojoMember::isRequiredAndNullable,
+                        generator(JSON_SETTER),
+                        generator(CONTAINER_STANDARD_SETTER),
+                        generator(CONTAINER_OPTIONAL_SETTER)),
+                    group(
+                        JavaPojoMember::isOptionalAndNotNullable,
+                        generator(JSON_SETTER),
+                        generator(CONTAINER_STANDARD_SETTER),
+                        generator(CONTAINER_OPTIONAL_SETTER)),
+                    group(
+                        JavaPojoMember::isOptionalAndNullable,
+                        generator(JSON_SETTER),
+                        generator(CONTAINER_STANDARD_SETTER),
+                        generator(CONTAINER_TRISTATE_SETTER))),
+                nested(
+                    isNullableItemsList(),
+                    group(
+                        JavaPojoMember::isRequiredAndNotNullable,
+                        generator(JSON_SETTER),
+                        generator(CONTAINER_STANDARD_SETTER),
+                        generator(CONTAINER_NULLABLE_VALUE_STANDARD_SETTER)),
+                    group(
+                        JavaPojoMember::isRequiredAndNullable,
+                        generator(JSON_SETTER),
+                        generator(CONTAINER_STANDARD_SETTER),
+                        generator(CONTAINER_OPTIONAL_SETTER),
+                        generator(CONTAINER_NULLABLE_VALUE_STANDARD_SETTER),
+                        generator(CONTAINER_NULLABLE_VALUE_OPTIONAL_SETTER)),
+                    group(
+                        JavaPojoMember::isOptionalAndNotNullable,
+                        generator(JSON_SETTER),
+                        generator(CONTAINER_STANDARD_SETTER),
+                        generator(CONTAINER_OPTIONAL_SETTER),
+                        generator(CONTAINER_NULLABLE_VALUE_STANDARD_SETTER),
+                        generator(CONTAINER_NULLABLE_VALUE_OPTIONAL_SETTER)),
+                    group(
+                        JavaPojoMember::isOptionalAndNullable,
+                        generator(JSON_SETTER),
+                        generator(CONTAINER_STANDARD_SETTER),
+                        generator(CONTAINER_TRISTATE_SETTER),
+                        generator(CONTAINER_NULLABLE_VALUE_STANDARD_SETTER),
+                        generator(CONTAINER_NULLABLE_VALUE_TRISTATE_SETTER))))));
   }
 
   private static Predicate<JavaPojoMember> isStandardMemberType() {
