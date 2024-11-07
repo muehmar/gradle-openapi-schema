@@ -54,12 +54,14 @@ openApiGenerator {
             formatTypeMapping {
                 formatType = "password"
                 classType = "com.package.Password"
+                disableMissingConversionWarning = true
             }
 
             // Additional class mapping
             classMapping {
                 fromClass = "List"
                 toClass = "java.util.ArrayList"
+                disableMissingConversionWarning = true
             }
             
             // Additional DTO mapping
@@ -189,13 +191,7 @@ stagedBuilder {
 
 The plugin allows one to map specific standard java classes, used in the DTO to custom types. The mapping is not applied
 to generated DTO classes itself, this only includes the java class used for properties in the DTO. The following example
-would use the custom List implementation `com.package.CustomList`
-for lists instead of
-`java.util.List`. The config-property
-`toClass` should be the fully qualified classname to properly generate import-statements. The
-`conversion.fromCustomType` and
-`conversion.toCustomType` are used in the DTO to convert from and to the custom type,
-see [Conversion for Mappings](#conversions-for-mappings).
+would use the custom List implementation `com.package.CustomList` for lists instead of `java.util.List`.
 
 ```
 classMapping {
@@ -203,9 +199,18 @@ classMapping {
     toClass = "com.package.CustomList"
     conversion.fromCustomType = "asList"
     conversion.toCustomType = "CustomList#fromList"
+    disableMissingConversionWarning = false
 }
 
 ```
+
+| Key                             | Data Type | Default | Description                                                                                                                                                                                                                                        |
+|---------------------------------|-----------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| fromClass                       | String    |         | The class used in the DTO's by the plugin which should get replaced                                                                                                                                                                                |
+| toClass                         | String    |         | Fully qualified classname used in the DTO's instead of the `fromClass`                                                                                                                                                                             |
+| conversion.fromCustomType       | String    |         | The conversion used to convert properties of type `toClass` to `fromClass`. Possible definitions: [Conversion for Mappings](#conversions-for-mappings)                                                                                             |
+| conversion.toCustomType         | String    |         | The conversion used to convert properties of type `fromClass` to `toClass`. Possible definitions: [Conversion for Mappings](#conversions-for-mappings)                                                                                             |
+| disableMissingConversionWarning | boolean   | false   | Set this property to true in case no warning should get emitted if no conversion is specified. This can be helpful in case the used type is designed to be used with serialisation and validation frameworks and a conversion does not make sense. |
 
 Repeat this block for each class mapping.
 
@@ -233,10 +238,15 @@ formatTypeMapping {
 }
 ```
 
-will use the class `com.package.UserName` for the property `userName`. The config-property `classType` should be the
-fully qualified classname to properly generate import-statements. The `conversion.fromCustomType` and
-`conversion.toCustomType` are used in the DTO to convert from and to the custom type,
-see [Conversion for Mappings](#conversions-for-mappings).
+will use the class `com.package.UserName` for the property `userName`.
+
+| Key                             | Data Type | Default | Description                                                                                                                                                                                                                                        |
+|---------------------------------|-----------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| formatType                      | String    |         | The format used in the type which should get replaced.                                                                                                                                                                                             |
+| classType                       | String    |         | Fully qualified classname used in the DTO's for the types with the format `formatType`.                                                                                                                                                            |
+| conversion.fromCustomType       | String    |         | The conversion used to convert properties of type `classType` to the type with format `formatType`. Possible definitions: [Conversion for Mappings](#conversions-for-mappings)                                                                     |
+| conversion.toCustomType         | String    |         | The conversion used to convert properties of type with format `formatType` to `classType`. Possible definitions: [Conversion for Mappings](#conversions-for-mappings)                                                                              |
+| disableMissingConversionWarning | boolean   | false   | Set this property to true in case no warning should get emitted if no conversion is specified. This can be helpful in case the used type is designed to be used with serialisation and validation frameworks and a conversion does not make sense. |
 
 Repeat this block for each format type mapping.
 
@@ -253,11 +263,13 @@ dtoMapping {
 }
 ```
 
-The config-property `dtoName` is the full name of the generated DTO class which should get replaced by the customType
-defined with `customType`. The `customType` should be the fully qualified classname to properly generate the import. The
-`conversion.fromCustomType` and
-`conversion.toCustomType` are used in the DTO to convert from and to the custom type,
-see [Conversion for Mappings](#conversions-for-mappings).
+| Key                             | Data Type | Default | Description                                                                                                                                                                                                                                        |
+|---------------------------------|-----------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| dtoName                         | String    |         | The name of the DTO which should get replaced. The complete name including the suffix should be used.                                                                                                                                              |
+| customType                      | String    |         | Fully qualified classname used instead of the class `dtoName`                                                                                                                                                                                      |
+| conversion.fromCustomType       | String    |         | The conversion used to convert properties of type `customType` to `dtoName`. Possible definitions: [Conversion for Mappings](#conversions-for-mappings)                                                                                            |
+| conversion.toCustomType         | String    |         | The conversion used to convert properties of type `dtoName` to `customType`. Possible definitions: [Conversion for Mappings](#conversions-for-mappings)                                                                                            |
+| disableMissingConversionWarning | boolean   | false   | Set this property to true in case no warning should get emitted if no conversion is specified. This can be helpful in case the used type is designed to be used with serialisation and validation frameworks and a conversion does not make sense. |
 
 ### Conversions for mappings
 
