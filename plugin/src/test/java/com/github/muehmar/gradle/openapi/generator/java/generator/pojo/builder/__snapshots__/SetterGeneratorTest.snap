@@ -1361,7 +1361,7 @@ public Builder setOptionalStringVal(CustomString optionalStringVal) {
  */
 @JsonIgnore
 public Builder setOptionalStringVal(Optional<CustomString> optionalStringVal) {
-  this.optionalStringVal = optionalStringVal.map(optionalStringVal_ -> CustomString.toString(optionalStringVal_)).orElse(null);
+  this.optionalStringVal = optionalStringVal.map(val -> CustomString.toString(val)).orElse(null);
   this.isOptionalStringValNotNull = true;
   return this;
 }
@@ -1621,7 +1621,7 @@ private Builder setRequiredNullableStringVal(CustomString requiredNullableString
  */
 @JsonIgnore
 private Builder setRequiredNullableStringVal(Optional<CustomString> requiredNullableStringVal) {
-  this.requiredNullableStringVal = requiredNullableStringVal.map(requiredNullableStringVal_ -> CustomString.toString(requiredNullableStringVal_)).orElse(null);
+  this.requiredNullableStringVal = requiredNullableStringVal.map(val -> CustomString.toString(val)).orElse(null);
   this.isRequiredNullableStringValPresent = true;
   return this;
 }

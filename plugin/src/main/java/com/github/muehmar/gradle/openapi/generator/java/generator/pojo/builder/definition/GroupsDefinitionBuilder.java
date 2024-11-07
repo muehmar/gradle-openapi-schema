@@ -33,11 +33,6 @@ class GroupsDefinitionBuilder {
   }
 
   static SetterGenerator generator(SetterMethod getterMethod) {
-    return new SetterGenerator(getterMethod, SetterGeneratorSettings.empty());
-  }
-
-  static SetterGenerator generator(SetterMethod getterMethod, SetterGeneratorSetting... settings) {
-    return new SetterGenerator(
-        getterMethod, new SetterGeneratorSettings(PList.fromArray(settings)));
+    return new SetterGenerator(getterMethod);
   }
 }

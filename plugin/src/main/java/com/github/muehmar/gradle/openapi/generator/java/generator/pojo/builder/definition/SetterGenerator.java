@@ -9,9 +9,8 @@ import lombok.Value;
 @Value
 class SetterGenerator {
   SetterMethod setterMethod;
-  SetterGeneratorSettings settings;
 
   Generator<JavaPojoMember, PojoSettings> create(Predicate<JavaPojoMember> memberFilter) {
-    return setterMethod.createGenerator(memberFilter, settings);
+    return setterMethod.createGenerator(memberFilter);
   }
 }
