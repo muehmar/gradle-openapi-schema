@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.dsl;
 
+import static com.github.muehmar.gradle.openapi.generator.settings.DtoMappingBuilder.fullDtoMappingBuilder;
+
 import java.io.Serializable;
 import lombok.Data;
 
@@ -8,14 +10,19 @@ public class DtoMapping implements Serializable {
   private String dtoName;
   private String customType;
   private final Conversion conversion;
+  private boolean disableMissingConversionWarning;
 
   public DtoMapping() {
     this.conversion = new Conversion();
   }
 
   public com.github.muehmar.gradle.openapi.generator.settings.DtoMapping toSettingsDtoMapping() {
-    return new com.github.muehmar.gradle.openapi.generator.settings.DtoMapping(
-        dtoName, customType, conversion.toTypeConversion());
+    return fullDtoMappingBuilder()
+        .dtoName(dtoName)
+        .customType(customType)
+        .disableMissingConversionWarning(disableMissingConversionWarning)
+        .typeConversion(conversion.toTypeConversion())
+        .build();
   }
 
   void assertCompleteTypeConversion() {
