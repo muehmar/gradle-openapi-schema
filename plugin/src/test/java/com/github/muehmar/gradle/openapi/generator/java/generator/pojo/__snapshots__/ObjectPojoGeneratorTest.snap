@@ -265,9 +265,6 @@ public class PersonDto {
     private String username;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    /**
-     * RequiredStringVal
-     */
     @JsonProperty("requiredStringVal")
     private Builder setRequiredStringValJson(String requiredStringVal) {
       this.requiredStringVal = requiredStringVal;
@@ -283,9 +280,6 @@ public class PersonDto {
       return this;
     }
 
-    /**
-     * Birthdate
-     */
     @JsonProperty("birthdate")
     private Builder setBirthdateJson(LocalDate birthdate) {
       this.birthdate = birthdate;
@@ -301,9 +295,6 @@ public class PersonDto {
       return this;
     }
 
-    /**
-     * Username
-     */
     @JsonProperty("username")
     private Builder setUsernameJson(String username) {
       this.username = username;
@@ -921,9 +912,6 @@ public class PersonDto {
     private String username;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    /**
-     * RequiredStringVal
-     */
     @JsonProperty("requiredStringVal")
     private Builder setRequiredStringValJson(String requiredStringVal) {
       this.requiredStringVal = requiredStringVal;
@@ -939,9 +927,6 @@ public class PersonDto {
       return this;
     }
 
-    /**
-     * Birthdate
-     */
     @JsonProperty("birthdate")
     private Builder setBirthdateJson(LocalDate birthdate) {
       this.birthdate = birthdate;
@@ -957,9 +942,6 @@ public class PersonDto {
       return this;
     }
 
-    /**
-     * Username
-     */
     @JsonProperty("username")
     private Builder setUsernameJson(String username) {
       this.username = username;
@@ -4310,9 +4292,6 @@ public class Illegal_IdentifierDto {
     private boolean isPoint_Null = false;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    /**
-     * Switch
-     */
     @JsonProperty("switch")
     private Builder setSwitchJson(String switch_) {
       this.switch_ = switch_;
@@ -4340,9 +4319,6 @@ public class Illegal_IdentifierDto {
       return this;
     }
 
-    /**
-     * Point
-     */
     @JsonProperty("point.")
     private Builder setPoint_Json(String point_) {
       this.point_ = point_;
@@ -5506,9 +5482,6 @@ public class UserDto {
     private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    /**
-     * ID of this user
-     */
     @JsonProperty("id")
     private Builder setIdJson(Long id) {
       this.id = id;
@@ -5524,9 +5497,6 @@ public class UserDto {
       return this;
     }
 
-    /**
-     * Name of this user
-     */
     @JsonProperty("name")
     private Builder setNameJson(String name) {
       this.name = name;
@@ -5542,9 +5512,6 @@ public class UserDto {
       return this;
     }
 
-    /**
-     * Preferred language of this user
-     */
     @JsonProperty("language")
     private Builder setLanguageJson(LanguageEnum language) {
       this.language = language;
@@ -6826,13 +6793,7 @@ public class NecessityAndNullabilityDto {
         optionalNullableStringVal,
         isOptionalNullableStringValNull,
         requiredListWithNullableItems,
-        unmapList(
-            requiredNullableListWithNullableItems,
-            l -> l.orElse(null),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        requiredNullableListWithNullableItems.orElse(null),
         true,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
@@ -6970,13 +6931,7 @@ public class NecessityAndNullabilityDto {
         requiredListWithNullableItems,
         requiredNullableListWithNullableItems,
         isRequiredNullableListWithNullableItemsPresent,
-        unmapList(
-            optionalListWithNullableItems,
-            l -> l.orElse(null),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        optionalListWithNullableItems.orElse(null),
         true,
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
@@ -7114,13 +7069,7 @@ public class NecessityAndNullabilityDto {
         isRequiredNullableListWithNullableItemsPresent,
         optionalListWithNullableItems,
         isOptionalListWithNullableItemsNotNull,
-        unmapList(
-            optionalNullableListWithNullableItems,
-            l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
         optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
         requiredMap,
         requiredNullableMap,
@@ -7290,13 +7239,7 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
-        unmapMap(
-            requiredNullableMap,
-            l -> l.orElse(null),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        requiredNullableMap.orElse(null),
         true,
         optionalMap,
         isOptionalMapNotNull,
@@ -7360,13 +7303,7 @@ public class NecessityAndNullabilityDto {
         requiredMap,
         requiredNullableMap,
         isRequiredNullableMapPresent,
-        unmapMap(
-            optionalMap,
-            l -> l.orElse(null),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        optionalMap.orElse(null),
         true,
         optionalNullableMap,
         isOptionalNullableMapNull,
@@ -7430,13 +7367,7 @@ public class NecessityAndNullabilityDto {
         isRequiredNullableMapPresent,
         optionalMap,
         isOptionalMapNotNull,
-        unmapMap(
-            optionalNullableMap,
-            l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-            Function.identity(),
-            Function.identity(),
-            Function.identity()
-        ),
+        optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
         optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
         additionalProperties
       );
@@ -7862,9 +7793,6 @@ public class NecessityAndNullabilityDto {
     private boolean isOptionalNullableMapNull = false;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    /**
-     * RequiredStringVal
-     */
     @JsonProperty("requiredStringVal")
     private Builder setRequiredStringValJson(String requiredStringVal) {
       this.requiredStringVal = requiredStringVal;
@@ -7880,9 +7808,6 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
-    /**
-     * RequiredNullableStringVal
-     */
     @JsonProperty("requiredNullableStringVal")
     private Builder setRequiredNullableStringValJson(String requiredNullableStringVal) {
       this.requiredNullableStringVal = requiredNullableStringVal;
@@ -7910,9 +7835,6 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
-    /**
-     * OptionalStringVal
-     */
     @JsonProperty("optionalStringVal")
     private Builder setOptionalStringValJson(String optionalStringVal) {
       this.optionalStringVal = optionalStringVal;
@@ -7940,9 +7862,6 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
-    /**
-     * OptionalNullableStringVal
-     */
     @JsonProperty("optionalNullableStringVal")
     private Builder setOptionalNullableStringValJson(String optionalNullableStringVal) {
       this.optionalNullableStringVal = optionalNullableStringVal;
@@ -7970,9 +7889,6 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
-    /**
-     * RequiredListWithNullableItems
-     */
     @JsonProperty("requiredListWithNullableItems")
     private Builder setRequiredListWithNullableItemsJson(List<String> requiredListWithNullableItems) {
       this.requiredListWithNullableItems = requiredListWithNullableItems;
@@ -8004,9 +7920,6 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
-    /**
-     * RequiredNullableListWithNullableItems
-     */
     @JsonProperty("requiredNullableListWithNullableItems")
     private Builder setRequiredNullableListWithNullableItemsJson(List<String> requiredNullableListWithNullableItems) {
       this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
@@ -8068,9 +7981,6 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
-    /**
-     * OptionalListWithNullableItems
-     */
     @JsonProperty("optionalListWithNullableItems")
     private Builder setOptionalListWithNullableItemsJson(List<String> optionalListWithNullableItems) {
       this.optionalListWithNullableItems = optionalListWithNullableItems;
@@ -8111,7 +8021,7 @@ public class NecessityAndNullabilityDto {
               i -> i.orElse(null),
               Function.identity()
           );
-      this.isOptionalListWithNullableItemsNotNull = true;
+      this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
       return this;
     }
 
@@ -8132,9 +8042,6 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
-    /**
-     * OptionalNullableListWithNullableItems
-     */
     @JsonProperty("optionalNullableListWithNullableItems")
     private Builder setOptionalNullableListWithNullableItemsJson(List<String> optionalNullableListWithNullableItems) {
       this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
@@ -8175,7 +8082,7 @@ public class NecessityAndNullabilityDto {
               i -> i.orElse(null),
               Function.identity()
           );
-      isOptionalNullableListWithNullableItemsNull = false;
+      this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
       return this;
     }
 
@@ -8196,9 +8103,6 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
-    /**
-     * RequiredMap
-     */
     @JsonProperty("requiredMap")
     private Builder setRequiredMapJson(Map<String, String> requiredMap) {
       this.requiredMap = requiredMap;
@@ -8214,9 +8118,6 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
-    /**
-     * RequiredNullableMap
-     */
     @JsonProperty("requiredNullableMap")
     private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
       this.requiredNullableMap = requiredNullableMap;
@@ -8244,9 +8145,6 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
-    /**
-     * OptionalMap
-     */
     @JsonProperty("optionalMap")
     private Builder setOptionalMapJson(Map<String, String> optionalMap) {
       this.optionalMap = optionalMap;
@@ -8274,9 +8172,6 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
-    /**
-     * OptionalNullableMap
-     */
     @JsonProperty("optionalNullableMap")
     private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
       this.optionalNullableMap = optionalNullableMap;
@@ -10231,9 +10126,6 @@ public class ObjectPojo1Dto {
     private List<String> listVal;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    /**
-     * List
-     */
     @JsonProperty("listVal")
     private Builder setListValJson(List<String> listVal) {
       this.listVal = listVal;
@@ -10642,9 +10534,6 @@ public class ObjectPojo1Dto {
     private Map<String, UUID> mapVal;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    /**
-     * Map
-     */
     @JsonProperty("mapVal")
     private Builder setMapValJson(Map<String, UUID> mapVal) {
       this.mapVal = mapVal;
@@ -11178,9 +11067,6 @@ public class PersonDto {
     private String username;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    /**
-     * RequiredStringVal
-     */
     @JsonProperty("requiredStringVal")
     private Builder setRequiredStringValJson(String requiredStringVal) {
       this.requiredStringVal = requiredStringVal;
@@ -11196,9 +11082,6 @@ public class PersonDto {
       return this;
     }
 
-    /**
-     * Birthdate
-     */
     @JsonProperty("birthdate")
     private Builder setBirthdateJson(LocalDate birthdate) {
       this.birthdate = birthdate;
@@ -11214,9 +11097,6 @@ public class PersonDto {
       return this;
     }
 
-    /**
-     * Username
-     */
     @JsonProperty("username")
     private Builder setUsernameJson(String username) {
       this.username = username;
@@ -12033,11 +11913,6 @@ public class UserDto {
     private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    /**
-     * Preferred language of this user<br>
-     * * `GERMAN`: German language<br>
-     * * `ENGLISH`: English language
-     */
     @JsonProperty("language")
     private Builder setLanguageJson(LanguageEnum language) {
       this.language = language;
@@ -12372,9 +12247,6 @@ public class ObjectPojo1Dto {
     private boolean isBirthdateNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    /**
-     * email
-     */
     @JsonProperty("email")
     private Builder setEmailJson(String email) {
       this.email = email;
@@ -12390,9 +12262,6 @@ public class ObjectPojo1Dto {
       return this;
     }
 
-    /**
-     * Birthdate
-     */
     @JsonProperty("birthdate")
     private Builder setBirthdateJson(LocalDate birthdate) {
       this.birthdate = birthdate;

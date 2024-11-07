@@ -140,6 +140,14 @@ public interface JavaType {
         .orElse(false);
   }
 
+  default boolean isNullableValuesMapType() {
+    return onMapType()
+        .map(JavaMapType::getValue)
+        .map(JavaType::getNullability)
+        .map(Nullability::isNullable)
+        .orElse(false);
+  }
+
   default Optional<JavaMapType> onMapType() {
     return fold(
         javaArrayType -> Optional.empty(),

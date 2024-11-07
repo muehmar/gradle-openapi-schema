@@ -1,8 +1,23 @@
 allUnnecessary=[
 .
 .
+this.optionalMap = optionalMap;
+]
+
+
+autoMapping=[
+com.custom.CustomMap
+com.custom.CustomString
+java.util.function.Function
+
 this.optionalMap =
-    optionalMap;
+    unmapMap(
+        optionalMap,
+        l -> l.orElse(null),
+        l -> CustomMap.toMap(l),
+        Function.identity(),
+        i -> CustomString.toString(i)
+    );
 ]
 
 
@@ -10,6 +25,20 @@ expressionOnly=[
 .
 .
 optionalMap
+]
+
+
+onlyUnwrapOptionalMap=[
+.
+.
+this.optionalMap = optionalMap.orElse(null);
+]
+
+
+onlyUnwrapTristateMap=[
+.
+.
+this.optionalMap = optionalMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
 ]
 
 
@@ -30,14 +59,7 @@ this.optionalMap =
 
 
 unwrapTristateMap=[
-java.util.function.Function
-
-this.optionalMap =
-    unmapMap(
-        optionalMap,
-        l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-        Function.identity(),
-        Function.identity(),
-        Function.identity()
-    );
+.
+.
+this.optionalMap = optionalMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
 ]

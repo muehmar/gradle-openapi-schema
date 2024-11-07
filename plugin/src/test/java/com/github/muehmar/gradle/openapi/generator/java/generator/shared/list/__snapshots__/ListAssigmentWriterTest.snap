@@ -1,8 +1,22 @@
 allUnnecessary=[
 .
 .
+this.optionalListWithNullableItems = optionalListWithNullableItems;
+]
+
+
+autoMapping=[
+com.custom.CustomList
+com.custom.CustomString
+
 this.optionalListWithNullableItems =
-optionalListWithNullableItems;
+    unmapList(
+        optionalListWithNullableItems,
+        l -> l.orElse(null),
+        l -> CustomList.toList(l),
+        i -> i.orElse(null),
+        i -> CustomString.toString(i)
+    );
 ]
 
 
@@ -10,6 +24,13 @@ expressionOnly=[
 .
 .
 optionalListWithNullableItems
+]
+
+
+onlyUnwrapOptionalList=[
+.
+.
+this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
 ]
 
 
@@ -44,14 +65,7 @@ this.optionalListWithNullableItems =
 
 
 unwrapTristateList=[
-java.util.function.Function
-
-this.optionalListWithNullableItems =
-    unmapList(
-        optionalListWithNullableItems,
-        l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-        Function.identity(),
-        Function.identity(),
-        Function.identity()
-    );
+.
+.
+this.optionalListWithNullableItems = optionalListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
 ]

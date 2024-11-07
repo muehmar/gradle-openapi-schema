@@ -204,13 +204,7 @@ public NecessityAndNullabilityDto withOptionalListWithNullableItems(Optional<Lis
       requiredListWithNullableItems,
       requiredNullableListWithNullableItems,
       isRequiredNullableListWithNullableItemsPresent,
-      unmapList(
-          optionalListWithNullableItems,
-          l -> l.orElse(null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalListWithNullableItems.orElse(null),
       true,
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
@@ -384,7 +378,6 @@ public NecessityAndNullabilityDto withOptionalMapMapped(Optional<Map<String, Cus
 
 allNullabilityAndNecessityVariants[optionalMap]=[
 java.util.Optional
-java.util.function.Function
 
 /**
  * OptionalMap
@@ -440,13 +433,7 @@ public NecessityAndNullabilityDto withOptionalMap(Optional<Map<String, String>> 
       requiredMap,
       requiredNullableMap,
       isRequiredNullableMapPresent,
-      unmapMap(
-          optionalMap,
-          l -> l.orElse(null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalMap.orElse(null),
       true,
       optionalNullableMap,
       isOptionalNullableMapNull,
@@ -666,13 +653,7 @@ public NecessityAndNullabilityDto withOptionalNullableListWithNullableItems(Tris
       isRequiredNullableListWithNullableItemsPresent,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
-      unmapList(
-          optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
       optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
       requiredMap,
       requiredNullableMap,
@@ -844,7 +825,6 @@ public NecessityAndNullabilityDto withOptionalNullableMapMapped(Tristate<Map<Str
 
 allNullabilityAndNecessityVariants[optionalNullableMap]=[
 com.github.muehmar.openapi.util.Tristate
-java.util.function.Function
 
 /**
  * OptionalNullableMap
@@ -902,13 +882,7 @@ public NecessityAndNullabilityDto withOptionalNullableMap(Tristate<Map<String, S
       isRequiredNullableMapPresent,
       optionalMap,
       isOptionalMapNotNull,
-      unmapMap(
-          optionalNullableMap,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
       optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
       additionalProperties
     );
@@ -1624,13 +1598,7 @@ public NecessityAndNullabilityDto withRequiredNullableListWithNullableItems(Opti
       optionalNullableStringVal,
       isOptionalNullableStringValNull,
       requiredListWithNullableItems,
-      unmapList(
-          requiredNullableListWithNullableItems,
-          l -> l.orElse(null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      requiredNullableListWithNullableItems.orElse(null),
       true,
       optionalListWithNullableItems,
       isOptionalListWithNullableItemsNotNull,
@@ -1806,7 +1774,6 @@ public NecessityAndNullabilityDto withRequiredNullableMapMapped(Optional<Map<Str
 
 allNullabilityAndNecessityVariants[requiredNullableMap]=[
 java.util.Optional
-java.util.function.Function
 
 /**
  * RequiredNullableMap
@@ -1860,13 +1827,7 @@ public NecessityAndNullabilityDto withRequiredNullableMap(Optional<Map<String, S
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
       requiredMap,
-      unmapMap(
-          requiredNullableMap,
-          l -> l.orElse(null),
-          Function.identity(),
-          Function.identity(),
-          Function.identity()
-      ),
+      requiredNullableMap.orElse(null),
       true,
       optionalMap,
       isOptionalMapNotNull,

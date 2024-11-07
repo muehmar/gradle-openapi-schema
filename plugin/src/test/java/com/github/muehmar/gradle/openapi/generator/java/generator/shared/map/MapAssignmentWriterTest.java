@@ -92,4 +92,52 @@ class MapAssignmentWriterTest {
 
     expect.toMatchSnapshot(writerSnapshot(writer));
   }
+
+  @Test
+  @SnapshotName("autoMapping")
+  void fullMapAssigmentWriterBuilder_when_autoMapping_then_matchSnapshot() {
+    final Writer writer =
+        fullMapAssignmentWriterBuilder()
+            .member(MEMBER)
+            .fieldAssigment()
+            .autoUnwrapMap(MEMBER)
+            .autoUnmapMapType(MEMBER)
+            .autoUnwrapMapItem(MEMBER)
+            .autoUnmapMapItemType(MEMBER)
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("onlyUnwrapOptionalMap")
+  void fullMapAssigmentWriterBuilder_when_onlyUnwrapOptionalMap_then_matchSnapshot() {
+    final Writer writer =
+        fullMapAssignmentWriterBuilder()
+            .member(MEMBER)
+            .fieldAssigment()
+            .unwrapOptionalMap()
+            .unmapMapTypeNotNecessary()
+            .unwrapMapItemNotNecessary()
+            .unmapMapItemTypeNotNecessary()
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("onlyUnwrapTristateMap")
+  void fullMapAssigmentWriterBuilder_when_onlyUnwrapTristateMap_then_matchSnapshot() {
+    final Writer writer =
+        fullMapAssignmentWriterBuilder()
+            .member(MEMBER)
+            .fieldAssigment()
+            .unwrapTristateMap()
+            .unmapMapTypeNotNecessary()
+            .unwrapMapItemNotNecessary()
+            .unmapMapItemTypeNotNecessary()
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
 }
