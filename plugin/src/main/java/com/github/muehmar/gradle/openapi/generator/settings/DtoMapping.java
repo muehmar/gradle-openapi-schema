@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.settings;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import io.github.muehmar.pojobuilder.annotations.Nullable;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.io.Serializable;
@@ -25,5 +27,9 @@ public class DtoMapping implements Serializable {
 
   public Optional<TypeConversion> getTypeConversion() {
     return Optional.ofNullable(typeConversion);
+  }
+
+  public boolean isMissingConversionWarningEnabled() {
+    return not(disableMissingConversionWarning);
   }
 }

@@ -123,7 +123,8 @@ public class PojoSettings implements Serializable {
   public void validate() {
     classTypeMappings.forEach(
         classTypeMapping -> {
-          if (not(classTypeMapping.getTypeConversion().isPresent())) {
+          if (not(classTypeMapping.getTypeConversion().isPresent())
+              && classTypeMapping.isMissingConversionWarningEnabled()) {
             final Warning warning = Warning.missingMappingConversion(classTypeMapping);
             WarningsContext.addWarningForTask(taskIdentifier, warning);
           }
@@ -131,8 +132,18 @@ public class PojoSettings implements Serializable {
 
     formatTypeMappings.forEach(
         formatTypeMapping -> {
-          if (not(formatTypeMapping.getTypeConversion().isPresent())) {
+          if (not(formatTypeMapping.getTypeConversion().isPresent())
+              && formatTypeMapping.isMissingConversionWarningEnabled()) {
             final Warning warning = Warning.missingMappingConversion(formatTypeMapping);
+            WarningsContext.addWarningForTask(taskIdentifier, warning);
+          }
+        });
+
+    dtoMappings.forEach(
+        dtoMapping -> {
+          if (not(dtoMapping.getTypeConversion().isPresent())
+              && dtoMapping.isMissingConversionWarningEnabled()) {
+            final Warning warning = Warning.missingMappingConversion(dtoMapping);
             WarningsContext.addWarningForTask(taskIdentifier, warning);
           }
         });

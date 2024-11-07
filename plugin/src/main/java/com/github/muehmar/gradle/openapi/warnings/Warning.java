@@ -4,6 +4,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.PropertyInfoN
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
+import com.github.muehmar.gradle.openapi.generator.settings.DtoMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import lombok.Value;
 
@@ -37,6 +38,12 @@ public class Warning {
         String.format(
             "FormatTypeMapping for format %s has no conversion defined.",
             formatTypeMapping.getFormatType());
+    return new Warning(WarningType.MISSING_MAPPING_CONVERSION, message);
+  }
+
+  public static Warning missingMappingConversion(DtoMapping dtoMapping) {
+    final String message =
+        String.format("DtoMapping for DTO %s has no conversion defined.", dtoMapping.getDtoName());
     return new Warning(WarningType.MISSING_MAPPING_CONVERSION, message);
   }
 }
