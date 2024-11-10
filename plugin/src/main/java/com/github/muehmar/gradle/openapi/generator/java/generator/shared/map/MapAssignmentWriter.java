@@ -1,12 +1,12 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.map;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.map.MapAssignmentWriterBuilder.fullMapAssignmentWriterBuilder;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.mapmapping.UnmapMapMethod;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.LocalVariableName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
@@ -14,6 +14,7 @@ import io.github.muehmar.codegenerator.writer.Writer;
 import io.github.muehmar.pojobuilder.annotations.BuildMethod;
 import io.github.muehmar.pojobuilder.annotations.FieldBuilder;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
+import java.util.function.Function;
 import lombok.AllArgsConstructor;
 
 @PojoBuilder
@@ -21,21 +22,10 @@ import lombok.AllArgsConstructor;
 public class MapAssignmentWriter {
   private final JavaPojoMember member;
   private final Mode mode;
-  private final Writer unwrapMap;
-  private final Writer unmapMapType;
-  private final Writer unwrapMapItem;
-  private final Writer unmapMapItemType;
-
-  public static Writer fullAutoMapAssignmentWriter(JavaPojoMember member) {
-    return fullMapAssignmentWriterBuilder()
-        .member(member)
-        .expressionOnly()
-        .autoUnwrapMap(member)
-        .autoUnmapMapType(member)
-        .autoUnwrapMapItem(member)
-        .autoUnmapMapItemType(member)
-        .build();
-  }
+  private final Function<JavaPojoMember, Writer> unwrapMap;
+  private final Function<JavaPojoMember, Writer> unmapMapType;
+  private final Function<JavaPojoMember, Writer> unwrapMapItem;
+  private final Function<JavaPojoMember, Writer> unmapMapItemType;
 
   @FieldBuilder(fieldName = "mode", disableDefaultMethods = true)
   public static class ModeFieldBuilder {
@@ -50,20 +40,33 @@ public class MapAssignmentWriter {
 
   @FieldBuilder(fieldName = "unwrapMap", disableDefaultMethods = true)
   public static class UnwrapMapFieldBuilder {
-    static Writer unwrapMapNotNecessary() {
-      return javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
+    static Function<JavaPojoMember, Writer> unwrapMapNotNecessary() {
+      return member -> javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
     }
 
-    static Writer unwrapOptionalMap() {
-      return javaWriter().print("l -> l.orElse(null)");
+    static Function<JavaPojoMember, Writer> unwrapOptionalMap() {
+      return member -> {
+        final LocalVariableName variableName =
+            LocalVariableName.of("m").withPojoMemberAsMethodArgument(member);
+        return javaWriter().print("%s -> %s.orElse(null)", variableName, variableName);
+      };
     }
 
-    static Writer unwrapTristateMap() {
-      return javaWriter()
-          .print("l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null)");
+    static Function<JavaPojoMember, Writer> unwrapTristateMap() {
+      return member -> {
+        final LocalVariableName tristateVariableName =
+            LocalVariableName.of("t").withPojoMemberAsMethodArgument(member);
+        final LocalVariableName mapVariableName =
+            LocalVariableName.of("m").withPojoMemberAsMethodArgument(member);
+
+        return javaWriter()
+            .print(
+                "%s -> %s.onValue(%s -> %s).onNull(() -> null).onAbsent(() -> null)",
+                tristateVariableName, tristateVariableName, mapVariableName, mapVariableName);
+      };
     }
 
-    static Writer unwrapMap(UnwrapMapFunction function) {
+    static Function<JavaPojoMember, Writer> unwrapMap(UnwrapMapFunction function) {
       switch (function) {
         case IDENTITY:
           return unwrapMapNotNecessary();
@@ -76,7 +79,7 @@ public class MapAssignmentWriter {
       }
     }
 
-    static Writer autoUnwrapMap(JavaPojoMember member) {
+    static Function<JavaPojoMember, Writer> autoUnwrapMap(JavaPojoMember member) {
       if (member.isRequiredAndNotNullable()) {
         return unwrapMapNotNecessary();
       } else if (member.isRequiredAndNullable() || member.isOptionalAndNotNullable()) {
@@ -89,19 +92,27 @@ public class MapAssignmentWriter {
 
   @FieldBuilder(fieldName = "unmapMapType", disableDefaultMethods = true)
   public static class UnmapMapTypeFieldBuilder {
-    static Writer unmapMapTypeNotNecessary() {
-      return javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
+    static Function<JavaPojoMember, Writer> unmapMapTypeNotNecessary() {
+      return member -> javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
     }
 
-    static Writer unmapMapType(JavaMapType javaMapType) {
-      return javaMapType
-          .getApiType()
-          .map(mapApiType -> conversionWriter(mapApiType, "l"))
-          .map(writer -> javaWriter().print("l -> %s", writer.asString()).refs(writer.getRefs()))
-          .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
+    static Function<JavaPojoMember, Writer> unmapMapType(JavaMapType javaMapType) {
+      return member -> {
+        final LocalVariableName variableName =
+            LocalVariableName.of("m").withPojoMemberAsMethodArgument(member);
+        return javaMapType
+            .getApiType()
+            .map(mapApiType -> conversionWriter(mapApiType, variableName.asString()))
+            .map(
+                writer ->
+                    javaWriter()
+                        .print("%s -> %s", variableName, writer.asString())
+                        .refs(writer.getRefs()))
+            .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
+      };
     }
 
-    static Writer autoUnmapMapType(JavaPojoMember member) {
+    static Function<JavaPojoMember, Writer> autoUnmapMapType(JavaPojoMember member) {
       return member
           .getJavaType()
           .onMapType()
@@ -112,15 +123,19 @@ public class MapAssignmentWriter {
 
   @FieldBuilder(fieldName = "unwrapMapItem", disableDefaultMethods = true)
   public static class UnwrapMapItemFieldBuilder {
-    static Writer unwrapMapItemNotNecessary() {
-      return javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
+    static Function<JavaPojoMember, Writer> unwrapMapItemNotNecessary() {
+      return member -> javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
     }
 
-    static Writer unwrapOptionalMapItem() {
-      return javaWriter().print("i -> i.orElse(null)");
+    static Function<JavaPojoMember, Writer> unwrapOptionalMapItem() {
+      return member -> {
+        final LocalVariableName variableName =
+            LocalVariableName.of("i").withPojoMemberAsMethodArgument(member);
+        return javaWriter().print("%s -> i.orElse(null)", variableName);
+      };
     }
 
-    static Writer unwrapMapItem(UnwrapMapItemFunction function) {
+    static Function<JavaPojoMember, Writer> unwrapMapItem(UnwrapMapItemFunction function) {
       switch (function) {
         case IDENTITY:
           return unwrapMapItemNotNecessary();
@@ -131,27 +146,35 @@ public class MapAssignmentWriter {
       }
     }
 
-    static Writer autoUnwrapMapItem(JavaPojoMember member) {
+    static Function<JavaPojoMember, Writer> autoUnwrapMapItem(JavaPojoMember member) {
       return unwrapMapItemNotNecessary();
     }
   }
 
   @FieldBuilder(fieldName = "unmapMapItemType", disableDefaultMethods = true)
   public static class UnmapMapItemTypeFieldBuilder {
-    static Writer unmapMapItemTypeNotNecessary() {
-      return javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
+    static Function<JavaPojoMember, Writer> unmapMapItemTypeNotNecessary() {
+      return member -> javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION);
     }
 
-    static Writer unmapMapItemType(JavaMapType javaMapType) {
-      return javaMapType
-          .getValue()
-          .getApiType()
-          .map(itemApiType -> conversionWriter(itemApiType, "i"))
-          .map(writer -> javaWriter().print("i -> %s", writer.asString()).refs(writer.getRefs()))
-          .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
+    static Function<JavaPojoMember, Writer> unmapMapItemType(JavaMapType javaMapType) {
+      return member -> {
+        final LocalVariableName variableName =
+            LocalVariableName.of("i").withPojoMemberAsMethodArgument(member);
+        return javaMapType
+            .getValue()
+            .getApiType()
+            .map(itemApiType -> conversionWriter(itemApiType, variableName.asString()))
+            .map(
+                writer ->
+                    javaWriter()
+                        .print("%s -> %s", variableName, writer.asString())
+                        .refs(writer.getRefs()))
+            .orElse(javaWriter().print("Function.identity()").ref(JavaRefs.JAVA_UTIL_FUNCTION));
+      };
     }
 
-    static Writer autoUnmapMapItemType(JavaPojoMember member) {
+    static Function<JavaPojoMember, Writer> autoUnmapMapItemType(JavaPojoMember member) {
       return member
           .getJavaType()
           .onMapType()
@@ -161,63 +184,85 @@ public class MapAssignmentWriter {
   }
 
   @BuildMethod
-  public static Writer build(MapAssignmentWriter mapAssignmentWriter) {
-    final Mode mode = mapAssignmentWriter.mode;
+  public static Writer build(MapAssignmentWriter maw) {
+    final Mode mode = maw.mode;
 
-    if (isIdentityWriter(mapAssignmentWriter.unwrapMap)
-        && isIdentityWriter(mapAssignmentWriter.unmapMapType)
-        && isIdentityWriter(mapAssignmentWriter.unwrapMapItem)
-        && isIdentityWriter(mapAssignmentWriter.unmapMapItemType)) {
-      return mode.initialWriter(mapAssignmentWriter.member, false)
+    if (maw.isAllFunctionIdentityWriter()) {
+      return mode.initialWriter(maw.member, false)
           .tab(mode.tabOffset())
-          .println("%s%s", mapAssignmentWriter.member.getName(), mode.trailingComma());
+          .println("%s%s", maw.member.getName(), mode.trailingComma());
     }
 
-    if (isUnwrapOptionalMapWriter(mapAssignmentWriter.unwrapMap)
-        && isIdentityWriter(mapAssignmentWriter.unmapMapType)
-        && isIdentityWriter(mapAssignmentWriter.unwrapMapItem)
-        && isIdentityWriter(mapAssignmentWriter.unmapMapItemType)) {
-      return mode.initialWriter(mapAssignmentWriter.member, false)
+    if (maw.isOnlyUnwrapOptionalMapWriter()) {
+      return mode.initialWriter(maw.member, false)
           .tab(mode.tabOffset())
-          .println("%s.orElse(null)%s", mapAssignmentWriter.member.getName(), mode.trailingComma());
+          .println("%s.orElse(null)%s", maw.member.getName(), mode.trailingComma());
     }
 
-    if (isUnwrapTristateMapWriter(mapAssignmentWriter.unwrapMap)
-        && isIdentityWriter(mapAssignmentWriter.unmapMapType)
-        && isIdentityWriter(mapAssignmentWriter.unwrapMapItem)
-        && isIdentityWriter(mapAssignmentWriter.unmapMapItemType)) {
-      return mode.initialWriter(mapAssignmentWriter.member, false)
+    if (maw.isOnlyUnwrapTristateMapWriter()) {
+      return mode.initialWriter(maw.member, false)
           .tab(mode.tabOffset())
           .println(
               "%s.%s%s",
-              mapAssignmentWriter.member.getName(),
-              mapAssignmentWriter.member.tristateToProperty(),
-              mode.trailingComma());
+              maw.member.getName(), maw.member.tristateToProperty(), mode.trailingComma());
     }
 
-    return mode.initialWriter(mapAssignmentWriter.member, true)
+    return mode.initialWriter(maw.member, true)
         .tab(mode.tabOffset())
         .println("%s(", UnmapMapMethod.METHOD_NAME)
         .tab(mode.tabOffset() + 2)
-        .println("%s,", mapAssignmentWriter.member.getName())
-        .append(mode.tabOffset() + 2, mapAssignmentWriter.unwrapMap.println(","))
-        .append(mode.tabOffset() + 2, mapAssignmentWriter.unmapMapType.println(","))
-        .append(mode.tabOffset() + 2, mapAssignmentWriter.unwrapMapItem.println(","))
-        .append(mode.tabOffset() + 2, mapAssignmentWriter.unmapMapItemType)
+        .println("%s,", maw.member.getName())
+        .append(mode.tabOffset() + 2, maw.unwrapMapWriter().println(","))
+        .append(mode.tabOffset() + 2, maw.unmapMapTypeWriter().println(","))
+        .append(mode.tabOffset() + 2, maw.unwrapMapItemWriter().println(","))
+        .append(mode.tabOffset() + 2, maw.unmapMapItemTypeWriter())
         .tab(mode.tabOffset())
         .println(")%s", mode.trailingComma());
   }
 
+  private Writer unwrapMapWriter() {
+    return unwrapMap.apply(member);
+  }
+
+  private Writer unmapMapTypeWriter() {
+    return unmapMapType.apply(member);
+  }
+
+  private Writer unwrapMapItemWriter() {
+    return unwrapMapItem.apply(member);
+  }
+
+  private Writer unmapMapItemTypeWriter() {
+    return unmapMapItemType.apply(member);
+  }
+
+  private boolean isAllFunctionIdentityWriter() {
+    return isIdentityWriter(unwrapMapWriter())
+        && isIdentityWriter(unmapMapTypeWriter())
+        && isIdentityWriter(unwrapMapItemWriter())
+        && isIdentityWriter(unmapMapItemTypeWriter());
+  }
+
+  private boolean isOnlyUnwrapOptionalMapWriter() {
+    return unwrapMapWriter()
+            .asString()
+            .equals(UnwrapMapFieldBuilder.unwrapOptionalMap().apply(member).asString())
+        && isIdentityWriter(unmapMapTypeWriter())
+        && isIdentityWriter(unwrapMapItemWriter())
+        && isIdentityWriter(unmapMapItemTypeWriter());
+  }
+
+  private boolean isOnlyUnwrapTristateMapWriter() {
+    return unwrapMapWriter()
+            .asString()
+            .equals(UnwrapMapFieldBuilder.unwrapTristateMap().apply(member).asString())
+        && isIdentityWriter(unmapMapTypeWriter())
+        && isIdentityWriter(unwrapMapItemWriter())
+        && isIdentityWriter(unmapMapItemTypeWriter());
+  }
+
   private static boolean isIdentityWriter(Writer writer) {
     return writer.asString().equals("Function.identity()");
-  }
-
-  private static boolean isUnwrapOptionalMapWriter(Writer writer) {
-    return writer.asString().equals(UnwrapMapFieldBuilder.unwrapOptionalMap().asString());
-  }
-
-  private static boolean isUnwrapTristateMapWriter(Writer writer) {
-    return writer.asString().equals(UnwrapMapFieldBuilder.unwrapTristateMap().asString());
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {
