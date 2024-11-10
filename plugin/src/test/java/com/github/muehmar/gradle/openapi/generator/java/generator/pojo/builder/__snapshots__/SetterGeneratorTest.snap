@@ -129,7 +129,7 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<Cust
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           Function.identity(),
           i -> CustomString.toString(i)
@@ -163,7 +163,7 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<CustomList<Opt
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
           i -> CustomString.toString(i)
@@ -443,7 +443,7 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<Stri
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           Function.identity(),
           Function.identity()
@@ -477,7 +477,7 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<CustomList<Opt
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
           Function.identity()
@@ -1196,7 +1196,7 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<List<CustomStri
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           Function.identity(),
           i -> CustomString.toString(i)
@@ -1230,7 +1230,7 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           i -> i.orElse(null),
           i -> CustomString.toString(i)
@@ -1822,7 +1822,7 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           i -> i.orElse(null),
           Function.identity()
@@ -2346,7 +2346,7 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           i -> i.orElse(null),
           Function.identity()

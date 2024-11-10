@@ -340,7 +340,7 @@ public static final class Builder {
     this.optionalNullableListWithNullableItems =
         unmapList(
             optionalNullableListWithNullableItems,
-            l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+            t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
             Function.identity(),
             i -> i.orElse(null),
             Function.identity()
@@ -750,7 +750,7 @@ public static final class Builder {
     this.optionalNullableListWithNullableItems =
         unmapList(
             optionalNullableListWithNullableItems,
-            l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+            t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
             Function.identity(),
             i -> i.orElse(null),
             Function.identity()
@@ -1202,7 +1202,7 @@ public static final class Builder {
     this.optionalNullableListWithNullableItems =
         unmapList(
             optionalNullableListWithNullableItems,
-            l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+            t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
             Function.identity(),
             i -> i.orElse(null),
             Function.identity()
