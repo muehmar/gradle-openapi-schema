@@ -95,7 +95,8 @@ def issueNumbers = [
         '275',
         '280',
         '278',
-        '287']
+        '287',
+        '310']
 
 specifications.addAll(issueNumbers.collect { issueNumber -> [name: "Issue${issueNumber}", file: "issues/openapi-issue-${issueNumber}.yml"] })
 
@@ -326,6 +327,7 @@ openApiGenerator {
             dtoMapping {
                 dtoName = "FhirDataDto"
                 customType = "com.github.muehmar.gradle.openapi.typemappingwithconversion.FhirData"
+                disableMissingConversionWarning = true
             }
         }
         nonStrictOneOfValidation {
