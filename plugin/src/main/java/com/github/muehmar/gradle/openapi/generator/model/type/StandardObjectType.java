@@ -70,7 +70,8 @@ public class StandardObjectType implements ObjectType {
       Function<ObjectType, T> onObjectType,
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
-      Function<AnyType, T> onAnyType) {
+      Function<AnyType, T> onAnyType,
+      Function<MultiType, T> onMultiType) {
     return onObjectType.apply(this);
   }
 }

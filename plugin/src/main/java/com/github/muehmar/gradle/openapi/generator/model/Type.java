@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
+import com.github.muehmar.gradle.openapi.generator.model.type.MultiType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
@@ -44,7 +45,8 @@ public interface Type {
       Function<ObjectType, T> onObjectType,
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
-      Function<AnyType, T> onAnyType);
+      Function<AnyType, T> onAnyType,
+      Function<MultiType, T> onMultiType);
 
   default Type onObjectType(UnaryOperator<ObjectType> mapObjectType) {
     return fold(
@@ -54,6 +56,7 @@ public interface Type {
         Type.class::cast,
         Type.class::cast,
         mapObjectType::apply,
+        Type.class::cast,
         Type.class::cast,
         Type.class::cast,
         Type.class::cast);
@@ -69,6 +72,7 @@ public interface Type {
         Optional::of,
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
+        ignore -> Optional.empty(),
         ignore -> Optional.empty());
   }
 
@@ -82,6 +86,7 @@ public interface Type {
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         Optional::of,
+        ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
@@ -103,6 +108,7 @@ public interface Type {
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         Optional::of,
+        ignore -> Optional.empty(),
         ignore -> Optional.empty());
   }
 
@@ -119,6 +125,7 @@ public interface Type {
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         Optional::of,
+        ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty());
   }
@@ -137,7 +144,8 @@ public interface Type {
         objectType -> false,
         enumType -> false,
         mapType -> false,
-        anyType -> true);
+        anyType -> true,
+        multiType -> false);
   }
 
   default Optional<StringType> asStringType() {
@@ -145,6 +153,7 @@ public interface Type {
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         Optional::of,
+        ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),

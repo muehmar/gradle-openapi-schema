@@ -1,25 +1,20 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.function.Function;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
-@EqualsAndHashCode
-@ToString
-public class AnyType implements Type {
+public class MultiType implements Type {
   private final Nullability nullability;
+  private final PList<Type> types;
 
-  private AnyType(Nullability nullability) {
+  private MultiType(Nullability nullability, PList<Type> types) {
     this.nullability = nullability;
-  }
-
-  public static AnyType create(Nullability nullability) {
-    return new AnyType(nullability);
+    this.types = types;
   }
 
   @Override
@@ -28,24 +23,29 @@ public class AnyType implements Type {
   }
 
   @Override
-  public AnyType applyMapping(PojoNameMapping pojoNameMapping) {
-    return this;
+  public Nullability getNullability() {
+    return nullability;
+  }
+
+  @Override
+  public Type applyMapping(PojoNameMapping pojoNameMapping) {
+    final PList<Type> mappedTypes = types.map(type -> type.applyMapping(pojoNameMapping));
+    return new MultiType(nullability, mappedTypes);
   }
 
   @Override
   public Type makeNullable() {
-    return new AnyType(Nullability.NULLABLE);
+    return new MultiType(Nullability.NULLABLE, types);
   }
 
   @Override
   public Type replaceObjectType(
       PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
-    return this;
-  }
-
-  @Override
-  public Nullability getNullability() {
-    return nullability;
+    final PList<Type> mappedTypes =
+        types.map(
+            type ->
+                type.replaceObjectType(objectTypeName, newObjectTypeDescription, newObjectType));
+    return new MultiType(nullability, mappedTypes);
   }
 
   @Override
@@ -60,6 +60,6 @@ public class AnyType implements Type {
       Function<MapType, T> onMapType,
       Function<AnyType, T> onAnyType,
       Function<MultiType, T> onMultiType) {
-    return onAnyType.apply(this);
+    return onMultiType.apply(this);
   }
 }

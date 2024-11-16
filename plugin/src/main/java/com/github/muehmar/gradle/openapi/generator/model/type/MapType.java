@@ -88,7 +88,8 @@ public class MapType implements Type {
       Function<ObjectType, T> onObjectType,
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
-      Function<AnyType, T> onAnyType) {
+      Function<AnyType, T> onAnyType,
+      Function<MultiType, T> onMultiType) {
     return onMapType.apply(this);
   }
 }

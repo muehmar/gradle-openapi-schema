@@ -14,6 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import java.util.function.Function;
+import org.apache.commons.lang3.NotImplementedException;
 
 public interface JavaType {
 
@@ -27,7 +28,10 @@ public interface JavaType {
         javaObjectType -> JavaObjectType.wrap(javaObjectType, typeMappings),
         enumType -> JavaEnumType.wrap(enumType, typeMappings),
         mapType -> JavaMapType.wrap(mapType, typeMappings),
-        JavaAnyType::javaAnyType);
+        JavaAnyType::javaAnyType,
+        multiType -> {
+          throw new NotImplementedException("MultiType not yet implemented in JavaType");
+        });
   }
 
   /**
