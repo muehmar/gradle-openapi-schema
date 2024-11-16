@@ -27,6 +27,21 @@ optionalListWithNullableItems
 ]
 
 
+memberNameWhichIsUsedAsLocalVariable=[
+com.custom.CustomList
+com.custom.CustomString
+
+this.l =
+    unmapList(
+        l,
+        l_ -> l_.orElse(null),
+        l_ -> CustomList.toList(l_),
+        i -> i.orElse(null),
+        i -> CustomString.toString(i)
+    );
+]
+
+
 onlyUnwrapOptionalList=[
 .
 .

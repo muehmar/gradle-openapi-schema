@@ -7,6 +7,7 @@ import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnap
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
@@ -136,6 +137,23 @@ class ListAssigmentWriterTest {
             .unmapListTypeNotNecessary()
             .unwrapListItemNotNecessary()
             .unmapListItemTypeNotNecessary()
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("memberNameWhichIsUsedAsLocalVariable")
+  void
+      fullListAssigmentWriterBuilder_when_memberNameWhichIsUsedAsLocalVariable_then_localVariableEscaped() {
+    final Writer writer =
+        fullListAssigmentWriterBuilder()
+            .member(MEMBER.withName(JavaName.fromString("l")))
+            .fieldAssigment()
+            .unwrapOptionalList()
+            .autoUnmapListType(MEMBER)
+            .unwrapOptionalListItem()
+            .autoUnmapListItemType(MEMBER)
             .build();
 
     expect.toMatchSnapshot(writerSnapshot(writer));

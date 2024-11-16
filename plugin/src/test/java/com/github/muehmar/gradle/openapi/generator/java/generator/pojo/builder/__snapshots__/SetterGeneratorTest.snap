@@ -129,7 +129,7 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<Cust
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           Function.identity(),
           i -> CustomString.toString(i)
@@ -163,7 +163,7 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<CustomList<Opt
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
           i -> CustomString.toString(i)
@@ -443,7 +443,7 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<CustomList<Stri
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           Function.identity(),
           Function.identity()
@@ -477,7 +477,7 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<CustomList<Opt
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           l -> CustomList.toList(l),
           i -> i.orElse(null),
           Function.identity()
@@ -652,7 +652,7 @@ public Builder setOptionalMap(CustomMap<String, CustomString> optionalMap) {
       unmapMap(
           optionalMap,
           Function.identity(),
-          l -> CustomMap.toMap(l),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           i -> CustomString.toString(i)
       );
@@ -668,8 +668,8 @@ public Builder setOptionalMap(Optional<CustomMap<String, CustomString>> optional
   this.optionalMap =
       unmapMap(
           optionalMap,
-          l -> l.orElse(null),
-          l -> CustomMap.toMap(l),
+          m -> m.orElse(null),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           i -> CustomString.toString(i)
       );
@@ -706,7 +706,7 @@ public Builder setOptionalNullableMap(CustomMap<String, CustomString> optionalNu
       unmapMap(
           optionalNullableMap,
           Function.identity(),
-          l -> CustomMap.toMap(l),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           i -> CustomString.toString(i)
       );
@@ -722,8 +722,8 @@ public Builder setOptionalNullableMap(Tristate<CustomMap<String, CustomString>> 
   this.optionalNullableMap =
       unmapMap(
           optionalNullableMap,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-          l -> CustomMap.toMap(l),
+          t -> t.onValue(m -> m).onNull(() -> null).onAbsent(() -> null),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           i -> CustomString.toString(i)
       );
@@ -758,7 +758,7 @@ private Builder setRequiredMap(CustomMap<String, CustomString> requiredMap) {
       unmapMap(
           requiredMap,
           Function.identity(),
-          l -> CustomMap.toMap(l),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           i -> CustomString.toString(i)
       );
@@ -794,7 +794,7 @@ private Builder setRequiredNullableMap(CustomMap<String, CustomString> requiredN
       unmapMap(
           requiredNullableMap,
           Function.identity(),
-          l -> CustomMap.toMap(l),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           i -> CustomString.toString(i)
       );
@@ -810,8 +810,8 @@ private Builder setRequiredNullableMap(Optional<CustomMap<String, CustomString>>
   this.requiredNullableMap =
       unmapMap(
           requiredNullableMap,
-          l -> l.orElse(null),
-          l -> CustomMap.toMap(l),
+          m -> m.orElse(null),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           i -> CustomString.toString(i)
       );
@@ -847,7 +847,7 @@ public Builder setOptionalMap(CustomMap<String, String> optionalMap) {
       unmapMap(
           optionalMap,
           Function.identity(),
-          l -> CustomMap.toMap(l),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           Function.identity()
       );
@@ -863,8 +863,8 @@ public Builder setOptionalMap(Optional<CustomMap<String, String>> optionalMap) {
   this.optionalMap =
       unmapMap(
           optionalMap,
-          l -> l.orElse(null),
-          l -> CustomMap.toMap(l),
+          m -> m.orElse(null),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           Function.identity()
       );
@@ -900,7 +900,7 @@ public Builder setOptionalNullableMap(CustomMap<String, String> optionalNullable
       unmapMap(
           optionalNullableMap,
           Function.identity(),
-          l -> CustomMap.toMap(l),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           Function.identity()
       );
@@ -916,8 +916,8 @@ public Builder setOptionalNullableMap(Tristate<CustomMap<String, String>> option
   this.optionalNullableMap =
       unmapMap(
           optionalNullableMap,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
-          l -> CustomMap.toMap(l),
+          t -> t.onValue(m -> m).onNull(() -> null).onAbsent(() -> null),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           Function.identity()
       );
@@ -951,7 +951,7 @@ private Builder setRequiredMap(CustomMap<String, String> requiredMap) {
       unmapMap(
           requiredMap,
           Function.identity(),
-          l -> CustomMap.toMap(l),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           Function.identity()
       );
@@ -986,7 +986,7 @@ private Builder setRequiredNullableMap(CustomMap<String, String> requiredNullabl
       unmapMap(
           requiredNullableMap,
           Function.identity(),
-          l -> CustomMap.toMap(l),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           Function.identity()
       );
@@ -1002,8 +1002,8 @@ private Builder setRequiredNullableMap(Optional<CustomMap<String, String>> requi
   this.requiredNullableMap =
       unmapMap(
           requiredNullableMap,
-          l -> l.orElse(null),
-          l -> CustomMap.toMap(l),
+          m -> m.orElse(null),
+          m -> CustomMap.toMap(m),
           Function.identity(),
           Function.identity()
       );
@@ -1142,7 +1142,7 @@ public Builder setOptionalMap(Optional<Map<String, CustomString>> optionalMap) {
   this.optionalMap =
       unmapMap(
           optionalMap,
-          l -> l.orElse(null),
+          m -> m.orElse(null),
           Function.identity(),
           Function.identity(),
           i -> CustomString.toString(i)
@@ -1196,7 +1196,7 @@ public Builder setOptionalNullableListWithNullableItems(Tristate<List<CustomStri
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           Function.identity(),
           i -> CustomString.toString(i)
@@ -1230,7 +1230,7 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           i -> i.orElse(null),
           i -> CustomString.toString(i)
@@ -1283,7 +1283,7 @@ public Builder setOptionalNullableMap(Tristate<Map<String, CustomString>> option
   this.optionalNullableMap =
       unmapMap(
           optionalNullableMap,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(m -> m).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           Function.identity(),
           i -> CustomString.toString(i)
@@ -1580,7 +1580,7 @@ private Builder setRequiredNullableMap(Optional<Map<String, CustomString>> requi
   this.requiredNullableMap =
       unmapMap(
           requiredNullableMap,
-          l -> l.orElse(null),
+          m -> m.orElse(null),
           Function.identity(),
           Function.identity(),
           i -> CustomString.toString(i)
@@ -1822,7 +1822,7 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           i -> i.orElse(null),
           Function.identity()
@@ -2346,7 +2346,7 @@ public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<
   this.optionalNullableListWithNullableItems =
       unmapList(
           optionalNullableListWithNullableItems,
-          l -> l.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+          t -> t.onValue(l -> l).onNull(() -> null).onAbsent(() -> null),
           Function.identity(),
           i -> i.orElse(null),
           Function.identity()

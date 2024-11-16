@@ -7,6 +7,7 @@ import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnap
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
@@ -135,6 +136,23 @@ class MapAssignmentWriterTest {
             .unwrapTristateMap()
             .unmapMapTypeNotNecessary()
             .unwrapMapItemNotNecessary()
+            .unmapMapItemTypeNotNecessary()
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("memberNameWhichIsUsedAsLocalVariable")
+  void
+      fullMapAssigmentWriterBuilder_when_memberNameWhichIsUsedAsLocalVariable_then_localVariableEscaped() {
+    final Writer writer =
+        fullMapAssignmentWriterBuilder()
+            .member(MEMBER.withName(JavaName.fromString("m")))
+            .fieldAssigment()
+            .unwrapOptionalMap()
+            .unmapMapTypeNotNecessary()
+            .unwrapOptionalMapItem()
             .unmapMapItemTypeNotNecessary()
             .build();
 

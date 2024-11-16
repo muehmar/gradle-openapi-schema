@@ -13,8 +13,8 @@ java.util.function.Function
 this.optionalMap =
     unmapMap(
         optionalMap,
-        l -> l.orElse(null),
-        l -> CustomMap.toMap(l),
+        m -> m.orElse(null),
+        m -> CustomMap.toMap(m),
         Function.identity(),
         i -> CustomString.toString(i)
     );
@@ -25,6 +25,20 @@ expressionOnly=[
 .
 .
 optionalMap
+]
+
+
+memberNameWhichIsUsedAsLocalVariable=[
+java.util.function.Function
+
+this.m =
+    unmapMap(
+        m,
+        m_ -> m_.orElse(null),
+        Function.identity(),
+        i -> i.orElse(null),
+        Function.identity()
+    );
 ]
 
 
@@ -51,7 +65,7 @@ this.optionalMap =
     unmapMap(
         optionalMap,
         Function.identity(),
-        l -> CustomMap.toMap(l),
+        m -> CustomMap.toMap(m),
         Function.identity(),
         i -> CustomString.toString(i)
     );
