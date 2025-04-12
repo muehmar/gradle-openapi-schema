@@ -1,0 +1,37 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "github:NixOS/nixpkgs/nixpkgs-unstable": {
+      "last_modified": "2025-04-10T20:20:34Z",
+      "resolved": "github:NixOS/nixpkgs/d19cf9dfc633816a437204555afeb9e722386b76?lastModified=1744316434&narHash=sha256-lzFCg%2F1C39pyY2hMB2gcuHV79ozpOz%2FVu15hdjiFOfI%3D"
+    },
+    "jdk@17": {
+      "last_modified": "2025-03-23T05:31:05Z",
+      "resolved": "github:NixOS/nixpkgs/dd613136ee91f67e5dba3f3f41ac99ae89c5406b#jdk17",
+      "source": "devbox-search",
+      "version": "17.0.12",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/nz6ihzifr8ml3lyp46knzgscrc2p06r4-zulu-ca-jdk-17.0.12",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/nz6ihzifr8ml3lyp46knzgscrc2p06r4-zulu-ca-jdk-17.0.12"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/n2f8g5mxkp7f8n0rcmd6qp9pv98szhpy-zulu-ca-jdk-17.0.12",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/n2f8g5mxkp7f8n0rcmd6qp9pv98szhpy-zulu-ca-jdk-17.0.12"
+        }
+      }
+    }
+  }
+}
