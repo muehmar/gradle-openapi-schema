@@ -1,5 +1,10 @@
 ## Change Log
 
+* 3.4.0
+   * Emit a warning for DTO mappings without a conversion (issue `#315`)
+   * Provide option to confirm warning for missing conversions (issue `#312`)
+   * Prevent property name clashes for generated code (issue `#310`)
+   * Throw an exception for unsupported conversion mappings for map additional properties (issue `#309`)
 * 3.3.1 - Fix parameter classes deperecation (issue `#304`)
 * 3.3.0
     * Option to replace a generated DTO with a custom type (issue `#291`)
