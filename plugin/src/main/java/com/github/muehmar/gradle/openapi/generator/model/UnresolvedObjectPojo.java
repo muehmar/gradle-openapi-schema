@@ -30,6 +30,7 @@ public class UnresolvedObjectPojo {
   private final ComponentName name;
   private final String description;
   private final Nullability nullability;
+  private final PojoXml pojoXml;
   private final PList<PojoMember> members;
   private final PList<Name> requiredAdditionalProperties;
   private final Optional<UnresolvedAllOfComposition> allOfComposition;
@@ -58,6 +59,7 @@ public class UnresolvedObjectPojo {
           .name(name)
           .description(description)
           .nullability(nullability)
+          .pojoXml(pojoXml)
           .members(members)
           .requiredAdditionalProperties(requiredAdditionalProperties)
           .constraints(constraints)

@@ -42,6 +42,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.promotion.Promotab
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
+import com.github.muehmar.gradle.openapi.generator.model.PojoXml;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -102,6 +103,7 @@ class JavaObjectPojoTest {
             .name(componentName("Object", "Dto"))
             .description("Description")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.single(pojoMember))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -128,6 +130,7 @@ class JavaObjectPojoTest {
             .name(componentName("Object", "Dto"))
             .description("Description")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.of(pojoMember1, pojoMember2))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())

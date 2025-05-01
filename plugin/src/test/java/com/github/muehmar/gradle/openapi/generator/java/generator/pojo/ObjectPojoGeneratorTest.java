@@ -34,6 +34,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerTy
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.PojoXml;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
@@ -82,6 +83,7 @@ class ObjectPojoGeneratorTest {
                       .description(
                           "User of the Application. This description is intentionally longer to see if its wrapped to a new line.")
                       .nullability(NOT_NULLABLE)
+                      .pojoXml(PojoXml.noXmlDefinition())
                       .members(
                           PList.of(
                               new PojoMember(
@@ -181,6 +183,7 @@ class ObjectPojoGeneratorTest {
                         .name(componentName("User", "Dto"))
                         .description("User of the Application")
                         .nullability(NOT_NULLABLE)
+                        .pojoXml(PojoXml.noXmlDefinition())
                         .members(
                             PList.of(
                                 new PojoMember(
@@ -290,6 +293,7 @@ class ObjectPojoGeneratorTest {
                         .name(componentName("User", "Dto"))
                         .description("User of the Application")
                         .nullability(NOT_NULLABLE)
+                        .pojoXml(PojoXml.noXmlDefinition())
                         .members(
                             PList.of(
                                 new PojoMember(
@@ -332,6 +336,7 @@ class ObjectPojoGeneratorTest {
                         .name(componentName("User", "Dto"))
                         .description("User of the Application")
                         .nullability(NOT_NULLABLE)
+                        .pojoXml(PojoXml.noXmlDefinition())
                         .members(
                             PList.of(
                                 new PojoMember(
@@ -607,6 +612,7 @@ class ObjectPojoGeneratorTest {
             .name(componentName("User", "Dto"))
             .description("user")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.of(requiredUsername()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -617,6 +623,7 @@ class ObjectPojoGeneratorTest {
             .name(componentName("Admin", "Dto"))
             .description("admin")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.of(requiredBirthdate()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -627,6 +634,7 @@ class ObjectPojoGeneratorTest {
             .name(componentName("Person", "Dto"))
             .description("person")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.of(requiredString()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())

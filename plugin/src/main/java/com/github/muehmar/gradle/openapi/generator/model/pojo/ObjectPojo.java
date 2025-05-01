@@ -5,11 +5,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.*;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
@@ -36,6 +32,7 @@ public class ObjectPojo implements Pojo {
   ComponentName name;
   String description;
   Nullability nullability;
+  PojoXml pojoXml;
   PList<PojoMember> members;
   PList<Name> requiredAdditionalProperties;
   Optional<AllOfComposition> allOfComposition;
@@ -73,6 +70,7 @@ public class ObjectPojo implements Pojo {
         .name(name)
         .description(description)
         .nullability(nullability)
+        .pojoXml(pojoXml)
         .members(mappedMembers)
         .requiredAdditionalProperties(requiredAdditionalProperties)
         .constraints(constraints)
@@ -100,6 +98,7 @@ public class ObjectPojo implements Pojo {
         .name(name)
         .description(description)
         .nullability(nullability)
+        .pojoXml(pojoXml)
         .members(mappedMembers)
         .requiredAdditionalProperties(requiredAdditionalProperties)
         .constraints(constraints)
@@ -127,6 +126,7 @@ public class ObjectPojo implements Pojo {
         .name(name.applyPojoMapping(pojoNameMapping))
         .description(description)
         .nullability(nullability)
+        .pojoXml(pojoXml)
         .members(mappedMembers)
         .requiredAdditionalProperties(requiredAdditionalProperties)
         .constraints(constraints)
