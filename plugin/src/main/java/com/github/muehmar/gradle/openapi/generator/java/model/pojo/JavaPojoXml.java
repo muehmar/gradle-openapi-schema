@@ -10,4 +10,8 @@ public class JavaPojoXml {
   public static JavaPojoXml noXmlDefinition() {
     return new JavaPojoXml(Optional.empty());
   }
+
+  public boolean hasDefinitions() {
+    return name.isPresent();
+  }
 }

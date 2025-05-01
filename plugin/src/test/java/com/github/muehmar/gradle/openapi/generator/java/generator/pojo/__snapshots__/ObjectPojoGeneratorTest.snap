@@ -12539,3 +12539,418 @@ public class ObjectPojo1Dto {
   }
 }
 ]
+
+
+xmlSupportJackson=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * User of the Application. This description is intentionally longer to see if its
+ * wrapped to a new line.
+ */
+@JsonDeserialize(builder = UserDto.Builder.class)
+@JacksonXmlRootElement(localName = "root-name")
+public class UserDto {
+  private final Long id;
+  private final String name;
+  private final LanguageEnum language;
+  private final boolean isLanguageNotNull;
+  private final Map<String, Object> additionalProperties;
+
+  public UserDto(
+      Long id,
+      String name,
+      LanguageEnum language,
+      boolean isLanguageNotNull,
+      Map<String, Object> additionalProperties
+    ) {
+    this.id = id;
+    this.name = name;
+    this.language = language;
+    this.isLanguageNotNull = isLanguageNotNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public enum LanguageEnum {
+    GERMAN("GERMAN", ""),
+    ENGLISH("ENGLISH", "");
+
+    private final String value;
+    private final String description;
+
+    LanguageEnum(String value, String description) {
+      this.value = value;
+      this.description = description;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    boolean isValid() {
+      return true;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    @JsonCreator
+    public static LanguageEnum fromValue(String value) {
+      for (LanguageEnum e: LanguageEnum.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      final String possibleValues =
+        Stream.of(values()).map(LanguageEnum::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for LanguageEnum, possible values are ["
+          + possibleValues
+          + "]");
+    }
+  }
+
+  /**
+   * ID of this user
+   */
+  @JsonProperty("id")
+  public Long getId() {
+    return id;
+  }
+.
+.
+  /**
+   * Name of this user
+   */
+  @JsonProperty("name")
+  public String getName() {
+    return name;
+  }
+.
+.
+  /**
+   * Preferred language of this user
+   */
+  @JsonIgnore
+  public Optional<LanguageEnum> getLanguage() {
+    return Optional.ofNullable(language);
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  @JsonIgnore
+  public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
+    return this.language == null
+        ? defaultValue
+        : this.language;
+  }
+
+  @JsonProperty("language")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LanguageEnum getLanguageJson() {
+    return language;
+  }
+
+  @JsonIgnore
+  private LanguageEnum getLanguageRaw() {
+    return language;
+  }
+
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  @JsonIgnore
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  @JsonIgnore
+  public int getPropertyCount() {
+    return
+      (id != null ? 1 : 0) +
+      (name != null ? 1 : 0) +
+      (language != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * ID of this user
+   */
+  public UserDto withId(Long id) {
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
+  }
+
+  /**
+   * Name of this user
+   */
+  public UserDto withName(String name) {
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        isLanguageNotNull,
+        additionalProperties
+      );
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public UserDto withLanguage(LanguageEnum language) {
+    return
+      new UserDto(
+        id,
+        name,
+        language,
+        true,
+        additionalProperties
+      );
+  }
+
+  /**
+   * Preferred language of this user
+   */
+  public UserDto withLanguage(Optional<LanguageEnum> language) {
+    return
+      new UserDto(
+        id,
+        name,
+        language.orElse(null),
+        true,
+        additionalProperties
+      );
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isIdValid() {
+      return id != null;
+    }
+
+    private boolean isNameValid() {
+      return name != null;
+    }
+
+    private boolean isLanguageValid() {
+      return isLanguageNotNull;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isIdValid()
+          && isNameValid()
+          && isLanguageValid()
+          && 2 <= getPropertyCount()
+          && getPropertyCount() <= 10
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final UserDto other = (UserDto) obj;
+    return Objects.deepEquals(this.id, other.id)
+        && Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.language, other.language)
+        && Objects.deepEquals(this.isLanguageNotNull, other.isLanguageNotNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      id,
+      name,
+      language,
+      isLanguageNotNull,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+      "id=" + id + ", " +
+      "name=" + "'" + name + "'" + ", " +
+      "language=" + language + ", " +
+      "isLanguageNotNull=" + isLanguageNotNull + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  public static final class Builder {
+
+    private Long id;
+    private String name;
+    private LanguageEnum language;
+    private boolean isLanguageNotNull = true;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("id")
+    private Builder setIdJson(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    /**
+     * ID of this user
+     */
+    @JsonIgnore
+    public Builder setId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    @JsonProperty("name")
+    private Builder setNameJson(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * Name of this user
+     */
+    @JsonIgnore
+    public Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    @JsonProperty("language")
+    private Builder setLanguageJson(LanguageEnum language) {
+      this.language = language;
+      this.isLanguageNotNull = language != null;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    @JsonIgnore
+    public Builder setLanguage(LanguageEnum language) {
+      this.language = language;
+      this.isLanguageNotNull = language != null;
+      return this;
+    }
+
+    /**
+     * Preferred language of this user
+     */
+    @JsonIgnore
+    public Builder setLanguage(Optional<LanguageEnum> language) {
+      this.language = language.orElse(null);
+      this.isLanguageNotNull = true;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public UserDto build() {
+      additionalProperties.remove("id");
+      additionalProperties.remove("name");
+      additionalProperties.remove("language");
+
+      return new UserDto(id, name, language, isLanguageNotNull, additionalProperties);
+    }
+  }
+
+}
+]

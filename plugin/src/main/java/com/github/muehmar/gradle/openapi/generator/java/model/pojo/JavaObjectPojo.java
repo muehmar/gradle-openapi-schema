@@ -404,6 +404,10 @@ public class JavaObjectPojo implements JavaPojo {
     return additionalProperties;
   }
 
+  public JavaPojoXml getPojoXml() {
+    return pojoXml;
+  }
+
   public Constraints getConstraints() {
     return constraints;
   }

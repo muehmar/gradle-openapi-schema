@@ -27,6 +27,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojoXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
@@ -57,14 +58,11 @@ import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
-import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
-import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
+import com.github.muehmar.gradle.openapi.generator.settings.*;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -142,6 +140,28 @@ class ObjectPojoGeneratorTest {
 
     final String content =
         generator.generate(SAMPLE_OBJECT_POJO, pojoSettings, javaWriter()).asString();
+
+    expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  @SnapshotName("xmlSupportJackson")
+  void generatePojo_when_xmlSupportJackson_then_correctPojoGenerated() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    final PojoSettings pojoSettings =
+        defaultTestSettings()
+            .withXmlSupport(XmlSupport.JACKSON)
+            .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build())
+            .withEnableValidation(false);
+
+    final String content =
+        generator
+            .generate(
+                SAMPLE_OBJECT_POJO.withPojoXml(new JavaPojoXml(Optional.of("root-name"))),
+                pojoSettings,
+                javaWriter())
+            .asString();
 
     expect.toMatchSnapshot(content);
   }
