@@ -19,6 +19,7 @@ import lombok.With;
 @PojoBuilder
 public class PojoSettings implements Serializable {
   JsonSupport jsonSupport;
+  XmlSupport xmlSupport;
   PackageName packageName;
   String suffix;
   StagedBuilderSettings stagedBuilder;
@@ -39,7 +40,11 @@ public class PojoSettings implements Serializable {
   TaskIdentifier taskIdentifier;
 
   public boolean isJacksonJson() {
-    return jsonSupport.equals(JsonSupport.JACKSON);
+    return jsonSupport.equals(JsonSupport.JACKSON) || isJacksonXml();
+  }
+
+  public boolean isJacksonXml() {
+    return xmlSupport.equals(XmlSupport.JACKSON);
   }
 
   public boolean isEnableValidation() {
