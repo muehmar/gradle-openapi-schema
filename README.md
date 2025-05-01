@@ -21,6 +21,7 @@ The main features are:
 * Immutable Java classes
 * Staged builder pattern for compile-time-safe creation of instances
 * JSON deserializing and serializing support with jackson
+* Basic XML deserializing and serializing support with jackson
 * Customization of the code generation
 * Support for Java Bean Validation 2.x and Jakarta Bean Validation 2.x / 3.x
 * Additional validation of object level constraints
@@ -40,7 +41,7 @@ Add the plugin section in your `build.gradle`:
 
 ```
 plugins {
-    id 'com.github.muehmar.openapischema' version '3.4.0'
+    id 'com.github.muehmar.openapischema' version '3.5.0'
 }
 ```
 
@@ -67,6 +68,7 @@ openApiGenerator {
 7. [Validation](doc/070_validation.md)
 8. [Extraction of enum-description](doc/080_extraction_of_enum_description.md)
 9. [Parameters](doc/090_parameters.md)
+10. [XML Support](doc/091_xml_support.md)
 10. [Integration with OpenAPI Generator](doc/095_official_openapi_generator_integration.md)
 11. [Incremental Build](doc/100_incremental_build.md)
 12. [Limitations](doc/110_limitations.md)
