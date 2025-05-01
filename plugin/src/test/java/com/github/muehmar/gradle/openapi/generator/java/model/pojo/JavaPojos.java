@@ -68,6 +68,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .build();
   }
@@ -86,6 +87,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .build();
   }
@@ -103,6 +105,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .build();
   }
@@ -117,6 +120,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(additionalProperties)
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .build();
   }
@@ -130,6 +134,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .andOptionals()
         .allOfComposition(javaAllOfComposition)
@@ -153,6 +158,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .andOptionals()
         .oneOfComposition(javaOneOfComposition)
@@ -184,6 +190,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .andOptionals()
         .anyOfComposition(anyOfComposition)

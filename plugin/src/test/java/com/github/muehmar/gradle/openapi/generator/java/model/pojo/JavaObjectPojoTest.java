@@ -72,6 +72,7 @@ class JavaObjectPojoTest {
             .type(PojoType.DEFAULT)
             .requiredAdditionalProperties(PList.empty())
             .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+            .pojoXml(JavaPojoXml.noXmlDefinition())
             .constraints(Constraints.empty())
             .andOptionals()
             .anyOfComposition(JavaAnyOfComposition.fromPojos(NonEmptyList.of(pojo1, pojo2)));
