@@ -27,6 +27,7 @@ sourceSets {
 
 dependencies {
     implementation sampleLibs.bundles.jackson
+    implementation sampleLibs.jackson.dataformat.xml
     implementation sampleLibs.javax2.validation.api
 
     noValidationImplementation sampleLibs.jackson.databind
@@ -68,7 +69,8 @@ def specifications =
                 [name: 'overrideglobalconfig', file: 'openapi-override-global-config.yml'],
                 [name: 'nullableitemslist', file: 'openapi-nullable-items-list.yml'],
                 [name: 'typemappingwithconversion', file: 'openapi-type-mapping-with-conversion.yml'],
-                [name: 'nonstrictoneofvalidation', file: 'openapi-non-strict-oneof-validation.yml']
+                [name: 'nonstrictoneofvalidation', file: 'openapi-non-strict-oneof-validation.yml'],
+                [name: 'xml', file: 'openapi-xml.yml']
         ]
 
 def issueNumbers = [
@@ -334,6 +336,11 @@ openApiGenerator {
             inputSpec = "$projectDir/src/main/resources/openapi-non-strict-oneof-validation.yml"
             packageName = "com.github.muehmar.gradle.openapi.nonstrictoneofvalidation"
             nonStrictOneOfValidation = true
+        }
+        xml {
+            inputSpec = "$projectDir/src/main/resources/openapi-xml.yml"
+            packageName = "com.github.muehmar.gradle.openapi.xml"
+            xmlSupport = "jackson"
         }
         issueNumbers.forEach { issueNumber ->
             {
