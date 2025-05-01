@@ -68,6 +68,7 @@ public class JavaObjectPojo implements JavaPojo {
   private final PojoType type;
   private final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties;
   private final JavaAdditionalProperties additionalProperties;
+  private final JavaPojoXml pojoXml;
   private final Constraints constraints;
 
   JavaObjectPojo(
@@ -81,6 +82,7 @@ public class JavaObjectPojo implements JavaPojo {
       PojoType type,
       PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties,
       JavaAdditionalProperties additionalProperties,
+      JavaPojoXml pojoXml,
       Constraints constraints) {
     this.name = name;
     this.schemaName = schemaName;
@@ -92,6 +94,7 @@ public class JavaObjectPojo implements JavaPojo {
     this.type = type;
     this.requiredAdditionalProperties = requiredAdditionalProperties;
     this.additionalProperties = additionalProperties;
+    this.pojoXml = pojoXml;
     this.constraints = constraints;
     assertPropertiesHaveNotSameNameAndDifferentAttributes(
         name, members, allOfComposition, oneOfComposition, anyOfComposition);
@@ -206,6 +209,7 @@ public class JavaObjectPojo implements JavaPojo {
         .type(type)
         .requiredAdditionalProperties(requiredAdditionalProperties)
         .additionalProperties(javaAdditionalProperties)
+        .pojoXml(new JavaPojoXml(objectPojo.getPojoXml().getName()))
         .constraints(objectPojo.getConstraints())
         .allOfComposition(allOfComposition)
         .oneOfComposition(oneOfComposition)
@@ -255,6 +259,7 @@ public class JavaObjectPojo implements JavaPojo {
             .type(type)
             .requiredAdditionalProperties(remainingRequiredAdditionalProperties)
             .additionalProperties(additionalProperties)
+            .pojoXml(pojoXml)
             .constraints(constraints)
             .allOfComposition(
                 promotedAllOfComposition.map(AllOfCompositionPromotionResult::getComposition))
@@ -397,6 +402,10 @@ public class JavaObjectPojo implements JavaPojo {
 
   public JavaAdditionalProperties getAdditionalProperties() {
     return additionalProperties;
+  }
+
+  public JavaPojoXml getPojoXml() {
+    return pojoXml;
   }
 
   public Constraints getConstraints() {

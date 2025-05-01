@@ -7,14 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
-import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojoBuilder;
+import com.github.muehmar.gradle.openapi.generator.model.*;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
@@ -86,6 +79,7 @@ class AllOfMemberReferenceMapResultResolverImplTest {
             .name(ComponentName.fromSchemaStringAndSuffix("BarFoo", "Dto"))
             .description("")
             .nullability(nullability)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -106,6 +100,7 @@ class AllOfMemberReferenceMapResultResolverImplTest {
             .name(ComponentName.fromSchemaStringAndSuffix("Bar", "Dto"))
             .description("description")
             .nullability(Nullability.NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.of(requiredBirthdate, fooMember))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())

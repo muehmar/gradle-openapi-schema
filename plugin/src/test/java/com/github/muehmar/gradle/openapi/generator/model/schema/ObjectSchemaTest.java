@@ -18,13 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
-import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
-import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojoBuilder;
+import com.github.muehmar.gradle.openapi.generator.model.*;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
@@ -128,6 +122,7 @@ class ObjectSchemaTest {
             .name(componentName)
             .description("Test description")
             .nullability(NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.of(
                     new PojoMember(
@@ -393,6 +388,7 @@ class ObjectSchemaTest {
                 .name(componentName)
                 .description("")
                 .nullability(NOT_NULLABLE)
+                .pojoXml(PojoXml.noXmlDefinition())
                 .members(PList.empty())
                 .requiredAdditionalProperties(PList.empty())
                 .constraints(
@@ -458,6 +454,7 @@ class ObjectSchemaTest {
                     .name(componentName)
                     .description("")
                     .nullability(NOT_NULLABLE)
+                    .pojoXml(PojoXml.noXmlDefinition())
                     .members(PList.empty())
                     .requiredAdditionalProperties(PList.empty())
                     .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMaxProperties(12)))
@@ -559,6 +556,7 @@ class ObjectSchemaTest {
                 .name(componentName)
                 .description("")
                 .nullability(NOT_NULLABLE)
+                .pojoXml(PojoXml.noXmlDefinition())
                 .members(PList.empty())
                 .requiredAdditionalProperties(PList.empty())
                 .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMinProperties(2)))

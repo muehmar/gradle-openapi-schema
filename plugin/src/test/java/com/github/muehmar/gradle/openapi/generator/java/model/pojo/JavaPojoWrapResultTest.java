@@ -9,6 +9,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
+import com.github.muehmar.gradle.openapi.generator.model.PojoXml;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
@@ -30,6 +31,7 @@ class JavaPojoWrapResultTest {
             .name(componentName("Object", "Dto"))
             .description("Description")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.single(pojoMember1))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())

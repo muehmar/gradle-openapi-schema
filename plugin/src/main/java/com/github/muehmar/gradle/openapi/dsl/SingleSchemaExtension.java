@@ -3,15 +3,8 @@ package com.github.muehmar.gradle.openapi.dsl;
 import static com.github.muehmar.gradle.openapi.generator.settings.PojoSettingsBuilder.fullPojoSettingsBuilder;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.*;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
-import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
-import com.github.muehmar.gradle.openapi.generator.settings.PackageName;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMappings;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettingsBuilder;
-import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
 import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import com.github.muehmar.gradle.openapi.util.Optionals;
 import java.io.Serializable;
@@ -45,6 +38,7 @@ public class SingleSchemaExtension implements Serializable {
   private ValidationMethods validationMethods;
   private String packageName;
   private String jsonSupport;
+  private String xmlSupport;
   private StagedBuilder stagedBuilder;
   private String builderMethodPrefix;
   private Boolean enableValidation;
@@ -165,7 +159,7 @@ public class SingleSchemaExtension implements Serializable {
     this.packageName = packageName;
   }
 
-  private JsonSupport getJsonSupport() {
+  JsonSupport getJsonSupport() {
     final Supplier<IllegalArgumentException> unsupportedValueException =
         () ->
             new IllegalArgumentException(
@@ -181,6 +175,24 @@ public class SingleSchemaExtension implements Serializable {
   // DSL API
   public void setJsonSupport(String jsonSupport) {
     this.jsonSupport = jsonSupport;
+  }
+
+  XmlSupport getXmlSupport() {
+    final Supplier<IllegalArgumentException> unsupportedValueException =
+        () ->
+            new IllegalArgumentException(
+                "Unsupported value for xmlSupport: '"
+                    + xmlSupport
+                    + "'. Supported values are ["
+                    + PList.of(XmlSupport.values()).map(XmlSupport::getValue).mkString(", "));
+    return Optional.ofNullable(xmlSupport)
+        .map(support -> XmlSupport.fromString(support).orElseThrow(unsupportedValueException))
+        .orElse(XmlSupport.NONE);
+  }
+
+  // DSL API
+  public void setXmlSupport(String xmlSupport) {
+    this.xmlSupport = xmlSupport;
   }
 
   public StagedBuilder getStagedBuilder() {
@@ -385,6 +397,7 @@ public class SingleSchemaExtension implements Serializable {
 
     return fullPojoSettingsBuilder()
         .jsonSupport(getJsonSupport())
+        .xmlSupport(getXmlSupport())
         .packageName(getPackageName(project))
         .suffix(getSuffix())
         .stagedBuilder(stagedBuilderSettings)
@@ -433,6 +446,13 @@ public class SingleSchemaExtension implements Serializable {
   SingleSchemaExtension withCommonJsonSupport(Optional<String> commonJsonSupport) {
     if (jsonSupport == null) {
       commonJsonSupport.ifPresent(this::setJsonSupport);
+    }
+    return this;
+  }
+
+  SingleSchemaExtension withCommonXmlSupport(Optional<String> commonXmlSupport) {
+    if (xmlSupport == null) {
+      commonXmlSupport.ifPresent(this::setXmlSupport);
     }
     return this;
   }

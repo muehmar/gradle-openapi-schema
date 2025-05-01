@@ -16,14 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolverImpl;
-import com.github.muehmar.gradle.openapi.generator.model.Parameter;
-import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
-import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecifications;
-import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
-import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
+import com.github.muehmar.gradle.openapi.generator.model.*;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.DecimalMax;
@@ -157,6 +150,7 @@ class SpecificationMapperImplTest {
             .name(componentName("PojoName", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.single(
                     new PojoMember(
@@ -195,6 +189,7 @@ class SpecificationMapperImplTest {
             .name(componentName("Language", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.of(
                     new PojoMember(
@@ -220,6 +215,7 @@ class SpecificationMapperImplTest {
             .name(componentName("User", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.of(
                     new PojoMember(
@@ -334,6 +330,7 @@ class SpecificationMapperImplTest {
             .name(componentName("UserGroup", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.of(
                     new PojoMember(
@@ -371,6 +368,7 @@ class SpecificationMapperImplTest {
                     .deriveMemberSchemaName(Name.ofString("languages")))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.of(
                     new PojoMember(
@@ -396,6 +394,7 @@ class SpecificationMapperImplTest {
             .name(componentName("User", "Dto").deriveMemberSchemaName(Name.ofString("hobbies")))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.of(
                     new PojoMember(
@@ -433,6 +432,7 @@ class SpecificationMapperImplTest {
                     .deriveMemberSchemaName(Name.ofString("value")))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.of(
                     new PojoMember(
@@ -484,6 +484,7 @@ class SpecificationMapperImplTest {
             .name(componentName("ComposedPojoNameAllOf", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.of(
                     new PojoMember(
@@ -510,6 +511,7 @@ class SpecificationMapperImplTest {
             .name(componentName("ComposedPojoName", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -566,6 +568,7 @@ class SpecificationMapperImplTest {
             .name(componentName("ComposedPojoNameAllOf0", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.of(
                     new PojoMember(
@@ -591,6 +594,7 @@ class SpecificationMapperImplTest {
             .name(componentName("ComposedPojoNameAllOf1", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.of(
                     new PojoMember(
@@ -616,6 +620,7 @@ class SpecificationMapperImplTest {
             .name(componentName("ReferenceSchema", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.of(
                     new PojoMember(
@@ -639,6 +644,7 @@ class SpecificationMapperImplTest {
             .name(componentName("ComposedPojoName", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -680,6 +686,7 @@ class SpecificationMapperImplTest {
             .name(componentName("User", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.single(
                     new PojoMember(
@@ -723,6 +730,7 @@ class SpecificationMapperImplTest {
             .name(componentName("User", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.single(
                     new PojoMember(
@@ -766,6 +774,7 @@ class SpecificationMapperImplTest {
             .name(componentName("User", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.single(
                     new PojoMember(
@@ -809,6 +818,7 @@ class SpecificationMapperImplTest {
             .name(componentName("User", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.single(
                     new PojoMember(
@@ -862,6 +872,7 @@ class SpecificationMapperImplTest {
             .name(componentName("User", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.single(
                     new PojoMember(
@@ -982,6 +993,7 @@ class SpecificationMapperImplTest {
             .name(componentName("Address", "Dto"))
             .description("")
             .nullability(NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.single(
                     new PojoMember(
@@ -1001,6 +1013,7 @@ class SpecificationMapperImplTest {
             .name(componentName("User", "Dto"))
             .description("")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(
                 PList.single(
                     new PojoMember(

@@ -7,12 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
+import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMappings;
+import com.github.muehmar.gradle.openapi.generator.settings.XmlSupport;
 import java.util.Collections;
 import java.util.Optional;
 import org.gradle.api.Action;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class SingleSchemaExtensionTest {
@@ -280,5 +283,56 @@ class SingleSchemaExtensionTest {
     extension.withCommonNonStrictOneOfValidation(Optional.of(true));
 
     assertEquals(nonStrictOneOfValidation, extension.getNonStrictOneOfValidation());
+  }
+
+  @ParameterizedTest
+  @EnumSource(value = XmlSupport.class)
+  void withCommonXmlSupport_when_nothingSet_then_commonSettingsUsed(XmlSupport commonXmlSupport) {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+
+    // method call
+    extension.withCommonXmlSupport(Optional.of(commonXmlSupport.getValue()));
+
+    final XmlSupport xmlSupport = extension.getXmlSupport();
+
+    assertEquals(commonXmlSupport, xmlSupport);
+  }
+
+  @ParameterizedTest
+  @EnumSource(value = XmlSupport.class)
+  void withCommonXmlSupport_when_alreadySet_then_commonSettingIgnored(XmlSupport xmlSupport) {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    extension.setXmlSupport(xmlSupport.getValue());
+
+    // method call
+    extension.withCommonXmlSupport(Optional.of("none"));
+
+    assertEquals(xmlSupport, extension.getXmlSupport());
+  }
+
+  @ParameterizedTest
+  @EnumSource(value = JsonSupport.class)
+  void withCommonJsonSupport_when_nothingSet_then_commonSettingsUsed(
+      JsonSupport commonJsonSupport) {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+
+    // method call
+    extension.withCommonJsonSupport(Optional.of(commonJsonSupport.getValue()));
+
+    final JsonSupport jsonSupport = extension.getJsonSupport();
+
+    assertEquals(commonJsonSupport, jsonSupport);
+  }
+
+  @ParameterizedTest
+  @EnumSource(value = JsonSupport.class)
+  void withCommonJsonSupport_when_alreadySet_then_commonSettingIgnored(JsonSupport jsonSupport) {
+    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    extension.setJsonSupport(jsonSupport.getValue());
+
+    // method call
+    extension.withCommonJsonSupport(Optional.of("none"));
+
+    assertEquals(jsonSupport, extension.getJsonSupport());
   }
 }

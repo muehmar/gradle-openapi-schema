@@ -14,6 +14,10 @@ public class Filters {
     return (ignore, settings) -> settings.isJacksonJson();
   }
 
+  public static <T> BiPredicate<T, PojoSettings> isJacksonXml() {
+    return (ignore, settings) -> settings.isJacksonXml();
+  }
+
   public static <T> BiPredicate<T, PojoSettings> isStagedBuilder() {
     return (ignore, settings) -> settings.isEnableStagedBuilder();
   }

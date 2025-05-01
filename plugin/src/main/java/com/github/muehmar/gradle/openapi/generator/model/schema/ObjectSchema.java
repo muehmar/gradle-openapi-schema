@@ -9,13 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.PropertyScopeMapper;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnmappedItems;
 import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
-import com.github.muehmar.gradle.openapi.generator.model.Necessity;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
-import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
-import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.*;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedOneOfComposition;
@@ -122,6 +116,7 @@ public class ObjectSchema implements OpenApiSchema {
             .name(name)
             .description(getDescription())
             .nullability(Nullability.fromBoolean(isNullable()))
+            .pojoXml(PojoXml.fromSchema(delegate))
             .members(pojoMemberMapResults.getMembers())
             .requiredAdditionalProperties(requiredAdditionalProperties)
             .constraints(constraints)

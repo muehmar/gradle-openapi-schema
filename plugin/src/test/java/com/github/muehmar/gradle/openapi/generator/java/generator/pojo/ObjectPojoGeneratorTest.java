@@ -27,6 +27,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojoXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
@@ -34,6 +35,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerTy
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
+import com.github.muehmar.gradle.openapi.generator.model.PojoXml;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
@@ -56,14 +58,11 @@ import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
-import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
-import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
-import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
-import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
+import com.github.muehmar.gradle.openapi.generator.settings.*;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -82,6 +81,7 @@ class ObjectPojoGeneratorTest {
                       .description(
                           "User of the Application. This description is intentionally longer to see if its wrapped to a new line.")
                       .nullability(NOT_NULLABLE)
+                      .pojoXml(PojoXml.noXmlDefinition())
                       .members(
                           PList.of(
                               new PojoMember(
@@ -145,6 +145,28 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
+  @SnapshotName("xmlSupportJackson")
+  void generatePojo_when_xmlSupportJackson_then_correctPojoGenerated() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    final PojoSettings pojoSettings =
+        defaultTestSettings()
+            .withXmlSupport(XmlSupport.JACKSON)
+            .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build())
+            .withEnableValidation(false);
+
+    final String content =
+        generator
+            .generate(
+                SAMPLE_OBJECT_POJO.withPojoXml(new JavaPojoXml(Optional.of("root-name"))),
+                pojoSettings,
+                javaWriter())
+            .asString();
+
+    expect.toMatchSnapshot(content);
+  }
+
+  @Test
   @SnapshotName("enabledStagedBuilder")
   void generatePojo_when_enabledStagedBuilder_then_correctPojoGenerated() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
@@ -181,6 +203,7 @@ class ObjectPojoGeneratorTest {
                         .name(componentName("User", "Dto"))
                         .description("User of the Application")
                         .nullability(NOT_NULLABLE)
+                        .pojoXml(PojoXml.noXmlDefinition())
                         .members(
                             PList.of(
                                 new PojoMember(
@@ -290,6 +313,7 @@ class ObjectPojoGeneratorTest {
                         .name(componentName("User", "Dto"))
                         .description("User of the Application")
                         .nullability(NOT_NULLABLE)
+                        .pojoXml(PojoXml.noXmlDefinition())
                         .members(
                             PList.of(
                                 new PojoMember(
@@ -332,6 +356,7 @@ class ObjectPojoGeneratorTest {
                         .name(componentName("User", "Dto"))
                         .description("User of the Application")
                         .nullability(NOT_NULLABLE)
+                        .pojoXml(PojoXml.noXmlDefinition())
                         .members(
                             PList.of(
                                 new PojoMember(
@@ -607,6 +632,7 @@ class ObjectPojoGeneratorTest {
             .name(componentName("User", "Dto"))
             .description("user")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.of(requiredUsername()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -617,6 +643,7 @@ class ObjectPojoGeneratorTest {
             .name(componentName("Admin", "Dto"))
             .description("admin")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.of(requiredBirthdate()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -627,6 +654,7 @@ class ObjectPojoGeneratorTest {
             .name(componentName("Person", "Dto"))
             .description("person")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.of(requiredString()))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())

@@ -33,6 +33,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
+import com.github.muehmar.gradle.openapi.generator.model.PojoXml;
 import com.github.muehmar.gradle.openapi.generator.model.composition.DiscriminatorType;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -67,6 +68,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .build();
   }
@@ -85,6 +87,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .build();
   }
@@ -102,6 +105,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .build();
   }
@@ -116,6 +120,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(additionalProperties)
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .build();
   }
@@ -129,6 +134,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .andOptionals()
         .allOfComposition(javaAllOfComposition)
@@ -152,6 +158,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .andOptionals()
         .oneOfComposition(javaOneOfComposition)
@@ -183,6 +190,7 @@ public class JavaPojos {
         .type(PojoType.DEFAULT)
         .requiredAdditionalProperties(PList.empty())
         .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+        .pojoXml(JavaPojoXml.noXmlDefinition())
         .constraints(Constraints.empty())
         .andOptionals()
         .anyOfComposition(anyOfComposition)
@@ -236,6 +244,7 @@ public class JavaPojos {
         .name(componentName("NecessityAndNullability", "Dto"))
         .description("NecessityAndNullability")
         .nullability(NOT_NULLABLE)
+        .pojoXml(PojoXml.noXmlDefinition())
         .members(
             PList.of(
                 requiredString(),

@@ -22,6 +22,7 @@ public class OpenApiSchemaExtension implements Serializable {
   private String outputDir;
   private String suffix;
   private String jsonSupport;
+  private String xmlSupport;
   private StagedBuilder stagedBuilder;
   private Boolean enableValidation;
   private Boolean nonStrictOneOfValidation;
@@ -73,6 +74,11 @@ public class OpenApiSchemaExtension implements Serializable {
   // DSL API
   public void setJsonSupport(String jsonSupport) {
     this.jsonSupport = jsonSupport;
+  }
+
+  // DSL API
+  public void setXmlSupport(String xmlSupport) {
+    this.xmlSupport = xmlSupport;
   }
 
   // DSL API
@@ -202,6 +208,10 @@ public class OpenApiSchemaExtension implements Serializable {
     return Optional.ofNullable(jsonSupport);
   }
 
+  private Optional<String> getCommonXmlSupport() {
+    return Optional.ofNullable(xmlSupport);
+  }
+
   private StagedBuilder getCommonStagedBuilder() {
     return stagedBuilder;
   }
@@ -228,6 +238,7 @@ public class OpenApiSchemaExtension implements Serializable {
         .map(ext -> ext.withCommonOutputDir(getCommonOutputDir()))
         .map(ext -> ext.withCommonSuffix(getCommonSuffix()))
         .map(ext -> ext.withCommonJsonSupport(getCommonJsonSupport()))
+        .map(ext -> ext.withCommonXmlSupport(getCommonXmlSupport()))
         .map(ext -> ext.withCommonStagedBuilder(getCommonStagedBuilder()))
         .map(ext -> ext.withCommonEnableValidation(getCommonEnableValidation()))
         .map(ext -> ext.withCommonValidationApi(getCommonValidationApi()))
@@ -258,6 +269,9 @@ public class OpenApiSchemaExtension implements Serializable {
         + '\''
         + ", jsonSupport='"
         + jsonSupport
+        + '\''
+        + ", xmlSupport='"
+        + xmlSupport
         + '\''
         + ", stagedBuilder="
         + stagedBuilder

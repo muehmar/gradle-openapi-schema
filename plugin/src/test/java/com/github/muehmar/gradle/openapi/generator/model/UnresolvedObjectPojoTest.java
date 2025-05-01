@@ -38,6 +38,7 @@ class UnresolvedObjectPojoTest {
             .name(componentName("Object", "Dto"))
             .description("description")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())

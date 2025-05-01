@@ -34,6 +34,7 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVEL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.stagedbuilder.StagedBuilderGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
@@ -56,7 +57,11 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
             .declaration(TOP_LEVEL)
             .packageGen(new PackageGenerator<>())
             .javaDoc(JavaDocGenerator.javaDoc((pojo, settings) -> pojo.getDescription()))
-            .singleAnnotation(JacksonAnnotationGenerator.jsonDeserialize())
+            .annotations(
+                PList.of(
+                    JacksonAnnotationGenerator.jsonDeserialize(),
+                    JacksonAnnotationGenerator.jacksonXmlRootElement()
+                        .contraMap(JavaObjectPojo::getPojoXml)))
             .modifiers(PUBLIC)
             .className(pojo -> pojo.getClassName().asString())
             .noSuperClass()

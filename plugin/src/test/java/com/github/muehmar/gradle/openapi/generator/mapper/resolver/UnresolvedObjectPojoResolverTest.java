@@ -7,12 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
-import com.github.muehmar.gradle.openapi.generator.model.Pojos;
-import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
-import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojoBuilder;
+import com.github.muehmar.gradle.openapi.generator.model.*;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
@@ -36,6 +31,7 @@ class UnresolvedObjectPojoResolverTest {
             .name(componentName("ComposedObject", "Dto"))
             .description("Description")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -74,6 +70,7 @@ class UnresolvedObjectPojoResolverTest {
             .name(componentName("ComposedObject", "Dto"))
             .description("Description")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
@@ -112,6 +109,7 @@ class UnresolvedObjectPojoResolverTest {
             .name(componentName("ComposedObject", "Dto"))
             .description("Description")
             .nullability(NOT_NULLABLE)
+            .pojoXml(PojoXml.noXmlDefinition())
             .members(PList.empty())
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
