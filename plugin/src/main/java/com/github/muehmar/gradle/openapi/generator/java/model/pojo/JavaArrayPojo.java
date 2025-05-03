@@ -19,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.Po
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
@@ -87,6 +88,7 @@ public class JavaArrayPojo implements JavaPojo {
         .javaType(javaArrayType)
         .necessity(Necessity.REQUIRED)
         .type(JavaPojoMember.MemberType.ARRAY_VALUE)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .andAllOptionals()
         .build();
   }

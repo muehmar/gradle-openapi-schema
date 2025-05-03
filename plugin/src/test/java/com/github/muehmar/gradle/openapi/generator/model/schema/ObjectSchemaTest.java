@@ -33,12 +33,10 @@ import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
-import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import java.util.Arrays;
 import java.util.Collections;
@@ -130,19 +128,22 @@ class ObjectSchemaTest {
                         null,
                         StandardObjectType.ofName(memberObjectComponentName.getPojoName()),
                         PropertyScope.DEFAULT,
-                        Necessity.OPTIONAL),
+                        Necessity.OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("stringVal"),
                         null,
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        Necessity.OPTIONAL),
+                        Necessity.OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("refVal"),
                         null,
                         StandardObjectType.ofName(pojoName("ReferenceSchema1", "Dto")),
                         PropertyScope.DEFAULT,
-                        Necessity.OPTIONAL)))
+                        Necessity.OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -187,19 +188,22 @@ class ObjectSchemaTest {
                 null,
                 IntegerType.ofFormat(INTEGER, NULLABLE),
                 PropertyScope.DEFAULT,
-                Necessity.OPTIONAL),
+                Necessity.OPTIONAL,
+                PojoMemberXml.noDefinition()),
             new PojoMember(
                 Name.ofString("numVal"),
                 null,
                 NumericType.ofFormat(FLOAT, NULLABLE),
                 PropertyScope.DEFAULT,
-                Necessity.REQUIRED),
+                Necessity.REQUIRED,
+                PojoMemberXml.noDefinition()),
             new PojoMember(
                 Name.ofString("stringVal"),
                 null,
                 StringType.noFormat(),
                 PropertyScope.DEFAULT,
-                Necessity.REQUIRED));
+                Necessity.REQUIRED,
+                PojoMemberXml.noDefinition()));
     assertEquals(
         expectedMembers,
         objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
@@ -238,19 +242,22 @@ class ObjectSchemaTest {
                 null,
                 IntegerType.formatInteger(),
                 PropertyScope.WRITE_ONLY,
-                Necessity.OPTIONAL),
+                Necessity.OPTIONAL,
+                PojoMemberXml.noDefinition()),
             new PojoMember(
                 Name.ofString("numVal"),
                 null,
                 NumericType.formatFloat(),
                 PropertyScope.DEFAULT,
-                Necessity.OPTIONAL),
+                Necessity.OPTIONAL,
+                PojoMemberXml.noDefinition()),
             new PojoMember(
                 Name.ofString("stringVal"),
                 null,
                 StringType.noFormat(),
                 PropertyScope.READ_ONLY,
-                Necessity.OPTIONAL));
+                Necessity.OPTIONAL,
+                PojoMemberXml.noDefinition()));
     assertEquals(
         expectedMembers,
         objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
@@ -288,7 +295,8 @@ class ObjectSchemaTest {
                 "",
                 StringType.noFormat(),
                 PropertyScope.DEFAULT,
-                Necessity.REQUIRED));
+                Necessity.REQUIRED,
+                PojoMemberXml.noDefinition()));
     assertEquals(
         expectedMembers,
         objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
@@ -399,6 +407,47 @@ class ObjectSchemaTest {
                 .build());
 
     assertEquals(expectedContext, mapContext);
+  }
+
+  @Test
+  void mapToPojo_when_schemaWithXmlAttributesForProperty_then_objectSchemaDetected() {
+    final Schema<Object> objectSchema = new Schema<>();
+
+    final HashMap<String, Schema> properties = new HashMap<>();
+    final StringSchema stringSchema = new StringSchema();
+    final XML xml = new XML();
+    xml.setAttribute(true);
+    xml.setName("xml-name");
+    stringSchema.setXml(xml);
+    properties.put("stringVal", stringSchema);
+    objectSchema.setProperties(properties);
+
+    final ComponentName componentName = componentName("Object", "Dto");
+    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
+
+    // method call
+    final MapContext mapContext = pojoSchema.mapToPojo();
+
+    final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
+
+    final ObjectPojo objectPojo =
+        resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
+
+    final PList<PojoMember> expectedMembers =
+        PList.of(
+            new PojoMember(
+                Name.ofString("stringVal"),
+                "",
+                StringType.noFormat(),
+                PropertyScope.DEFAULT,
+                Necessity.OPTIONAL,
+                new PojoMemberXml(Optional.of("xml-name"), Optional.of(true))));
+    assertEquals(
+        expectedMembers,
+        objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
   }
 
   @Test

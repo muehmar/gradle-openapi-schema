@@ -158,7 +158,8 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.ofFormat(StringType.Format.NONE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -197,13 +198,15 @@ class SpecificationMapperImplTest {
                         "",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        REQUIRED),
+                        REQUIRED,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("name"),
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        REQUIRED)))
+                        REQUIRED,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -223,44 +226,51 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.uuid(),
                         PropertyScope.DEFAULT,
-                        REQUIRED),
+                        REQUIRED,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("externalId"),
                         "",
                         IntegerType.formatLong(),
                         PropertyScope.DEFAULT,
-                        REQUIRED),
+                        REQUIRED,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("user"),
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        REQUIRED),
+                        REQUIRED,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("birthday"),
                         "",
                         StringType.ofFormat(DATE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("email"),
                         "",
                         StringType.ofFormat(EMAIL).withConstraints(Constraints.ofEmail()),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("city"),
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        REQUIRED),
+                        REQUIRED,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("age"),
                         "",
                         IntegerType.formatInteger()
                             .withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50))),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("height"),
                         "",
@@ -269,26 +279,30 @@ class SpecificationMapperImplTest {
                                 Constraints.ofDecimalMinAndMax(
                                     new DecimalMin("120", false), new DecimalMax("199", true))),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("lastLogin"),
                         "",
                         StringType.ofFormat(DATE_TIME),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("role"),
                         "",
                         EnumType.ofNameAndMembers(
                             Name.ofString("RoleEnum"), PList.of("Admin", "User", "Visitor")),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("currencies"),
                         "",
                         MapType.ofKeyAndValueType(StringType.noFormat(), StringType.noFormat()),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("interests"),
                         "",
@@ -296,7 +310,8 @@ class SpecificationMapperImplTest {
                             StringType.noFormat(),
                             StandardObjectType.ofName(pojoName("UserInterests", "Dto"))),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("languages"),
                         "",
@@ -304,7 +319,8 @@ class SpecificationMapperImplTest {
                             StringType.noFormat(),
                             StandardObjectType.ofName(PojoName.ofNameAndSuffix("Language", "Dto"))),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("hobbies"),
                         "",
@@ -312,13 +328,15 @@ class SpecificationMapperImplTest {
                             StringType.noFormat(),
                             StandardObjectType.ofName(pojoName("UserHobbies", "Dto"))),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("data"),
                         "Some user related data",
                         AnyType.create(NULLABLE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -338,7 +356,8 @@ class SpecificationMapperImplTest {
                         "",
                         StandardObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("members"),
                         "",
@@ -346,7 +365,8 @@ class SpecificationMapperImplTest {
                             StandardObjectType.ofName(PojoName.ofNameAndSuffix("User", "Dto")),
                             NOT_NULLABLE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("languages"),
                         "",
@@ -354,7 +374,8 @@ class SpecificationMapperImplTest {
                             StandardObjectType.ofName(pojoName("UserGroupLanguages", "Dto")),
                             NOT_NULLABLE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(1, 3)))
             .additionalProperties(anyTypeAllowed())
@@ -376,13 +397,15 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("name"),
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -402,13 +425,15 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        REQUIRED),
+                        REQUIRED,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("description"),
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -440,13 +465,15 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("prio"),
                         "",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -492,13 +519,15 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("key"),
                         "",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -576,13 +605,15 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("key"),
                         "",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -602,13 +633,15 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.ofFormat(DATE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("languages"),
                         "",
                         ArrayType.ofItemType(StringType.noFormat(), NOT_NULLABLE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -628,13 +661,15 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL),
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition()),
                     new PojoMember(
                         Name.ofString("group"),
                         "",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -694,7 +729,8 @@ class SpecificationMapperImplTest {
                         "User key",
                         StringType.uuid(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -738,7 +774,8 @@ class SpecificationMapperImplTest {
                         "User age",
                         IntegerType.formatInteger(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -782,7 +819,8 @@ class SpecificationMapperImplTest {
                         "User height",
                         NumericType.formatFloat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -826,7 +864,8 @@ class SpecificationMapperImplTest {
                         "User is admin",
                         BooleanType.create(NOT_NULLABLE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -880,7 +919,8 @@ class SpecificationMapperImplTest {
                         expectedEnumPojo.getDescription(),
                         EnumObjectType.ofEnumPojo(expectedEnumPojo),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -1001,7 +1041,8 @@ class SpecificationMapperImplTest {
                         "",
                         StringType.noFormat(),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())
@@ -1022,7 +1063,8 @@ class SpecificationMapperImplTest {
                         StandardObjectType.ofName(pojoName("Address", "Dto"))
                             .withNullability(NULLABLE),
                         PropertyScope.DEFAULT,
-                        OPTIONAL)))
+                        OPTIONAL,
+                        PojoMemberXml.noDefinition())))
             .requiredAdditionalProperties(PList.empty())
             .constraints(Constraints.empty())
             .additionalProperties(anyTypeAllowed())

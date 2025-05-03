@@ -204,11 +204,13 @@ public class ObjectSchema implements OpenApiSchema {
       ComponentName componentName, Name pojoMemberName, OpenApiSchema schema, Necessity necessity) {
     final MemberSchemaMapResult result = schema.mapToMemberType(componentName, pojoMemberName);
     final PropertyScope propertyScope = PropertyScopeMapper.mapScope(schema.getDelegateSchema());
+    final PojoMemberXml pojoMemberXml = PojoMemberXml.fromSchema(schema.getDelegateSchema());
 
     final Type type = result.getType();
 
     final PojoMember pojoMember =
-        new PojoMember(pojoMemberName, schema.getDescription(), type, propertyScope, necessity);
+        new PojoMember(
+            pojoMemberName, schema.getDescription(), type, propertyScope, necessity, pojoMemberXml);
     return new PojoMemberMapResult(pojoMember, result.getUnmappedItems());
   }
 

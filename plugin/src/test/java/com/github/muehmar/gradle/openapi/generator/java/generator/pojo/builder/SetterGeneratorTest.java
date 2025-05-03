@@ -14,13 +14,16 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.generator.settings.XmlSupport;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -37,7 +40,11 @@ class SetterGeneratorTest {
       JavaPojoMember member) {
     final Generator<JavaPojoMember, PojoSettings> generator = memberSetterGenerator();
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            member.withMemberXml(new JavaPojoMemberXml(Optional.empty(), Optional.of(true))),
+            defaultTestSettings().withXmlSupport(XmlSupport.JACKSON),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }

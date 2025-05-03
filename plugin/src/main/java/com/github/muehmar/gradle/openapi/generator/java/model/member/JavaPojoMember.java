@@ -42,6 +42,7 @@ public class JavaPojoMember {
   private final JavaType javaType;
   private final Necessity necessity;
   private final MemberType type;
+  private final JavaPojoMemberXml memberXml;
 
   private static final String TRISTATE_TO_PROPERTY =
       "onValue(val -> val).onNull(() -> null).onAbsent(() -> null)";
@@ -54,13 +55,15 @@ public class JavaPojoMember {
       String description,
       JavaType javaType,
       Necessity necessity,
-      MemberType type) {
+      MemberType type,
+      JavaPojoMemberXml memberXml) {
     this.pojoName = pojoName;
     this.javaType = javaType;
     this.name = name;
     this.description = description;
     this.necessity = necessity;
     this.type = type;
+    this.memberXml = memberXml;
   }
 
   public static JavaPojoMember wrap(
@@ -72,7 +75,8 @@ public class JavaPojoMember {
         pojoMember.getDescription(),
         javaType,
         pojoMember.getNecessity(),
-        MemberType.OBJECT_MEMBER);
+        MemberType.OBJECT_MEMBER,
+        JavaPojoMemberXml.fromPojoMemberXml(pojoMember.getMemberXml()));
   }
 
   public PropertyInfoName getPropertyInfoName() {
@@ -101,6 +105,10 @@ public class JavaPojoMember {
 
   public MemberType getType() {
     return type;
+  }
+
+  public JavaPojoMemberXml getMemberXml() {
+    return memberXml;
   }
 
   public boolean isTechnicallyEquals(JavaPojoMember other) {
@@ -311,7 +319,7 @@ public class JavaPojoMember {
             integerType -> integerType,
             objectType -> objectType,
             stringType -> stringType);
-    return new JavaPojoMember(pojoName, name, description, newType, necessity, type);
+    return new JavaPojoMember(pojoName, name, description, newType, necessity, type, memberXml);
   }
 
   public enum MemberType {

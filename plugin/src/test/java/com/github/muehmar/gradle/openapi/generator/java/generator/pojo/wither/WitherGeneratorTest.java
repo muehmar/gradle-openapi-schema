@@ -15,6 +15,7 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -120,6 +121,7 @@ class WitherGeneratorTest {
             .javaType(stringType().withNullability(NULLABLE))
             .necessity(Necessity.REQUIRED)
             .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+            .memberXml(JavaPojoMemberXml.noDefinition())
             .build();
 
     final JavaPojoMember nameMember =
@@ -130,6 +132,7 @@ class WitherGeneratorTest {
             .javaType(stringType().withNullability(NULLABLE))
             .necessity(Necessity.OPTIONAL)
             .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+            .memberXml(JavaPojoMemberXml.noDefinition())
             .build();
 
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.of(surnameMember, nameMember));

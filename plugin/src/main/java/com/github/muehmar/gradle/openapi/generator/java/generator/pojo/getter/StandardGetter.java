@@ -25,6 +25,7 @@ public class StandardGetter {
         .append(generatorSettings.validationAnnotationGenerator())
         .append(generatorSettings.jsonIgnoreGenerator())
         .append(generatorSettings.jsonPropertyGenerator())
+        .append(generatorSettings.jacksonXmlPropertyGenerator())
         .append(getterMethod(generatorSettings));
   }
 

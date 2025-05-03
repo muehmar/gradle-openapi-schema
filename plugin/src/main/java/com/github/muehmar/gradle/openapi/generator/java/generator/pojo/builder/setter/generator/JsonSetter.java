@@ -1,12 +1,14 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.generator;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJson;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonXml;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jacksonXmlProperty;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonProperty;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.FlagAssignments;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -19,8 +21,9 @@ public class JsonSetter {
   public static Generator<JavaPojoMember, PojoSettings> jsonSetterGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(jsonProperty())
+        .append(jacksonXmlProperty())
         .append(setterMethod())
-        .filter(isJacksonJson());
+        .filter(Filters.<JavaPojoMember>isJacksonJson().or(isJacksonXml()));
   }
 
   private static Generator<JavaPojoMember, PojoSettings> setterMethod() {
