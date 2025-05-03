@@ -227,7 +227,8 @@ class JacksonAnnotationGeneratorTest {
 
     final JavaPojoMember member =
         TestJavaPojoMembers.requiredString()
-            .withMemberXml(new JavaPojoMemberXml(Optional.empty(), Optional.of(true)));
+            .withMemberXml(
+                new JavaPojoMemberXml(Optional.empty(), Optional.of(true), Optional.empty()));
 
     final Writer writer =
         generator.generate(
@@ -243,8 +244,7 @@ class JacksonAnnotationGeneratorTest {
         JacksonAnnotationGenerator.jacksonXmlProperty();
 
     final JavaPojoMember member =
-        TestJavaPojoMembers.requiredString()
-            .withMemberXml(new JavaPojoMemberXml(Optional.empty(), Optional.empty()));
+        TestJavaPojoMembers.requiredString().withMemberXml(JavaPojoMemberXml.noDefinition());
 
     final Writer writer =
         generator.generate(
@@ -275,16 +275,16 @@ class JacksonAnnotationGeneratorTest {
   public static Stream<Arguments> memberXmlDefinitions() {
     return Stream.of(
         arguments(
-            new JavaPojoMemberXml(Optional.empty(), Optional.of(true)),
+            new JavaPojoMemberXml(Optional.empty(), Optional.of(true), Optional.empty()),
             "@JacksonXmlProperty(localName = \"stringVal\", isAttribute = true)"),
         arguments(
-            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.of(false)),
+            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.of(false), Optional.empty()),
             "@JacksonXmlProperty(localName = \"xml-name\", isAttribute = false)"),
         arguments(
-            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.empty()),
+            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.empty(), Optional.empty()),
             "@JacksonXmlProperty(localName = \"xml-name\")"),
         arguments(
-            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.of(true)),
+            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.of(true), Optional.empty()),
             "@JacksonXmlProperty(localName = \"xml-name\", isAttribute = true)"));
   }
 }

@@ -52,7 +52,9 @@ class StandardGetterTest {
     writer =
         generator.generate(
             requiredString()
-                .withMemberXml(new JavaPojoMemberXml(Optional.of("xml-name"), Optional.of(true))),
+                .withMemberXml(
+                    new JavaPojoMemberXml(
+                        Optional.of("xml-name"), Optional.of(true), Optional.empty())),
             defaultTestSettings().withXmlSupport(XmlSupport.JACKSON),
             javaWriter());
 

@@ -42,7 +42,8 @@ class SetterGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            member.withMemberXml(new JavaPojoMemberXml(Optional.empty(), Optional.of(true))),
+            member.withMemberXml(
+                new JavaPojoMemberXml(Optional.empty(), Optional.of(true), Optional.empty())),
             defaultTestSettings().withXmlSupport(XmlSupport.JACKSON),
             javaWriter());
 
