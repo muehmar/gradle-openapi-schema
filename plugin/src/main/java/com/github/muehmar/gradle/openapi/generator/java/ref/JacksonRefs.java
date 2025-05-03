@@ -16,4 +16,6 @@ public class JacksonRefs {
   public static final String JSON_PROPERTY = "com.fasterxml.jackson.annotation.JsonProperty";
   public static final String JACKSON_XML_ROOT_ELEMENT =
       "com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement";
+  public static final String JACKSON_XML_PROPERTY =
+      "com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty";
 }

@@ -19,14 +19,21 @@ public class PojoMember {
   Type type;
   PropertyScope propertyScope;
   Necessity necessity;
+  PojoMemberXml memberXml;
 
   public PojoMember(
-      Name name, String description, Type type, PropertyScope propertyScope, Necessity necessity) {
+      Name name,
+      String description,
+      Type type,
+      PropertyScope propertyScope,
+      Necessity necessity,
+      PojoMemberXml memberXml) {
     this.name = name;
     this.description = Optional.ofNullable(description).orElse("");
     this.type = type;
     this.propertyScope = propertyScope;
     this.necessity = necessity;
+    this.memberXml = memberXml;
   }
 
   public PojoMember replaceObjectType(

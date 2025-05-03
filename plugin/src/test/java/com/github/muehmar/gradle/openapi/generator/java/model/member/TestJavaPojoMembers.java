@@ -45,6 +45,7 @@ public class TestJavaPojoMembers {
             JavaType.wrap(StringType.ofFormat(StringType.Format.BINARY), TypeMappings.empty()))
         .necessity(Necessity.REQUIRED)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -57,6 +58,7 @@ public class TestJavaPojoMembers {
         .javaType(JavaTypes.date(constraints).withNullability(nullability))
         .necessity(necessity)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -95,6 +97,7 @@ public class TestJavaPojoMembers {
                 .withNullability(nullability))
         .necessity(necessity)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -115,6 +118,7 @@ public class TestJavaPojoMembers {
                 .withNullability(nullability))
         .necessity(necessity)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -135,6 +139,7 @@ public class TestJavaPojoMembers {
                 .withNullability(nullability))
         .necessity(necessity)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -157,6 +162,7 @@ public class TestJavaPojoMembers {
                 .withNullability(nullability))
         .necessity(necessity)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -246,6 +252,7 @@ public class TestJavaPojoMembers {
                 .withNullability(nullability))
         .necessity(necessity)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -271,6 +278,7 @@ public class TestJavaPojoMembers {
                 .withNullability(nullability))
         .necessity(necessity)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -328,6 +336,7 @@ public class TestJavaPojoMembers {
                 .withNullability(nullability))
         .necessity(necessity)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -348,6 +357,7 @@ public class TestJavaPojoMembers {
                 .withNullability(NULLABLE))
         .necessity(REQUIRED)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -367,6 +377,7 @@ public class TestJavaPojoMembers {
                 typeMappings))
         .necessity(OPTIONAL)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -387,6 +398,7 @@ public class TestJavaPojoMembers {
                 .withNullability(NULLABLE))
         .necessity(OPTIONAL)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -402,6 +414,7 @@ public class TestJavaPojoMembers {
                 TypeMappings.empty()))
         .necessity(REQUIRED)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -417,6 +430,7 @@ public class TestJavaPojoMembers {
                 TypeMappings.empty()))
         .necessity(REQUIRED)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -464,6 +478,7 @@ public class TestJavaPojoMembers {
         .javaType(JavaStringType.noFormat().withNullability(NULLABLE))
         .necessity(OPTIONAL)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -475,6 +490,7 @@ public class TestJavaPojoMembers {
         .javaType(JavaStringType.noFormat().withNullability(NULLABLE))
         .necessity(OPTIONAL)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 
@@ -498,6 +514,7 @@ public class TestJavaPojoMembers {
         .javaType(objectType)
         .necessity(REQUIRED)
         .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 

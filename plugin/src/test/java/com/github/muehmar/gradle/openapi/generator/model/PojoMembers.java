@@ -22,7 +22,8 @@ public class PojoMembers {
         "Username",
         StringType.noFormat(),
         PropertyScope.DEFAULT,
-        Necessity.REQUIRED);
+        Necessity.REQUIRED,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember requiredBirthdate() {
@@ -35,7 +36,8 @@ public class PojoMembers {
         "Birthdate",
         StringType.ofFormat(StringType.Format.DATE),
         propertyScope,
-        Necessity.REQUIRED);
+        Necessity.REQUIRED,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember requiredString() {
@@ -49,7 +51,8 @@ public class PojoMembers {
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
         propertyScope,
-        Necessity.REQUIRED);
+        Necessity.REQUIRED,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember requiredNullableString() {
@@ -60,7 +63,8 @@ public class PojoMembers {
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
             .withNullability(NULLABLE),
         PropertyScope.DEFAULT,
-        Necessity.REQUIRED);
+        Necessity.REQUIRED,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember optionalString() {
@@ -70,7 +74,8 @@ public class PojoMembers {
         StringType.noFormat()
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello"))),
         PropertyScope.DEFAULT,
-        OPTIONAL);
+        OPTIONAL,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember optionalNullableString() {
@@ -81,7 +86,8 @@ public class PojoMembers {
             .withConstraints(Constraints.ofPattern(Pattern.ofUnescapedString("Hello")))
             .withNullability(NULLABLE),
         PropertyScope.DEFAULT,
-        OPTIONAL);
+        OPTIONAL,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember requiredListWithNullableItems() {
@@ -95,7 +101,8 @@ public class PojoMembers {
         ArrayType.ofItemType(itemType, NOT_NULLABLE)
             .withConstraints(Constraints.ofSize(Size.of(5, 10))),
         PropertyScope.DEFAULT,
-        REQUIRED);
+        REQUIRED,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember requiredNullableListWithNullableItems() {
@@ -109,7 +116,8 @@ public class PojoMembers {
         ArrayType.ofItemType(itemType, NULLABLE)
             .withConstraints(Constraints.ofSize(Size.of(5, 10))),
         PropertyScope.DEFAULT,
-        REQUIRED);
+        REQUIRED,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember optionalListWithNullableItems() {
@@ -123,7 +131,8 @@ public class PojoMembers {
         ArrayType.ofItemType(itemType, NOT_NULLABLE)
             .withConstraints(Constraints.ofSize(Size.of(5, 10))),
         PropertyScope.DEFAULT,
-        OPTIONAL);
+        OPTIONAL,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember optionalNullableListWithNullableItems() {
@@ -137,7 +146,8 @@ public class PojoMembers {
         ArrayType.ofItemType(itemType, NULLABLE)
             .withConstraints(Constraints.ofSize(Size.of(5, 10))),
         PropertyScope.DEFAULT,
-        OPTIONAL);
+        OPTIONAL,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember requiredMap() {
@@ -149,7 +159,8 @@ public class PojoMembers {
         "RequiredMap",
         MapType.ofKeyAndValueType(StringType.noFormat(), valueType),
         PropertyScope.DEFAULT,
-        Necessity.REQUIRED);
+        Necessity.REQUIRED,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember requiredNullableMap() {
@@ -161,7 +172,8 @@ public class PojoMembers {
         "RequiredNullableMap",
         MapType.ofKeyAndValueType(StringType.noFormat(), valueType).withNullability(NULLABLE),
         PropertyScope.DEFAULT,
-        Necessity.REQUIRED);
+        Necessity.REQUIRED,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember optionalMap() {
@@ -173,7 +185,8 @@ public class PojoMembers {
         "OptionalMap",
         MapType.ofKeyAndValueType(StringType.noFormat(), valueType),
         PropertyScope.DEFAULT,
-        Necessity.OPTIONAL);
+        Necessity.OPTIONAL,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember optionalNullableMap() {
@@ -185,11 +198,17 @@ public class PojoMembers {
         "OptionalNullableMap",
         MapType.ofKeyAndValueType(StringType.noFormat(), valueType).withNullability(NULLABLE),
         PropertyScope.DEFAULT,
-        Necessity.OPTIONAL);
+        Necessity.OPTIONAL,
+        PojoMemberXml.noDefinition());
   }
 
   public static PojoMember ofType(Type type) {
     return new PojoMember(
-        Name.ofString("member"), "description", type, PropertyScope.DEFAULT, REQUIRED);
+        Name.ofString("member"),
+        "description",
+        type,
+        PropertyScope.DEFAULT,
+        REQUIRED,
+        PojoMemberXml.noDefinition());
   }
 }

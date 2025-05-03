@@ -12,6 +12,7 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -53,6 +54,7 @@ class MultipleOfValidationMethodGeneratorTest {
                   TypeMappings.empty()))
           .necessity(Necessity.REQUIRED)
           .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+          .memberXml(JavaPojoMemberXml.noDefinition())
           .build();
 
   private static final JavaPojoMember LONG_MEMBER =
@@ -68,6 +70,7 @@ class MultipleOfValidationMethodGeneratorTest {
                   TypeMappings.empty()))
           .necessity(Necessity.REQUIRED)
           .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+          .memberXml(JavaPojoMemberXml.noDefinition())
           .build();
 
   private static final JavaPojoMember FLOAT_MEMBER =
@@ -83,6 +86,7 @@ class MultipleOfValidationMethodGeneratorTest {
                   TypeMappings.empty()))
           .necessity(Necessity.REQUIRED)
           .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+          .memberXml(JavaPojoMemberXml.noDefinition())
           .build();
 
   private static final JavaPojoMember DOUBLE_MEMBER =
@@ -98,6 +102,7 @@ class MultipleOfValidationMethodGeneratorTest {
                   TypeMappings.empty()))
           .necessity(Necessity.REQUIRED)
           .type(JavaPojoMember.MemberType.OBJECT_MEMBER)
+          .memberXml(JavaPojoMemberXml.noDefinition())
           .build();
 
   private static final JavaObjectPojo POJO =

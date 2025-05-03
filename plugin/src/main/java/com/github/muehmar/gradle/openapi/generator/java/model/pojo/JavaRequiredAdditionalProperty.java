@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberBuilder;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
@@ -32,6 +33,7 @@ public class JavaRequiredAdditionalProperty {
         .javaType(javaType)
         .necessity(Necessity.REQUIRED)
         .type(JavaPojoMember.MemberType.ALL_OF_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
         .build();
   }
 

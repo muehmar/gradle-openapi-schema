@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojoXml;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JacksonRefs;
@@ -99,6 +100,26 @@ public class JacksonAnnotationGenerator {
                   .ref(JacksonRefs.JACKSON_XML_ROOT_ELEMENT);
             },
             JavaPojoXml::hasDefinitions)
+        .filter(isJacksonXml());
+  }
+
+  public static Generator<JavaPojoMember, PojoSettings> jacksonXmlProperty() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .appendConditionally(
+            (m, s, w) -> {
+              final JavaPojoMemberXml xml = m.getMemberXml();
+              final Optional<String> name =
+                  Optional.of(xml.getName().orElse(m.getName().getOriginalName().asString()));
+              final String annotationValues =
+                  PList.of(
+                          name.map(n -> String.format("localName = \"%s\"", n)),
+                          xml.getIsAttribute().map(flag -> String.format("isAttribute = %s", flag)))
+                      .flatMapOptional(Function.identity())
+                      .mkString(", ");
+              return w.println("@JacksonXmlProperty(%s)", annotationValues)
+                  .ref(JacksonRefs.JACKSON_XML_PROPERTY);
+            },
+            m -> m.getMemberXml().hasDefinition())
         .filter(isJacksonXml());
   }
 }

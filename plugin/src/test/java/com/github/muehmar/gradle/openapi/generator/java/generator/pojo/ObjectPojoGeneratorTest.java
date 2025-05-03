@@ -33,10 +33,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredA
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
-import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
-import com.github.muehmar.gradle.openapi.generator.model.PojoXml;
-import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
+import com.github.muehmar.gradle.openapi.generator.model.*;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.OneOfComposition;
@@ -89,20 +86,23 @@ class ObjectPojoGeneratorTest {
                                   "ID of this user",
                                   IntegerType.formatLong(),
                                   PropertyScope.DEFAULT,
-                                  REQUIRED),
+                                  REQUIRED,
+                                  PojoMemberXml.noDefinition()),
                               new PojoMember(
                                   Name.ofString("name"),
                                   "Name of this user",
                                   StringType.noFormat(),
                                   PropertyScope.DEFAULT,
-                                  REQUIRED),
+                                  REQUIRED,
+                                  PojoMemberXml.noDefinition()),
                               new PojoMember(
                                   Name.ofString("language"),
                                   "Preferred language of this user",
                                   EnumType.ofNameAndMembers(
                                       Name.ofString("LanguageEnum"), PList.of("GERMAN", "ENGLISH")),
                                   PropertyScope.DEFAULT,
-                                  OPTIONAL)))
+                                  OPTIONAL,
+                                  PojoMemberXml.noDefinition())))
                       .requiredAdditionalProperties(PList.empty())
                       .constraints(
                           Constraints.ofPropertiesCount(PropertyCount.ofMinAndMaxProperties(2, 10)))
@@ -212,34 +212,39 @@ class ObjectPojoGeneratorTest {
                                     IntegerType.formatLong()
                                         .withConstraints(Constraints.ofMax(new Max(50))),
                                     PropertyScope.DEFAULT,
-                                    REQUIRED),
+                                    REQUIRED,
+                                    PojoMemberXml.noDefinition()),
                                 new PojoMember(
                                     Name.ofString("name"),
                                     "Name of this user",
                                     StringType.noFormat()
                                         .withConstraints(Constraints.ofSize(Size.of(10, 15))),
                                     PropertyScope.DEFAULT,
-                                    REQUIRED),
+                                    REQUIRED,
+                                    PojoMemberXml.noDefinition()),
                                 new PojoMember(
                                     Name.ofString("lastName"),
                                     "Lastname of this user",
                                     StringType.noFormat()
                                         .withConstraints(Constraints.ofSize(Size.ofMin(10))),
                                     PropertyScope.DEFAULT,
-                                    REQUIRED),
+                                    REQUIRED,
+                                    PojoMemberXml.noDefinition()),
                                 new PojoMember(
                                     Name.ofString("nickName"),
                                     "Nickname of this user",
                                     StringType.noFormat()
                                         .withConstraints(Constraints.ofSize(Size.ofMax(50))),
                                     PropertyScope.DEFAULT,
-                                    REQUIRED),
+                                    REQUIRED,
+                                    PojoMemberXml.noDefinition()),
                                 new PojoMember(
                                     Name.ofString("email"),
                                     "Email of this user",
                                     StringType.noFormat().withConstraints(Constraints.ofEmail()),
                                     PropertyScope.DEFAULT,
-                                    REQUIRED),
+                                    REQUIRED,
+                                    PojoMemberXml.noDefinition()),
                                 new PojoMember(
                                     Name.ofString("height"),
                                     "Height of this user",
@@ -248,14 +253,16 @@ class ObjectPojoGeneratorTest {
                                             Constraints.ofDecimalMin(new DecimalMin("120.0", true))
                                                 .withDecimalMax(new DecimalMax("199", false))),
                                     PropertyScope.DEFAULT,
-                                    REQUIRED),
+                                    REQUIRED,
+                                    PojoMemberXml.noDefinition()),
                                 new PojoMember(
                                     Name.ofString("level"),
                                     "Level of this user",
                                     IntegerType.formatLong()
                                         .withConstraints(Constraints.ofMin(new Min(5))),
                                     PropertyScope.DEFAULT,
-                                    OPTIONAL),
+                                    OPTIONAL,
+                                    PojoMemberXml.noDefinition()),
                                 new PojoMember(
                                     Name.ofString("uppercase"),
                                     "Something uppercase",
@@ -264,7 +271,8 @@ class ObjectPojoGeneratorTest {
                                             Constraints.ofPattern(
                                                 Pattern.ofUnescapedString("^(\\d[A-Z]*)"))),
                                     PropertyScope.DEFAULT,
-                                    OPTIONAL),
+                                    OPTIONAL,
+                                    PojoMemberXml.noDefinition()),
                                 new PojoMember(
                                     Name.ofString("multipleOfValue"),
                                     "Multiple of value",
@@ -273,14 +281,16 @@ class ObjectPojoGeneratorTest {
                                             Constraints.ofMultipleOf(
                                                 new MultipleOf(new BigDecimal("5")))),
                                     PropertyScope.DEFAULT,
-                                    OPTIONAL),
+                                    OPTIONAL,
+                                    PojoMemberXml.noDefinition()),
                                 new PojoMember(
                                     Name.ofString("anotherPojo"),
                                     "Another Pojo",
                                     StandardObjectType.ofName(
                                         PojoName.ofName(Name.ofString("AnotherPojo"))),
                                     PropertyScope.DEFAULT,
-                                    OPTIONAL)))
+                                    OPTIONAL,
+                                    PojoMemberXml.noDefinition())))
                         .requiredAdditionalProperties(PList.empty())
                         .constraints(
                             Constraints.ofPropertiesCount(
@@ -325,7 +335,8 @@ class ObjectPojoGeneratorTest {
                                         Name.ofString("LanguageEnum"),
                                         PList.of("GERMAN", "ENGLISH")),
                                     PropertyScope.DEFAULT,
-                                    OPTIONAL)))
+                                    OPTIONAL,
+                                    PojoMemberXml.noDefinition())))
                         .requiredAdditionalProperties(PList.empty())
                         .constraints(Constraints.empty())
                         .additionalProperties(anyTypeAllowed())
@@ -368,7 +379,8 @@ class ObjectPojoGeneratorTest {
                                         Name.ofString("LanguageEnum"),
                                         PList.of("GERMAN", "ENGLISH")),
                                     PropertyScope.DEFAULT,
-                                    OPTIONAL)))
+                                    OPTIONAL,
+                                    PojoMemberXml.noDefinition())))
                         .requiredAdditionalProperties(PList.empty())
                         .constraints(Constraints.empty())
                         .additionalProperties(anyTypeAllowed())

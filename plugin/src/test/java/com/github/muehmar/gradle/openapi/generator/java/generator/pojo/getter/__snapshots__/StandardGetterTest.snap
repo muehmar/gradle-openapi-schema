@@ -93,12 +93,14 @@ public CustomString getStringVal() {
 
 requiredString[NO_JAVA_DOC]=[
 com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 
 @NotNull
 @Pattern(regexp="Hello")
 @JsonProperty("stringVal")
+@JacksonXmlProperty(localName = "xml-name", isAttribute = true)
 public String getStringVal() {
   return stringVal;
 }
@@ -124,11 +126,13 @@ public String getStringVal() {
 
 requiredString[NO_VALIDATION]=[
 com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
 /**
  * stringVal
  */
 @JsonProperty("stringVal")
+@JacksonXmlProperty(localName = "xml-name", isAttribute = true)
 public String getStringVal() {
   return stringVal;
 }
@@ -137,6 +141,7 @@ public String getStringVal() {
 
 requiredString[PACKAGE_PRIVATE]=[
 com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 
@@ -146,6 +151,7 @@ javax.validation.constraints.Pattern
 @NotNull
 @Pattern(regexp="Hello")
 @JsonProperty("stringVal")
+@JacksonXmlProperty(localName = "xml-name", isAttribute = true)
 String getStringVal() {
   return stringVal;
 }
@@ -154,6 +160,7 @@ String getStringVal() {
 
 requiredString[]=[
 com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 
@@ -163,6 +170,7 @@ javax.validation.constraints.Pattern
 @NotNull
 @Pattern(regexp="Hello")
 @JsonProperty("stringVal")
+@JacksonXmlProperty(localName = "xml-name", isAttribute = true)
 public String getStringVal() {
   return stringVal;
 }
