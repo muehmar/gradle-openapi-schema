@@ -7,8 +7,8 @@ import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
-import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojoXml;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -89,18 +89,21 @@ public class JacksonAnnotationGenerator {
         .filter(isJacksonJson());
   }
 
-  public static Generator<JavaPojoXml, PojoSettings> jacksonXmlRootElement() {
-    return Generator.<JavaPojoXml, PojoSettings>emptyGen()
-        .appendConditionally(
-            (xml, s, w) -> {
+  public static Generator<JavaObjectPojo, PojoSettings> jacksonXmlRootElement() {
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+        .append(
+            (pojo, s, w) -> {
+              final String name =
+                  pojo.getPojoXml()
+                      .getName()
+                      .orElse(pojo.getSchemaName().getOriginalName().asString());
               final String annotationValues =
-                  PList.of(xml.getName().map(name -> String.format("localName = \"%s\"", name)))
+                  PList.of(Optional.of(name).map(n -> String.format("localName = \"%s\"", n)))
                       .flatMapOptional(Function.identity())
                       .mkString(", ");
               return w.println("@JacksonXmlRootElement(%s)", annotationValues)
                   .ref(JacksonRefs.JACKSON_XML_ROOT_ELEMENT);
-            },
-            JavaPojoXml::hasDefinitions)
+            })
         .filter(isJacksonXml());
   }
 

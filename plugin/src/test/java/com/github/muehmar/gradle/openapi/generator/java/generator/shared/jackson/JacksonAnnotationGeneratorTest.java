@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.data.VoidData.noData;
+import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojoXml;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -176,12 +178,12 @@ class JacksonAnnotationGeneratorTest {
 
   @Test
   void jacksonXmlRootElement_when_enabledXmlJackson_then_correctOutputAndRefs() {
-    final Generator<JavaPojoXml, PojoSettings> generator =
+    final Generator<JavaObjectPojo, PojoSettings> generator =
         JacksonAnnotationGenerator.jacksonXmlRootElement();
 
     final Writer writer =
         generator.generate(
-            new JavaPojoXml(Optional.of("root-name")),
+            sampleObjectPojo1().withPojoXml(new JavaPojoXml(Optional.of("root-name"))),
             defaultTestSettings().withXmlSupport(XmlSupport.JACKSON),
             javaWriter());
 
@@ -191,28 +193,29 @@ class JacksonAnnotationGeneratorTest {
   }
 
   @Test
-  void jacksonXmlRootElement_when_enabledXmlJacksonButNoXmlDefinition_then_noOutput() {
-    final Generator<JavaPojoXml, PojoSettings> generator =
+  void
+      jacksonXmlRootElement_when_enabledXmlJacksonButNoXmlDefinition_then_useOriginalSchemaNameAsRootElement() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
         JacksonAnnotationGenerator.jacksonXmlRootElement();
 
     final Writer writer =
         generator.generate(
-            JavaPojoXml.noXmlDefinition(),
+            sampleObjectPojo1().withPojoXml(JavaPojoXml.noXmlDefinition()),
             defaultTestSettings().withXmlSupport(XmlSupport.JACKSON),
             javaWriter());
 
-    assertEquals(0, writer.getRefs().size());
-    assertEquals("", writer.asString());
+    assertEquals(1, writer.getRefs().size());
+    assertEquals("@JacksonXmlRootElement(localName = \"SampleObjectPojo1\")", writer.asString());
   }
 
   @Test
   void jacksonXmlRootElement_when_disabledXmlJackson_then_noOutput() {
-    final Generator<JavaPojoXml, PojoSettings> generator =
+    final Generator<JavaObjectPojo, PojoSettings> generator =
         JacksonAnnotationGenerator.jacksonXmlRootElement();
 
     final Writer writer =
         generator.generate(
-            new JavaPojoXml(Optional.of("root-name")),
+            sampleObjectPojo1().withPojoXml(new JavaPojoXml(Optional.of("root-name"))),
             defaultTestSettings().withXmlSupport(XmlSupport.NONE),
             javaWriter());
 
