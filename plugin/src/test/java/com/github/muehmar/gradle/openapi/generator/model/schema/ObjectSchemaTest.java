@@ -27,6 +27,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
+import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
@@ -34,6 +35,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
@@ -444,7 +446,60 @@ class ObjectSchemaTest {
                 StringType.noFormat(),
                 PropertyScope.DEFAULT,
                 Necessity.OPTIONAL,
-                new PojoMemberXml(Optional.of("xml-name"), Optional.of(true))));
+                new PojoMemberXml(Optional.of("xml-name"), Optional.of(true), Optional.empty())));
+    assertEquals(
+        expectedMembers,
+        objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));
+  }
+
+  @Test
+  void mapToPojo_when_schemaWithXmlAttributesForArrayProperty_then_objectSchemaDetected() {
+    final Schema<Object> objectSchema = new Schema<>();
+
+    final HashMap<String, Schema> properties = new HashMap<>();
+    final ArraySchema arraySchema = new ArraySchema();
+    final StringSchema itemSchema = new StringSchema();
+    final XML itemXml = new XML();
+    itemXml.setName("item-name");
+    itemSchema.setXml(itemXml);
+    arraySchema.setItems(itemSchema);
+    final XML arrayXml = new XML();
+    arrayXml.setWrapped(true);
+    arrayXml.setName("array-name");
+    arraySchema.setXml(arrayXml);
+    properties.put("array", arraySchema);
+    objectSchema.setProperties(properties);
+
+    final ComponentName componentName = componentName("Object", "Dto");
+    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
+
+    // method call
+    final MapContext mapContext = pojoSchema.mapToPojo();
+
+    final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
+    assertEquals(0, unresolvedMapResult.getPojos().size());
+    assertEquals(1, unresolvedMapResult.getUnresolvedObjectPojos().size());
+    assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
+
+    final ObjectPojo objectPojo =
+        resolveUncomposedObjectPojo(unresolvedMapResult.getUnresolvedObjectPojos().apply(0));
+
+    final PList<PojoMember> expectedMembers =
+        PList.of(
+            new PojoMember(
+                Name.ofString("array"),
+                "",
+                ArrayType.ofItemType(StringType.noFormat(), NOT_NULLABLE),
+                PropertyScope.DEFAULT,
+                Necessity.OPTIONAL,
+                new PojoMemberXml(
+                    Optional.of("array-name"),
+                    Optional.empty(),
+                    Optional.of(
+                        new PojoMemberXml.ArrayXml(
+                            Optional.of("array-name"),
+                            Optional.of(true),
+                            Optional.of("item-name"))))));
     assertEquals(
         expectedMembers,
         objectPojo.getMembers().sort(Comparator.comparing(member -> member.getName().asString())));

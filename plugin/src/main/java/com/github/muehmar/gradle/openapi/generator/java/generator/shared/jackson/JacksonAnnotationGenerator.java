@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackso
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJson;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonXml;
 
+import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
@@ -108,18 +109,64 @@ public class JacksonAnnotationGenerator {
         .appendConditionally(
             (m, s, w) -> {
               final JavaPojoMemberXml xml = m.getMemberXml();
-              final Optional<String> name =
-                  Optional.of(xml.getName().orElse(m.getName().getOriginalName().asString()));
-              final String annotationValues =
-                  PList.of(
-                          name.map(n -> String.format("localName = \"%s\"", n)),
-                          xml.getIsAttribute().map(flag -> String.format("isAttribute = %s", flag)))
-                      .flatMapOptional(Function.identity())
-                      .mkString(", ");
-              return w.println("@JacksonXmlProperty(%s)", annotationValues)
-                  .ref(JacksonRefs.JACKSON_XML_PROPERTY);
+              final PList<String> annotationValues =
+                  xml.getArrayXml()
+                      .map(
+                          arrayXml ->
+                              arrayXml
+                                  .getItemName()
+                                  .map(
+                                      name ->
+                                          PList.single(
+                                              Optional.of(
+                                                  String.format("localName = \"%s\"", name))))
+                                  .orElse(PList.empty()))
+                      .orElseGet(
+                          () -> {
+                            final Optional<String> name =
+                                Optional.of(
+                                    xml.getName().orElse(m.getName().getOriginalName().asString()));
+                            return PList.of(
+                                name.map(n -> String.format("localName = \"%s\"", n)),
+                                xml.getIsAttribute()
+                                    .map(flag -> String.format("isAttribute = %s", flag)));
+                          })
+                      .flatMapOptional(Function.identity());
+
+              return NonEmptyList.fromIter(annotationValues)
+                  .map(
+                      values ->
+                          w.println("@JacksonXmlProperty(%s)", values.toPList().mkString(", "))
+                              .ref(JacksonRefs.JACKSON_XML_PROPERTY))
+                  .orElse(w);
             },
             m -> m.getMemberXml().hasDefinition())
+        .filter(isJacksonXml());
+  }
+
+  public static Generator<JavaPojoMember, PojoSettings> jacksonXmlElementWrapper() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .appendOptional(
+            (arrayXml, s, w) -> {
+              if (arrayXml.getWrapped().isPresent() || arrayXml.getWrapperName().isPresent()) {
+
+                final String annotationValues =
+                    PList.of(
+                            arrayXml
+                                .getWrapperName()
+                                .map(n -> String.format("localName = \"%s\"", n)),
+                            arrayXml
+                                .getWrapped()
+                                .map(flag -> String.format("useWrapping = %s", flag)))
+                        .flatMapOptional(Function.identity())
+                        .mkString(", ");
+                return w.println("@JacksonXmlElementWrapper(%s)", annotationValues)
+                    .ref(JacksonRefs.JACKSON_XML_ELEMENT_WRAPPER);
+              } else {
+                return w;
+              }
+            },
+            m -> m.getMemberXml().getArrayXml())
         .filter(isJacksonXml());
   }
 }

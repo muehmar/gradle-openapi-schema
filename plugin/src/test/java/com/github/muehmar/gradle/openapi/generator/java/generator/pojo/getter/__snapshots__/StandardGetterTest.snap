@@ -1,3 +1,94 @@
+arrayWithXmlDefinitions[NO_JAVA_DOC]=[
+com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+java.util.List
+javax.validation.constraints.NotNull
+
+@NotNull
+@JsonProperty("listVal")
+@JacksonXmlProperty(localName = "item-name")
+@JacksonXmlElementWrapper(localName = "array-name", useWrapping = true)
+public List<@NotNull String> getListVal() {
+  return listVal;
+}
+]
+
+
+arrayWithXmlDefinitions[NO_JSON]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.List
+javax.validation.constraints.NotNull
+
+/**
+ * List
+ */
+@NotNull
+@JsonIgnore
+public List<@NotNull String> getListVal() {
+  return listVal;
+}
+]
+
+
+arrayWithXmlDefinitions[NO_VALIDATION]=[
+com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+java.util.List
+
+/**
+ * List
+ */
+@JsonProperty("listVal")
+@JacksonXmlProperty(localName = "item-name")
+@JacksonXmlElementWrapper(localName = "array-name", useWrapping = true)
+public List<String> getListVal() {
+  return listVal;
+}
+]
+
+
+arrayWithXmlDefinitions[PACKAGE_PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+java.util.List
+javax.validation.constraints.NotNull
+
+/**
+ * List
+ */
+@NotNull
+@JsonProperty("listVal")
+@JacksonXmlProperty(localName = "item-name")
+@JacksonXmlElementWrapper(localName = "array-name", useWrapping = true)
+List<@NotNull String> getListVal() {
+  return listVal;
+}
+]
+
+
+arrayWithXmlDefinitions[]=[
+com.fasterxml.jackson.annotation.JsonProperty
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
+com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+java.util.List
+javax.validation.constraints.NotNull
+
+/**
+ * List
+ */
+@NotNull
+@JsonProperty("listVal")
+@JacksonXmlProperty(localName = "item-name")
+@JacksonXmlElementWrapper(localName = "array-name", useWrapping = true)
+public List<@NotNull String> getListVal() {
+  return listVal;
+}
+]
+
+
 genericType[NO_JAVA_DOC]=[
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List

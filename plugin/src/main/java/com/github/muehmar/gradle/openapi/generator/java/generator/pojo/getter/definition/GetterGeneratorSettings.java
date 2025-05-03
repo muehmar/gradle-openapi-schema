@@ -70,6 +70,12 @@ public class GetterGeneratorSettings {
         .filter(ignore -> this.isJson());
   }
 
+  public Generator<JavaPojoMember, PojoSettings> jacksonXmlElementWrapperGenerator() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(jacksonXmlElementWrapper())
+        .filter(ignore -> this.isJson());
+  }
+
   public Generator<JavaPojoMember, PojoSettings> javaDocGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(noSettingsGen(javaDoc()), JavaPojoMember::getDescription)

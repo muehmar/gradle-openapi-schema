@@ -227,7 +227,8 @@ class JacksonAnnotationGeneratorTest {
 
     final JavaPojoMember member =
         TestJavaPojoMembers.requiredString()
-            .withMemberXml(new JavaPojoMemberXml(Optional.empty(), Optional.of(true)));
+            .withMemberXml(
+                new JavaPojoMemberXml(Optional.empty(), Optional.of(true), Optional.empty()));
 
     final Writer writer =
         generator.generate(
@@ -243,8 +244,30 @@ class JacksonAnnotationGeneratorTest {
         JacksonAnnotationGenerator.jacksonXmlProperty();
 
     final JavaPojoMember member =
+        TestJavaPojoMembers.requiredString().withMemberXml(JavaPojoMemberXml.noDefinition());
+
+    final Writer writer =
+        generator.generate(
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
+
+    assertEquals(0, writer.getRefs().size());
+    assertEquals("", writer.asString());
+  }
+
+  @Test
+  void jacksonXmlProperty_when_enabledXmlAndXmlArrayDefinition_then_correctOutput() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        JacksonAnnotationGenerator.jacksonXmlProperty();
+
+    final JavaPojoMember member =
         TestJavaPojoMembers.requiredString()
-            .withMemberXml(new JavaPojoMemberXml(Optional.empty(), Optional.empty()));
+            .withMemberXml(
+                new JavaPojoMemberXml(
+                    Optional.of("xml-name"),
+                    Optional.empty(),
+                    Optional.of(
+                        new JavaPojoMemberXml.JavaArrayXml(
+                            Optional.of("item-name"), Optional.of(true), Optional.empty()))));
 
     final Writer writer =
         generator.generate(
@@ -256,7 +279,7 @@ class JacksonAnnotationGeneratorTest {
 
   @ParameterizedTest
   @MethodSource("memberXmlDefinitions")
-  void jacksonXmlProperty_when_enabledXmlAndOnlyIsAttribute_then_correctOutput(
+  void jacksonXmlProperty_when_memberXmlDefinitions_then_correctOutput(
       JavaPojoMemberXml memberXml, String expectedOutput) {
     final Generator<JavaPojoMember, PojoSettings> generator =
         JacksonAnnotationGenerator.jacksonXmlProperty();
@@ -275,16 +298,100 @@ class JacksonAnnotationGeneratorTest {
   public static Stream<Arguments> memberXmlDefinitions() {
     return Stream.of(
         arguments(
-            new JavaPojoMemberXml(Optional.empty(), Optional.of(true)),
+            new JavaPojoMemberXml(Optional.empty(), Optional.of(true), Optional.empty()),
             "@JacksonXmlProperty(localName = \"stringVal\", isAttribute = true)"),
         arguments(
-            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.of(false)),
+            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.of(false), Optional.empty()),
             "@JacksonXmlProperty(localName = \"xml-name\", isAttribute = false)"),
         arguments(
-            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.empty()),
+            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.empty(), Optional.empty()),
             "@JacksonXmlProperty(localName = \"xml-name\")"),
         arguments(
-            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.of(true)),
+            new JavaPojoMemberXml(Optional.of("xml-name"), Optional.of(true), Optional.empty()),
             "@JacksonXmlProperty(localName = \"xml-name\", isAttribute = true)"));
+  }
+
+  @Test
+  void jacksonXmlElementWrapper_when_disabledXmlJackson_then_noOutput() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        JacksonAnnotationGenerator.jacksonXmlElementWrapper();
+
+    final JavaPojoMember member =
+        TestJavaPojoMembers.requiredString()
+            .withMemberXml(
+                new JavaPojoMemberXml(
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.of(
+                        new JavaPojoMemberXml.JavaArrayXml(
+                            Optional.empty(), Optional.of(true), Optional.empty()))));
+
+    final Writer writer =
+        generator.generate(
+            member, defaultTestSettings().withXmlSupport(XmlSupport.NONE), javaWriter());
+
+    assertEquals(0, writer.getRefs().size());
+    assertEquals("", writer.asString());
+  }
+
+  @ParameterizedTest
+  @MethodSource("emptyArrayXmlWrapperDefinitions")
+  void jacksonXmlElementWrapper_when_enabledXmlButNoWrapperDefinition_then_noOutput(
+      JavaPojoMemberXml memberXml) {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        JacksonAnnotationGenerator.jacksonXmlElementWrapper();
+    final JavaPojoMember member = TestJavaPojoMembers.requiredString().withMemberXml(memberXml);
+
+    final Writer writer =
+        generator.generate(
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
+    assertEquals(0, writer.getRefs().size());
+    assertEquals("", writer.asString());
+  }
+
+  public static Stream<Arguments> emptyArrayXmlWrapperDefinitions() {
+    return Stream.of(
+            JavaPojoMemberXml.fromArrayXml(
+                new JavaPojoMemberXml.JavaArrayXml(
+                    Optional.empty(), Optional.empty(), Optional.of("xml-name"))),
+            JavaPojoMemberXml.noDefinition())
+        .map(Arguments::of);
+  }
+
+  @ParameterizedTest
+  @MethodSource("arrayXmlDefinitions")
+  void jacksonXmlElementWrapper_when_arrayXmlDefinitions_then_correctOutput(
+      JavaPojoMemberXml memberXml, String expectedOutput) {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        JacksonAnnotationGenerator.jacksonXmlElementWrapper();
+
+    final JavaPojoMember member = TestJavaPojoMembers.requiredString().withMemberXml(memberXml);
+
+    final Writer writer =
+        generator.generate(
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
+
+    assertEquals(1, writer.getRefs().size());
+    assertTrue(writer.getRefs().exists(JacksonRefs.JACKSON_XML_ELEMENT_WRAPPER::equals));
+    assertEquals(expectedOutput, writer.asString());
+  }
+
+  public static Stream<Arguments> arrayXmlDefinitions() {
+    return Stream.of(
+        arguments(
+            JavaPojoMemberXml.fromArrayXml(
+                new JavaPojoMemberXml.JavaArrayXml(
+                    Optional.of("book-array"), Optional.empty(), Optional.empty())),
+            "@JacksonXmlElementWrapper(localName = \"book-array\")"),
+        arguments(
+            JavaPojoMemberXml.fromArrayXml(
+                new JavaPojoMemberXml.JavaArrayXml(
+                    Optional.of("book-array"), Optional.of(true), Optional.empty())),
+            "@JacksonXmlElementWrapper(localName = \"book-array\", useWrapping = true)"),
+        arguments(
+            JavaPojoMemberXml.fromArrayXml(
+                new JavaPojoMemberXml.JavaArrayXml(
+                    Optional.empty(), Optional.of(false), Optional.empty())),
+            "@JacksonXmlElementWrapper(useWrapping = false)"));
   }
 }

@@ -18,4 +18,6 @@ public class JacksonRefs {
       "com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement";
   public static final String JACKSON_XML_PROPERTY =
       "com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty";
+  public static final String JACKSON_XML_ELEMENT_WRAPPER =
+      "com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper";
 }

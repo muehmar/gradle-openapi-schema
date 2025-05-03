@@ -52,9 +52,41 @@ class StandardGetterTest {
     writer =
         generator.generate(
             requiredString()
-                .withMemberXml(new JavaPojoMemberXml(Optional.of("xml-name"), Optional.of(true))),
+                .withMemberXml(
+                    new JavaPojoMemberXml(
+                        Optional.of("xml-name"), Optional.of(true), Optional.empty())),
             defaultTestSettings().withXmlSupport(XmlSupport.JACKSON),
             javaWriter());
+
+    expect
+        .scenario(generatorSettings.getSettings().mkString("|"))
+        .toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @ParameterizedTest
+  @MethodSource("generatorSettings")
+  @SnapshotName("arrayWithXmlDefinitions")
+  void generate_when_arrayWithXmlDefinitions_then_matchSnapshot(
+      GetterGeneratorSettings generatorSettings) {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        standardGetterGenerator(generatorSettings);
+
+    final JavaPojoMember member =
+        list(StringType.noFormat(), Necessity.REQUIRED, Nullability.NOT_NULLABLE)
+            .withMemberXml(
+                new JavaPojoMemberXml(
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.of(
+                        new JavaPojoMemberXml.JavaArrayXml(
+                            Optional.of("array-name"),
+                            Optional.of(true),
+                            Optional.of("item-name")))));
+
+    final Writer writer;
+    writer =
+        generator.generate(
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
 
     expect
         .scenario(generatorSettings.getSettings().mkString("|"))
