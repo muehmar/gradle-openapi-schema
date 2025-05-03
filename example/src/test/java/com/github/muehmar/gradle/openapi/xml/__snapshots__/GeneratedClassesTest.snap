@@ -1,3 +1,6 @@
 allGeneratedClasses=[
 BookDto
+ContainerArrayDto
+ContainerStandardArrayDto
+ContainerWrappedArrayDto
 ]
