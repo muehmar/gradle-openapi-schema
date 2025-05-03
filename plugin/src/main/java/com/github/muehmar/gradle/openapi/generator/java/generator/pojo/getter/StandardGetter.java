@@ -26,6 +26,7 @@ public class StandardGetter {
         .append(generatorSettings.jsonIgnoreGenerator())
         .append(generatorSettings.jsonPropertyGenerator())
         .append(generatorSettings.jacksonXmlPropertyGenerator())
+        .append(generatorSettings.jacksonXmlElementWrapperGenerator())
         .append(getterMethod(generatorSettings));
   }
 

@@ -78,6 +78,37 @@ class SetterGeneratorTest {
   }
 
   @ParameterizedTest
+  @MethodSource("allArraysNecessityAndNullabilityVariantsWithArrayXml")
+  @SnapshotName("allArraysNecessityAndNullabilityVariantsWithArrayXml")
+  void
+      memberSetterGenerator_when_calledWithAllArraysNecessityAndNullabilityVariantsWithArrayXml_then_matchSnapshot(
+          JavaPojoMember member) {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterGenerator();
+
+    final Writer writer =
+        generator.generate(
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
+
+    expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  static Stream<Arguments> allArraysNecessityAndNullabilityVariantsWithArrayXml() {
+    final JavaPojoMemberXml memberXml =
+        new JavaPojoMemberXml(
+            Optional.empty(),
+            Optional.empty(),
+            Optional.of(
+                new JavaPojoMemberXml.JavaArrayXml(
+                    Optional.of("array-name"), Optional.of(true), Optional.of("item-name"))));
+    return JavaPojos.allNecessityAndNullabilityVariantsTypeMapped()
+        .getMembers()
+        .filter(m -> m.getJavaType().isArrayType())
+        .map(m -> m.withMemberXml(memberXml))
+        .map(Arguments::of)
+        .toStream();
+  }
+
+  @ParameterizedTest
   @MethodSource("allNecessityAndNullabilityVariantsTypeMapped")
   @SnapshotName("allNecessityAndNullabilityVariantsTypeMapped")
   void

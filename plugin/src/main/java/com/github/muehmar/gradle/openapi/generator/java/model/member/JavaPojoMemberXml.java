@@ -21,6 +21,10 @@ public class JavaPojoMemberXml {
         pojoMemberXml.getArrayXml().flatMap(JavaArrayXml::fromArrayXml));
   }
 
+  public static JavaPojoMemberXml fromArrayXml(JavaArrayXml arrayXml) {
+    return new JavaPojoMemberXml(Optional.empty(), Optional.empty(), Optional.of(arrayXml));
+  }
+
   public boolean hasDefinition() {
     return name.isPresent() || isAttribute.isPresent() || arrayXml.isPresent();
   }

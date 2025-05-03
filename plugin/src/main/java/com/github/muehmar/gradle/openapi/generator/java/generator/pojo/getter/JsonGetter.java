@@ -21,6 +21,7 @@ public class JsonGetter {
         .append(jsonProperty())
         .append(jsonIncludeNonNull())
         .append(jacksonXmlProperty())
+        .append(jacksonXmlElementWrapper())
         .append(getterMethod())
         .filter(Filters.<JavaPojoMember>isJacksonJson().or(isJacksonXml()));
   }
