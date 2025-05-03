@@ -1,5 +1,7 @@
 allGeneratedClasses=[
 BookDto
+BookProp1Dto
+BookProp2Dto
 ContainerArrayDto
 ContainerStandardArrayDto
 ContainerWrappedArrayDto
