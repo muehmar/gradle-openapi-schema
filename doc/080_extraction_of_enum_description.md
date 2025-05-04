@@ -6,7 +6,7 @@ sync if updated manually.
 
 The assumption is that the description for an enum is provided in form of a list, like the following:
 
-```
+```yaml
   role:
     type: string
     enum: [ "Admin", "User", "Visitor" ]
@@ -18,8 +18,8 @@ The assumption is that the description for an enum is provided in form of a list
 ```
 
 If the extraction is enabled, one can define a prefix to let the plugin extract the corresponding description, where the
-placeholder `__ENUM__` can be used to match the corresponding member. In this example, the `prefixMatcher` can be set
-to `` `__ENUM__`: ``. Everything after the matcher until the line break will get extracted as description for the
+placeholder `__ENUM__` can be used to match the corresponding member. In this example, the `prefixMatcher` can be set to
+`` `__ENUM__`: ``. Everything after the matcher until the line break will get extracted as description for the
 corresponding member. The description in the code is available via the `getDescription()` method on the enum.
 
 The configuration setting `failOnIncompleteDescriptions` can be used to prevent missing descriptions for a member cause

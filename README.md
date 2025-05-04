@@ -39,7 +39,7 @@ project.
 
 Add the plugin section in your `build.gradle`:
 
-```
+```groovy
 plugins {
     id 'com.github.muehmar.openapischema' version '3.5.0'
 }
@@ -47,13 +47,13 @@ plugins {
 
 and configure the generation:
 
-```
+```groovy
 openApiGenerator {
-   schemas {
-       apiV1 {
+    schemas {
+        apiV1 {
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
-       }
-   }
+        }
+    }
 }
 ```
 
