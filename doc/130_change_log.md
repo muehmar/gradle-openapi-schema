@@ -1,5 +1,10 @@
 ## Change Log
 
+* 3.6.0
+    * Support attributes in XML serialisation (issue `#326`)
+    * Support XML property names (issue `#325`)
+    * Support wrapped and name for list serialisation in XML (issue `#328`)
+    * User original schema name for root element in XML as default (issue `#330`)
 * 3.5.0 - Add basic XML support (issue `#322`)
 * 3.4.0
     * Emit a warning for DTO mappings without a conversion (issue `#315`)
