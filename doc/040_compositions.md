@@ -13,7 +13,7 @@ chapter [Supported non-object type compositions](#supported-non-object-type-comp
 With `allOf`, the plugin will generate a DTO with all properties of the specified schemas. Consider the following
 specification:
 
-```
+```yaml
 components:
   schemas:
     User:
@@ -43,7 +43,7 @@ instance of `User` or `Admin` from the `AdminAndUser` DTO.
 
 The usage of `anyOf` and `oneOf` will generate special classes used to represent this composition.
 
-```
+```yaml
 components:
   schemas:
     User:
@@ -95,8 +95,8 @@ the case for a oneOf composition).
 
 A string type discriminator must have not format:
 
-```
-properties
+```yaml
+properties:
   type:
     type: string
 ```
@@ -111,79 +111,79 @@ Inline definitions (i.e. the enum is defined in each subschema) are not yet supp
 The generated container can be used to create an instance of the DTO. The container class contains factory methods to
 instantiate a container from one of the DTO's, i.e. from the `UserDto` or the `AdminDto` in the example above:
 
-```
+```java
   // Factory methods in the class AdminOrUserOneOfContainerDto
-  public static AdminOrUserOneOfContainerDto fromAdmin(AdminDto adminDto);
-  
-  public static AdminOrUserOneOfContainerDto fromUser(UserDto adminDto);
-  
-  // Factory methods in the class AdminAndOrUserAnyOfContainerDto
-  public static AdminAndOrUserAnyOfContainerDto fromAdmin(AdminDto adminDto);
-  
-  public static AdminAndOrUserAnyOfContainerDto fromUser(UserDto adminDto);
+public static AdminOrUserOneOfContainerDto fromAdmin(AdminDto adminDto);
+
+public static AdminOrUserOneOfContainerDto fromUser(UserDto adminDto);
+
+// Factory methods in the class AdminAndOrUserAnyOfContainerDto
+public static AdminAndOrUserAnyOfContainerDto fromAdmin(AdminDto adminDto);
+
+public static AdminAndOrUserAnyOfContainerDto fromUser(UserDto adminDto);
 ```
 
 As a `anyOf` composition can contain multiple DTO's, there exist-wither methods to add more DTO's after instantiation,
 as well as a merge method to merge two containers if necessary.
 
-```
-  public AdminAndOrUserAnyOfContainerDto withAdmin(AdminDto adminDto);
-  
-  public AdminAndOrUserAnyOfContainerDto withUser(UserDto adminDto);
-  
-  public AdminAndOrUserAnyOfContainerDto merge(AdminAndOrUserAnyOfContainerDto other);
+```java
+public AdminAndOrUserAnyOfContainerDto withAdmin(AdminDto adminDto);
+
+public AdminAndOrUserAnyOfContainerDto withUser(UserDto adminDto);
+
+public AdminAndOrUserAnyOfContainerDto merge(AdminAndOrUserAnyOfContainerDto other);
 ```
 
 This can be used in the staged builder to create an instance of the DTO:
 
-```
+```java
   private AdminOrUserDto createDto(UserDefinedInput input) {
     return AdminOrUserDto.fullAdminOrUserBuilder()
-      .setAnyOfContainer(createComposition(input))
-      .build();
-  }
+            .setAnyOfContainer(createComposition(input))
+            .build();
+}
 
-  // Create the container depending on the input
-  private AdminAndOrUserAnyOfContainerDto createComposition(UserDefinedInput input) {
-    if(shouldBeAdmin(input)) {
-      final AdminDto adminDto = createAdminDto(input);
-      return AdminAndOrUserAnyOfContainerDto.fromAdmin(adminDto);
-    } else {
-      final UserDto userDto = createUserDto(input);
-      return AdminAndOrUserAnyOfContainerDto.fromUser(userDto);
-    }
-  }
-  
-  // Create the container from the input in a more functional way the class supports it
-  private AdminAndOrUserAnyOfContainerDto createComposition(UserDefinedInput input) {
-    return input.fold(
-      adminInput -> {
-        final AdminDto adminDto = createAdminDto(adminInput);
+// Create the container depending on the input
+private AdminAndOrUserAnyOfContainerDto createComposition(UserDefinedInput input) {
+    if (shouldBeAdmin(input)) {
+        final AdminDto adminDto = createAdminDto(input);
         return AdminAndOrUserAnyOfContainerDto.fromAdmin(adminDto);
-      },
-      userInput -> {
-        final UserDto userDto = createUserDto(userInput);
+    } else {
+        final UserDto userDto = createUserDto(input);
         return AdminAndOrUserAnyOfContainerDto.fromUser(userDto);
-      }
+    }
+}
+
+// Create the container from the input in a more functional way the class supports it
+private AdminAndOrUserAnyOfContainerDto createComposition(UserDefinedInput input) {
+    return input.fold(
+            adminInput -> {
+                final AdminDto adminDto = createAdminDto(adminInput);
+                return AdminAndOrUserAnyOfContainerDto.fromAdmin(adminDto);
+            },
+            userInput -> {
+                final UserDto userDto = createUserDto(userInput);
+                return AdminAndOrUserAnyOfContainerDto.fromUser(userDto);
+            }
     );
-  }
+}
 ```
 
 #### Decomposing `oneOf` or `anyOf` with discriminator
 
 Two fold-methods exists to decompose a `oneOf` DTO or an `anyof` DTO with discriminator:
 
-```
-  public <T> T fold(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto);
-  
-  public <T> T fold(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto, Supplier<T> onInvalid);
+```java
+public <T> T fold(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto);
+
+public <T> T fold(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto, Supplier<T> onInvalid);
 ```
 
 Both method accepts mapping functions for each schema, in the example case one function for the `AdminDto` and one
-function for the `UserDto`. The corresponding function gets executed and its result is returned. I.e. if
-the `AdminOrUserDto` is valid against the Admin schema (or the discriminator points to this schema), the
-function `onAdminDto` gets executed with the `AdminDto` as argument and the result is returned. The same applies
-analogously if the `AdminOrUserDto` is valid against the User schema (or the discriminator points to it).
+function for the `UserDto`. The corresponding function gets executed and its result is returned. I.e. if the
+`AdminOrUserDto` is valid against the Admin schema (or the discriminator points to this schema), the function
+`onAdminDto` gets executed with the `AdminDto` as argument and the result is returned. The same applies analogously if
+the `AdminOrUserDto` is valid against the User schema (or the discriminator points to it).
 
 The second method has a Java-Supplier as third argument. This supplier gets called in case the DTO the composition is
 valid (i.e. the DTO is not against exactly one schema in oneOf compositions). This supplier won't be called in case the
@@ -195,7 +195,7 @@ decomposition.
 
 There is a single fold method can be used to decompose an `anyOf` DTO:
 
-```
+```java
   public <T> List<T> fold(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto);
 ```
 
@@ -233,7 +233,7 @@ used in case one wants to use the same type for a property but make it nullable.
 The following example uses the string defined in the schema `Foo` in the schema `Bar` as property `foo`, but makes it
 nullable:
 
-```
+```yaml
 Bar:
   required:
     - hello

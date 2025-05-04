@@ -5,7 +5,7 @@ NOTE: This feature is deprecated and will be removed in the next major version 4
 The OpenAPI supports parameters in the `#/components/parameters` section. The plugin will generate for each parameter a
 class which contains the constraints of the parameter. For example the specification
 
-```
+```yaml
 components:
   parameters:
     limitParam:
@@ -22,18 +22,19 @@ components:
 
 will create the following class
 
-```
+```java
 public final class LimitParam {
-  private LimitParam() {}
+    private LimitParam() {
+    }
 
-  public static final Integer MIN = 1;
-  public static final Integer MAX = 50;
-  public static final Integer DEFAULT = 20;
-  public static final String DEFAULT_STR = "20";
+    public static final Integer MIN = 1;
+    public static final Integer MAX = 50;
+    public static final Integer DEFAULT = 20;
+    public static final String DEFAULT_STR = "20";
 
-  public static boolean exceedLimits(Integer val) {
-    return val < MIN || MAX < val;
-  }
+    public static boolean exceedLimits(Integer val) {
+        return val < MIN || MAX < val;
+    }
 }
 ```
 

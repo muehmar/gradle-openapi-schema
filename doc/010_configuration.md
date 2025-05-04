@@ -2,19 +2,19 @@
 
 Add an `openApiGenerator` block into your `build.gradle` file:
 
-```
+```groovy
 openApiGenerator {
-   schemas {
-       apiV1 {
+    schemas {
+        apiV1 {
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
-       }
-   }
+        }
+    }
 }
 ```
 
 or a full example:
 
-```
+```groovy
 openApiGenerator {
     sourceSet = "main"
     outputDir = project.layout.buildDirectory.dir("generated/openapi")
@@ -22,16 +22,16 @@ openApiGenerator {
     jsonSupport = "jackson"
     xmlSupport = "jackson"
     enableValidation = true
-    
-    schemas {    
-    
+
+    schemas {
+
         // Custom name for this schema
-        apiV1 {         
+        apiV1 {
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
             packageName = "${project.group}.${project.name}.api.v1.model"
             validationApi = "jakarta-3.0"
             builderMethodPrefix = "set"
-            
+
             warnings {
                 failOnWarnings = true
             }
@@ -64,7 +64,7 @@ openApiGenerator {
                 toClass = "java.util.ArrayList"
                 disableMissingConversionWarning = true
             }
-            
+
             // Additional DTO mapping
             dtoMapping {
                 dtoName = "AddressDto"
@@ -72,37 +72,37 @@ openApiGenerator {
                 conversion.fromCustomType = "toDto"
                 conversion.toCustomType = "CustomAddress#fromDto"
             }
-            
+
             // Additional mapping removing 'ApiV1' from the generated classname
             constantSchemaNameMapping {
                 constant = "ApiV1"
                 replacement = ""
             }
-            
+
             getterSuffixes {
                 requiredSuffix = "Req"
                 requiredNullableSuffix = "Opt"
                 optionalSuffix = "Opt"
-                optionalNullableSuffix = "Tristate"                
+                optionalNullableSuffix = "Tristate"
             }
-            
+
             validationMethods {
                 getterSuffix = "Raw"
                 modifier = "public"
                 deprecatedAnnotation = true
             }
         }
-        
+
         // Custom name for this schema
-        apiV2 {         
+        apiV2 {
             inputSpec = "$projectDir/src/main/resources/openapi-v2.yml"
             packageName = "${project.group}.${project.name}.api.v2.model"
-            
+
             // No specific config for enum description extraction
             // or mappings. Will inherit the global configuration
         }
     }
-    
+
     // Global configuration for enum description extraction, 
     // used in case no specific configuration is present
     enumDescriptionExtraction {
@@ -128,21 +128,21 @@ openApiGenerator {
         fromClass = "List"
         toClass = "java.util.ArrayList"
     }
-    
+
     // Global schema name mapping which removes any '.' from the schema name for the classnames
     constantSchemaNameMapping {
         constant = "."
         replacement = ""
     }
-    
+
     getterSuffixes {
         // global config goes here
     }
-    
+
     validationMethods {
-       // global config goes here
+        // global config goes here
     }
-    
+
     stagedBuilder {
         enabled = true
     }
@@ -156,21 +156,30 @@ Some options are configurable globally, that means they can be configured on the
 which applies automatically to all configured specifications. The globally configured options can be overridden for each
 specification if necessary.
 
-| Key                      | Configurable globally | Data Type                    | Default                                                | Description                                                                                                                                                                                                                                                                          |
-|--------------------------|:----------------------|------------------------------|--------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| sourceSet                | &check;               | String                       | main                                                   | Source set to which the generated classes should be added.                                                                                                                                                                                                                           |
-| inputSpec                | &cross;               | String                       |                                                        | The OpenApi 3.x specification location.                                                                                                                                                                                                                                              |
-| outputDir                | &check;               | String / Provider[Directory] | project.layout.buildDirectory.dir("generated/openapi") | The location in which the generated sources should be stored. Can either be set as String or as Provider[Directory], which is the result of calling `project.layout.buildDirectory.dir("directory/inside/the/build/directory")`.                                                     |
-| resolveInputSpecs        | &cross;               | boolean                      | true                                                   | Input specifications are resolved for task input calculation for gradle. This requires parsing the specification to identify remote specifications. This can be disabled if needed, see [Incremental build and remote specifications](#incremental-build-and-remote-specifications). |
-| packageName              | &cross;               | String                       | \${project.group}.\${project.name}.api.model           | Name of the package for the generated classes.                                                                                                                                                                                                                                       |
-| suffix                   | &check;               | String                       |                                                        | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided.                                                                                                                                                                              |
-| jsonSupport              | &check;               | String                       | jackson                                                | Used json support library. Possible values are `jackson` or `none`.                                                                                                                                                                                                                  |
-| xmlSupport               | &check;               | String                       | none                                                   | Used xml support library. Possible values are `jackson` or `none`. If set to `jackson`, json support for `jackson` will be enabled automatically, since it uses the same annotations for serialisation.                                                                              |
-| enableValidation         | &check;               | Boolean                      | false                                                  | Enables the generation of annotations for bean validation. Select with `validationApi` the used packages.                                                                                                                                                                            |
-| nonStrictOneOfValidation | &check;               | Boolean                      | false                                                  | If enabled, a DTO with oneOf composition with discriminator does not validate if the data is valid against exactly one schema. It will only validate if the data is valid against the schema described by the discriminator.                                                         |
-| validationApi            | &check;               | String                       | jakarta-2                                              | Defines the used annotations (either from `javax.*` or `jakarta.*` package). Possible values are `jakarta-2` and `jakarta-3`. Use for Java Bean validation 2.0 or Jakarta Bean validation `jakarata-2` and for Jakarta Bean validation 3.0 `jakarta-3`.                              |
-| builderMethodPrefix      | &check;               | String                       |                                                        | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname.                                                                                                                                         |
-| excludeSchemas           | &cross;               | List[String]                 | []                                                     | Excludes the given schemas from generation. This can be used in case unsupported features are used, e.g. URL-references or unsupported compositions.                                                                                                                                 |
+| Key                       | Configurable globally | Data Type                    | Default                                                | Description                                                                                                                                                                                                                                                                          |
+|---------------------------|:----------------------|------------------------------|--------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| sourceSet                 | &check;               | String                       | main                                                   | Source set to which the generated classes should be added.                                                                                                                                                                                                                           |
+| inputSpec                 | &cross;               | String                       |                                                        | The OpenApi 3.x specification location.                                                                                                                                                                                                                                              |
+| outputDir                 | &check;               | String / Provider[Directory] | project.layout.buildDirectory.dir("generated/openapi") | The location in which the generated sources should be stored. Can either be set as String or as Provider[Directory], which is the result of calling `project.layout.buildDirectory.dir("directory/inside/the/build/directory")`.                                                     |
+| resolveInputSpecs         | &cross;               | boolean                      | true                                                   | Input specifications are resolved for task input calculation for gradle. This requires parsing the specification to identify remote specifications. This can be disabled if needed, see [Incremental build and remote specifications](#incremental-build-and-remote-specifications). |
+| packageName               | &cross;               | String                       | \${project.group}.\${project.name}.api.model           | Name of the package for the generated classes.                                                                                                                                                                                                                                       |
+| suffix                    | &check;               | String                       |                                                        | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided.                                                                                                                                                                              |
+| jsonSupport               | &check;               | String                       | jackson                                                | Used json support library. Possible values are `jackson` or `none`.                                                                                                                                                                                                                  |
+| xmlSupport                | &check;               | String                       | none                                                   | Used xml support library. Possible values are `jackson` or `none`. If set to `jackson`, json support for `jackson` will be enabled automatically, since it uses the same annotations for serialisation.                                                                              |
+| enableValidation          | &check;               | Boolean                      | false                                                  | Enables the generation of annotations for bean validation. Select with `validationApi` the used packages.                                                                                                                                                                            |
+| nonStrictOneOfValidation  | &check;               | Boolean                      | false                                                  | If enabled, a DTO with oneOf composition with discriminator does not validate if the data is valid against exactly one schema. It will only validate if the data is valid against the schema described by the discriminator.                                                         |
+| validationApi             | &check;               | String                       | jakarta-2                                              | Defines the used annotations (either from `javax.*` or `jakarta.*` package). Possible values are `jakarta-2` and `jakarta-3`. Use for Java Bean validation 2.0 or Jakarta Bean validation `jakarata-2` and for Jakarta Bean validation 3.0 `jakarta-3`.                              |
+| builderMethodPrefix       | &check;               | String                       |                                                        | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname.                                                                                                                                         |
+| excludeSchemas            | &cross;               | List[String]                 | []                                                     | Excludes the given schemas from generation. This can be used in case unsupported features are used, e.g. URL-references or unsupported compositions.                                                                                                                                 |
+| stagedBuilder             | &check;               | DSL                          | -                                                      | See [Staged Builder](#staged-builder)                                                                                                                                                                                                                                                |
+| classMapping              | &check;               | DSL                          | -                                                      | See [Class Mappings](#class-mappings)                                                                                                                                                                                                                                                |
+| formatTypeMapping         | &check;               | DSL                          | -                                                      | See [Format Type Mappings](#format-type-mappings)                                                                                                                                                                                                                                    |
+| dtoMapping                | &check;               | DSL                          | -                                                      | See [DTO Mapping](#dto-mapping)                                                                                                                                                                                                                                                      |
+| constantSchemaNameMapping | &check;               | DSL                          | -                                                      | See [Schema Name Mappings](#schema-name-mappings)                                                                                                                                                                                                                                    |
+| enumDescriptionExtraction | &check;               | DSL                          | -                                                      | See [Enum description extraction](#enum-description-extraction)                                                                                                                                                                                                                      |
+| getterSuffixes            | &check;               | DSL                          | -                                                      | See [Getter suffixes](#getter-suffixes)                                                                                                                                                                                                                                              |
+| validationMethods         | &check;               | DSL                          | -                                                      | See [Validation Methods](#validation-methods)                                                                                                                                                                                                                                        |
+| warnings                  | &check;               | DSL                          | -                                                      | See [Warnings](#warnings)                                                                                                                                                                                                                                                            |
 
 The plugin creates for each schema a task named `generate{NAME}Model` where `{NAME}` is replaced by the used name for
 the schema, in the example above a task `generateApiV1Model` and a task `generateApiV2Model` would get created. The
@@ -183,7 +192,7 @@ information. The staged builder can be configured globally and / or for each sch
 
 Currently, the only option is to enable or disable the staged builder while the staged builder is enabled by default.
 
-```
+```groovy
 stagedBuilder {
     enabled = true
 }
@@ -195,7 +204,7 @@ The plugin allows one to map specific standard java classes, used in the DTO to 
 to generated DTO classes itself, this only includes the java class used for properties in the DTO. The following example
 would use the custom List implementation `com.package.CustomList` for lists instead of `java.util.List`.
 
-```
+```groovy
 classMapping {
     fromClass = "List"
     toClass = "com.package.CustomList"
@@ -222,7 +231,7 @@ The plugin also allows using custom classes for specific properties in the OpenA
 of type `string` and the format is a custom name which can be referenced in the plugin configuration to use the custom
 class. For example the spec
 
-```
+```yaml
   properties:
     userName:
       type: string
@@ -231,7 +240,7 @@ class. For example the spec
 
 and a formatTypeMapping block in the configuration
 
-```
+```groovy
 formatTypeMapping {
     formatType = "username"
     classType = "com.package.UserName"
@@ -252,11 +261,11 @@ will use the class `com.package.UserName` for the property `userName`.
 
 Repeat this block for each format type mapping.
 
-## DTO Mapping
+### DTO Mapping
 
 The plugin allows to replace a a generated DTO with a custom class.
 
-```
+```groovy
 dtoMapping {
     dtoName = "AddressDto"
     customType = "com.package.CustomAddress"
@@ -273,7 +282,7 @@ dtoMapping {
 | conversion.toCustomType         | String    |         | The conversion used to convert properties of type `dtoName` to `customType`. Possible definitions: [Conversion for Mappings](#conversions-for-mappings)                                                                                            |
 | disableMissingConversionWarning | boolean   | false   | Set this property to true in case no warning should get emitted if no conversion is specified. This can be helpful in case the used type is designed to be used with serialisation and validation frameworks and a conversion does not make sense. |
 
-### Conversions for mappings
+#### Conversions for mappings
 
 The conversion can be defined in one of the following ways:
 
@@ -301,7 +310,7 @@ generated classname. For example a dot in the schema name is no legal Java ident
 underscore. If this is not desired, a constant mapping can be configured to remove the underscore (or any other
 character or string):
 
-```
+```groovy
 // Removes the points from the schema for generating classnames
 constantSchemaNameMapping {
     constant = "."
@@ -316,7 +325,7 @@ Multiple configured constant mappings are applied in the order they are configur
 Enables and configures the extraction of a description for enums from the openapi specification. The
 `enumDescriptionExtraction` block is optional.
 
-```
+```groovy
 enumDescriptionExtraction {
     enabled = true
     prefixMatcher = "`__ENUM__`:"
@@ -341,12 +350,12 @@ This generator differentiates between 4 different properties (see chapter [Nulla
 
 It is possible to customize the suffixes of these getters:
 
-```
+```groovy
 getterSuffixes {
     requiredSuffix = ""
     requiredNullableSuffix = "Opt"
     optionalSuffix = "Opt"
-    optionalNullableSuffix = "Tristate"                
+    optionalNullableSuffix = "Tristate"
 }
 ```
 
@@ -375,7 +384,7 @@ return wrapped objects instead of nullable objects.
 The following is an example to configure the generator to generate public validation methods and marked as deprecated
 which can be used together with the validation in Spring.
 
-```
+```groovy
 validationMethods {
     modifier = "public"
     deprecatedAnnotation = true
@@ -394,7 +403,7 @@ See the Spring-Example ([build.gradle](spring-example/build.gradle)) which makes
 
 [Warnings](#warnings) can be configured within a `warnings` block:
 
-```
+```groovy
 warnings {
     disableWarnings = false
     failOnWarnings = true

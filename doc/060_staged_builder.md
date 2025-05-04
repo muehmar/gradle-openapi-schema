@@ -2,6 +2,7 @@
 
 The 'Staged Builder' is an extended builder pattern which enforces one to create valid instances, i.e. every required
 property in a class will be set. A DTO contains two factory methods to create a builder:
+
 * `builder()`
 * `userDtoBuilder()` Factory method with the classname, can be used to statically import the method
 
@@ -11,17 +12,17 @@ method will only be present after each required property is set.
 
 For example, given the schema:
 
-```
+```yaml
 components:
   schemas:
-   User:
+    User:
       required:
         - name
         - city
       properties:
         name:
           type: string
-        city: 
+        city:
           type: string
         age:
           type: integer
@@ -29,13 +30,13 @@ components:
 
 will lead to a builder which can be used like the following:
 
-```
-  User.builder()
-    .setName("Dexter")
-    .setCity("Miami")
-    .andAllOptionals()
-    .setAge(39)
-    .build();
+```java
+  User user = User.builder()
+        .setName("Dexter")
+        .setCity("Miami")
+        .andAllOptionals()
+        .setAge(39)
+        .build();
 ```
 
 This does not seem to be very different from the normal builder pattern at a first glance but calling `builder()`
@@ -58,21 +59,21 @@ When using `andAllOptionals()` or `andOptinoals()` after all required properties
 overloaded methods to add the optional properties. The property can be set directly or wrapped in an `Optional`. In the
 example above, the builder provides methods with the following signature:
 
-```
-  public Builder setAge(Integer age);
-  
-  public Builder setAge(Optional<Integer> age);
+```java
+public Builder setAge(Integer age);
+
+public Builder setAge(Optional<Integer> age);
 ```
 
 Note that the prefix of the methods is customizable, see the `Configuration` section.
 
 ### Building `allOf` composition
-The builder enforces to set all `allOf` compositions correctly. For each allOf subschema, the builder enforces to
-set the corresponding DTO. In case a subschema contains no compositions, it will provide also single setters for each
-property as alternative to the singel DTO setter.
-For example, given the following schema:
 
-```
+The builder enforces to set all `allOf` compositions correctly. For each allOf subschema, the builder enforces to set
+the corresponding DTO. In case a subschema contains no compositions, it will provide also single setters for each
+property as alternative to the singel DTO setter. For example, given the following schema:
+
+```yaml
     BaseOrder:
       required:
         - orderNumber
@@ -95,40 +96,44 @@ For example, given the following schema:
             paid:
               type: boolean
 ```
+
 The builder offers to set an instance of BaseOrderDto:
 
-```
+```java
 BaseOrderDto baseOrderDto = BaseOrderDto.builder()
-   .setOrderNumber(123)
-   .setTitle("Invoice")
-   .build()
-    
-InvoiceDto.builder()
-  .setBaseOrder(baseOrderDto)
-  .setPaid(true)
-  .setRemark("Remark")
-  .build();
+        .setOrderNumber(123)
+        .setTitle("Invoice")
+        .build();
+
+InvoiceDto invoiceDto = InvoiceDto.builder()
+        .setBaseOrder(baseOrderDto)
+        .setPaid(true)
+        .setRemark("Remark")
+        .build();
 ```
+
 or set the properties directly:
 
-```
-InvoiceDto.builder()
-  .setOrderNumber(123)
-  .setTitle("Invoice")
-  .setPaid(true)
-  .setRemark("Remark")
-  .build();
+```java
+InvoiceDto invoiceDto = InvoiceDto.builder()
+        .setOrderNumber(123)
+        .setTitle("Invoice")
+        .setPaid(true)
+        .setRemark("Remark")
+        .build();
 ```
 
 ### Building `oneOf` composition
+
 If a DTO contains a `oneOf` composition, the builder will enforce one to set exactly one of the DTO's. The builder
 offers one to set one of the DTO's directly or set an extra 'container' instance for the composition which can be
-created in case the schema which is used is not known at compile time (which will most probably be the normal case).
-The container instance has the name of the DTO containing the composition followed by `OneOfContainer` and the
-configured suffix (e.g. DTO).
+created in case the schema which is used is not known at compile time (which will most probably be the normal case). The
+container instance has the name of the DTO containing the composition followed by `OneOfContainer` and the configured
+suffix (e.g. DTO).
 
 Given the schema:
-```
+
+```yml
     User:
       required:
         - id
@@ -155,18 +160,21 @@ Given the schema:
 ```
 
 An instance of AdminOrUserDto can be created like the following:
-```
+
+```java
 AdminDto adminDto = AdminDto.builder()
-    .setId("123")
-    .setAdminname("admin")
-    .build()
+        .setId("123")
+        .setAdminname("admin")
+        .build()
 
 AdminOrUserDto dto = AdminOrUserDto.builder()
-  .setAdmin(adminDto)
-  .build();
+        .setAdmin(adminDto)
+        .build();
 ```
+
 Or with the 'container' instance `AdminOrUserOneOfContainerDto`, which offers from methods to either create an instance
 from an AdminDto or an UserDto:
+
 ```
 AdminOrUserOneOfContainerDto container;
 if(conditionForAdmin) {
@@ -181,13 +189,14 @@ AdminOrUserDto dto = AdminOrUserDto.builder()
 ```
 
 ### Building `anyOf` composition
+
 If a DTO contains a `oneOf` composition, the builder will enforce one to set at least one of the DTO's. Building a
 `anyOf` composition is similar to building a `oneOf` composition, but the builder allows one to set more than one
-instance of the defined DTO's. This could either be done by setting the DTO's directly or by using the also a
-container.
+instance of the defined DTO's. This could either be done by setting the DTO's directly or by using the also a container.
 
 Given the schema:
-```
+
+```yml
     User:
       required:
         - id
@@ -214,24 +223,28 @@ Given the schema:
 ```
 
 An instance of AdminOrUserDto can be created like the following:
-```
+
+```java
 AdminDto adminDto = AdminDto.builder()
-    .setId("123")
-    .setAdminname("admin")
-    .build()
-    
+        .setId("123")
+        .setAdminname("admin")
+        .build();
+
 UserDto userDto = UserDto.builder()
-    .setId("123")
-    .setUsername("user")
-    .build()
+        .setId("123")
+        .setUsername("user")
+        .build();
 
 AdminOrUserDto dto = AdminOrUserDto.builder()
-  .setAdmin(adminDto)
-  .setUser(userDto)
-  .build();
+        .setAdmin(adminDto)
+        .setUser(userDto)
+        .build();
 ```
-Or with the 'container' instance `AdminOrUserAnyOfContainerDto`, which offers `from` methods to either create an instance
-from an AdminDto or an UserDto, `with` methods to set another instance or a `merge` method to merge two containers.
+
+Or with the 'container' instance `AdminOrUserAnyOfContainerDto`, which offers `from` methods to either create an
+instance from an AdminDto or an UserDto, `with` methods to set another instance or a `merge` method to merge two
+containers.
+
 ```
 AdminOrUserAnyOfContainerDto container;
 
@@ -255,23 +268,25 @@ AdminOrUserDto dto = AdminOrUserDto.builder()
 ```
 
 ### Setting additional properties
+
 If the schema allows additional properties, the builder will offer two methods to set these properties at the end. If no
 specific type is defined, the two methods have to following signature:
 
-```
-  public Builder setAdditionalProperties(Map<String, Object> additionalProperties);
-  
-  public Builder addAdditionalProperty(String key, Object value);
-```
-The methods can be called multiple times which makes sense in the case single properties are set with
-the `addAdditionalProperty` method, but `setAdditionalProperties` will replace any previously set properties.
+```java
+public Builder setAdditionalProperties(Map<String, Object> additionalProperties);
 
+public Builder addAdditionalProperty(String key, Object value);
+```
+
+The methods can be called multiple times which makes sense in the case single properties are set with the
+`addAdditionalProperty` method, but `setAdditionalProperties` will replace any previously set properties.
 
 ### Full builder
-There exists also a 'full' builder, which enforces one to set all properties. This builder is equivalent to the
-standard builder but after all required properties are set, there is no option to build the instance or set only
-a subset of the optional properties. It is like calling `andOptionals()` after all required properties are set but
-without the need to explicitly call it. The full builder will be used in case either one of the methods
+
+There exists also a 'full' builder, which enforces one to set all properties. This builder is equivalent to the standard
+builder but after all required properties are set, there is no option to build the instance or set only a subset of the
+optional properties. It is like calling `andOptionals()` after all required properties are set but without the need to
+explicitly call it. The full builder will be used in case either one of the methods
 
 * `fullBuilder()`
 * `fullUserDtoBuilder()`
