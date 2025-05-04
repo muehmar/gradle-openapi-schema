@@ -17,6 +17,31 @@ components:
       xml:
         name: "xml-book"
 
+    BookProp1:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          xml:
+            name: "xml-title"
+            attribute: true
+        author:
+          type: string
+
+    BookProp2:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          xml:
+            name: "xml-title"
+        author:
+          type: string
+
     ContainerStandardArray:
       properties:
         books:
