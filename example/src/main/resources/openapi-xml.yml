@@ -16,3 +16,31 @@ components:
           type: string
       xml:
         name: "xml-book"
+
+    ContainerStandardArray:
+      properties:
+        books:
+          type: array
+          items:
+            type: string
+
+    ContainerWrappedArray:
+      properties:
+        books:
+          type: array
+          items:
+            type: string
+            xml:
+              name: "item"
+          xml:
+            name: "book-array"
+            wrapped: true
+
+    ContainerArray:
+      properties:
+        books:
+          type: array
+          items:
+            type: string
+          xml:
+            wrapped: false
