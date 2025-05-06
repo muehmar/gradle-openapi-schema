@@ -3,13 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
-import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.BINARY;
-import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE;
-import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE_TIME;
-import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.TIME;
-import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.URI;
-import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.URL;
-import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.UUID;
+import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -67,6 +61,14 @@ class StringSchemaTest {
   @Test
   void mapToMemberType_when_partialTimeFormat_then_localTimeTypeReturned() {
     final Schema<?> schema = new StringSchema().format("partial-time");
+    final MemberSchemaMapResult mappedSchema = mapToMemberType(schema);
+    assertEquals(StringType.ofFormat(PARTIAL_TIME), mappedSchema.getType());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
+  }
+
+  @Test
+  void mapToMemberType_when_timeFormat_then_localTimeTypeReturned() {
+    final Schema<?> schema = new StringSchema().format("time");
     final MemberSchemaMapResult mappedSchema = mapToMemberType(schema);
     assertEquals(StringType.ofFormat(TIME), mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
