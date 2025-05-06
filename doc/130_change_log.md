@@ -1,5 +1,6 @@
 ## Change Log
 
+* 3.6.1 - Support format 'time' for LocalTime (issue `#335`)
 * 3.6.0
     * Support attributes in XML serialisation (issue `#326`)
     * Support XML property names (issue `#325`)
