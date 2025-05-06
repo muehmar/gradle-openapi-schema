@@ -105,7 +105,8 @@ public class StringType implements Type {
   public enum Format {
     DATE("date"),
     DATE_TIME("date-time"),
-    TIME("partial-time"),
+    PARTIAL_TIME("partial-time"),
+    TIME("time"),
     PASSWORD("password"),
     BYTE("byte"),
     BINARY("binary"),
