@@ -18,7 +18,7 @@ components:
           format: date-time
         time:
           type: string
-          format: partial-time
+          format: time
         byte:
           type: string
           format: byte
