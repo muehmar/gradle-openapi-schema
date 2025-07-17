@@ -8,7 +8,9 @@ import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedSchemaReference;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -45,6 +47,13 @@ public class MapContext {
   public static MapContext ofUnresolvedObjectPojo(UnresolvedObjectPojo unresolvedObjectPojo) {
     return new MapContext(
         UnmappedItems.empty(), UnresolvedMapResult.ofUnresolvedObjectPojo(unresolvedObjectPojo));
+  }
+
+  public static MapContext ofUnresolvedSchemaReference(
+      UnresolvedSchemaReference unresolvedSchemaReference) {
+    return new MapContext(
+        UnmappedItems.empty(),
+        UnresolvedMapResult.ofUnresolvedSchemaReference(unresolvedSchemaReference));
   }
 
   public static MapContext ofPojoMemberReference(PojoMemberReference pojoMemberReference) {
@@ -86,6 +95,10 @@ public class MapContext {
 
   public MapContext addParameters(PList<Parameter> parameters) {
     return new MapContext(unmappedItems, unresolvedMapResult.addParameters(parameters));
+  }
+
+  public MapContext addOpenApiSpec(Optional<OpenApiSpec> openApiSpec) {
+    return new MapContext(unmappedItems.addSpecification(openApiSpec), unresolvedMapResult);
   }
 
   public MapContext addParametersSchemas(PList<ParameterSchema> parameterSchemas) {
