@@ -1,10 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
-import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedSchemaReference;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.specification.SchemaReference;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
@@ -35,8 +36,12 @@ public class ReferenceSchema implements OpenApiSchema {
 
   @Override
   public MapContext mapToPojo(ComponentName componentName) {
-    throw new OpenApiGeneratorException(
-        "A reference schema is currently not supported as root schema.");
+    final SchemaReference schemaReference = SchemaReference.fromRefString(reference);
+    final UnresolvedSchemaReference unresolvedSchemaReference =
+        new UnresolvedSchemaReference(
+            componentName, SchemaName.ofName(schemaReference.getSchemaName()));
+    return MapContext.ofUnresolvedSchemaReference(unresolvedSchemaReference)
+        .addOpenApiSpec(schemaReference.getRemoteSpec());
   }
 
   @Override

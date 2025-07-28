@@ -55,6 +55,17 @@ public class ArrayPojo implements Pojo {
   }
 
   @Override
+  public Pojo replaceName(ComponentName name) {
+    return ArrayPojoBuilder.createFull()
+        .name(name)
+        .description(description)
+        .nullability(nullability)
+        .itemType(itemType)
+        .constraints(constraints)
+        .build();
+  }
+
+  @Override
   public <T> T fold(
       Function<ObjectPojo, T> onObjectPojo,
       Function<ArrayPojo, T> onArrayType,

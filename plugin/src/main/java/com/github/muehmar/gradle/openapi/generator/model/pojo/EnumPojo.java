@@ -55,6 +55,11 @@ public class EnumPojo implements Pojo {
   }
 
   @Override
+  public Pojo replaceName(ComponentName name) {
+    return new EnumPojo(name, description, members);
+  }
+
+  @Override
   public <T> T fold(
       Function<ObjectPojo, T> onObjectPojo,
       Function<ArrayPojo, T> onArrayType,

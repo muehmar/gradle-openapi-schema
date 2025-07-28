@@ -138,6 +138,24 @@ public class ObjectPojo implements Pojo {
         .build();
   }
 
+  @Override
+  public Pojo replaceName(ComponentName name) {
+    return ObjectPojoBuilder.createFull()
+        .name(name)
+        .description(description)
+        .nullability(nullability)
+        .pojoXml(pojoXml)
+        .members(members)
+        .requiredAdditionalProperties(requiredAdditionalProperties)
+        .constraints(constraints)
+        .additionalProperties(additionalProperties)
+        .allOfComposition(allOfComposition)
+        .oneOfComposition(oneOfComposition)
+        .anyOfComposition(anyOfComposition)
+        .discriminator(discriminator)
+        .build();
+  }
+
   private ObjectPojo mapMembers(UnaryOperator<PojoMember> map) {
     return withMembers(members.map(map));
   }
