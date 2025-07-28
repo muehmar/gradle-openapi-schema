@@ -21,6 +21,8 @@ public interface Pojo {
 
   Pojo applyMapping(PojoNameMapping pojoNameMapping);
 
+  Pojo replaceName(ComponentName name);
+
   <T> T fold(
       Function<ObjectPojo, T> onObjectPojo,
       Function<ArrayPojo, T> onArrayType,

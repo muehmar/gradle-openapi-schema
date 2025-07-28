@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.UnresolvedMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMemberReference;
 import com.github.muehmar.gradle.openapi.generator.model.UnresolvedObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.UnresolvedSchemaReference;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UnresolvedAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumObjectType;
@@ -29,6 +30,8 @@ public class MapResultResolverImpl implements MapResultResolver {
         unresolvedMapResult.getUnresolvedObjectPojos();
     final PList<AllOfMemberReference> allOfMemberReferences =
         createAllOfMemberReferences(unresolvedObjectPojos, pojoMemberReferences);
+    final PList<UnresolvedSchemaReference> unresolvedSchemaReferences =
+        unresolvedMapResult.getUnresolvedSchemaReferences();
     final PList<UnresolvedObjectPojo> filteredUnresolvedObjectPojo =
         unresolvedObjectPojos.filter(
             unresolvedPojo ->
@@ -43,11 +46,12 @@ public class MapResultResolverImpl implements MapResultResolver {
             .map(p -> inlineMemberReferences(p, pojoMemberReferences))
             .map(this::resolveEnumObjectPojos)
             .map(NullableRootPojoResolver::resolve)
+            .map(NestedRequiredPropertyResolver::resolve)
+            .map(p -> SchemaReferenceResolver.resolve(p, unresolvedSchemaReferences))
             .orElse(PList.empty());
+
     return MapResult.of(
-        NestedRequiredPropertyResolver.resolve(resolvedPojos),
-        unresolvedMapResult.getParameters(),
-        unresolvedMapResult.getUsedSpecs());
+        resolvedPojos, unresolvedMapResult.getParameters(), unresolvedMapResult.getUsedSpecs());
   }
 
   private PList<Pojo> inlineAllOfMemberReferences(
