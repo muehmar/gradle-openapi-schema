@@ -1,0 +1,29 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    PatientReference:
+      $ref: "#/components/schemas/Patient"
+
+    Patient:
+      required:
+        - name
+        - gender
+      properties:
+        name:
+          type: string
+        birthdate:
+          type: string
+          format: date
+        gender:
+          $ref: "#/components/schemas/Gender"
+
+    Gender:
+      type: string
+      enum:
+        - MALE
+        - FEMALE
+        - OTHER
