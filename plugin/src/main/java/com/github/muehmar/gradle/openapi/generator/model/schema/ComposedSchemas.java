@@ -54,8 +54,10 @@ class ComposedSchemas {
     return schemas
         .filter(ReferenceSchema.class::isInstance)
         .map(ReferenceSchema.class::cast)
-        .map(ReferenceSchema::getReference)
-        .map(SchemaReference::fromRefString);
+        .map(
+            ref ->
+                SchemaReference.fromRefString(
+                    ref.getSchemaWrapper().getSpec(), ref.getReference()));
   }
 
   private static PList<PojoSchema> determinePojoSchemas(

@@ -7,6 +7,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.UnresolvedObject
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static com.github.muehmar.gradle.openapi.generator.model.type.IntegerType.Format.INTEGER;
 import static com.github.muehmar.gradle.openapi.generator.model.type.NumericType.Format.FLOAT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -66,7 +67,7 @@ class ObjectSchemaTest {
     final ComponentName expectedPojoName = componentName.deriveMemberSchemaName(memberName);
     assertEquals(StandardObjectType.ofName(expectedPojoName.getPojoName()), result.getType());
     assertEquals(
-        UnmappedItems.ofPojoSchema(new PojoSchema(expectedPojoName, schema)),
+        UnmappedItems.ofPojoSchema(new PojoSchema(expectedPojoName, wrap(schema))),
         result.getUnmappedItems());
   }
 
@@ -101,7 +102,7 @@ class ObjectSchemaTest {
     objectSchema.setProperties(properties);
 
     final ComponentName componentName = componentName("Object", "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName, wrap(objectSchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -153,7 +154,8 @@ class ObjectSchemaTest {
 
     assertEquals(expectedPojo, objectPojo);
     assertEquals(
-        UnmappedItems.ofPojoSchema(new PojoSchema(memberObjectComponentName, objectSchemaProp)),
+        UnmappedItems.ofPojoSchema(
+            new PojoSchema(memberObjectComponentName, wrap(objectSchemaProp))),
         mapContext.getUnmappedItems());
   }
 
@@ -170,7 +172,7 @@ class ObjectSchemaTest {
     objectSchema.setRequired(Arrays.asList("stringVal", "numVal"));
 
     final ComponentName componentName = componentName("Object", "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName, wrap(objectSchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -224,7 +226,7 @@ class ObjectSchemaTest {
     objectSchema.setProperties(properties);
 
     final ComponentName componentName = componentName("Object", "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName, wrap(objectSchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -277,7 +279,7 @@ class ObjectSchemaTest {
     objectSchema.required(Arrays.asList("stringVal", "otherVal"));
 
     final ComponentName componentName = componentName("Object", "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName, wrap(objectSchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -319,7 +321,7 @@ class ObjectSchemaTest {
     objectSchema.setAdditionalProperties(additionalPropertiesSchema);
 
     final ComponentName componentName = componentName("Object", "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName, wrap(objectSchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -340,7 +342,7 @@ class ObjectSchemaTest {
 
     final UnmappedItems expectedUnmappedItems =
         UnmappedItems.ofPojoSchema(
-            new PojoSchema(additionalPropertiesName, additionalPropertiesSchema));
+            new PojoSchema(additionalPropertiesName, wrap(additionalPropertiesSchema)));
     assertEquals(expectedUnmappedItems, mapContext.getUnmappedItems());
   }
 
@@ -351,7 +353,7 @@ class ObjectSchemaTest {
     objectSchema.setDescription("Test description");
 
     final ComponentName componentName = componentName("Object", "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName, wrap(objectSchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -390,7 +392,8 @@ class ObjectSchemaTest {
     mapSchema.setMaxProperties(7);
 
     final ComponentName componentName = componentName("Map", "");
-    final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(componentName);
+    final MapContext mapContext =
+        OpenApiSchema.wrapSchema(wrap(mapSchema)).mapToPojo(componentName);
 
     final MapContext expectedContext =
         MapContext.ofUnresolvedObjectPojo(
@@ -425,7 +428,7 @@ class ObjectSchemaTest {
     objectSchema.setProperties(properties);
 
     final ComponentName componentName = componentName("Object", "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName, wrap(objectSchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -471,7 +474,7 @@ class ObjectSchemaTest {
     objectSchema.setProperties(properties);
 
     final ComponentName componentName = componentName("Object", "Dto");
-    final PojoSchema pojoSchema = new PojoSchema(componentName, objectSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName, wrap(objectSchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -530,7 +533,7 @@ class ObjectSchemaTest {
 
     assertEquals(expectedType, result.getType());
     assertEquals(
-        UnmappedItems.ofPojoSchema(new PojoSchema(invoicePageComponentName, objectSchema)),
+        UnmappedItems.ofPojoSchema(new PojoSchema(invoicePageComponentName, wrap(objectSchema))),
         result.getUnmappedItems());
   }
 
@@ -546,11 +549,12 @@ class ObjectSchemaTest {
     mapSchema.maxProperties(12);
 
     final ComponentName componentName = componentName("Map", "");
-    final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(componentName);
+    final MapContext mapContext =
+        OpenApiSchema.wrapSchema(wrap(mapSchema)).mapToPojo(componentName);
 
     final ComponentName objectComponentName =
         componentName.deriveMemberSchemaName(Name.ofString("Property"));
-    final PojoSchema pojoSchema = new PojoSchema(objectComponentName, objectSchema);
+    final PojoSchema pojoSchema = new PojoSchema(objectComponentName, wrap(objectSchema));
 
     final MapContext expectedContext =
         MapContext.ofUnresolvedObjectPojo(
@@ -618,7 +622,7 @@ class ObjectSchemaTest {
 
     assertEquals(expectedType, result.getType());
     assertEquals(
-        UnmappedItems.ofPojoSchema(new PojoSchema(expectedComponentName, composedSchema)),
+        UnmappedItems.ofPojoSchema(new PojoSchema(expectedComponentName, wrap(composedSchema))),
         result.getUnmappedItems());
   }
 
@@ -652,7 +656,8 @@ class ObjectSchemaTest {
     mapSchema.minProperties(2);
 
     final ComponentName componentName = componentName("Map", "");
-    final MapContext mapContext = OpenApiSchema.wrapSchema(mapSchema).mapToPojo(componentName);
+    final MapContext mapContext =
+        OpenApiSchema.wrapSchema(wrap(mapSchema)).mapToPojo(componentName);
 
     final MapContext expectedContext =
         MapContext.ofUnresolvedObjectPojo(

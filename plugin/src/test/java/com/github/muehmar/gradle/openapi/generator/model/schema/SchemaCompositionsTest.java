@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -119,7 +121,7 @@ class SchemaCompositionsTest {
     schemas.add(localRefSchema);
     setCompositionsSchemas.accept(composedSchema, schemas);
 
-    final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(composedSchema);
+    final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(wrap(composedSchema));
 
     final ComponentName componentName = componentName("ComposedPojoName", "Dto");
 
@@ -129,7 +131,7 @@ class SchemaCompositionsTest {
         PList.of(refSchema1ComponentName, refSchema2ComponentName);
 
     final UnmappedItems expectedUnmappedItems =
-        UnmappedItems.ofSpec(OpenApiSpec.fromString("../../dir/components.yml"));
+        UnmappedItems.ofSpec(OpenApiSpec.fromPath(Paths.get("../../dir/components.yml")));
 
     return Arguments.arguments(
         schemaCompositions, componentName, componentNames, expectedUnmappedItems);
@@ -152,7 +154,7 @@ class SchemaCompositionsTest {
     schemas.add(objectSchema);
     setCompositionsSchemas.accept(composedSchema, schemas);
 
-    final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(composedSchema);
+    final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(wrap(composedSchema));
 
     final ComponentName componentName = componentName("ComposedPojoName", "Dto");
 
@@ -161,7 +163,7 @@ class SchemaCompositionsTest {
     final PList<ComponentName> componentNames = PList.of(objectSchemaComponentName);
 
     final UnmappedItems expectedUnmappedItems =
-        UnmappedItems.ofPojoSchema(new PojoSchema(objectSchemaComponentName, objectSchema));
+        UnmappedItems.ofPojoSchema(new PojoSchema(objectSchemaComponentName, wrap(objectSchema)));
 
     return Arguments.arguments(
         schemaCompositions, componentName, componentNames, expectedUnmappedItems);
@@ -189,7 +191,7 @@ class SchemaCompositionsTest {
     schemas.add(objectSchema2);
     setCompositionsSchemas.accept(composedSchema, schemas);
 
-    final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(composedSchema);
+    final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(wrap(composedSchema));
 
     final ComponentName componentName = componentName("ComposedPojoName", "Dto");
 
@@ -204,8 +206,8 @@ class SchemaCompositionsTest {
     final UnmappedItems expectedUnmappedItems =
         UnmappedItems.ofPojoSchemas(
             PList.of(
-                new PojoSchema(objectSchema1ComponentName, objectSchema1),
-                new PojoSchema(objectSchema2ComponentName, objectSchema2)));
+                new PojoSchema(objectSchema1ComponentName, wrap(objectSchema1)),
+                new PojoSchema(objectSchema2ComponentName, wrap(objectSchema2))));
 
     return Arguments.arguments(
         schemaCompositions, componentName, componentNames, expectedUnmappedItems);

@@ -15,8 +15,8 @@ import java.util.function.Function;
 
 public interface OpenApiSchema {
 
-  static OpenApiSchema wrapSchema(Schema<?> schema) {
-    return NonEmptyList.<Function<Schema<?>, Optional<? extends OpenApiSchema>>>single(
+  static OpenApiSchema wrapSchema(SchemaWrapper schema) {
+    return NonEmptyList.<Function<SchemaWrapper, Optional<? extends OpenApiSchema>>>single(
             ArraySchema::wrap)
         .add(BooleanSchema::wrap)
         .add(IntegerSchema::wrap)

@@ -25,7 +25,8 @@ public class NumberSchema implements OpenApiSchema {
     this.format = format;
   }
 
-  public static Optional<NumberSchema> wrap(Schema<?> schema) {
+  public static Optional<NumberSchema> wrap(SchemaWrapper wrapper) {
+    final Schema<?> schema = wrapper.getSchema();
     if (SchemaType.NUMBER.matchesType(schema)) {
       final NumberSchema numberSchema =
           new NumberSchema(schema, Optional.ofNullable(schema.getFormat()));

@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
@@ -28,11 +29,12 @@ class AdditionalPropertiesSchema {
     this.schema = schema;
   }
 
-  public static AdditionalPropertiesSchema wrapNullable(Object object) {
+  public static AdditionalPropertiesSchema wrapNullable(OpenApiSpec currentSpec, Object object) {
     if (object == null || Boolean.TRUE.equals(object)) {
       return new AdditionalPropertiesSchema(true, Optional.empty());
     } else if (object instanceof Schema) {
-      final OpenApiSchema openApiSchema = OpenApiSchema.wrapSchema((Schema<?>) object);
+      final OpenApiSchema openApiSchema =
+          OpenApiSchema.wrapSchema(new SchemaWrapper(currentSpec, (Schema<?>) object));
       return new AdditionalPropertiesSchema(true, Optional.of(openApiSchema));
     } else {
       return new AdditionalPropertiesSchema(false, Optional.empty());

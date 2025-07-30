@@ -5,6 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.schema.OpenApiSchema;
+import com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrapper;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -21,8 +22,8 @@ public class PojoSchema {
     this.schema = schema;
   }
 
-  public PojoSchema(ComponentName name, Schema<?> schema) {
-    this(name, OpenApiSchema.wrapSchema(schema));
+  public PojoSchema(ComponentName name, SchemaWrapper wrapper) {
+    this(name, OpenApiSchema.wrapSchema(wrapper));
   }
 
   public ComponentName getName() {

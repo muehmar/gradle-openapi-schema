@@ -29,11 +29,14 @@ public class ArraySchema implements OpenApiSchema {
     this.itemsSchema = itemsSchema;
   }
 
-  public static Optional<ArraySchema> wrap(Schema<?> schema) {
-    final Schema<?> items = schema.getItems();
+  public static Optional<ArraySchema> wrap(SchemaWrapper wrapper) {
+    final Schema<?> items = wrapper.getSchema().getItems();
 
-    if (items != null && SchemaType.ARRAY.matchesType(schema)) {
-      final ArraySchema arraySchema = new ArraySchema(schema, OpenApiSchema.wrapSchema(items));
+    if (items != null && SchemaType.ARRAY.matchesType(wrapper.getSchema())) {
+      final ArraySchema arraySchema =
+          new ArraySchema(
+              wrapper.getSchema(),
+              OpenApiSchema.wrapSchema(new SchemaWrapper(wrapper.getSpec(), items)));
       return Optional.of(arraySchema);
     }
 

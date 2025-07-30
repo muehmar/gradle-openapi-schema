@@ -8,6 +8,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULL
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder.objectPojoBuilder;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.DATE_TIME;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.EMAIL;
@@ -57,6 +58,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.UUIDSchema;
 import java.math.BigDecimal;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -71,14 +73,14 @@ class SpecificationMapperImplTest {
     schema.setMaxItems(50);
 
     // method call
-    final PojoSchema pojoSchema = new PojoSchema(componentName("PojoName", "Dto"), schema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("PojoName", "Dto"), wrap(schema));
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
             new MapResultResolverImpl(),
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchema));
     final PList<Pojo> pojos =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getPojos();
 
     assertEquals(1, pojos.size());
@@ -100,7 +102,7 @@ class SpecificationMapperImplTest {
     schema.setMaximum(new BigDecimal(1000L));
     schema.setDefault(50L);
     final ParameterSchema parameterSchema =
-        new ParameterSchema(Name.ofString("limitParam"), schema);
+        new ParameterSchema(Name.ofString("limitParam"), wrap(schema));
 
     // method call
     final SpecificationMapper specificationMapper =
@@ -110,7 +112,7 @@ class SpecificationMapperImplTest {
 
     final PList<Parameter> parameters =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getParameters();
 
     assertEquals(1, parameters.size());
@@ -132,7 +134,7 @@ class SpecificationMapperImplTest {
     final Schema<?> schema = new ObjectSchema().properties(properties);
 
     // method call
-    final PojoSchema pojoSchema = new PojoSchema(componentName("PojoName", "Dto"), schema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("PojoName", "Dto"), wrap(schema));
 
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
@@ -140,7 +142,7 @@ class SpecificationMapperImplTest {
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchema));
     final PList<Pojo> pojos =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getPojos();
 
     assertEquals(1, pojos.size());
@@ -493,14 +495,14 @@ class SpecificationMapperImplTest {
 
     // method call
     final PojoSchema pojoSchema =
-        new PojoSchema(componentName("ComposedPojoName", "Dto"), composedSchema);
+        new PojoSchema(componentName("ComposedPojoName", "Dto"), wrap(composedSchema));
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
             new MapResultResolverImpl(),
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchema));
     final PList<Pojo> pojos =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
 
@@ -577,8 +579,8 @@ class SpecificationMapperImplTest {
     // method call
     final PList<PojoSchema> pojoSchemas =
         PList.of(
-            new PojoSchema(componentName("ComposedPojoName", "Dto"), composedSchema),
-            new PojoSchema(componentName("ReferenceSchema", "Dto"), referenceSchema));
+            new PojoSchema(componentName("ComposedPojoName", "Dto"), wrap(composedSchema)),
+            new PojoSchema(componentName("ReferenceSchema", "Dto"), wrap(referenceSchema)));
 
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
@@ -586,7 +588,7 @@ class SpecificationMapperImplTest {
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
 
@@ -704,15 +706,15 @@ class SpecificationMapperImplTest {
     // method call
     final PList<PojoSchema> pojoSchemas =
         PList.of(
-            new PojoSchema(componentName("UserKey", "Dto"), keySchema),
-            new PojoSchema(componentName("User", "Dto"), userSchema));
+            new PojoSchema(componentName("UserKey", "Dto"), wrap(keySchema)),
+            new PojoSchema(componentName("User", "Dto"), wrap(userSchema)));
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
             new MapResultResolverImpl(),
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getPojos();
 
     assertEquals(1, pojos.size());
@@ -748,8 +750,8 @@ class SpecificationMapperImplTest {
     // method call
     final PList<PojoSchema> pojoSchemas =
         PList.of(
-            new PojoSchema(componentName("UserAge", "Dto"), ageSchema),
-            new PojoSchema(componentName("User", "Dto"), userSchema));
+            new PojoSchema(componentName("UserAge", "Dto"), wrap(ageSchema)),
+            new PojoSchema(componentName("User", "Dto"), wrap(userSchema)));
 
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
@@ -757,7 +759,7 @@ class SpecificationMapperImplTest {
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getPojos();
 
     assertEquals(1, pojos.size());
@@ -793,8 +795,8 @@ class SpecificationMapperImplTest {
     // method call
     final PList<PojoSchema> pojoSchemas =
         PList.of(
-            new PojoSchema(componentName("UserHeight", "Dto"), heightSchema),
-            new PojoSchema(componentName("User", "Dto"), userSchema));
+            new PojoSchema(componentName("UserHeight", "Dto"), wrap(heightSchema)),
+            new PojoSchema(componentName("User", "Dto"), wrap(userSchema)));
 
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
@@ -802,7 +804,7 @@ class SpecificationMapperImplTest {
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getPojos();
 
     assertEquals(1, pojos.size());
@@ -838,8 +840,8 @@ class SpecificationMapperImplTest {
     // method call
     final PList<PojoSchema> pojoSchemas =
         PList.of(
-            new PojoSchema(componentName("UserAdmin", "Dto"), adminSchema),
-            new PojoSchema(componentName("User", "Dto"), userSchema));
+            new PojoSchema(componentName("UserAdmin", "Dto"), wrap(adminSchema)),
+            new PojoSchema(componentName("User", "Dto"), wrap(userSchema)));
 
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
@@ -847,7 +849,7 @@ class SpecificationMapperImplTest {
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getPojos();
 
     assertEquals(1, pojos.size());
@@ -885,8 +887,8 @@ class SpecificationMapperImplTest {
     // method call
     final PList<PojoSchema> pojoSchemas =
         PList.of(
-            new PojoSchema(componentName("Gender", "Dto"), genderSchema),
-            new PojoSchema(componentName("User", "Dto"), userSchema));
+            new PojoSchema(componentName("Gender", "Dto"), wrap(genderSchema)),
+            new PojoSchema(componentName("User", "Dto"), wrap(userSchema)));
 
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
@@ -894,7 +896,7 @@ class SpecificationMapperImplTest {
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
 
@@ -940,8 +942,8 @@ class SpecificationMapperImplTest {
     // method call
     final PList<PojoSchema> pojoSchemas =
         PList.of(
-            new PojoSchema(componentName("gender", "Dto"), genderSchema),
-            new PojoSchema(componentName("user", "Dto"), userSchema));
+            new PojoSchema(componentName("gender", "Dto"), wrap(genderSchema)),
+            new PojoSchema(componentName("user", "Dto"), wrap(userSchema)));
 
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
@@ -949,7 +951,7 @@ class SpecificationMapperImplTest {
             (mainDir, spec) -> ParsedSpecifications.fromPojoSchemas(pojoSchemas));
     final PList<Pojo> pojos =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
 
@@ -979,8 +981,8 @@ class SpecificationMapperImplTest {
 
     final PList<PojoSchema> pojoSchemas =
         PList.of(
-            new PojoSchema(componentName("gender", "Dto"), genderSchema),
-            new PojoSchema(componentName("user", "Dto"), userSchema));
+            new PojoSchema(componentName("gender", "Dto"), wrap(genderSchema)),
+            new PojoSchema(componentName("user", "Dto"), wrap(userSchema)));
 
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
@@ -992,7 +994,7 @@ class SpecificationMapperImplTest {
         specificationMapper
             .map(
                 MainDirectory.fromString(""),
-                OpenApiSpec.fromString("doesNotMatter"),
+                OpenApiSpec.fromPath(Paths.get("doesNotMatter")),
                 ExcludedSchemas.fromExcludedPojoNames(PList.single(Name.ofString("User"))))
             .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
@@ -1011,8 +1013,8 @@ class SpecificationMapperImplTest {
 
     final PList<PojoSchema> pojoSchemas =
         PList.of(
-            new PojoSchema(componentName("User", "Dto"), userSchema),
-            new PojoSchema(componentName("Address", "Dto"), addressSchema));
+            new PojoSchema(componentName("User", "Dto"), wrap(userSchema)),
+            new PojoSchema(componentName("Address", "Dto"), wrap(addressSchema)));
 
     final SpecificationMapper specificationMapper =
         SpecificationMapperImpl.create(
@@ -1022,7 +1024,7 @@ class SpecificationMapperImplTest {
     // method call
     final PList<Pojo> pojos =
         specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromString("doesNotMatter"))
+            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
             .getPojos()
             .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
 

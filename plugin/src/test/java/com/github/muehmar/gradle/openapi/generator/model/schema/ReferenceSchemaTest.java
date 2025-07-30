@@ -11,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSp
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import io.swagger.v3.oas.models.media.Schema;
+import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 
 class ReferenceSchemaTest {
@@ -37,7 +38,7 @@ class ReferenceSchemaTest {
         StandardObjectType.ofName(PojoName.ofName(Name.ofString("Street")));
     assertEquals(expectedType, result.getType());
     assertEquals(
-        UnmappedItems.ofSpec(OpenApiSpec.fromString("../components.yml")),
+        UnmappedItems.ofSpec(OpenApiSpec.fromPath(Paths.get("../components.yml"))),
         result.getUnmappedItems());
   }
 }

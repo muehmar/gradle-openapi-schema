@@ -15,7 +15,7 @@ public class SchemaReference {
     this.schemaName = schemaName;
   }
 
-  public static SchemaReference fromRefString(String ref) {
+  public static SchemaReference fromRefString(OpenApiSpec currentSpec, String ref) {
     final URI uri = URI.create(ref);
     final String fragment = uri.getFragment();
     if (fragment == null) {
@@ -31,7 +31,7 @@ public class SchemaReference {
     }
 
     if (ref.startsWith(path)) {
-      final OpenApiSpec openApiSpec = OpenApiSpec.fromString(path);
+      final OpenApiSpec openApiSpec = OpenApiSpec.fromString(currentSpec, path);
       return new SchemaReference(Optional.of(openApiSpec), schemaName);
     }
 

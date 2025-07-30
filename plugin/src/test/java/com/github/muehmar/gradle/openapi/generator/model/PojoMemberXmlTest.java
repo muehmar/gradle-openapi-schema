@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -27,7 +28,7 @@ class PojoMemberXmlTest {
     arraySchema.setXml(arrayXml);
     properties.put("array", arraySchema);
 
-    final PojoMemberXml pojoMemberXml = PojoMemberXml.fromSchema(arraySchema);
+    final PojoMemberXml pojoMemberXml = PojoMemberXml.fromSchema(wrap(arraySchema));
     final PojoMemberXml expectedPojoMemberXml =
         new PojoMemberXml(
             Optional.of("array-name"),
@@ -47,7 +48,7 @@ class PojoMemberXmlTest {
     arraySchema.setItems(itemSchema);
     properties.put("array", arraySchema);
 
-    final PojoMemberXml pojoMemberXml = PojoMemberXml.fromSchema(arraySchema);
+    final PojoMemberXml pojoMemberXml = PojoMemberXml.fromSchema(wrap(arraySchema));
 
     assertEquals(PojoMemberXml.noDefinition(), pojoMemberXml);
   }
@@ -60,7 +61,7 @@ class PojoMemberXmlTest {
     xml.setAttribute(true);
     stringSchema.setXml(xml);
 
-    final PojoMemberXml pojoMemberXml = PojoMemberXml.fromSchema(stringSchema);
+    final PojoMemberXml pojoMemberXml = PojoMemberXml.fromSchema(wrap(stringSchema));
     final PojoMemberXml expectedPojoMemberXml =
         new PojoMemberXml(Optional.of("string-name"), Optional.of(true), Optional.empty());
 

@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
@@ -11,12 +12,12 @@ public class MapToMemberTypeTestUtil {
   private MapToMemberTypeTestUtil() {}
 
   public static MemberSchemaMapResult mapToMemberType(Schema<?> schema) {
-    return OpenApiSchema.wrapSchema(schema)
+    return OpenApiSchema.wrapSchema(wrap(schema))
         .mapToMemberType(componentName("PojoName", ""), Name.ofString("pojoMemberName"));
   }
 
   public static MemberSchemaMapResult mapToMemberType(
       ComponentName componentName, Name pojoMemberName, Schema<?> schema) {
-    return OpenApiSchema.wrapSchema(schema).mapToMemberType(componentName, pojoMemberName);
+    return OpenApiSchema.wrapSchema(wrap(schema)).mapToMemberType(componentName, pojoMemberName);
   }
 }

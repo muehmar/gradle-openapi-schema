@@ -33,13 +33,13 @@ import lombok.Value;
 @EqualsAndHashCode
 @ToString
 public class ObjectSchema implements OpenApiSchema {
-  private final Schema<?> delegate;
+  private final SchemaWrapper delegate;
   private final Map<String, Schema> properties;
   private final RequiredProperties requiredProperties;
   private final AdditionalPropertiesSchema additionalPropertiesSchema;
 
   private ObjectSchema(
-      Schema<?> delegate,
+      SchemaWrapper delegate,
       Map<String, Schema> properties,
       RequiredProperties requiredProperties,
       AdditionalPropertiesSchema additionalPropertiesSchema) {
@@ -49,7 +49,8 @@ public class ObjectSchema implements OpenApiSchema {
     this.additionalPropertiesSchema = additionalPropertiesSchema;
   }
 
-  public static Optional<ObjectSchema> wrap(Schema<?> schema) {
+  public static Optional<ObjectSchema> wrap(SchemaWrapper wrapper) {
+    final Schema<?> schema = wrapper.getSchema();
     if (isObjectSchema(schema)) {
       final Map<String, Schema> properties =
           Optional.ofNullable(schema.getProperties()).orElseGet(Collections::emptyMap);
@@ -61,10 +62,11 @@ public class ObjectSchema implements OpenApiSchema {
               .build();
 
       final AdditionalPropertiesSchema additionalPropertiesSchema =
-          AdditionalPropertiesSchema.wrapNullable(schema.getAdditionalProperties());
+          AdditionalPropertiesSchema.wrapNullable(
+              wrapper.getSpec(), schema.getAdditionalProperties());
 
       final ObjectSchema objectSchema =
-          new ObjectSchema(schema, properties, requiredProperties, additionalPropertiesSchema);
+          new ObjectSchema(wrapper, properties, requiredProperties, additionalPropertiesSchema);
       return Optional.of(objectSchema);
     }
     return Optional.empty();
@@ -99,7 +101,8 @@ public class ObjectSchema implements OpenApiSchema {
         extractAdditionalPropertyMembers(name);
     final PList<Name> requiredAdditionalProperties =
         additionalPropertiesMapResult.getRequiredAdditionalProperties();
-    final Constraints constraints = ConstraintsMapper.getPropertyCountConstraints(delegate);
+    final Schema<?> delegateSchema = delegate.getSchema();
+    final Constraints constraints = ConstraintsMapper.getPropertyCountConstraints(delegateSchema);
     final SchemaCompositions schemaCompositions = SchemaCompositions.wrap(delegate);
 
     final CompositionMapResult<UnresolvedAllOfComposition> allOfResult =
@@ -109,14 +112,14 @@ public class ObjectSchema implements OpenApiSchema {
     final CompositionMapResult<UnresolvedAnyOfComposition> anyOfResult =
         schemaCompositions.getAnyOf(name);
     final Optional<UntypedDiscriminator> discriminator =
-        DiscriminatorDefinition.extractFromSchema(delegate);
+        DiscriminatorDefinition.extractFromSchema(delegateSchema);
 
     final UnresolvedObjectPojo unresolvedObjectPojo =
         fullUnresolvedObjectPojoBuilder()
             .name(name)
             .description(getDescription())
             .nullability(Nullability.fromBoolean(isNullable()))
-            .pojoXml(PojoXml.fromSchema(delegate))
+            .pojoXml(PojoXml.fromSchema(delegateSchema))
             .members(pojoMemberMapResults.getMembers())
             .requiredAdditionalProperties(requiredAdditionalProperties)
             .constraints(constraints)
@@ -146,7 +149,8 @@ public class ObjectSchema implements OpenApiSchema {
       final MemberSchemaMapResult additionalPropertiesMapResult =
           additionalPropertiesSchema.getAdditionalPropertiesMapResult(
               parentComponentName, memberName);
-      final Constraints constraints = ConstraintsMapper.getPropertyCountConstraints(delegate);
+      final Constraints constraints =
+          ConstraintsMapper.getPropertyCountConstraints(delegate.getSchema());
       final MapType mapType =
           MapType.ofKeyAndValueType(StringType.noFormat(), additionalPropertiesMapResult.getType())
               .withConstraints(constraints)
@@ -163,22 +167,23 @@ public class ObjectSchema implements OpenApiSchema {
   }
 
   private boolean isMapSchema() {
+    final Schema<?> delegateSchema = delegate.getSchema();
     return properties.isEmpty()
         && requiredProperties.getRequiredAdditionalPropertyNames().isEmpty()
-        && delegate.getAllOf() == null
-        && delegate.getOneOf() == null
-        && delegate.getAnyOf() == null;
+        && delegateSchema.getAllOf() == null
+        && delegateSchema.getOneOf() == null
+        && delegateSchema.getAnyOf() == null;
   }
 
   @Override
   public Schema<?> getDelegateSchema() {
-    return delegate;
+    return delegate.getSchema();
   }
 
   private PojoMemberMapResults extractMembers(ComponentName componentName) {
     final PList<PojoMemberMapResult> results =
         PList.fromIter(properties.entrySet())
-            .map(MemberSchema::fromEntry)
+            .map(entry -> MemberSchema.fromEntry(delegate.getSpec(), entry))
             .map(memberSchema -> mapToPojoMember(componentName, memberSchema));
     return new PojoMemberMapResults(results);
   }
@@ -204,7 +209,8 @@ public class ObjectSchema implements OpenApiSchema {
       ComponentName componentName, Name pojoMemberName, OpenApiSchema schema, Necessity necessity) {
     final MemberSchemaMapResult result = schema.mapToMemberType(componentName, pojoMemberName);
     final PropertyScope propertyScope = PropertyScopeMapper.mapScope(schema.getDelegateSchema());
-    final PojoMemberXml pojoMemberXml = PojoMemberXml.fromSchema(schema.getDelegateSchema());
+    final PojoMemberXml pojoMemberXml =
+        PojoMemberXml.fromSchema(new SchemaWrapper(delegate.getSpec(), schema.getDelegateSchema()));
 
     final Type type = result.getType();
 

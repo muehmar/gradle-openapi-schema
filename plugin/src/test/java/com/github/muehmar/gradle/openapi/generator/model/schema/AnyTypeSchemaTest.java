@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
@@ -40,7 +41,7 @@ class AnyTypeSchemaTest {
   void mapToPojo_when_noTypeSchema_then_memberReference() {
     final Schema<?> schema = new Schema<>();
 
-    final PojoSchema pojoSchema = new PojoSchema(componentName("AnyType", "Dto"), schema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("AnyType", "Dto"), wrap(schema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();

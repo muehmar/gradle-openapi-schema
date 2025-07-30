@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.mapper;
 
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.model.schema.OpenApiSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import java.nio.file.Paths;
 import java.util.function.BiFunction;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +49,7 @@ class MapContextTest {
 
   @Test
   void onUnmappedItems_when_openApiSpec_then_onSpecificationsCalledAndUsedSpecAddedToResult() {
-    final OpenApiSpec spec = OpenApiSpec.fromString("../components.yml");
+    final OpenApiSpec spec = OpenApiSpec.fromPath(Paths.get("../components.yml"));
     final UnmappedItems unmappedItems = UnmappedItems.ofSpec(spec);
     final UnresolvedMapResult returnedUnresolvedMapResult =
         UnresolvedMapResult.ofPojo(
@@ -87,7 +89,7 @@ class MapContextTest {
             EnumPojo.of(componentName("Enum", "Dto"), "Desc", PList.of("member1", "member2")));
     final PojoSchema pojoSchema =
         new PojoSchema(
-            componentName("Schema", "Dto"), OpenApiSchema.wrapSchema(new StringSchema()));
+            componentName("Schema", "Dto"), OpenApiSchema.wrapSchema(wrap(new StringSchema())));
     final UnmappedItems unmappedItems = UnmappedItems.ofPojoSchema(pojoSchema);
     final MapContext mapContext =
         MapContext.fromUnmappedItemsAndResult(unmappedItems, UnresolvedMapResult.empty());
@@ -119,7 +121,7 @@ class MapContextTest {
   void onUnmappedItems_when_parameterSchema_then_onParametersCalled() {
     final ParameterSchema parameterSchema =
         new ParameterSchema(
-            Name.ofString("limitParam"), OpenApiSchema.wrapSchema(new IntegerSchema()));
+            Name.ofString("limitParam"), OpenApiSchema.wrapSchema(wrap(new IntegerSchema())));
     final UnmappedItems unmappedItems = UnmappedItems.ofParameterSchema(parameterSchema);
     final MapContext mapContext =
         MapContext.fromUnmappedItemsAndResult(unmappedItems, UnresolvedMapResult.empty());

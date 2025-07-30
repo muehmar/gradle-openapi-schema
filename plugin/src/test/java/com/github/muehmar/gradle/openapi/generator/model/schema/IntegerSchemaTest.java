@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
@@ -116,7 +117,7 @@ class IntegerSchemaTest {
   void mapToPojo_when_integerSchema_then_memberReference() {
     final Schema<?> schema = new IntegerSchema();
 
-    final PojoSchema pojoSchema = new PojoSchema(componentName("Integer", "Dto"), schema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Integer", "Dto"), wrap(schema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();

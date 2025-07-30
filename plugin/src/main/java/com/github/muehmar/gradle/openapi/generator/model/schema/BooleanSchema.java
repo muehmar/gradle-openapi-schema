@@ -21,9 +21,9 @@ public class BooleanSchema implements OpenApiSchema {
     this.delegate = delegate;
   }
 
-  public static Optional<BooleanSchema> wrap(Schema<?> schema) {
-    if (SchemaType.BOOLEAN.matchesType(schema)) {
-      final BooleanSchema booleanSchema = new BooleanSchema(schema);
+  public static Optional<BooleanSchema> wrap(SchemaWrapper wrapper) {
+    if (SchemaType.BOOLEAN.matchesType(wrapper.getSchema())) {
+      final BooleanSchema booleanSchema = new BooleanSchema(wrapper.getSchema());
       return Optional.of(booleanSchema);
     }
 

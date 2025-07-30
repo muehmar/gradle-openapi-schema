@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -88,7 +89,8 @@ class ArraySchemaTest {
     assertEquals(ArrayType.ofItemType(itemType, NOT_NULLABLE), mappedSchema.getType());
     assertEquals(
         UnmappedItems.ofPojoSchema(
-            new PojoSchema(componentName.deriveMemberSchemaName(pojoMemberName), composedSchema)),
+            new PojoSchema(
+                componentName.deriveMemberSchemaName(pojoMemberName), wrap(composedSchema))),
         mappedSchema.getUnmappedItems());
   }
 
@@ -158,7 +160,7 @@ class ArraySchemaTest {
     arraySchema.setNullable(nullable);
     arraySchema.setItems(new io.swagger.v3.oas.models.media.StringSchema());
 
-    final PojoSchema pojoSchema = new PojoSchema(componentName("Array", "Dto"), arraySchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Array", "Dto"), wrap(arraySchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -185,7 +187,7 @@ class ArraySchemaTest {
     arraySchema.setItems(new io.swagger.v3.oas.models.media.StringSchema());
     arraySchema.setUniqueItems(true);
 
-    final PojoSchema pojoSchema = new PojoSchema(componentName("Array", "Dto"), arraySchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Array", "Dto"), wrap(arraySchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
@@ -207,7 +209,7 @@ class ArraySchemaTest {
     arraySchema.minItems(5);
     arraySchema.maxItems(10);
 
-    final PojoSchema pojoSchema = new PojoSchema(componentName("Array", "Dto"), arraySchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Array", "Dto"), wrap(arraySchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();
