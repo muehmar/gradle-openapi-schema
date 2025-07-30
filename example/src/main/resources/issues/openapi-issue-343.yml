@@ -1,0 +1,9 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    MyGroup:
+      $ref: "./issue343/openapi-issue-343-1.yml#/components/schemas/MyGroup"
