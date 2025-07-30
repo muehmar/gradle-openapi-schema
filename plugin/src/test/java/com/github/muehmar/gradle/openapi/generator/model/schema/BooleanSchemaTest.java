@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
@@ -41,7 +42,7 @@ class BooleanSchemaTest {
   void mapToPojo_when_binarySchema_then_memberReference() {
     final BooleanSchema schema = new BooleanSchema();
 
-    final PojoSchema pojoSchema = new PojoSchema(componentName("Boolean", "Dto"), schema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Boolean", "Dto"), wrap(schema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();

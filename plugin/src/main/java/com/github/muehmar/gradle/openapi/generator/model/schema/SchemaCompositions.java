@@ -14,13 +14,13 @@ import lombok.Value;
 
 /** Wrapper for a schema to extract the compositions. */
 class SchemaCompositions {
-  private final Schema<?> delegate;
+  private final SchemaWrapper delegate;
 
-  public SchemaCompositions(Schema<?> delegate) {
+  public SchemaCompositions(SchemaWrapper delegate) {
     this.delegate = delegate;
   }
 
-  public static SchemaCompositions wrap(Schema<?> delegate) {
+  public static SchemaCompositions wrap(SchemaWrapper delegate) {
     return new SchemaCompositions(delegate);
   }
 
@@ -58,9 +58,12 @@ class SchemaCompositions {
       ComponentName name,
       Function<Schema<?>, List<Schema>> getCompositions,
       ComposedSchemas.CompositionType type) {
-    return Optional.ofNullable(getCompositions.apply(delegate))
+    return Optional.ofNullable(getCompositions.apply(delegate.getSchema()))
         .map(PList::fromIter)
-        .map(schemas -> schemas.map(OpenApiSchema::wrapSchema))
+        .map(
+            schemas ->
+                schemas.map(
+                    s -> OpenApiSchema.wrapSchema(new SchemaWrapper(delegate.getSpec(), s))))
         .map(ComposedSchemas::fromSchemas)
         .map(s -> s.mapSchemasToPojoNames(name, type));
   }

@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultReso
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
+import java.nio.file.Paths;
 import java.util.Comparator;
 
 public class ResourceSchemaMappingTestUtil {
@@ -19,7 +20,7 @@ public class ResourceSchemaMappingTestUtil {
             new SwaggerSpecificationParser(new ResourceSpecificationReader(), "Dto"));
 
     return specificationMapper
-        .map(MainDirectory.fromString(mainDirectory), OpenApiSpec.fromString(schema))
+        .map(MainDirectory.fromString(mainDirectory), OpenApiSpec.fromPath(Paths.get(schema)))
         .getPojos()
         .sort(Comparator.comparing(pojo -> pojo.getName().getPojoName().asString()));
   }

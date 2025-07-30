@@ -18,8 +18,8 @@ public class UnknownSchema implements OpenApiSchema {
     this.delegate = delegate;
   }
 
-  public static UnknownSchema wrap(Schema<?> schema) {
-    return new UnknownSchema(schema);
+  public static UnknownSchema wrap(SchemaWrapper wrapper) {
+    return new UnknownSchema(wrapper.getSchema());
   }
 
   @Override

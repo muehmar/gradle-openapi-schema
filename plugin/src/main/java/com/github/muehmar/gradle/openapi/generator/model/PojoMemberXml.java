@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model;
 
 import com.github.muehmar.gradle.openapi.generator.model.schema.ArraySchema;
+import com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrapper;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
 import java.util.Optional;
@@ -16,14 +17,14 @@ public class PojoMemberXml {
     return new PojoMemberXml(Optional.empty(), Optional.empty(), Optional.empty());
   }
 
-  public static PojoMemberXml fromSchema(Schema<?> schema) {
-    final XML xml = schema.getXml();
+  public static PojoMemberXml fromSchema(SchemaWrapper wrapper) {
+    final XML xml = wrapper.getSchema().getXml();
     if (xml == null) {
       return PojoMemberXml.noDefinition();
     }
     final Optional<String> name = Optional.ofNullable(xml.getName());
     final Optional<Boolean> isAttribute = Optional.ofNullable(xml.getAttribute());
-    return new PojoMemberXml(name, isAttribute, ArrayXml.fromSchema(schema));
+    return new PojoMemberXml(name, isAttribute, ArrayXml.fromSchema(wrapper));
   }
 
   @Value
@@ -32,11 +33,11 @@ public class PojoMemberXml {
     Optional<Boolean> wrapped;
     Optional<String> itemName;
 
-    private static Optional<ArrayXml> fromSchema(Schema<?> schema) {
-      return ArraySchema.wrap(schema)
+    private static Optional<ArrayXml> fromSchema(SchemaWrapper wrapper) {
+      return ArraySchema.wrap(wrapper)
           .flatMap(
               arraySchema -> {
-                final XML xml = schema.getXml();
+                final XML xml = wrapper.getSchema().getXml();
                 if (xml == null) {
                   return Optional.empty();
                 }

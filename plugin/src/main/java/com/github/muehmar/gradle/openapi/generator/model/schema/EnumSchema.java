@@ -25,7 +25,8 @@ public class EnumSchema implements OpenApiSchema {
     this.enums = enums;
   }
 
-  public static Optional<EnumSchema> wrap(Schema<?> schema) {
+  public static Optional<EnumSchema> wrap(SchemaWrapper wrapper) {
+    final Schema<?> schema = wrapper.getSchema();
     final List<?> enums = schema.getEnum();
     if (SchemaType.STRING.matchesType(schema) && enums != null) {
       final EnumSchema enumSchema =

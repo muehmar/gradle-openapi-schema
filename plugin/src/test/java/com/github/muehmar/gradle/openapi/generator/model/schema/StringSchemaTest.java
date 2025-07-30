@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static com.github.muehmar.gradle.openapi.generator.model.type.StringType.Format.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -227,7 +228,7 @@ class StringSchemaTest {
     final StringSchema stringSchema = new StringSchema();
     stringSchema.setDescription("Test description");
 
-    final PojoSchema pojoSchema = new PojoSchema(componentName("Text", "Dto"), stringSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Text", "Dto"), wrap(stringSchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();

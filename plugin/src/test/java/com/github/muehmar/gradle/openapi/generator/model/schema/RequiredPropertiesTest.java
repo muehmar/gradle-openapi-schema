@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.schema;
 
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,14 +26,14 @@ class RequiredPropertiesTest {
   @Test
   void isRequired_when_memberSchemaWithRequiredName_then_returnTrue() {
     final MemberSchema memberSchema =
-        new MemberSchema(Name.ofString("admin"), OpenApiSchema.wrapSchema(new Schema<>()));
+        new MemberSchema(Name.ofString("admin"), OpenApiSchema.wrapSchema(wrap(new Schema<>())));
     assertTrue(REQUIRED_PROPERTIES.isRequired(memberSchema));
   }
 
   @Test
   void isRequired_when_memberSchemaWithNotRequiredName_then_returnFalse() {
     final MemberSchema memberSchema =
-        new MemberSchema(Name.ofString("user"), OpenApiSchema.wrapSchema(new Schema<>()));
+        new MemberSchema(Name.ofString("user"), OpenApiSchema.wrapSchema(wrap(new Schema<>())));
     assertFalse(REQUIRED_PROPERTIES.isRequired(memberSchema));
   }
 }

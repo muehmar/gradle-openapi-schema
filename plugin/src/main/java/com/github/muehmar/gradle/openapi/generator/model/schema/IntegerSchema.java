@@ -25,10 +25,11 @@ public class IntegerSchema implements OpenApiSchema {
     this.format = format;
   }
 
-  public static Optional<IntegerSchema> wrap(Schema<?> schema) {
-    if (SchemaType.INTEGER.matchesType(schema)) {
+  public static Optional<IntegerSchema> wrap(SchemaWrapper wrapper) {
+    if (SchemaType.INTEGER.matchesType(wrapper.getSchema())) {
       final IntegerSchema integerSchema =
-          new IntegerSchema(schema, Optional.ofNullable(schema.getFormat()));
+          new IntegerSchema(
+              wrapper.getSchema(), Optional.ofNullable(wrapper.getSchema().getFormat()));
       return Optional.of(integerSchema);
     }
 

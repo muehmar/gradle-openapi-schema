@@ -22,7 +22,8 @@ public class AnyTypeSchema implements OpenApiSchema {
     this.delegate = delegate;
   }
 
-  public static Optional<AnyTypeSchema> wrap(Schema<?> schema) {
+  public static Optional<AnyTypeSchema> wrap(SchemaWrapper wrapper) {
+    final Schema<?> schema = wrapper.getSchema();
     if (schema.getType() == null
         && schema.getTypes() == null
         && schema.getFormat() == null

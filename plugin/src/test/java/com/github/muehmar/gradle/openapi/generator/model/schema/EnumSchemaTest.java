@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.PList;
@@ -59,7 +60,7 @@ class EnumSchemaTest {
     enumSchema.setEnum(Arrays.asList("male", "female", "divers", "other"));
     enumSchema.setDescription("Test description");
 
-    final PojoSchema pojoSchema = new PojoSchema(componentName("Gender", "Dto"), enumSchema);
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Gender", "Dto"), wrap(enumSchema));
 
     // method call
     final MapContext mapContext = pojoSchema.mapToPojo();

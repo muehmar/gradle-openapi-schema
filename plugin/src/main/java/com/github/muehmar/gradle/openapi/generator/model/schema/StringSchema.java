@@ -25,7 +25,8 @@ public class StringSchema implements OpenApiSchema {
     this.format = format;
   }
 
-  public static Optional<StringSchema> wrap(Schema<?> schema) {
+  public static Optional<StringSchema> wrap(SchemaWrapper wrapper) {
+    final Schema<?> schema = wrapper.getSchema();
     if (SchemaType.STRING.matchesType(schema) && schema.getEnum() == null) {
       final StringSchema stringSchema =
           new StringSchema(schema, Optional.ofNullable(schema.getFormat()));

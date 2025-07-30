@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
+import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
@@ -18,6 +20,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import java.nio.file.Paths;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -25,6 +28,7 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class AdditionalPropertiesSchemaTest {
+  private static final OpenApiSpec SPEC = OpenApiSpec.fromPath(Paths.get("spec.yml"));
 
   @ParameterizedTest
   @NullSource
@@ -32,7 +36,7 @@ class AdditionalPropertiesSchemaTest {
   void wrapNullable_when_nullOrTrue_then_additionalPropertiesAllowedAndAnyType(
       Object additionalProperties) {
     final AdditionalPropertiesSchema additionalPropertiesSchema =
-        AdditionalPropertiesSchema.wrapNullable(additionalProperties);
+        AdditionalPropertiesSchema.wrapNullable(SPEC, additionalProperties);
 
     final Type additionalPropertiesType =
         additionalPropertiesSchema.getAdditionalPropertiesType(componentName("Map", "Dto"));
@@ -44,7 +48,7 @@ class AdditionalPropertiesSchemaTest {
   @Test
   void wrapNullable_when_false_then_additionalPropertiesNotAllowed() {
     final AdditionalPropertiesSchema additionalPropertiesSchema =
-        AdditionalPropertiesSchema.wrapNullable(false);
+        AdditionalPropertiesSchema.wrapNullable(SPEC, false);
 
     assertFalse(additionalPropertiesSchema.isAllowed());
   }
@@ -55,7 +59,7 @@ class AdditionalPropertiesSchemaTest {
     objectSchema.setProperties(Collections.emptyMap());
 
     final AdditionalPropertiesSchema additionalPropertiesSchema =
-        AdditionalPropertiesSchema.wrapNullable(objectSchema);
+        AdditionalPropertiesSchema.wrapNullable(SPEC, objectSchema);
 
     final ComponentName componentName = componentName("User", "Dto");
     final Type additionalPropertiesType =
@@ -73,7 +77,7 @@ class AdditionalPropertiesSchemaTest {
     arraySchema.setItems(new StringSchema());
 
     final AdditionalPropertiesSchema additionalPropertiesSchema =
-        AdditionalPropertiesSchema.wrapNullable(arraySchema);
+        AdditionalPropertiesSchema.wrapNullable(SPEC, arraySchema);
 
     final ComponentName componentName = componentName("User", "Dto");
     // method call
@@ -86,7 +90,7 @@ class AdditionalPropertiesSchemaTest {
 
     assertEquals(1, mapResult.getUnmappedItems().getPojoSchemas().size());
     assertEquals(
-        new PojoSchema(newComponentName, arraySchema),
+        new PojoSchema(newComponentName, wrap(arraySchema)),
         mapResult.getUnmappedItems().getPojoSchemas().apply(0));
   }
 }
