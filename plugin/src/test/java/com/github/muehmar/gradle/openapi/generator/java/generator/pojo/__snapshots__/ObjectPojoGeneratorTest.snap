@@ -10203,6 +10203,15 @@ public class ObjectPojo1Dto {
     return new BuilderStages.PropertyBuilder0(new Builder());
   }
 
+  /**
+   * Convenience factory method for DTO's with a single property. Instantiates
+   * directly the DTO with the given property. This method is only generated if the
+   * DTO has exactly one property.
+   */
+  public static ObjectPojo1Dto fromListVal(List<String> listVal) {
+    return fullBuilder().setListVal(listVal).build();
+  }
+
   public static final class BuilderStages {
     private BuilderStages() {}
 
@@ -10609,6 +10618,15 @@ public class ObjectPojo1Dto {
    */
   public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
     return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Convenience factory method for DTO's with a single property. Instantiates
+   * directly the DTO with the given property. This method is only generated if the
+   * DTO has exactly one property.
+   */
+  public static ObjectPojo1Dto fromMapVal(Map<String, UUID> mapVal) {
+    return fullBuilder().setMapVal(mapVal).build();
   }
 
   public static final class BuilderStages {
