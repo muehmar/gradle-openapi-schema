@@ -1,0 +1,182 @@
+membersAndFullFactoryMethod[birthdate]=[
+.
+.
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+  return new BuilderStages.FullPropertyBuilder0(new Builder());
+}
+
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+  return new BuilderStages.FullPropertyBuilder0(new Builder());
+}
+]
+
+
+membersAndFullFactoryMethod[optionalNullableStringVal]=[
+.
+.
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.FullOptPropertyBuilder0 fullBuilder() {
+  return new BuilderStages.FullOptPropertyBuilder0(new Builder());
+}
+
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+  return new BuilderStages.FullOptPropertyBuilder0(new Builder());
+}
+]
+
+
+membersAndFullFactoryMethod[optionalStringVal]=[
+.
+.
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.FullOptPropertyBuilder0 fullBuilder() {
+  return new BuilderStages.FullOptPropertyBuilder0(new Builder());
+}
+
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.FullOptPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+  return new BuilderStages.FullOptPropertyBuilder0(new Builder());
+}
+]
+
+
+membersAndFullFactoryMethod[stringVal, birthdate]=[
+.
+.
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+  return new BuilderStages.FullPropertyBuilder0(new Builder());
+}
+
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+  return new BuilderStages.FullPropertyBuilder0(new Builder());
+}
+]
+
+
+membersAndStandardFactoryMethod[birthdate]=[
+.
+.
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.PropertyBuilder0 builder() {
+  return new BuilderStages.PropertyBuilder0(new Builder());
+}
+
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+  return new BuilderStages.PropertyBuilder0(new Builder());
+}
+]
+
+
+membersAndStandardFactoryMethod[optionalNullableStringVal]=[
+.
+.
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.PropertyBuilder0 builder() {
+  return new BuilderStages.PropertyBuilder0(new Builder());
+}
+
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+  return new BuilderStages.PropertyBuilder0(new Builder());
+}
+]
+
+
+membersAndStandardFactoryMethod[optionalStringVal]=[
+.
+.
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.PropertyBuilder0 builder() {
+  return new BuilderStages.PropertyBuilder0(new Builder());
+}
+
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+  return new BuilderStages.PropertyBuilder0(new Builder());
+}
+]
+
+
+membersAndStandardFactoryMethod[stringVal, birthdate]=[
+.
+.
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.PropertyBuilder0 builder() {
+  return new BuilderStages.PropertyBuilder0(new Builder());
+}
+
+/**
+ * Instantiates a new staged builder. Explicit properties have precedence over
+ * additional properties, i.e. an additional property with the same name as an
+ * explicit property will be discarded.
+ */
+public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+  return new BuilderStages.PropertyBuilder0(new Builder());
+}
+]
