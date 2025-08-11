@@ -1,5 +1,9 @@
 ## Change Log
 
+* 3.7.0
+    * Fix resolving external references with different directories (issue `#343`)
+    * Support `$ref` as root schema (issue `#341`)
+    * Add convenience factory methods for single property objects (issue `#339`)
 * 3.6.1 - Support format 'time' for LocalTime (issue `#335`)
 * 3.6.0
     * Support attributes in XML serialisation (issue `#326`)

@@ -292,3 +292,26 @@ explicitly call it. The full builder will be used in case either one of the meth
 * `fullUserDtoBuilder()`
 
 is called.
+
+### Convenience methods for single property objects
+
+If a DTO contains a single property object, the DTO class provides a convenience method factory method alongside the
+builder methods to create the DTO with a single method call. If an object contains for example only a single property
+`name`, the DTO contains the following factory method:
+
+```java
+public static UserDto fromName(String name);
+```
+
+If the property is optional and/or nullable, overloaded methods are generated:
+
+```java
+public static UserDto fromName(String name);
+
+// Optional as argument if the property is optional or nullable
+public static UserDto fromName(Optional<String> name);
+
+// Tristate as argument if the property is optional and nullable
+public static UserDto fromName(Tristate<String> name);
+```
+
