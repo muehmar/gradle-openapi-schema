@@ -1,5 +1,7 @@
 ## Change Log
 
+* 4.0.0
+    * Remove parameters generation (issue `#299`)
 * 3.7.0
     * Fix resolving external references with different directories (issue `#343`)
     * Support `$ref` as root schema (issue `#341`)
