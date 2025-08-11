@@ -189,7 +189,7 @@ tasks are automatically registered as dependency of the corresponding java-compi
 
 ### Staged Builder
 
-The plugin generates a staged builder for each DTO, see [Staged Builder](doc/060_staged_builder.md) for more
+The plugin generates a staged builder for each DTO, see [Staged Builder](060_staged_builder.md) for more
 information. The staged builder can be configured globally and / or for each schema separately.
 
 Currently, the only option is to enable or disable the staged builder while the staged builder is enabled by default.

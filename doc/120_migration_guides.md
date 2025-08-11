@@ -1,3 +1,12 @@
+## Migrating from v3.x to 4.x
+
+### Breaking Changes
+
+* The parameters generation was deprecated in v3.3.0 and is now removed in v4.x. You either have to hardcode themselves
+  or use the official OpenAPI Generator to generate the API as well. There is a section in the documentation describing
+  how to integrate the official OpenAPI Generator with this
+  plugin: [Integration with official OpenAPI generator](095_official_openapi_generator_integration.md).
+
 ## Migrating from v2.x to 3.x
 
 ### Breaking Changes
