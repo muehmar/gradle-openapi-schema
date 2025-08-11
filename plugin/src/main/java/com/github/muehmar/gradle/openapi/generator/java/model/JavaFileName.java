@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.parameter.JavaParameter;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -31,16 +30,6 @@ public class JavaFileName {
     final Path packagePath = settings.getPackageName().asPath();
     final String fileNameString =
         String.format("%s%s%s.java", packagePath.toFile(), File.separator, className);
-    return new JavaFileName(Paths.get(fileNameString));
-  }
-
-  public static JavaFileName fromSettingsAndParameter(
-      PojoSettings settings, JavaParameter parameter) {
-    final Path packagePath = settings.getPackageName().asPath();
-    final String fileNameString =
-        String.format(
-            "%s%sparameter%s%s.java",
-            packagePath.toFile(), File.separator, File.separator, parameter.getParamClassName());
     return new JavaFileName(Paths.get(fileNameString));
   }
 

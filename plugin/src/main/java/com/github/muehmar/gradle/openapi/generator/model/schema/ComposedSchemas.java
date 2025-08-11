@@ -41,11 +41,7 @@ class ComposedSchemas {
         determineAllComponentNames(name, references, pojoSchemas);
 
     final UnmappedItems unmappedItems =
-        UnmappedItemsBuilder.create()
-            .specifications(remoteSpecs)
-            .pojoSchemas(pojoSchemas)
-            .parameterSchemas(PList.empty())
-            .build();
+        UnmappedItemsBuilder.create().specifications(remoteSpecs).pojoSchemas(pojoSchemas).build();
 
     return new ComposedSchemasMapResult(unmappedItems, componentNames);
   }

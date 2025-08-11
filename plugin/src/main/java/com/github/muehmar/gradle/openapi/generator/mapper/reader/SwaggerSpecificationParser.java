@@ -1,13 +1,9 @@
 package com.github.muehmar.gradle.openapi.generator.mapper.reader;
 
-import static java.util.Objects.nonNull;
-
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecification;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
-import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.schema.OpenApiSchema;
 import com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrapper;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
@@ -39,8 +35,7 @@ public class SwaggerSpecificationParser implements SpecificationParser {
 
   private ParsedSpecification parse(OpenApiSpec spec, OpenAPI openAPI) {
     final PList<PojoSchema> pojoSchemas = parsePojoSchemas(spec, openAPI);
-    final PList<ParameterSchema> parameters = parseParameters(spec, openAPI);
-    return new ParsedSpecification(pojoSchemas, parameters);
+    return new ParsedSpecification(pojoSchemas);
   }
 
   private PList<PojoSchema> parsePojoSchemas(OpenApiSpec spec, OpenAPI openAPI) {
@@ -52,19 +47,6 @@ public class SwaggerSpecificationParser implements SpecificationParser {
                 new PojoSchema(
                     ComponentName.fromSchemaStringAndSuffix(entry.getKey(), pojoSuffix),
                     OpenApiSchema.wrapSchema(new SchemaWrapper(spec, entry.getValue()))));
-  }
-
-  private PList<ParameterSchema> parseParameters(OpenApiSpec spec, OpenAPI openAPI) {
-    return PList.fromOptional(Optional.ofNullable(openAPI.getComponents().getParameters()))
-        .flatMap(Map::entrySet)
-        .filter(Objects::nonNull)
-        .filter(entry -> nonNull(entry.getValue().getSchema()))
-        .map(
-            entry ->
-                new ParameterSchema(
-                    Name.ofString(entry.getKey()),
-                    OpenApiSchema.wrapSchema(
-                        new SchemaWrapper(spec, entry.getValue().getSchema()))));
   }
 
   private OpenAPI parseSpec(String inputSpec) {

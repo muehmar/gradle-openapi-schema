@@ -4,7 +4,6 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
@@ -21,39 +20,30 @@ import lombok.ToString;
 public class UnmappedItems {
   private final PList<OpenApiSpec> specifications;
   private final PList<PojoSchema> pojoSchemas;
-  private final PList<ParameterSchema> parameterSchemas;
 
-  UnmappedItems(
-      PList<OpenApiSpec> specifications,
-      PList<PojoSchema> pojoSchemas,
-      PList<ParameterSchema> parameterSchemas) {
+  UnmappedItems(PList<OpenApiSpec> specifications, PList<PojoSchema> pojoSchemas) {
     this.specifications = specifications;
     this.pojoSchemas = pojoSchemas;
-    this.parameterSchemas = parameterSchemas;
   }
 
   public static UnmappedItems empty() {
-    return new UnmappedItems(PList.empty(), PList.empty(), PList.empty());
+    return new UnmappedItems(PList.empty(), PList.empty());
   }
 
   public static UnmappedItems ofSpec(OpenApiSpec spec) {
-    return new UnmappedItems(PList.single(spec), PList.empty(), PList.empty());
+    return new UnmappedItems(PList.single(spec), PList.empty());
   }
 
   public static UnmappedItems ofPojoSchema(PojoSchema pojoSchema) {
-    return new UnmappedItems(PList.empty(), PList.single(pojoSchema), PList.empty());
+    return new UnmappedItems(PList.empty(), PList.single(pojoSchema));
   }
 
   public static UnmappedItems ofPojoSchemas(PList<PojoSchema> pojoSchemas) {
-    return new UnmappedItems(PList.empty(), pojoSchemas, PList.empty());
-  }
-
-  public static UnmappedItems ofParameterSchema(ParameterSchema parameterSchema) {
-    return new UnmappedItems(PList.empty(), PList.empty(), PList.single(parameterSchema));
+    return new UnmappedItems(PList.empty(), pojoSchemas);
   }
 
   public boolean isEmpty() {
-    return specifications.isEmpty() && pojoSchemas.isEmpty() && parameterSchemas.isEmpty();
+    return specifications.isEmpty() && pojoSchemas.isEmpty();
   }
 
   public boolean nonEmpty() {
@@ -70,62 +60,39 @@ public class UnmappedItems {
 
   public UnmappedItems merge(UnmappedItems other) {
     return new UnmappedItems(
-        specifications.concat(other.specifications),
-        pojoSchemas.concat(other.pojoSchemas),
-        parameterSchemas);
+        specifications.concat(other.specifications), pojoSchemas.concat(other.pojoSchemas));
   }
 
   public UnmappedItems addPojoSchemas(PList<PojoSchema> otherSchemas) {
-    return new UnmappedItems(specifications, pojoSchemas.concat(otherSchemas), parameterSchemas);
-  }
-
-  public UnmappedItems addParameterSchemas(PList<ParameterSchema> otherSchemas) {
-    return new UnmappedItems(specifications, pojoSchemas, parameterSchemas.concat(otherSchemas));
+    return new UnmappedItems(specifications, pojoSchemas.concat(otherSchemas));
   }
 
   public UnmappedItems addSpecification(Optional<OpenApiSpec> spec) {
-    return new UnmappedItems(
-        specifications.concat(PList.fromOptional(spec)), pojoSchemas, parameterSchemas);
+    return new UnmappedItems(specifications.concat(PList.fromOptional(spec)), pojoSchemas);
   }
 
   public <T> T onUnmappedItems(
       BiFunction<UnmappedItems, NonEmptyList<OpenApiSpec>, T> onSpecifications,
       BiFunction<UnmappedItems, NonEmptyList<PojoSchema>, T> onSchemas,
-      BiFunction<UnmappedItems, NonEmptyList<ParameterSchema>, T> onParameters,
       Supplier<T> onNoItemUnmapped) {
     return NonEmptyList.fromIter(specifications)
         .map(
             specs -> {
-              final UnmappedItems nextUnmappedItems =
-                  new UnmappedItems(PList.empty(), pojoSchemas, parameterSchemas);
+              final UnmappedItems nextUnmappedItems = new UnmappedItems(PList.empty(), pojoSchemas);
               return onSpecifications.apply(nextUnmappedItems, specs);
             })
-        .orElseGet(() -> onUnmappedPojoSchema(onSchemas, onParameters, onNoItemUnmapped));
+        .orElseGet(() -> onUnmappedPojoSchema(onSchemas, onNoItemUnmapped));
   }
 
   private <T> T onUnmappedPojoSchema(
       BiFunction<UnmappedItems, NonEmptyList<PojoSchema>, T> onSchemas,
-      BiFunction<UnmappedItems, NonEmptyList<ParameterSchema>, T> onParameters,
       Supplier<T> onNoItemUnmapped) {
     return NonEmptyList.fromIter(pojoSchemas)
         .map(
             schemas -> {
               final UnmappedItems nextUnmappedItems =
-                  new UnmappedItems(specifications, PList.empty(), parameterSchemas);
+                  new UnmappedItems(specifications, PList.empty());
               return onSchemas.apply(nextUnmappedItems, schemas);
-            })
-        .orElseGet(() -> onUnmappedParameter(onParameters, onNoItemUnmapped));
-  }
-
-  private <T> T onUnmappedParameter(
-      BiFunction<UnmappedItems, NonEmptyList<ParameterSchema>, T> onParameters,
-      Supplier<T> onNoItemUnmapped) {
-    return NonEmptyList.fromIter(parameterSchemas)
-        .map(
-            parameter -> {
-              final UnmappedItems nextUnmappedItems =
-                  new UnmappedItems(specifications, pojoSchemas, PList.empty());
-              return onParameters.apply(nextUnmappedItems, parameter);
             })
         .orElseGet(onNoItemUnmapped);
   }
