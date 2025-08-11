@@ -60,6 +60,7 @@ openApiGenerator {
 ## Documentation
 
 1. [Configuration](doc/010_configuration.md)
+2. [Compatibility](doc/015_compatibility.md)
 2. [Supported OpenAPI versions](doc/020_openapi_support.md)
 3. [Warnings](doc/030_warnings.md)
 4. [Compositions](doc/040_compositions.md)

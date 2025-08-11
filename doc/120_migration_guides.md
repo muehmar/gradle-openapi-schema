@@ -6,6 +6,7 @@
   or use the official OpenAPI Generator to generate the API as well. There is a section in the documentation describing
   how to integrate the official OpenAPI Generator with this
   plugin: [Integration with official OpenAPI generator](095_official_openapi_generator_integration.md).
+* Version 4.x of the plugin requires Java 11 as minimum JDK version.
 
 ## Migrating from v2.x to 3.x
 
