@@ -50,8 +50,7 @@ public class MapResultResolverImpl implements MapResultResolver {
             .map(p -> SchemaReferenceResolver.resolve(p, unresolvedSchemaReferences))
             .orElse(PList.empty());
 
-    return MapResult.of(
-        resolvedPojos, unresolvedMapResult.getParameters(), unresolvedMapResult.getUsedSpecs());
+    return MapResult.of(resolvedPojos, unresolvedMapResult.getUsedSpecs());
   }
 
   private PList<Pojo> inlineAllOfMemberReferences(

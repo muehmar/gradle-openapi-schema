@@ -3,19 +3,14 @@ package com.github.muehmar.gradle.openapi.generator.mapper;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.reader.SpecificationParser;
 import com.github.muehmar.gradle.openapi.generator.mapper.resolver.MapResultResolver;
-import com.github.muehmar.gradle.openapi.generator.model.Parameter;
-import com.github.muehmar.gradle.openapi.generator.model.ParameterSchema;
 import com.github.muehmar.gradle.openapi.generator.model.ParsedSpecification;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.schema.OpenApiSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.settings.ExcludedSchemas;
-import java.awt.*;
-import java.util.Optional;
 
 public class SpecificationMapperImpl implements SpecificationMapper {
 
@@ -52,38 +47,14 @@ public class SpecificationMapperImpl implements SpecificationMapper {
               parsedSpecifications
                   .flatMap(ParsedSpecification::getPojoSchemas)
                   .filter(excludedSchemas.getSchemaFilter());
-          final PList<ParameterSchema> parameterSchemas =
-              parsedSpecifications.flatMap(ParsedSpecification::getParameters);
-          final MapContext newMapContext =
-              ctx.addPojoSchemas(pojoSchemas).addParametersSchemas(parameterSchemas);
+          final MapContext newMapContext = ctx.addPojoSchemas(pojoSchemas);
           return processMapContext(mainDirectory, newMapContext, excludedSchemas);
         },
         (ctx, schemas) -> {
           final MapContext resultingContext =
               schemas.map(PojoSchema::mapToPojo).reduce(MapContext::merge);
           return processMapContext(mainDirectory, ctx.merge(resultingContext), excludedSchemas);
-        },
-        (ctx, parameters) -> {
-          final PList<Parameter> mappedParameters =
-              parameters.toPList().flatMapOptional(this::mapParameterSchema);
-          return processMapContext(
-              mainDirectory, ctx.addParameters(mappedParameters), excludedSchemas);
         });
-  }
-
-  private Optional<Parameter> mapParameterSchema(ParameterSchema parameterSchema) {
-    final MemberSchemaMapResult result = mapParameterSchema(parameterSchema.getSchema());
-
-    if (result.getUnmappedItems().nonEmpty()) {
-      // No simple parameter types are not yet supported
-      return Optional.empty();
-    }
-
-    final Type type = result.getType();
-    final Optional<Object> defaultValue =
-        Optional.ofNullable(parameterSchema.getSchema().getDelegateSchema().getDefault());
-    final Parameter parameter = new Parameter(parameterSchema.getName(), type, defaultValue);
-    return Optional.of(parameter);
   }
 
   private MemberSchemaMapResult mapParameterSchema(OpenApiSchema schema) {

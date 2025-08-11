@@ -57,7 +57,6 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.UUIDSchema;
-import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -93,38 +92,6 @@ class SpecificationMapperImplTest {
             IntegerType.formatInteger(),
             Constraints.ofSize(Size.ofMax(50))),
         pojo);
-  }
-
-  @Test
-  void map_when_parameterSchema_then_returnMappedParameter() {
-    final IntegerSchema schema = new IntegerSchema();
-    schema.setMinimum(new BigDecimal(0L));
-    schema.setMaximum(new BigDecimal(1000L));
-    schema.setDefault(50L);
-    final ParameterSchema parameterSchema =
-        new ParameterSchema(Name.ofString("limitParam"), wrap(schema));
-
-    // method call
-    final SpecificationMapper specificationMapper =
-        SpecificationMapperImpl.create(
-            new MapResultResolverImpl(),
-            (mainDir, spec) -> ParsedSpecifications.fromParameterSchemas(parameterSchema));
-
-    final PList<Parameter> parameters =
-        specificationMapper
-            .map(MainDirectory.fromString(""), OpenApiSpec.fromPath(Paths.get("doesNotMatter")))
-            .getParameters();
-
-    assertEquals(1, parameters.size());
-    final Parameter parameter = parameters.head();
-
-    final Parameter expectedParameter =
-        new Parameter(
-            parameterSchema.getName(),
-            IntegerType.formatInteger()
-                .withConstraints(Constraints.ofMin(new Min(0L)).withMax(new Max(1000L))),
-            Optional.of(50));
-    assertEquals(expectedParameter, parameter);
   }
 
   @Test

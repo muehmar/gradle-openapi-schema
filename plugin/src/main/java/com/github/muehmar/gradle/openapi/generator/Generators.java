@@ -5,6 +5,5 @@ import lombok.Value;
 @Value
 public class Generators {
   PojoGenerator pojoGenerator;
-  ParametersGenerator parametersGenerator;
   UtilsGenerator utilsGenerator;
 }

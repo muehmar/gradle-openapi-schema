@@ -11,7 +11,6 @@ import com.github.muehmar.gradle.openapi.generator.Generators;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.PojoMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.SpecificationMapper;
-import com.github.muehmar.gradle.openapi.generator.model.Parameter;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.specification.MainDirectory;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
@@ -90,11 +89,6 @@ public class GenerateSchemasTask extends DefaultTask {
 
     mapResult.getPojos().flatMap(pojo -> createPojo(pojo, generators)).forEach(this::writeFile);
 
-    mapResult
-        .getParameters()
-        .map(parameter -> createParameter(parameter, generators))
-        .forEach(this::writeFile);
-
     generators.getUtilsGenerator().generateUtils(pojoSettings.get()).forEach(this::writeFile);
 
     handleWarnings();
@@ -110,10 +104,6 @@ public class GenerateSchemasTask extends DefaultTask {
 
   private NonEmptyList<GeneratedFile> createPojo(Pojo pojo, Generators generators) {
     return generators.getPojoGenerator().generatePojo(pojo, pojoSettings.get());
-  }
-
-  private GeneratedFile createParameter(Parameter parameter, Generators generators) {
-    return generators.getParametersGenerator().generate(parameter, pojoSettings.get());
   }
 
   private void cleanOutputDir() {

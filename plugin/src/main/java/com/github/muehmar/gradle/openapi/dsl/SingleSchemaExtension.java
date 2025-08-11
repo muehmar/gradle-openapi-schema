@@ -3,8 +3,16 @@ package com.github.muehmar.gradle.openapi.dsl;
 import static com.github.muehmar.gradle.openapi.generator.settings.PojoSettingsBuilder.fullPojoSettingsBuilder;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.settings.*;
+import com.github.muehmar.gradle.openapi.generator.settings.EnumDescriptionSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
+import com.github.muehmar.gradle.openapi.generator.settings.PackageName;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMappings;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettingsBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
+import com.github.muehmar.gradle.openapi.generator.settings.XmlSupport;
 import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import com.github.muehmar.gradle.openapi.util.Optionals;
 import java.io.Serializable;
