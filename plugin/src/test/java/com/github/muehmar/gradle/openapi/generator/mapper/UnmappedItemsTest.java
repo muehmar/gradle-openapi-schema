@@ -10,7 +10,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.swagger.v3.oas.models.media.StringSchema;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ class UnmappedItemsTest {
 
   @Test
   void onUnmappedItems_when_openApiSpec_then_onSpecificationsCalled() {
-    final OpenApiSpec spec = OpenApiSpec.fromPath(Paths.get("../components-yml"));
+    final OpenApiSpec spec = OpenApiSpec.fromPath(Path.of("../components-yml"));
     final UnmappedItems unmappedItems = UnmappedItems.ofSpec(spec);
 
     final BiFunction<UnmappedItems, NonEmptyList<OpenApiSpec>, UnresolvedMapResult>

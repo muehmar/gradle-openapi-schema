@@ -7,7 +7,6 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class BaseDirFileWriter implements FileWriter {
   private final String outputDir;
@@ -19,7 +18,7 @@ public class BaseDirFileWriter implements FileWriter {
   @Override
   public void writeFile(GeneratedFile file) {
     try {
-      final Path completePath = Paths.get(outputDir).resolve(file.getFile());
+      final Path completePath = Path.of(outputDir).resolve(file.getFile());
       completePath.toFile().mkdirs();
 
       Files.delete(completePath);

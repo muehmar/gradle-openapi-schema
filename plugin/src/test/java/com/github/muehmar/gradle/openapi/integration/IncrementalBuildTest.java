@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.github.muehmar.gradle.openapi.Resources;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.BuildTask;
 import org.gradle.testkit.runner.GradleRunner;
@@ -128,7 +128,7 @@ class IncrementalBuildTest {
     assertEquals(TaskOutcome.SUCCESS, generateTask.getOutcome());
 
     Files.delete(
-        Paths.get(
+        Path.of(
             project.getProjectDir().getRoot().getPath()
                 + "/build/generated/openapi/openapischema/api/model/UserDto.java"));
 

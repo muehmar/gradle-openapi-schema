@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.specification;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -19,7 +18,7 @@ public class OpenApiSpec {
     final Path specPath =
         Optional.ofNullable(currentSpec.spec.getParent())
             .map(dir -> dir.resolve(spec))
-            .orElse(Paths.get(spec))
+            .orElse(Path.of(spec))
             .normalize();
     return new OpenApiSpec(specPath);
   }

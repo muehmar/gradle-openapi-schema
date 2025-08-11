@@ -20,7 +20,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,7 +28,7 @@ import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class AdditionalPropertiesSchemaTest {
-  private static final OpenApiSpec SPEC = OpenApiSpec.fromPath(Paths.get("spec.yml"));
+  private static final OpenApiSpec SPEC = OpenApiSpec.fromPath(Path.of("spec.yml"));
 
   @ParameterizedTest
   @NullSource

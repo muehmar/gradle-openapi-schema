@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,11 +15,10 @@ class OpenApiSpecTest {
   @MethodSource("specCombinations")
   void fromString_when_combinationsOfCurrentSpecAndNewFile_then_matchExpectedPath(
       String currentSpecPath, String newSpecPath, String expectedPath) {
-    final OpenApiSpec currentSpec = OpenApiSpec.fromPath(Paths.get(currentSpecPath));
+    final OpenApiSpec currentSpec = OpenApiSpec.fromPath(Path.of(currentSpecPath));
     final OpenApiSpec openApiSpec = OpenApiSpec.fromString(currentSpec, newSpecPath);
 
-    final Path specPath =
-        openApiSpec.asPathWithMainDirectory(MainDirectory.fromPath(Paths.get("")));
+    final Path specPath = openApiSpec.asPathWithMainDirectory(MainDirectory.fromPath(Path.of("")));
     assertEquals(expectedPath, specPath.toString());
   }
 

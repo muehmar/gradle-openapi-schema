@@ -72,9 +72,9 @@ class SinglePropertyFactoryMethod {
       return pojo.getMembers()
           .headOption()
           .filter(ignore -> pojo.getMembers().size() == 1)
-          .filter(ignore -> !pojo.getAllOfComposition().isPresent())
-          .filter(ignore -> !pojo.getAnyOfComposition().isPresent())
-          .filter(ignore -> !pojo.getOneOfComposition().isPresent())
+          .filter(ignore -> pojo.getAllOfComposition().isEmpty())
+          .filter(ignore -> pojo.getAnyOfComposition().isEmpty())
+          .filter(ignore -> pojo.getOneOfComposition().isEmpty())
           .filter(ignore -> pojo.getRequiredAdditionalProperties().isEmpty())
           .map(member -> new SinglePropertyPojo(pojo, member));
     }

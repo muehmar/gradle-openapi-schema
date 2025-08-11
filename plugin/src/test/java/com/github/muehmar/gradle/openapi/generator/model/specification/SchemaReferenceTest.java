@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,7 +18,7 @@ class SchemaReferenceTest {
   void fromRefString_when_differentReferences_then_correctParsed(
       String ref, Optional<OpenApiSpec> remoteSpec, Name schemaName) {
     final SchemaReference schemaReference =
-        SchemaReference.fromRefString(OpenApiSpec.fromPath(Paths.get(".")), ref);
+        SchemaReference.fromRefString(OpenApiSpec.fromPath(Path.of(".")), ref);
     assertEquals(remoteSpec, schemaReference.getRemoteSpec());
     assertEquals(schemaName, schemaReference.getSchemaName());
   }
@@ -28,11 +28,11 @@ class SchemaReferenceTest {
         Arguments.arguments("#/components/schemas/User", Optional.empty(), Name.ofString("User")),
         Arguments.arguments(
             "../schema.yml#/components/schemas/User",
-            Optional.of(OpenApiSpec.fromPath(Paths.get("../schema.yml"))),
+            Optional.of(OpenApiSpec.fromPath(Path.of("../schema.yml"))),
             Name.ofString("User")),
         Arguments.arguments(
             "schema.yml#/components/schemas/user",
-            Optional.of(OpenApiSpec.fromPath(Paths.get("schema.yml"))),
+            Optional.of(OpenApiSpec.fromPath(Path.of("schema.yml"))),
             Name.ofString("User")));
   }
 
@@ -41,7 +41,7 @@ class SchemaReferenceTest {
   void fromRefString_when_invalidReferences_then_throws(String ref) {
     assertThrows(
         IllegalArgumentException.class,
-        () -> SchemaReference.fromRefString(OpenApiSpec.fromPath(Paths.get(".")), ref));
+        () -> SchemaReference.fromRefString(OpenApiSpec.fromPath(Path.of(".")), ref));
   }
 
   public static Stream<Arguments> invalidReferences() {
