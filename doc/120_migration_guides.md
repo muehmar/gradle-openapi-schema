@@ -7,6 +7,7 @@
   how to integrate the official OpenAPI Generator with this
   plugin: [Integration with official OpenAPI generator](095_official_openapi_generator_integration.md).
 * Version 4.x of the plugin requires Java 11 as minimum JDK version.
+* 'partial-time' is removed as supported format for string types and replaced by 'time' from RFC 3339.
 
 ## Migrating from v2.x to 3.x
 
