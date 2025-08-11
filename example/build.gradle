@@ -216,10 +216,6 @@ openApiGenerator {
             packageName = "com.github.muehmar.gradle.openapi.excludedschema"
             excludeSchemas = ["User"] // This schema contains an unsupported URL-reference
         }
-        parameters {
-            inputSpec = "$projectDir/src/main/resources/openapi-parameters.yml"
-            packageName = "com.github.muehmar.gradle.openapi.parameters"
-        }
         freeForm {
             inputSpec = "$projectDir/src/main/resources/openapi-freeform.yml"
             packageName = "com.github.muehmar.gradle.openapi.freeform"
