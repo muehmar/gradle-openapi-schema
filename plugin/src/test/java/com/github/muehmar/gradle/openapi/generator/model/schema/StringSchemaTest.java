@@ -60,14 +60,6 @@ class StringSchemaTest {
   }
 
   @Test
-  void mapToMemberType_when_partialTimeFormat_then_localTimeTypeReturned() {
-    final Schema<?> schema = new StringSchema().format("partial-time");
-    final MemberSchemaMapResult mappedSchema = mapToMemberType(schema);
-    assertEquals(StringType.ofFormat(PARTIAL_TIME), mappedSchema.getType());
-    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
-  }
-
-  @Test
   void mapToMemberType_when_timeFormat_then_localTimeTypeReturned() {
     final Schema<?> schema = new StringSchema().format("time");
     final MemberSchemaMapResult mappedSchema = mapToMemberType(schema);

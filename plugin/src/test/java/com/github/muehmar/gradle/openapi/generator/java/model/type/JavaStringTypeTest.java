@@ -47,7 +47,6 @@ class JavaStringTypeTest {
         Arguments.of(StringType.Format.DATE, "LocalDate", "java.time.LocalDate"),
         Arguments.of(StringType.Format.DATE_TIME, "LocalDateTime", "java.time.LocalDateTime"),
         Arguments.of(StringType.Format.TIME, "LocalTime", "java.time.LocalTime"),
-        Arguments.of(StringType.Format.PARTIAL_TIME, "LocalTime", "java.time.LocalTime"),
         Arguments.of(StringType.Format.URI, "URI", "java.net.URI"),
         Arguments.of(StringType.Format.URL, "URL", "java.net.URL"),
         Arguments.of(StringType.Format.UUID, "UUID", "java.util.UUID"),
