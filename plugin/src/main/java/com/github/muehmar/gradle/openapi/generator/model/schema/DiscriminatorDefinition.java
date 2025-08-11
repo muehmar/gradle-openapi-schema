@@ -5,7 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.model.specification.SchemaReference;
 import io.swagger.v3.oas.models.media.Schema;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,7 +34,7 @@ public class DiscriminatorDefinition {
   }
 
   private static Name mapMappingReference(String reference) {
-    return SchemaReference.fromRefString(OpenApiSpec.fromPath(Paths.get("")), reference)
+    return SchemaReference.fromRefString(OpenApiSpec.fromPath(Path.of("")), reference)
         .getSchemaName();
   }
 }

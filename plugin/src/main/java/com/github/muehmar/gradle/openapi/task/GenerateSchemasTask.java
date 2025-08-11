@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -108,7 +107,7 @@ public class GenerateSchemasTask extends DefaultTask {
 
   private void cleanOutputDir() {
     final Path directory =
-        Paths.get(outputDir.get()).resolve(pojoSettings.get().getPackageName().asPath());
+        Path.of(outputDir.get()).resolve(pojoSettings.get().getPackageName().asPath());
     if (Files.exists(directory)) {
       try (final Stream<Path> paths = Files.walk(directory)) {
         paths.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
@@ -127,7 +126,7 @@ public class GenerateSchemasTask extends DefaultTask {
   private MapResult executeMapping() {
     final SpecificationMapper specificationMapper =
         PojoMapperFactory.create(pojoSettings.get().getSuffix());
-    final Path specPath = Paths.get(inputSpec);
+    final Path specPath = Path.of(inputSpec);
     final OpenApiSpec openApiSpec = OpenApiSpec.fromPath(specPath.getFileName());
     final PojoNameMapping pojoNameMapping = pojoSettings.get().pojoNameMapping();
     final MapResult mapResult =
@@ -157,8 +156,8 @@ public class GenerateSchemasTask extends DefaultTask {
   }
 
   private static MainDirectory deviateMainDirectory(String inputSpec) {
-    final Path specPath = Paths.get(inputSpec);
-    return MainDirectory.fromPath(Optional.ofNullable(specPath.getParent()).orElse(Paths.get("")));
+    final Path specPath = Path.of(inputSpec);
+    return MainDirectory.fromPath(Optional.ofNullable(specPath.getParent()).orElse(Path.of("")));
   }
 
   @InputFiles

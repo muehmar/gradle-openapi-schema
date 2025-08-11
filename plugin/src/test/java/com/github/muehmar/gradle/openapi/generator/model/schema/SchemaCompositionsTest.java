@@ -17,7 +17,7 @@ import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -131,7 +131,7 @@ class SchemaCompositionsTest {
         PList.of(refSchema1ComponentName, refSchema2ComponentName);
 
     final UnmappedItems expectedUnmappedItems =
-        UnmappedItems.ofSpec(OpenApiSpec.fromPath(Paths.get("../../dir/components.yml")));
+        UnmappedItems.ofSpec(OpenApiSpec.fromPath(Path.of("../../dir/components.yml")));
 
     return Arguments.arguments(
         schemaCompositions, componentName, componentNames, expectedUnmappedItems);

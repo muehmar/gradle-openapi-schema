@@ -63,7 +63,7 @@ public class EnumMember {
       final String missingEnumMembers =
           enumWithDescriptions
               .zip(enumMembers)
-              .filter(p -> !p.first().isPresent())
+              .filter(p -> p.first().isEmpty())
               .map(Pair::second)
               .map(EnumConstantName::getOriginalConstant)
               .mkString(", ");

@@ -12,7 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.schema.OpenApiSchema;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import io.swagger.v3.oas.models.media.StringSchema;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.function.BiFunction;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +41,7 @@ class MapContextTest {
 
   @Test
   void onUnmappedItems_when_openApiSpec_then_onSpecificationsCalledAndUsedSpecAddedToResult() {
-    final OpenApiSpec spec = OpenApiSpec.fromPath(Paths.get("../components.yml"));
+    final OpenApiSpec spec = OpenApiSpec.fromPath(Path.of("../components.yml"));
     final UnmappedItems unmappedItems = UnmappedItems.ofSpec(spec);
     final UnresolvedMapResult returnedUnresolvedMapResult =
         UnresolvedMapResult.ofPojo(
