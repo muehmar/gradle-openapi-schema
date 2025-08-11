@@ -1,0 +1,11 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    MyGroup:
+      properties:
+        dateFrom:
+          $ref: "./openapi-issue-343-2.yml#/components/schemas/MyIsoDate"

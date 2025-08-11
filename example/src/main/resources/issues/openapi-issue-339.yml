@@ -1,0 +1,41 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    SinglePropContainer1:
+      required:
+        - words
+      properties:
+        words:
+          type: array
+          items:
+            type: string
+
+    SinglePropContainer2:
+      properties:
+        words:
+          type: array
+          items:
+            type: string
+
+    SinglePropContainer3:
+      required:
+        - words
+      properties:
+        words:
+          type: array
+          nullable: true
+          items:
+            type: string
+
+    SinglePropContainer4:
+      properties:
+        words:
+          type: array
+          nullable: true
+          items:
+            type: string
+
