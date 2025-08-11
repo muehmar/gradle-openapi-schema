@@ -2,7 +2,7 @@ plugins {
     alias(pluginLibs.plugins.openApiSchema)
     alias(pluginLibs.plugins.openapiGenerator)
     id "com.diffplug.spotless"
-    id 'openapischema.java8'
+    id 'openapischema.java11'
     id 'idea'
 
     alias(pluginLibs.plugins.integrationTest)
