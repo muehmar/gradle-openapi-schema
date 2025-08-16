@@ -7,6 +7,7 @@ import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JacksonRefs;
@@ -22,6 +23,16 @@ public class JacksonAnnotationGenerator {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append((f, s, w) -> w.println("@JsonProperty(\"%s\")", f.getName().getOriginalName()))
         .append(w -> w.ref(JacksonRefs.JSON_PROPERTY))
+        .filter(isJacksonJson());
+  }
+
+  public static Generator<JavaPojoMember, PojoSettings> jsonFormat() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(Generator.constant("@JsonFormat(shape = JsonFormat.Shape.STRING)"))
+        .append(w -> w.ref(JacksonRefs.JSON_FORMAT))
+        .filter(
+            m ->
+                m.getJavaType().getQualifiedClassName().equals(QualifiedClassNames.ZONED_DATE_TIME))
         .filter(isJacksonJson());
   }
 

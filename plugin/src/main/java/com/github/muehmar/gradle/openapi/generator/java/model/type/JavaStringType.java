@@ -28,7 +28,7 @@ public class JavaStringType extends NonGenericJavaType {
   private static Map<StringType.Format, QualifiedClassName> createFormatClassNameMap() {
     final Map<StringType.Format, QualifiedClassName> map = new EnumMap<>(StringType.Format.class);
     map.put(StringType.Format.DATE, QualifiedClassNames.LOCAL_DATE);
-    map.put(StringType.Format.DATE_TIME, QualifiedClassNames.LOCAL_DATE_TIME);
+    map.put(StringType.Format.DATE_TIME, QualifiedClassNames.ZONED_DATE_TIME);
     map.put(StringType.Format.TIME, QualifiedClassNames.LOCAL_TIME);
     map.put(StringType.Format.BINARY, QualifiedClassNames.BYTE_ARRAY);
     map.put(StringType.Format.UUID, QualifiedClassNames.UUID);

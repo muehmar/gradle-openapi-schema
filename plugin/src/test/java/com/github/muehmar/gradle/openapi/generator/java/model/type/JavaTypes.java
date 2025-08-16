@@ -28,6 +28,12 @@ public class JavaTypes {
         TypeMappings.empty());
   }
 
+  public static JavaStringType dateTime(Constraints constraints) {
+    return JavaStringType.wrap(
+        StringType.ofFormat(StringType.Format.DATE_TIME).withConstraints(constraints),
+        TypeMappings.empty());
+  }
+
   public static JavaArrayType stringListType() {
     return JavaArrayType.wrap(
         ArrayType.ofItemType(StringType.noFormat(), NOT_NULLABLE), TypeMappings.empty());

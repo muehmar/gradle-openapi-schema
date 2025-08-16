@@ -28,6 +28,8 @@ public class QualifiedClassNames {
   public static final QualifiedClassName LOCAL_TIME = ofPackageAndName(JAVA_TIME, "LocalTime");
   public static final QualifiedClassName LOCAL_DATE_TIME =
       ofPackageAndName(JAVA_TIME, "LocalDateTime");
+  public static final QualifiedClassName ZONED_DATE_TIME =
+      ofPackageAndName(JAVA_TIME, "ZonedDateTime");
   public static final QualifiedClassName URI = ofPackageAndName(JAVA_NET, "URI");
   public static final QualifiedClassName URL = ofPackageAndName(JAVA_NET, "URL");
   public static final QualifiedClassName UUID = ofPackageAndName(JAVA_UTIL, "UUID");

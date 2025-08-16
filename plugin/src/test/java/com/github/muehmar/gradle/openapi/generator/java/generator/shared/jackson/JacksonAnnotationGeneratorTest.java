@@ -83,6 +83,45 @@ class JacksonAnnotationGeneratorTest {
   }
 
   @Test
+  void jsonFormat_when_enabledJackson_then_correctOutputAndRefs() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        JacksonAnnotationGenerator.jsonFormat();
+    final JavaPojoMember pojoMember = TestJavaPojoMembers.requiredDateTime();
+
+    final Writer writer = generator.generate(pojoMember, defaultTestSettings(), javaWriter());
+
+    assertEquals(1, writer.getRefs().size());
+    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_FORMAT::equals));
+    assertEquals("@JsonFormat(shape = JsonFormat.Shape.STRING)", writer.asString());
+  }
+
+  @Test
+  void jsonFormat_when_notDateTimeType_then_noOutput() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        JacksonAnnotationGenerator.jsonFormat();
+    final JavaPojoMember pojoMember = TestJavaPojoMembers.requiredBirthdate();
+
+    final Writer writer = generator.generate(pojoMember, defaultTestSettings(), javaWriter());
+
+    assertTrue(writer.getRefs().isEmpty());
+    assertEquals("", writer.asString());
+  }
+
+  @Test
+  void jsonFormat_when_disabledJackson_then_noOutput() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        JacksonAnnotationGenerator.jsonFormat();
+    final JavaPojoMember pojoMember = TestJavaPojoMembers.requiredDateTime();
+
+    final Writer writer =
+        generator.generate(
+            pojoMember, defaultTestSettings().withJsonSupport(JsonSupport.NONE), javaWriter());
+
+    assertTrue(writer.getRefs().isEmpty());
+    assertEquals("", writer.asString());
+  }
+
+  @Test
   void jsonIncludeNonNull_when_enabledJackson_then_correctOutputAndRefs() {
     final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonIncludeNonNull();
 
