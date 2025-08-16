@@ -16,4 +16,8 @@ public class OpenApiUtilRefs {
       OPENAPI_UTIL_PACKAGE + "." + AdditionalPropertyClassGenerator.CLASSNAME;
   public static final String NULLABLE_ADDITIONAL_PROPERTY =
       OPENAPI_UTIL_PACKAGE + "." + NullableAdditionalPropertyClassGenerator.CLASSNAME;
+
+  public static final String ZONED_DATE_TIME_DESERIALIZER_CLASSNAME = "ZonedDateTimeDeserializer";
+  public static final String ZONED_DATE_TIME_DESERIALIZER =
+      OPENAPI_UTIL_PACKAGE + "." + ZONED_DATE_TIME_DESERIALIZER_CLASSNAME;
 }

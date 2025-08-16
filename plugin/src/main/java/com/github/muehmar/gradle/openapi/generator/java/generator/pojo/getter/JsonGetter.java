@@ -19,6 +19,7 @@ public class JsonGetter {
   public static Generator<JavaPojoMember, PojoSettings> jsonGetterGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(jsonProperty())
+        .append(jsonFormat())
         .append(jsonIncludeNonNull())
         .append(jacksonXmlProperty())
         .append(jacksonXmlElementWrapper())

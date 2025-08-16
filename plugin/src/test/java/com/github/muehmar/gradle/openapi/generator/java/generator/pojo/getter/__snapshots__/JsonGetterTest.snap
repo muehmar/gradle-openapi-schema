@@ -1,3 +1,18 @@
+members[dateTime]=[
+com.fasterxml.jackson.annotation.JsonFormat
+com.fasterxml.jackson.annotation.JsonInclude
+com.fasterxml.jackson.annotation.JsonProperty
+java.time.ZonedDateTime
+
+@JsonProperty("dateTime")
+@JsonFormat(shape = JsonFormat.Shape.STRING)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private ZonedDateTime getDateTimeJson() {
+  return dateTime;
+}
+]
+
+
 members[optionalListWithNullableItems]=[
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty

@@ -49,6 +49,23 @@ public class TestJavaPojoMembers {
         .build();
   }
 
+  public static JavaPojoMember dateTime(
+      Constraints constraints, Necessity necessity, Nullability nullability) {
+    return javaPojoMemberBuilder()
+        .pojoName(invoiceName())
+        .name(JavaName.fromString("dateTime"))
+        .description("DateTime")
+        .javaType(JavaTypes.dateTime(constraints).withNullability(nullability))
+        .necessity(necessity)
+        .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
+        .build();
+  }
+
+  public static JavaPojoMember requiredDateTime() {
+    return dateTime(Constraints.empty(), REQUIRED, Nullability.NOT_NULLABLE);
+  }
+
   public static JavaPojoMember birthdate(
       Constraints constraints, Necessity necessity, Nullability nullability) {
     return javaPojoMemberBuilder()

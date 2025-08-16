@@ -8,6 +8,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.UtilsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.TristateGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonNullContainerGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonZonedDateTimeDeserializerGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.email.EmailValidatorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaFileName;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
@@ -25,7 +26,8 @@ public class JavaUtilsGenerator implements UtilsGenerator {
             emailValidator(),
             additionalPropertyClass(),
             nullableAdditionalPropertyClass())
-        .concat(PList.fromOptional(jacksonContainerClass(settings)));
+        .concat(PList.fromOptional(jacksonContainerClass(settings)))
+        .concat(PList.fromOptional(jacksonZonedDateTimeDeserializerClass(settings)));
   }
 
   private static GeneratedFile tristateClass() {
@@ -42,6 +44,20 @@ public class JavaUtilsGenerator implements UtilsGenerator {
       final Writer writer = jacksonContainerGen.generate(noData(), noSettings(), javaWriter());
       final JavaFileName javaFileName =
           JavaFileName.fromRef(OpenApiUtilRefs.JACKSON_NULL_CONTAINER);
+      return Optional.of(new GeneratedFile(javaFileName.asPath(), writer.asString()));
+    } else {
+      return Optional.empty();
+    }
+  }
+
+  private static Optional<GeneratedFile> jacksonZonedDateTimeDeserializerClass(
+      PojoSettings settings) {
+    if (settings.isJacksonJson()) {
+      final Generator<Void, Void> generator =
+          JacksonZonedDateTimeDeserializerGenerator.zonedDateTimeDeserializer();
+      final Writer writer = generator.generate(noData(), noSettings(), javaWriter());
+      final JavaFileName javaFileName =
+          JavaFileName.fromRef(OpenApiUtilRefs.ZONED_DATE_TIME_DESERIALIZER);
       return Optional.of(new GeneratedFile(javaFileName.asPath(), writer.asString()));
     } else {
       return Optional.empty();

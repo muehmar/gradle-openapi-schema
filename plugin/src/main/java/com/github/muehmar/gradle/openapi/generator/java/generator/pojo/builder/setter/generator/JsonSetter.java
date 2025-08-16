@@ -20,6 +20,7 @@ public class JsonSetter {
   public static Generator<JavaPojoMember, PojoSettings> jsonSetterGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(jsonProperty())
+        .append(jsonDeserializeForMember())
         .append(jacksonXmlProperty())
         .append(jacksonXmlElementWrapper())
         .append(setterMethod())

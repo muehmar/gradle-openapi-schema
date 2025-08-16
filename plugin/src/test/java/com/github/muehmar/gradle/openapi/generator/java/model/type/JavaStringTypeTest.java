@@ -45,7 +45,7 @@ class JavaStringTypeTest {
   public static Stream<Arguments> stringFormats() {
     return Stream.of(
         Arguments.of(StringType.Format.DATE, "LocalDate", "java.time.LocalDate"),
-        Arguments.of(StringType.Format.DATE_TIME, "LocalDateTime", "java.time.LocalDateTime"),
+        Arguments.of(StringType.Format.DATE_TIME, "ZonedDateTime", "java.time.ZonedDateTime"),
         Arguments.of(StringType.Format.TIME, "LocalTime", "java.time.LocalTime"),
         Arguments.of(StringType.Format.URI, "URI", "java.net.URI"),
         Arguments.of(StringType.Format.URL, "URL", "java.net.URL"),
