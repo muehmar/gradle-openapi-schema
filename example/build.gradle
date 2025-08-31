@@ -99,7 +99,8 @@ def issueNumbers = [
         '278',
         '287',
         '310',
-        '351']
+        '351',
+        '352']
 
 specifications.addAll(issueNumbers.collect { issueNumber -> [name: "Issue${issueNumber}", file: "issues/openapi-issue-${issueNumber}.yml"] })
 
@@ -350,6 +351,10 @@ openApiGenerator {
                     packageName = "com.github.muehmar.gradle.openapi.issues.issue${issueNumber}"
                 }
             }
+        }
+
+        Issue352 {
+            allowNullableForEnums = true
         }
 
         specifications.forEach { spec ->
