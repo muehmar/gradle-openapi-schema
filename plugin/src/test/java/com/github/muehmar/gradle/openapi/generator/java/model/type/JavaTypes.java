@@ -38,7 +38,7 @@ public class JavaTypes {
   }
 
   public static JavaEnumType enumType() {
-    return JavaEnumType.wrap(
+    return JavaEnumType.wrapForDiscriminator(
         EnumType.ofNameAndMembers(
             Name.ofString("Gender"), PList.of("male", "female", "divers", "other")));
   }

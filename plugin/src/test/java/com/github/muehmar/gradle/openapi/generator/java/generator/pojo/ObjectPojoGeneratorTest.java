@@ -477,7 +477,7 @@ class ObjectPojoGeneratorTest {
         JavaPojos.objectPojo(
             PList.empty(),
             JavaAdditionalProperties.allowedFor(
-                JavaEnumType.wrap(
+                JavaEnumType.wrapForDiscriminator(
                     EnumType.ofNameAndMembers(
                         Name.ofString("ColorEnum"), PList.of("green", "yellow", "red")))));
     final String content =

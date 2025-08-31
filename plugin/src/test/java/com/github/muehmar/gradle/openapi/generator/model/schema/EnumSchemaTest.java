@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumTypeBuilder;
 import io.swagger.v3.oas.models.media.StringSchema;
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
@@ -46,10 +47,15 @@ class EnumSchemaTest {
 
     final MemberSchemaMapResult result = mapToMemberType(enumSchema);
 
-    assertEquals(
-        EnumType.ofNameAndMembersAndFormat(
-            Name.ofString("PojoMemberNameEnum"), PList.fromIter(enumSchema.getEnum()), "Gender"),
-        result.getType());
+    final EnumType expectedEnumType =
+        EnumTypeBuilder.createFull()
+            .name(Name.ofString("PojoMemberNameEnum"))
+            .members(PList.fromIter(enumSchema.getEnum()))
+            .nullability(Nullability.NOT_NULLABLE)
+            .legacyNullability(Nullability.NOT_NULLABLE)
+            .format("Gender")
+            .build();
+    assertEquals(expectedEnumType, result.getType());
     assertEquals(Nullability.NOT_NULLABLE, result.getType().getNullability());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
   }
