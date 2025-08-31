@@ -3,11 +3,13 @@ package com.github.muehmar.gradle.openapi.generator.model.schema;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
-import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumTypeBuilder;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.List;
 import java.util.Optional;
@@ -46,9 +48,29 @@ public class EnumSchema implements OpenApiSchema {
   @Override
   public MemberSchemaMapResult mapToMemberType(ComponentName parentComponentName, Name memberName) {
     final Optional<String> format = Optional.ofNullable(delegate.getFormat());
+    final Nullability legacyNullability =
+        delegate.getSpecVersion().equals(SpecVersion.V30)
+            ? Optional.ofNullable(delegate.getNullable())
+                .map(Nullability::fromBoolean)
+                .orElse(Nullability.NOT_NULLABLE)
+            : Nullability.NOT_NULLABLE;
+
+    final Nullability nullability =
+        delegate.getSpecVersion().equals(SpecVersion.V31)
+            ? Optional.ofNullable(delegate.getTypes())
+                .map(types -> types.contains(SchemaType.NULL.asString()))
+                .map(Nullability::fromBoolean)
+                .orElse(Nullability.NOT_NULLABLE)
+            : Nullability.NOT_NULLABLE;
+
     final Type enumType =
-        EnumType.ofNameAndMembersAndFormat(
-            memberName.startUpperCase().append("Enum"), enums, format);
+        EnumTypeBuilder.createFull()
+            .name(memberName.startUpperCase().append("Enum"))
+            .members(enums)
+            .nullability(nullability)
+            .legacyNullability(legacyNullability)
+            .format(format)
+            .build();
 
     return MemberSchemaMapResult.ofType(enumType);
   }
