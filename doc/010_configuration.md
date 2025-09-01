@@ -22,6 +22,7 @@ openApiGenerator {
     jsonSupport = "jackson"
     xmlSupport = "jackson"
     enableValidation = true
+    allowNullableForEnums = true
 
     schemas {
 
@@ -168,6 +169,7 @@ specification if necessary.
 | xmlSupport                | &check;               | String                       | none                                                   | Used xml support library. Possible values are `jackson` or `none`. If set to `jackson`, json support for `jackson` will be enabled automatically, since it uses the same annotations for serialisation.                                                                              |
 | enableValidation          | &check;               | Boolean                      | false                                                  | Enables the generation of annotations for bean validation. Select with `validationApi` the used packages.                                                                                                                                                                            |
 | nonStrictOneOfValidation  | &check;               | Boolean                      | false                                                  | If enabled, a DTO with oneOf composition with discriminator does not validate if the data is valid against exactly one schema. It will only validate if the data is valid against the schema described by the discriminator.                                                         |
+| allowNullableForEnums     | &check;               | Boolean                      | false                                                  | Allow `nullable: true` for enums for OpenApi specifications v3.0.x. According to the specification, the nullable property should be ignored for enums, but settings this option to true, the generator does not ignore the nullable property and generates nullable enums.           |
 | validationApi             | &check;               | String                       | jakarta-2                                              | Defines the used annotations (either from `javax.*` or `jakarta.*` package). Possible values are `jakarta-2` and `jakarta-3`. Use for Java Bean validation 2.0 or Jakarta Bean validation `jakarata-2` and for Jakarta Bean validation 3.0 `jakarta-3`.                              |
 | builderMethodPrefix       | &check;               | String                       |                                                        | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname.                                                                                                                                         |
 | excludeSchemas            | &cross;               | List[String]                 | []                                                     | Excludes the given schemas from generation. This can be used in case unsupported features are used, e.g. URL-references or unsupported compositions.                                                                                                                                 |
