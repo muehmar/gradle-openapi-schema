@@ -26,6 +26,7 @@ public class PojoSettings implements Serializable {
   String builderMethodPrefix;
   boolean enableValidation;
   boolean nonStrictOneOfValidation;
+  boolean allowNullableForEnums;
 
   ValidationApi validationApi;
   List<ClassTypeMapping> classTypeMappings;
@@ -113,7 +114,8 @@ public class PojoSettings implements Serializable {
     return new TypeMappings(
         PList.fromIter(classTypeMappings),
         PList.fromIter(formatTypeMappings),
-        PList.fromIter(dtoMappings));
+        PList.fromIter(dtoMappings),
+        allowNullableForEnums);
   }
 
   public PojoNameMapping pojoNameMapping() {

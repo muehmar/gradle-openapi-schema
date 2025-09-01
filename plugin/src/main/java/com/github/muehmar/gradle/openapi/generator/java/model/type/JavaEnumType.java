@@ -31,16 +31,20 @@ public class JavaEnumType extends NonGenericJavaType {
     this.members = members;
   }
 
-  private static JavaEnumType of(EnumType enumType, TypeMapping typeMapping) {
+  private static JavaEnumType of(
+      EnumType enumType, TypeMapping typeMapping, Nullability nullability) {
     return new JavaEnumType(
         typeMapping.getClassName(),
         typeMapping.getApiType(),
         enumType.getMembers().map(EnumConstantName::ofString),
-        enumType.getNullability());
+        nullability);
   }
 
-  public static JavaEnumType wrap(EnumType enumType) {
-    return of(enumType, TypeMapping.fromClassName(QualifiedClassName.ofName(enumType.getName())));
+  public static JavaEnumType wrapForDiscriminator(EnumType enumType) {
+    return of(
+        enumType,
+        TypeMapping.fromClassName(QualifiedClassName.ofName(enumType.getName())),
+        Nullability.NOT_NULLABLE);
   }
 
   public static JavaType wrap(EnumType enumType, TypeMappings typeMappings) {
@@ -58,7 +62,14 @@ public class JavaEnumType extends NonGenericJavaType {
       return JavaObjectType.fromClassName(typeMapping.getClassName());
     }
 
-    return of(enumType, typeMapping);
+    final Nullability nullability =
+        Nullability.leastRestrictive(
+            enumType.getNullability(),
+            typeMappings.isAllowNullableForEnums()
+                ? enumType.getLegacyNullability()
+                : Nullability.NOT_NULLABLE);
+
+    return of(enumType, typeMapping, nullability);
   }
 
   public JavaEnumType asInnerClassOf(JavaName outerClassName) {
