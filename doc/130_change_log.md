@@ -1,5 +1,8 @@
 ## Change Log
 
+* 3.8.0
+    * Properly support null values for enums (issue `#351`)
+    * Add config option for nullable enums for OpenAPI spec v3.0.x (issue `#352`)
 * 3.7.0
     * Fix resolving external references with different directories (issue `#343`)
     * Support `$ref` as root schema (issue `#341`)
