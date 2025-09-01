@@ -43,6 +43,7 @@ public class SingleSchemaExtension implements Serializable {
   private String builderMethodPrefix;
   private Boolean enableValidation;
   private Boolean nonStrictOneOfValidation;
+  private Boolean allowNullableForEnums;
   private String validationApi;
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
@@ -352,9 +353,26 @@ public class SingleSchemaExtension implements Serializable {
     constantSchemaNameMappings.add(constantSchemaNameMapping);
   }
 
+  // DSL API
+  public void setAllowNullableForEnums(Boolean allowNullableForEnums) {
+    this.allowNullableForEnums = allowNullableForEnums;
+  }
+
+  boolean getAllowNullableForEnums() {
+    return Optional.ofNullable(allowNullableForEnums).orElse(false);
+  }
+
   SingleSchemaExtension withCommonConstantSchemaNameMappings(
       List<ConstantSchemaNameMapping> other) {
     constantSchemaNameMappings.addAll(other);
+    return this;
+  }
+
+  SingleSchemaExtension withCommonAllowNullableForEnums(
+      Optional<Boolean> commonAllowNullableForEnums) {
+    if (allowNullableForEnums == null) {
+      commonAllowNullableForEnums.ifPresent(this::setAllowNullableForEnums);
+    }
     return this;
   }
 
@@ -404,6 +422,7 @@ public class SingleSchemaExtension implements Serializable {
         .builderMethodPrefix(getBuilderMethodPrefix())
         .enableValidation(getEnableValidation())
         .nonStrictOneOfValidation(getNonStrictOneOfValidation())
+        .allowNullableForEnums(getAllowNullableForEnums())
         .validationApi(getValidationApi())
         .classTypeMappings(getClassMappings().map(ClassMapping::toSettingsClassMapping))
         .formatTypeMappings(

@@ -29,10 +29,10 @@ public class JavaDiscriminatorType {
         stringType ->
             JavaDiscriminatorType.fromStringType(
                 JavaStringType.wrap(stringType, TypeMappings.empty())),
-        enumType -> JavaDiscriminatorType.fromEnumType(JavaEnumType.wrap(enumType)),
+        enumType -> JavaDiscriminatorType.fromEnumType(JavaEnumType.wrapForDiscriminator(enumType)),
         enumObjectType ->
             JavaDiscriminatorType.fromEnumType(
-                JavaEnumType.wrap(
+                JavaEnumType.wrapForDiscriminator(
                     EnumType.ofNameAndMembers(
                         enumObjectType.getName().getName(), enumObjectType.getMembers()))));
   }

@@ -16,6 +16,7 @@
 * Some changes are made concerning the nullable keyword to be consistent with the clarification in the specification
   v3.0.3. This includes
     * `nullable: true` for enums will no longer have an effect, i.e. the enum will not be nullable
+        * This could be turned off since v3.8.0 of the plugin via `allowNullableForEnums = true` in the configuration
     * An empty schema is nullable per default, i.e. `nullable: false` has no effect
 * The nullable keyword for array items and additional properties are supported now and will lead to changes in the DTO,
   e.g. return type of getters are wrapped into Optional.

@@ -26,6 +26,7 @@ public class OpenApiSchemaExtension implements Serializable {
   private StagedBuilder stagedBuilder;
   private Boolean enableValidation;
   private Boolean nonStrictOneOfValidation;
+  private Boolean allowNullableForEnums;
   private String validationApi;
   private String builderMethodPrefix;
   private EnumDescriptionExtension enumDescriptionExtension = null;
@@ -89,6 +90,11 @@ public class OpenApiSchemaExtension implements Serializable {
   // DSL API
   public void setNonStrictOneOfValidation(Boolean nonStrictOneOfValidation) {
     this.nonStrictOneOfValidation = nonStrictOneOfValidation;
+  }
+
+  // DSL API
+  public void setAllowNullableForEnums(Boolean allowNullableForEnums) {
+    this.allowNullableForEnums = allowNullableForEnums;
   }
 
   // DSL API
@@ -196,6 +202,10 @@ public class OpenApiSchemaExtension implements Serializable {
     return Optional.ofNullable(sourceSet);
   }
 
+  private Optional<Boolean> getCommonAllowNullableForEnums() {
+    return Optional.ofNullable(allowNullableForEnums);
+  }
+
   private Optional<String> getCommonOutputDir() {
     return Optional.ofNullable(outputDir);
   }
@@ -250,7 +260,8 @@ public class OpenApiSchemaExtension implements Serializable {
         .map(ext -> ext.withCommonGetterSuffixes(getCommonGetterSuffixes()))
         .map(ext -> ext.withCommonValidationMethods(getCommonValidationMethods()))
         .map(ext -> ext.withCommonConstantSchemaNameMappings(getCommonConstantSchemaNameMappings()))
-        .map(ext -> ext.withCommonWarnings(getCommonWarnings()));
+        .map(ext -> ext.withCommonWarnings(getCommonWarnings()))
+        .map(ext -> ext.withCommonAllowNullableForEnums(getCommonAllowNullableForEnums()));
   }
 
   @Override
