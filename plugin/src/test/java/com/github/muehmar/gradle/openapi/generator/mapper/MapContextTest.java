@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.schema.OpenApiSchema;
@@ -45,7 +46,11 @@ class MapContextTest {
     final UnmappedItems unmappedItems = UnmappedItems.ofSpec(spec);
     final UnresolvedMapResult returnedUnresolvedMapResult =
         UnresolvedMapResult.ofPojo(
-            EnumPojo.of(componentName("Enum", "Dto"), "Desc", PList.of("member1", "member2")));
+            EnumPojo.of(
+                componentName("Enum", "Dto"),
+                "Desc",
+                Nullability.NOT_NULLABLE,
+                PList.of("member1", "member2")));
     final MapContext mapContext =
         MapContext.fromUnmappedItemsAndResult(unmappedItems, UnresolvedMapResult.empty());
 
@@ -73,7 +78,11 @@ class MapContextTest {
   void onUnmappedItems_when_pojoSchema_then_onSchemasCalled() {
     final UnresolvedMapResult expectedUnresolvedMapResult =
         UnresolvedMapResult.ofPojo(
-            EnumPojo.of(componentName("Enum", "Dto"), "Desc", PList.of("member1", "member2")));
+            EnumPojo.of(
+                componentName("Enum", "Dto"),
+                "Desc",
+                Nullability.NOT_NULLABLE,
+                PList.of("member1", "member2")));
     final PojoSchema pojoSchema =
         new PojoSchema(
             componentName("Schema", "Dto"), OpenApiSchema.wrapSchema(wrap(new StringSchema())));
