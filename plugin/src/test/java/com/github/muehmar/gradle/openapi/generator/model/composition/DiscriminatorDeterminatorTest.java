@@ -15,6 +15,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
 import com.github.muehmar.gradle.openapi.generator.model.Pojos;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -163,7 +164,8 @@ class DiscriminatorDeterminatorTest {
   @Test
   void determineDiscriminator_when_enumDiscriminatorAsEnumObjectType_then_correctDiscriminator() {
     final EnumObjectType enumObjectType =
-        new EnumObjectType(pojoName("Role", "Dto"), PList.of("Admin", "User"));
+        new EnumObjectType(
+            pojoName("Role", "Dto"), PList.of("Admin", "User"), Nullability.NOT_NULLABLE);
     final ObjectPojo parentPojo = Pojos.objectPojo(PList.of(ofType(enumObjectType)));
     final ObjectPojo pojo1 =
         Pojos.objectPojo(PList.of(requiredBirthdate(), optionalNullableString()))

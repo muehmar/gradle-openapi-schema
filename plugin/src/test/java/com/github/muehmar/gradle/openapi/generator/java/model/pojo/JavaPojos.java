@@ -285,6 +285,7 @@ public class JavaPojos {
         EnumPojo.of(
             componentName("Gender", "Dto"),
             "Gender of person",
+            NOT_NULLABLE,
             PList.of("male", "female", "divers", "other"));
     return JavaEnumPojo.wrap(enumPojo);
   }

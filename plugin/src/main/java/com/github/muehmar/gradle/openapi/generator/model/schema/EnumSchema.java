@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.EnumTypeBuilder;
 import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.media.Schema;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -21,18 +22,27 @@ import lombok.ToString;
 public class EnumSchema implements OpenApiSchema {
   private final Schema<?> delegate;
   private final PList<String> enums;
+  private final boolean hasNullEnumConstant;
 
-  private EnumSchema(Schema<?> delegate, PList<String> enums) {
+  private EnumSchema(Schema<?> delegate, PList<String> enums, boolean hasNullEnumConstant) {
     this.delegate = delegate;
     this.enums = enums;
+    this.hasNullEnumConstant = hasNullEnumConstant;
   }
 
   public static Optional<EnumSchema> wrap(SchemaWrapper wrapper) {
     final Schema<?> schema = wrapper.getSchema();
     final List<?> enums = schema.getEnum();
     if (SchemaType.STRING.matchesType(schema) && enums != null) {
+
       final EnumSchema enumSchema =
-          new EnumSchema(schema, PList.fromIter(enums).map(String.class::cast));
+          new EnumSchema(
+              schema,
+              enums.stream()
+                  .filter(Objects::nonNull)
+                  .map(String.class::cast)
+                  .collect(PList.collector()),
+              enums.stream().anyMatch(Objects::isNull));
       return Optional.of(enumSchema);
     }
 
@@ -41,7 +51,7 @@ public class EnumSchema implements OpenApiSchema {
 
   @Override
   public MapContext mapToPojo(ComponentName name) {
-    final EnumPojo enumPojo = EnumPojo.of(name, getDescription(), enums);
+    final EnumPojo enumPojo = EnumPojo.of(name, getDescription(), getV31Nullability(), enums);
     return MapContext.ofPojo(enumPojo);
   }
 
@@ -57,22 +67,27 @@ public class EnumSchema implements OpenApiSchema {
 
     final Nullability nullability =
         delegate.getSpecVersion().equals(SpecVersion.V31)
-            ? Optional.ofNullable(delegate.getTypes())
-                .map(types -> types.contains(SchemaType.NULL.asString()))
-                .map(Nullability::fromBoolean)
-                .orElse(Nullability.NOT_NULLABLE)
+            ? getV31Nullability()
             : Nullability.NOT_NULLABLE;
 
     final Type enumType =
         EnumTypeBuilder.createFull()
             .name(memberName.startUpperCase().append("Enum"))
-            .members(enums)
+            .members(enums.filter(Objects::nonNull))
             .nullability(nullability)
             .legacyNullability(legacyNullability)
             .format(format)
             .build();
 
     return MemberSchemaMapResult.ofType(enumType);
+  }
+
+  private Nullability getV31Nullability() {
+    return Optional.ofNullable(delegate.getTypes())
+        .map(types -> types.contains(SchemaType.NULL.asString()))
+        .filter(ignore -> hasNullEnumConstant)
+        .map(Nullability::fromBoolean)
+        .orElse(Nullability.NOT_NULLABLE);
   }
 
   @Override

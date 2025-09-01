@@ -76,7 +76,11 @@ class EnumSchemaTest {
     assertEquals(0, unresolvedMapResult.getPojoMemberReferences().size());
 
     final EnumPojo expectedPojo =
-        EnumPojo.of(pojoSchema.getName(), "Test description", PList.fromIter(enumSchema.getEnum()));
+        EnumPojo.of(
+            pojoSchema.getName(),
+            "Test description",
+            Nullability.NOT_NULLABLE,
+            PList.fromIter(enumSchema.getEnum()));
     assertEquals(expectedPojo, unresolvedMapResult.getPojos().apply(0));
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
   }

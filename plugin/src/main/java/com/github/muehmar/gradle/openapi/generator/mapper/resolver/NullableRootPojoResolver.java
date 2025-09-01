@@ -19,7 +19,9 @@ public class NullableRootPojoResolver {
                     arrayPojo ->
                         Optional.of(arrayPojo.getName().getPojoName())
                             .filter(ignore -> arrayPojo.getNullability().isNullable()),
-                    enumPojo -> Optional.empty()));
+                    enumPojo ->
+                        Optional.of(enumPojo.getName().getPojoName())
+                            .filter(ignore -> enumPojo.getNullability().isNullable())));
 
     return nullablePojos.foldLeft(
         pojos, (pojos_, nullablePojo) -> pojos_.map(pojo -> pojo.adjustNullablePojo(nullablePojo)));
