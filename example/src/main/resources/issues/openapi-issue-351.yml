@@ -1,0 +1,60 @@
+openapi: "3.1.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Person1:
+      type: object
+      required:
+        - firstName
+        - lastName
+      properties:
+        firstName:
+          type: string
+          description: first name
+          nullable: true
+        lastName:
+          type: string
+          description: last name
+          nullable: true
+        gender:
+          type:
+            - "string"
+            - "null"
+          enum:
+            - male
+            - female
+            - other
+            - unknown
+            - null
+            -
+    Person2:
+      type: object
+      required:
+        - firstName
+        - lastName
+      properties:
+        firstName:
+          type: string
+          description: first name
+          nullable: true
+        lastName:
+          type: string
+          description: last name
+          nullable: true
+        gender:
+          $ref: '#/components/schemas/Gender'
+
+    Gender:
+      type:
+        - "string"
+        - "null"
+      enum:
+        - male
+        - female
+        - other
+        - unknown
+        - null
+
