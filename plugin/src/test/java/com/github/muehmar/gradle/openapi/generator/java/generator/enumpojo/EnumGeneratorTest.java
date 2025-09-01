@@ -8,6 +8,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaEnumPojo;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -21,7 +22,10 @@ class EnumGeneratorTest {
   private static final JavaEnumPojo GENDER_ENUM_POJO =
       JavaEnumPojo.wrap(
           EnumPojo.of(
-              componentName("Gender", "Dto"), "Gender of a user", PList.of("MALE", "FEMALE")));
+              componentName("Gender", "Dto"),
+              "Gender of a user",
+              Nullability.NOT_NULLABLE,
+              PList.of("MALE", "FEMALE")));
 
   @Test
   void generatePojo_when_enumPojo_then_correctPojoGenerated() {

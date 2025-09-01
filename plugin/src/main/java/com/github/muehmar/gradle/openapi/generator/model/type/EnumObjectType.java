@@ -17,14 +17,17 @@ import lombok.ToString;
 public class EnumObjectType implements ObjectType {
   private final PojoName name;
   private final PList<String> members;
+  private final Nullability nullability;
 
-  public EnumObjectType(PojoName name, PList<String> members) {
+  public EnumObjectType(PojoName name, PList<String> members, Nullability nullability) {
     this.name = name;
     this.members = members;
+    this.nullability = nullability;
   }
 
   public static EnumObjectType ofEnumPojo(EnumPojo enumPojo) {
-    return new EnumObjectType(enumPojo.getName().getPojoName(), enumPojo.getMembers());
+    return new EnumObjectType(
+        enumPojo.getName().getPojoName(), enumPojo.getMembers(), enumPojo.getNullability());
   }
 
   public PojoName getName() {
@@ -37,7 +40,7 @@ public class EnumObjectType implements ObjectType {
 
   @Override
   public EnumObjectType withNullability(Nullability nullability) {
-    return this;
+    return new EnumObjectType(name, members, nullability);
   }
 
   @Override
@@ -52,12 +55,12 @@ public class EnumObjectType implements ObjectType {
 
   @Override
   public Nullability getNullability() {
-    return Nullability.NOT_NULLABLE;
+    return nullability;
   }
 
   @Override
   public EnumObjectType applyMapping(PojoNameMapping pojoNameMapping) {
-    return new EnumObjectType(pojoNameMapping.map(name), members);
+    return new EnumObjectType(pojoNameMapping.map(name), members, nullability);
   }
 
   @Override

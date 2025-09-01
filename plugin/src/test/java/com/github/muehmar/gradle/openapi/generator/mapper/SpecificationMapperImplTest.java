@@ -872,6 +872,7 @@ class SpecificationMapperImplTest {
         EnumPojo.of(
             componentName("Gender", "Dto"),
             "Gender of a user",
+            NOT_NULLABLE,
             PList.of("FEMALE", "MALE", "UNKNOWN"));
 
     assertEquals(expectedEnumPojo, pojos.apply(0));
