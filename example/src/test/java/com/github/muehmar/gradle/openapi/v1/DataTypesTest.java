@@ -8,8 +8,10 @@ import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.net.URI;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
@@ -22,7 +24,9 @@ class DataTypesTest {
           .andAllOptionals()
           .setString("string")
           .setDate(LocalDate.of(2018, 12, 30))
-          .setDateTime(LocalDateTime.of(2021, 9, 21, 9, 36))
+          .setDateTime(
+              ZonedDateTime.of(
+                  2021, 9, 21, 9, 36, 0, 0, ZoneId.ofOffset("", ZoneOffset.ofHours(2))))
           .setTime(LocalTime.of(12, 32, 15))
           .setByte("bytes")
           .setBinary(new byte[] {0x15, 0x47})
@@ -41,7 +45,7 @@ class DataTypesTest {
           .build();
 
   private static final String JSON =
-      "{\"binary\":\"FUc=\",\"bool\":true,\"byte\":\"bytes\",\"data\":\"data\",\"date\":\"2018-12-30\",\"dateTime\":\"2021-09-21T09:36:00\",\"defaultInt\":24,\"defaultNumber\":25.75,\"double\":125.5,\"email\":\"mail@mail.ch\",\"float\":87.25,\"int32\":26,\"int64\":64,\"string\":\"string\",\"time\":\"12:32:15\",\"uri\":\"github.com\",\"url\":\"https://github.com\",\"uuid\":\"12263dbb-1a07-4dfa-822c-f3e58dc6a420\"}";
+      "{\"binary\":\"FUc=\",\"bool\":true,\"byte\":\"bytes\",\"data\":\"data\",\"date\":\"2018-12-30\",\"dateTime\":\"2021-09-21T09:36:00+02:00\",\"defaultInt\":24,\"defaultNumber\":25.75,\"double\":125.5,\"email\":\"mail@mail.ch\",\"float\":87.25,\"int32\":26,\"int64\":64,\"string\":\"string\",\"time\":\"12:32:15\",\"uri\":\"github.com\",\"url\":\"https://github.com\",\"uuid\":\"12263dbb-1a07-4dfa-822c-f3e58dc6a420\"}";
 
   @Test
   void writeValueAsString_when_dto_then_correctJson() throws JsonProcessingException {
