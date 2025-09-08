@@ -14,6 +14,7 @@ public class JacksonRefs {
   public static final String JSON_IGNORE = "com.fasterxml.jackson.annotation.JsonIgnore";
   public static final String JSON_INCLUDE = "com.fasterxml.jackson.annotation.JsonInclude";
   public static final String JSON_PROPERTY = "com.fasterxml.jackson.annotation.JsonProperty";
+  public static final String JSON_FORMAT = "com.fasterxml.jackson.annotation.JsonFormat";
   public static final String JACKSON_XML_ROOT_ELEMENT =
       "com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement";
   public static final String JACKSON_XML_PROPERTY =

@@ -2,14 +2,17 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackso
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonJson;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters.isJacksonXml;
+import static com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs.ZONED_DATE_TIME_DESERIALIZER_CLASSNAME;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JacksonRefs;
+import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import java.util.Optional;
@@ -22,6 +25,16 @@ public class JacksonAnnotationGenerator {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append((f, s, w) -> w.println("@JsonProperty(\"%s\")", f.getName().getOriginalName()))
         .append(w -> w.ref(JacksonRefs.JSON_PROPERTY))
+        .filter(isJacksonJson());
+  }
+
+  public static Generator<JavaPojoMember, PojoSettings> jsonFormat() {
+    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+        .append(Generator.constant("@JsonFormat(shape = JsonFormat.Shape.STRING)"))
+        .append(w -> w.ref(JacksonRefs.JSON_FORMAT))
+        .filter(
+            m ->
+                m.getJavaType().getQualifiedClassName().equals(QualifiedClassNames.ZONED_DATE_TIME))
         .filter(isJacksonJson());
   }
 
@@ -80,12 +93,29 @@ public class JacksonAnnotationGenerator {
     return jsonPojoBuilder(Optional.of(prefix));
   }
 
-  public static <T extends JavaPojo> Generator<T, PojoSettings> jsonDeserialize() {
+  public static <T extends JavaPojo> Generator<T, PojoSettings> jsonDeserializeForBuilder() {
     return Generator.<T, PojoSettings>emptyGen()
         .append(
             (pojo, settings, writer) ->
                 writer.println("@JsonDeserialize(builder = %s.Builder.class)", pojo.getClassName()))
         .append(w -> w.ref(JacksonRefs.JSON_DESERIALIZE))
+        .filter(isJacksonJson());
+  }
+
+  public static <T extends JavaPojoMember> Generator<T, PojoSettings> jsonDeserializeForMember() {
+    return Generator.<T, PojoSettings>emptyGen()
+        .append(
+            (member, settings, writer) ->
+                writer.println(
+                    "@JsonDeserialize(using = %s.class)", ZONED_DATE_TIME_DESERIALIZER_CLASSNAME))
+        .append(w -> w.ref(JacksonRefs.JSON_DESERIALIZE))
+        .append(w -> w.ref(OpenApiUtilRefs.ZONED_DATE_TIME_DESERIALIZER))
+        .filter(
+            member ->
+                member
+                    .getJavaType()
+                    .getQualifiedClassName()
+                    .equals(QualifiedClassNames.ZONED_DATE_TIME))
         .filter(isJacksonJson());
   }
 
