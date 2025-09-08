@@ -8,6 +8,15 @@
   plugin: [Integration with official OpenAPI generator](095_official_openapi_generator_integration.md).
 * Version 4.x of the plugin requires Java 11 as minimum JDK version.
 * 'partial-time' is removed as supported format for string types and replaced by 'time' from RFC 3339.
+* Since the string format 'date-time' is based on RFC 3339, the timezone is mandatory and is represented as
+  ZonedDateTime in Java instead of LocalDateTime. If you don't care about the timezone, you can still use LocalDateTime
+  with a class mapping:
+    ```groovy
+    classMapping {
+        fromClass = "ZonedDateTime"
+        toClass = "java.time.LocalDateTime"
+    }
+    ```
 
 ## Migrating from v2.x to 3.x
 
