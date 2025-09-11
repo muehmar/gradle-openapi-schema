@@ -98,6 +98,7 @@ def issueNumbers = [
         '280',
         '278',
         '287',
+        '307',
         '310',
         '339',
         '341',
@@ -354,6 +355,15 @@ openApiGenerator {
 
         Issue352 {
             allowNullableForEnums = true
+        }
+
+        Issue307 {
+            classMapping {
+                fromClass = "String"
+                toClass = "com.github.muehmar.gradle.openapi.typemappingwithconversion.CustomString"
+                conversion.fromCustomType = "getValue"
+                conversion.toCustomType = "CustomString#fromString"
+            }
         }
 
         specifications.forEach { spec ->
