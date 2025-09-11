@@ -17,6 +17,8 @@
         toClass = "java.time.LocalDateTime"
     }
     ```
+* Map structures as additional properties of objects will now result in a separate DTO class instead of a Map<String,
+  Object>.
 
 ## Migrating from v2.x to 3.x
 
