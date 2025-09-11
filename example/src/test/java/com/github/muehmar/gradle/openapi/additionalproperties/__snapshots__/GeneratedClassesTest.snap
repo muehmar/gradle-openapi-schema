@@ -2,6 +2,8 @@ allGeneratedClasses=[
 ArrayAdditionalPropertiesDto
 ArrayAdditionalPropertiesPropertyDto
 EnumAdditionalPropertiesDto
+MapAdditionalPropertiesDto
+MapAdditionalPropertiesPropertyDto
 NoAdditionalPropertiesDto
 ObjectAdditionalPropertiesDto
 ObjectAdditionalPropertiesPropertyDto
