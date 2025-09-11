@@ -87,3 +87,14 @@ components:
         type: string
         minLength: 5
 
+    MapAdditionalProperties:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: string
