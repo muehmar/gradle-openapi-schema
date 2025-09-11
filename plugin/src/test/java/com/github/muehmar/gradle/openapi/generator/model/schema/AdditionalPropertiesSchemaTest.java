@@ -14,14 +14,11 @@ import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
-import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
-import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import java.nio.file.Path;
-import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
@@ -54,24 +51,6 @@ class AdditionalPropertiesSchemaTest {
   }
 
   @Test
-  void wrapNullable_when_schema_then_additionalPropertiesAllowedAndCorrectType() {
-    final ObjectSchema objectSchema = new ObjectSchema();
-    objectSchema.setProperties(Collections.emptyMap());
-
-    final AdditionalPropertiesSchema additionalPropertiesSchema =
-        AdditionalPropertiesSchema.wrapNullable(SPEC, objectSchema);
-
-    final ComponentName componentName = componentName("User", "Dto");
-    final Type additionalPropertiesType =
-        additionalPropertiesSchema.getAdditionalPropertiesType(componentName);
-
-    assertTrue(additionalPropertiesSchema.isAllowed());
-    assertEquals(
-        MapType.ofKeyAndValueType(StringType.noFormat(), AnyType.create(NULLABLE)),
-        additionalPropertiesType);
-  }
-
-  @Test
   void getAdditionalPropertiesMapResult_when_arraySchema_then_newArrayPojoCreated() {
     final ArraySchema arraySchema = new ArraySchema();
     arraySchema.setItems(new StringSchema());
@@ -91,6 +70,29 @@ class AdditionalPropertiesSchemaTest {
     assertEquals(1, mapResult.getUnmappedItems().getPojoSchemas().size());
     assertEquals(
         new PojoSchema(newComponentName, wrap(arraySchema)),
+        mapResult.getUnmappedItems().getPojoSchemas().apply(0));
+  }
+
+  @Test
+  void getAdditionalPropertiesMapResult_when_mapSchema_then_newMapPojoCreated() {
+    final MapSchema mapSchema = new MapSchema();
+    mapSchema.setAdditionalProperties(new StringSchema());
+
+    final AdditionalPropertiesSchema additionalPropertiesSchema =
+        AdditionalPropertiesSchema.wrapNullable(OpenApiSpec.fromPath(Path.of(".")), mapSchema);
+
+    final ComponentName componentName = componentName("User", "Dto");
+    // method call
+    final MemberSchemaMapResult mapResult =
+        additionalPropertiesSchema.getAdditionalPropertiesMapResult(componentName);
+
+    final ComponentName newComponentName =
+        componentName.deriveMemberSchemaName(Name.ofString("Property"));
+    assertEquals(StandardObjectType.ofName(newComponentName.getPojoName()), mapResult.getType());
+
+    assertEquals(1, mapResult.getUnmappedItems().getPojoSchemas().size());
+    assertEquals(
+        new PojoSchema(newComponentName, wrap(mapSchema)),
         mapResult.getUnmappedItems().getPojoSchemas().apply(0));
   }
 }

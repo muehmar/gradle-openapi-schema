@@ -68,6 +68,11 @@ class AdditionalPropertiesSchema {
       final ObjectType type = StandardObjectType.ofName(arrayComponentName.getPojoName());
       final PojoSchema arrayPojoSchema = new PojoSchema(arrayComponentName, schema);
       return MemberSchemaMapResult.ofTypeAndPojoSchema(type, arrayPojoSchema);
+    } else if (result.getType().isMapType()) {
+      final ComponentName mapComponentName = name.deriveMemberSchemaName(memberName);
+      final ObjectType type = StandardObjectType.ofName(mapComponentName.getPojoName());
+      final PojoSchema mapPojoSchema = new PojoSchema(mapComponentName, schema);
+      return MemberSchemaMapResult.ofTypeAndPojoSchema(type, mapPojoSchema);
     }
     return result;
   }
