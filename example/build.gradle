@@ -22,7 +22,6 @@ sourceSets {
         compileClasspath += generated.output
         runtimeClasspath += generated.output
     }
-
 }
 
 dependencies {
@@ -44,6 +43,25 @@ dependencies {
     testImplementation testLibs.reflections
     testImplementation testFixtures(project(":java-snapshot"))
 }
+
+def jacksonVersions = [
+        '2.9.10',
+        '2.10.5',
+        '2.11.4',
+        '2.12.7',
+        '2.13.5',
+        '2.14.3',
+        '2.15.4',
+        '2.16.2',
+        '2.17.3',
+        '2.18.4',
+        '2.19.2'
+].collect({
+    [
+            version     : it,
+            testTaskName: "testJackson-${it.replace('.', '-')}"
+    ]
+})
 
 def specifications =
         [
@@ -403,6 +421,56 @@ afterEvaluate {
     tasks.named("generateRemoteRefModel") {
         inputs.file("$projectDir/src/main/resources/openapi-remote-ref-sub.yml")
     }
+}
+
+// Multi-version Jackson testing
+jacksonVersions.each { jacksonVersion ->
+
+    def taskName = jacksonVersion.testTaskName
+    def version = jacksonVersion.version
+
+    // Create a detached configuration for this Jackson version
+    def jacksonConfig = configurations.detachedConfiguration(
+            dependencies.create("com.fasterxml.jackson.core:jackson-core:${version}"),
+            dependencies.create("com.fasterxml.jackson.core:jackson-databind:${version}"),
+            dependencies.create("com.fasterxml.jackson.core:jackson-annotations:${version}"),
+            dependencies.create("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${version}"),
+            dependencies.create("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${version}")
+    )
+
+    tasks.register(taskName, Test) {
+        description = "Run tests with Jackson ${version}"
+        group = 'verification'
+
+        useJUnitPlatform()
+
+        // Use the same test sources
+        testClassesDirs = sourceSets.test.output.classesDirs
+
+        // Override classpath to use specific Jackson version
+        classpath = sourceSets.test.output + jacksonConfig + (sourceSets.test.runtimeClasspath - configurations.runtimeClasspath.fileCollection {
+            it.group == 'com.fasterxml.jackson.core' || it.group == 'com.fasterxml.jackson.datatype' || it.group == 'com.fasterxml.jackson.dataformat'
+        })
+
+        doFirst {
+            println "Running tests with Jackson ${version}"
+        }
+
+        reports {
+            html.outputLocation = file("${buildDir}/reports/tests/${taskName}")
+            junitXml.outputLocation = file("${buildDir}/test-results/${taskName}")
+        }
+    }
+}
+
+// Create aggregate task to run all Jackson version tests
+tasks.register('testJacksonAll', Test) {
+    description = 'Run tests against all Jackson versions'
+    group = 'verification'
+
+    useJUnitPlatform()
+
+    finalizedBy jacksonVersions.collect { it.testTaskName }
 }
 
 test {

@@ -4,9 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Gradle plugin that generates Java code from OpenAPI 3.0.x/3.1.0 specifications. Unlike standard OpenAPI generators, this focuses specifically on the `#/components/schemas` section, generating immutable POJOs with staged builders, Jackson JSON support, and comprehensive validation.
+This is a Gradle plugin that generates Java code from OpenAPI 3.0.x/3.1.0 specifications. Unlike standard OpenAPI
+generators, this focuses specifically on the `#/components/schemas` section, generating immutable POJOs with staged
+builders, Jackson JSON support, and comprehensive validation.
 
 The plugin (`com.github.muehmar.openapischema`) processes OpenAPI schemas and generates type-safe Java classes with:
+
 - Immutable data classes with staged builder pattern
 - JSON/XML serialization via Jackson
 - Support for compositions (allOf, anyOf, oneOf)
@@ -16,6 +19,7 @@ The plugin (`com.github.muehmar.openapischema`) processes OpenAPI schemas and ge
 ## Development Commands
 
 ### Building
+
 ```bash
 ./gradlew build                    # Build all modules
 ./gradlew plugin:build             # Build only the plugin module
@@ -23,6 +27,7 @@ The plugin (`com.github.muehmar.openapischema`) processes OpenAPI schemas and ge
 ```
 
 ### Testing
+
 ```bash
 ./gradlew test                     # Run unit tests for all modules
 ./gradlew plugin:test              # Run plugin unit tests only
@@ -30,12 +35,25 @@ The plugin (`com.github.muehmar.openapischema`) processes OpenAPI schemas and ge
 ./gradlew testAll                  # Run all tests (unit + integration)
 ```
 
-**Snapshot Testing**: The project uses snapshot testing (java-snapshot-testing library) extensively. To update snapshots when expected output changes:
+**Snapshot Testing**: The project uses snapshot testing (java-snapshot-testing library) extensively. To update snapshots
+when expected output changes:
+
 ```bash
 ./gradlew test -DupdateSnapshot=true
 ```
 
+**Multi-Version Jackson Testing**: The example project can test against multiple Jackson versions:
+
+```bash
+./gradlew example:testJacksonAll     # Test all Jackson versions (2.13.5, 2.14.3, 2.15.3, 2.16.1, 2.17.2)
+./gradlew example:testJackson-2-15-3          # Test with specific Jackson version
+./gradlew example:testJackson-2-17-2 --tests "*JsonTest"  # Test specific class with Jackson 2.17.2
+```
+
+Each version gets separate test reports in `example/build/reports/tests/testJackson*`.
+
 ### Code Quality
+
 ```bash
 ./gradlew spotlessCheck            # Check code formatting
 ./gradlew spotlessApply            # Auto-format code
@@ -43,12 +61,15 @@ The plugin (`com.github.muehmar.openapischema`) processes OpenAPI schemas and ge
 ```
 
 ### Plugin Development
+
 ```bash
 ./gradlew plugin:publishToMavenLocal   # Publish plugin to local Maven repo for testing
 ```
 
 ### Running Examples
+
 The repository includes example projects that use the plugin:
+
 ```bash
 ./gradlew example:build            # Standard example
 ./gradlew example-jakarta-3:build  # Jakarta validation 3 example
@@ -70,7 +91,9 @@ The repository includes example projects that use the plugin:
 
 ### Plugin Entry Point
 
-`OpenApiSchemaGenerator` (plugin/src/main/java/com/github/muehmar/gradle/openapi/OpenApiSchemaGenerator.java) implements the Gradle `Plugin` interface and:
+`OpenApiSchemaGenerator` (plugin/src/main/java/com/github/muehmar/gradle/openapi/OpenApiSchemaGenerator.java) implements
+the Gradle `Plugin` interface and:
+
 1. Creates the `openApiGenerator` DSL extension
 2. Sets up code generation tasks dynamically based on configured schemas
 3. Each schema config creates a `generate<Name>Model` task (e.g., `generateApiV1Model`)
@@ -83,42 +106,48 @@ The generation process flows through these key packages:
 
 1. **task/** - `GenerateSchemasTask` orchestrates the generation process
 2. **mapper/** - Maps OpenAPI specification to internal model
-   - `SpecificationMapper` reads OpenAPI YAML/JSON files
-   - Resolves `$ref` references across specification files
-   - Creates `Pojo` model objects representing schemas
+    - `SpecificationMapper` reads OpenAPI YAML/JSON files
+    - Resolves `$ref` references across specification files
+    - Creates `Pojo` model objects representing schemas
 3. **generator/model/** - Internal representation of schemas
-   - `Pojo` - Core model for generated POJOs
-   - `pojo/` - Properties, compositions, constraints
-   - `type/` - Type system (primitives, arrays, objects, etc.)
+    - `Pojo` - Core model for generated POJOs
+    - `pojo/` - Properties, compositions, constraints
+    - `type/` - Type system (primitives, arrays, objects, etc.)
 4. **generator/java/** - Java code generation
-   - `JavaPojoGenerator` - Main generator entry point
-   - `generator/java/generator/pojo/` - POJO class generation
-   - `generator/java/generator/pojo/builder/` - Builder generation
-   - `generator/java/generator/pojo/stagedbuilder/` - Staged builder pattern
-   - `generator/java/generator/pojo/getter/` - Getter methods
-   - Uses `io.github.muehmar:code-generator` library for template-based generation
+    - `JavaPojoGenerator` - Main generator entry point
+    - `generator/java/generator/pojo/` - POJO class generation
+    - `generator/java/generator/pojo/builder/` - Builder generation
+    - `generator/java/generator/pojo/stagedbuilder/` - Staged builder pattern
+    - `generator/java/generator/pojo/getter/` - Getter methods
+    - Uses `io.github.muehmar:code-generator` library for template-based generation
 
 ### Key Generation Components
 
-- **Staged Builder**: Generates type-safe builder interfaces where required properties become sequential method calls (see `generator/java/generator/pojo/stagedbuilder/`)
+- **Staged Builder**: Generates type-safe builder interfaces where required properties become sequential method calls (
+  see `generator/java/generator/pojo/stagedbuilder/`)
 - **Composition Handling**: Special generators for allOf/anyOf/oneOf (`generator/java/generator/pojo/composition/`)
-- **Validation**: Generates validation logic for constraints defined in schemas (`generator/java/generator/pojo/validation/`)
-- **Additional Properties**: Handles dynamic properties via Map (`generator/java/generator/pojo/getter/additionalproperties/`)
+- **Validation**: Generates validation logic for constraints defined in schemas (
+  `generator/java/generator/pojo/validation/`)
+- **Additional Properties**: Handles dynamic properties via Map (
+  `generator/java/generator/pojo/getter/additionalproperties/`)
 
 ## Testing Approach
 
 ### Unit Tests
+
 - Located in `plugin/src/test/java/`
 - Mirror the package structure of main code
 - Use JUnit 5 + Mockito
 - **Snapshot tests** for generated code - compare output against committed snapshots
 
 ### Integration Tests
+
 - `plugin/src/test/java/com/github/muehmar/gradle/openapi/integration/`
 - Use `TemporaryProject` helper to create real Gradle projects
 - Test the full plugin lifecycle: parse spec → generate code → compile
 
 ### Running Specific Tests
+
 ```bash
 # Run a single test class
 ./gradlew plugin:test --tests "ClassName"
@@ -159,6 +188,7 @@ Configuration classes are in `plugin/src/main/java/com/github/muehmar/gradle/ope
 ## Documentation
 
 Extensive user-facing documentation is in the `doc/` directory. Key files:
+
 - `010_configuration.md` - All plugin configuration options
 - `040_compositions.md` - How allOf/anyOf/oneOf are handled
 - `060_staged_builder.md` - Staged builder pattern explanation
