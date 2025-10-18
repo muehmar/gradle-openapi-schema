@@ -20,14 +20,14 @@ dependencyResolutionManagement {
             version('swaggerParser', '2.1.19')
             library('swaggerParser', 'io.swagger.parser.v3', 'swagger-parser-v3').versionRef('swaggerParser')
 
-            version('pojo-builder', '1.8.0')
+            version('pojo-builder', '2.0.0')
             library('pojoBuilder-annotations', 'io.github.muehmar', 'pojo-builder-annotations').versionRef('pojo-builder')
             library('pojoBuilder', 'io.github.muehmar', 'pojo-builder').versionRef('pojo-builder')
 
             version('code-generator', '0.24.0')
             library('codeGenerator', 'io.github.muehmar', 'code-generator').versionRef('code-generator')
 
-            version('lombok', '1.18.30')
+            version('lombok', '1.18.42')
             library('lombok', 'org.projectlombok', 'lombok').versionRef('lombok')
 
         }
@@ -45,16 +45,16 @@ dependencyResolutionManagement {
             version('glassfishJavaxEl3', '3.0.0')
             library('glassfish-javax-el3', 'org.glassfish', 'javax.el').versionRef('glassfishJavaxEl3')
 
-            version('jakarta3Validation', '3.0.2')
+            version('jakarta3Validation', '3.1.1')
             library('jakarta3-validation-api', 'jakarta.validation', 'jakarta.validation-api').versionRef('jakarta3Validation')
 
             version('javax2Validation', '2.0.1.Final')
             library('javax2-validation-api', 'javax.validation', 'validation-api').versionRef('javax2Validation')
 
-            version('swaggerAnnotations', '2.2.23')
+            version('swaggerAnnotations', '2.2.39')
             library('swagger-annotations', 'io.swagger.core.v3', 'swagger-annotations').versionRef('swaggerAnnotations')
 
-            version('jackson', '2.15.3')
+            version('jackson', '2.19.2')
             library('jackson-core', 'com.fasterxml.jackson.core', 'jackson-core').versionRef('jackson')
             library('jackson-databind', 'com.fasterxml.jackson.core', 'jackson-databind').versionRef('jackson')
             library('jackson-annotations', 'com.fasterxml.jackson.core', 'jackson-annotations').versionRef('jackson')
@@ -65,13 +65,13 @@ dependencyResolutionManagement {
         }
 
         testLibs {
-            version('mockito', '4.11.0')
+            version('mockito', '5.2.0')
             library('mockito-core', 'org.mockito', 'mockito-core').versionRef('mockito')
             library('mockito-junit-jupiter', 'org.mockito', 'mockito-junit-jupiter').versionRef('mockito')
             library('mockito-inline', 'org.mockito', 'mockito-inline').versionRef('mockito')
             bundle('mockito', ['mockito-core', 'mockito-junit-jupiter', 'mockito-inline'])
 
-            version('javaSnapshot', '4.0.6')
+            version('javaSnapshot', '4.0.8')
             library('javaSnapshot', 'io.github.origin-energy', 'java-snapshot-testing-junit5').versionRef('javaSnapshot')
 
             version('junit', '5.10.1')
@@ -88,8 +88,8 @@ dependencyResolutionManagement {
             plugin('openApiSchema', 'com.github.muehmar.openapischema').version('3.8.0')
             plugin('openapiGenerator', 'org.openapi.generator').version('6.6.0')
             plugin('springboot2', 'org.springframework.boot').version('2.7.9')
-            plugin('springboot3', 'org.springframework.boot').version('3.2.3')
-            plugin('springDependencyManagement', 'io.spring.dependency-management').version('1.1.4')
+            plugin('springboot3', 'org.springframework.boot').version('3.3.13')
+            plugin('springDependencyManagement', 'io.spring.dependency-management').version('1.1.7')
             plugin('integrationTest', 'com.coditory.integration-test').version('1.4.5')
         }
     }
