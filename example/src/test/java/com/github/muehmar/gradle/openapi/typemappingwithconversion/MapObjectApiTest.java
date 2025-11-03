@@ -23,12 +23,12 @@ public class MapObjectApiTest {
 
     assertEquals(map("id-k-1", customString("id-v-1")), mapObjectDto.getIdsMap());
     assertEquals(
-        opt(map("usernames-k-1", customString("usernames-v-1"))),
+        opt(map("usernames-k-1", opt(customString("usernames-v-1")))),
         mapObjectDto.getUsernamesMapOpt());
     assertEquals(
-        opt(map("emails-k-1", customString("emails-v-1"))), mapObjectDto.getEmailsMapOpt());
+        opt(map("emails-k-1", opt(customString("emails-v-1")))), mapObjectDto.getEmailsMapOpt());
     assertEquals(
-        Tristate.ofValue(map("phones-k-1", customString("phones-v-1"))),
+        Tristate.ofValue(map("phones-k-1", opt(customString("phones-v-1")))),
         mapObjectDto.getPhonesMapTristate());
   }
 
@@ -44,12 +44,12 @@ public class MapObjectApiTest {
 
     assertEquals(map("id-k-1", customString("id-v-1")), mapObjectDto.getIdsMap());
     assertEquals(
-        opt(map("usernames-k-1", customString("usernames-v-1"))),
+        opt(map("usernames-k-1", opt(customString("usernames-v-1")))),
         mapObjectDto.getUsernamesMapOpt());
     assertEquals(
-        opt(map("emails-k-1", customString("emails-v-1"))), mapObjectDto.getEmailsMapOpt());
+        opt(map("emails-k-1", opt(customString("emails-v-1")))), mapObjectDto.getEmailsMapOpt());
     assertEquals(
-        Tristate.ofValue(map("phones-k-1", customString("phones-v-1"))),
+        Tristate.ofValue(map("phones-k-1", opt(customString("phones-v-1")))),
         mapObjectDto.getPhonesMapTristate());
   }
 
@@ -88,10 +88,12 @@ public class MapObjectApiTest {
 
     assertEquals(map("id-k-2", customString("id-v-2")), changedDto.getIdsMap());
     assertEquals(
-        opt(map("usernames-k-2", customString("usernames-v-2"))), changedDto.getUsernamesMapOpt());
-    assertEquals(opt(map("emails-k-2", customString("emails-v-2"))), changedDto.getEmailsMapOpt());
+        opt(map("usernames-k-2", opt(customString("usernames-v-2")))),
+        changedDto.getUsernamesMapOpt());
     assertEquals(
-        Tristate.ofValue(map("phones-k-2", customString("phones-v-2"))),
+        opt(map("emails-k-2", opt(customString("emails-v-2")))), changedDto.getEmailsMapOpt());
+    assertEquals(
+        Tristate.ofValue(map("phones-k-2", opt(customString("phones-v-2")))),
         changedDto.getPhonesMapTristate());
   }
 
@@ -114,10 +116,12 @@ public class MapObjectApiTest {
 
     assertEquals(map("id-k-2", customString("id-v-2")), changedDto.getIdsMap());
     assertEquals(
-        opt(map("usernames-k-2", customString("usernames-v-2"))), changedDto.getUsernamesMapOpt());
-    assertEquals(opt(map("emails-k-2", customString("emails-v-2"))), changedDto.getEmailsMapOpt());
+        opt(map("usernames-k-2", opt(customString("usernames-v-2")))),
+        changedDto.getUsernamesMapOpt());
     assertEquals(
-        Tristate.ofValue(map("phones-k-2", customString("phones-v-2"))),
+        opt(map("emails-k-2", opt(customString("emails-v-2")))), changedDto.getEmailsMapOpt());
+    assertEquals(
+        Tristate.ofValue(map("phones-k-2", opt(customString("phones-v-2")))),
         changedDto.getPhonesMapTristate());
   }
 
