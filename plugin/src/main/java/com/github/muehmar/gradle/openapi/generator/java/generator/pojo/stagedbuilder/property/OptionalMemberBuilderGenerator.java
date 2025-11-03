@@ -69,9 +69,9 @@ public class OptionalMemberBuilderGenerator {
             NORMAL_SETTER,
             OPTIONAL_SETTER,
             TRISTATE_SETTER,
-            NORMAL_SETTER.forType(SetterBuilderImpl.SetterType.NULLABLE_ITEMS_LIST),
-            OPTIONAL_SETTER.forType(SetterBuilderImpl.SetterType.NULLABLE_ITEMS_LIST),
-            TRISTATE_SETTER.forType(SetterBuilderImpl.SetterType.NULLABLE_ITEMS_LIST));
+            NORMAL_SETTER.forType(SetterBuilderImpl.SetterType.NULLABLE_CONTAINER_VALUES),
+            OPTIONAL_SETTER.forType(SetterBuilderImpl.SetterType.NULLABLE_CONTAINER_VALUES),
+            TRISTATE_SETTER.forType(SetterBuilderImpl.SetterType.NULLABLE_CONTAINER_VALUES));
     return singleMemberSetterGenerator(setters);
   }
 

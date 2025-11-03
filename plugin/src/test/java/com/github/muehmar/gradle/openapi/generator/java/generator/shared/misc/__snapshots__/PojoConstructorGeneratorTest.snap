@@ -42,12 +42,19 @@ public NecessityAndNullabilityDto(
     List<String> optionalNullableListWithNullableItems,
     boolean isOptionalNullableListWithNullableItemsNull,
     Map<String, String> requiredMap,
+    Map<String, String> requiredMapWithNullableValues,
     Map<String, String> requiredNullableMap,
     boolean isRequiredNullableMapPresent,
+    Map<String, String> requiredNullableMapWithNullableValues,
+    boolean isRequiredNullableMapWithNullableValuesPresent,
     Map<String, String> optionalMap,
     boolean isOptionalMapNotNull,
+    Map<String, String> optionalMapWithNullableValues,
+    boolean isOptionalMapWithNullableValuesNotNull,
     Map<String, String> optionalNullableMap,
     boolean isOptionalNullableMapNull,
+    Map<String, String> optionalNullableMapWithNullableValues,
+    boolean isOptionalNullableMapWithNullableValuesNull,
     Map<String, Object> additionalProperties
   ) {
   this.requiredStringVal = requiredStringVal;
@@ -65,12 +72,19 @@ public NecessityAndNullabilityDto(
   this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
   this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
   this.requiredMap = requiredMap;
+  this.requiredMapWithNullableValues = requiredMapWithNullableValues;
   this.requiredNullableMap = requiredNullableMap;
   this.isRequiredNullableMapPresent = isRequiredNullableMapPresent;
+  this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues;
+  this.isRequiredNullableMapWithNullableValuesPresent = isRequiredNullableMapWithNullableValuesPresent;
   this.optionalMap = optionalMap;
   this.isOptionalMapNotNull = isOptionalMapNotNull;
+  this.optionalMapWithNullableValues = optionalMapWithNullableValues;
+  this.isOptionalMapWithNullableValuesNotNull = isOptionalMapWithNullableValuesNotNull;
   this.optionalNullableMap = optionalNullableMap;
   this.isOptionalNullableMapNull = isOptionalNullableMapNull;
+  this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues;
+  this.isOptionalNullableMapWithNullableValuesNull = isOptionalNullableMapWithNullableValuesNull;
   this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
 }
 ]
@@ -93,12 +107,19 @@ public NecessityAndNullabilityDto(
     List<String> optionalNullableListWithNullableItems,
     boolean isOptionalNullableListWithNullableItemsNull,
     Map<String, String> requiredMap,
+    Map<String, String> requiredMapWithNullableValues,
     Map<String, String> requiredNullableMap,
     boolean isRequiredNullableMapPresent,
+    Map<String, String> requiredNullableMapWithNullableValues,
+    boolean isRequiredNullableMapWithNullableValuesPresent,
     Map<String, String> optionalMap,
     boolean isOptionalMapNotNull,
+    Map<String, String> optionalMapWithNullableValues,
+    boolean isOptionalMapWithNullableValuesNotNull,
     Map<String, String> optionalNullableMap,
     boolean isOptionalNullableMapNull,
+    Map<String, String> optionalNullableMapWithNullableValues,
+    boolean isOptionalNullableMapWithNullableValuesNull,
     Map<String, Object> additionalProperties
   ) {
   this.requiredStringVal = requiredStringVal;
@@ -116,12 +137,19 @@ public NecessityAndNullabilityDto(
   this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
   this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
   this.requiredMap = requiredMap;
+  this.requiredMapWithNullableValues = requiredMapWithNullableValues;
   this.requiredNullableMap = requiredNullableMap;
   this.isRequiredNullableMapPresent = isRequiredNullableMapPresent;
+  this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues;
+  this.isRequiredNullableMapWithNullableValuesPresent = isRequiredNullableMapWithNullableValuesPresent;
   this.optionalMap = optionalMap;
   this.isOptionalMapNotNull = isOptionalMapNotNull;
+  this.optionalMapWithNullableValues = optionalMapWithNullableValues;
+  this.isOptionalMapWithNullableValuesNotNull = isOptionalMapWithNullableValuesNotNull;
   this.optionalNullableMap = optionalNullableMap;
   this.isOptionalNullableMapNull = isOptionalNullableMapNull;
+  this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues;
+  this.isOptionalNullableMapWithNullableValuesNull = isOptionalNullableMapWithNullableValuesNull;
   this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
 }
 ]

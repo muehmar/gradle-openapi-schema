@@ -31,14 +31,26 @@ private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
   if (requiredMap != null) {
     props.put("requiredMap", requiredMap);
   }
+  if (requiredMapWithNullableValues != null) {
+    props.put("requiredMapWithNullableValues", requiredMapWithNullableValues);
+  }
   if (isRequiredNullableMapPresent) {
     props.put("requiredNullableMap", requiredNullableMap);
+  }
+  if (isRequiredNullableMapWithNullableValuesPresent) {
+    props.put("requiredNullableMapWithNullableValues", requiredNullableMapWithNullableValues);
   }
   if (optionalMap != null) {
     props.put("optionalMap", optionalMap);
   }
+  if (optionalMapWithNullableValues != null) {
+    props.put("optionalMapWithNullableValues", optionalMapWithNullableValues);
+  }
   if (optionalNullableMap != null || isOptionalNullableMapNull) {
     props.put("optionalNullableMap", optionalNullableMap);
+  }
+  if (optionalNullableMapWithNullableValues != null || isOptionalNullableMapWithNullableValuesNull) {
+    props.put("optionalNullableMapWithNullableValues", optionalNullableMapWithNullableValues);
   }
   return new SampleObjectPojo1Dto(
     stringVal,
@@ -75,12 +87,19 @@ private NecessityAndNullabilityDto asNecessityAndNullabilityDto() {
     optionalNullableListWithNullableItems,
     isOptionalNullableListWithNullableItemsNull,
     requiredMap,
+    requiredMapWithNullableValues,
     requiredNullableMap,
     isRequiredNullableMapPresent,
+    requiredNullableMapWithNullableValues,
+    isRequiredNullableMapWithNullableValuesPresent,
     optionalMap,
     isOptionalMapNotNull,
+    optionalMapWithNullableValues,
+    isOptionalMapWithNullableValuesNotNull,
     optionalNullableMap,
     isOptionalNullableMapNull,
+    optionalNullableMapWithNullableValues,
+    isOptionalNullableMapWithNullableValuesNull,
     props
   );
 }

@@ -55,7 +55,7 @@ public class AllOfBuilderGenerator {
     return Generator.<AllOfBuilderStage, PojoSettings>emptyGen()
         .appendOptional(
             singleMemberSetterGenerator(
-                PList.of(setter, setter.forType(SetterType.NULLABLE_ITEMS_LIST))),
+                PList.of(setter, setter.forType(SetterType.NULLABLE_CONTAINER_VALUES))),
             AllOfBuilderGenerator::standardSetterMemberFromStage);
   }
 
@@ -70,7 +70,7 @@ public class AllOfBuilderGenerator {
     return Generator.<AllOfBuilderStage, PojoSettings>emptyGen()
         .appendOptional(
             singleMemberSetterGenerator(
-                PList.of(setter, setter.forType(SetterType.NULLABLE_ITEMS_LIST))),
+                PList.of(setter, setter.forType(SetterType.NULLABLE_CONTAINER_VALUES))),
             AllOfBuilderGenerator::standardSetterMemberFromStage);
   }
 
@@ -85,7 +85,7 @@ public class AllOfBuilderGenerator {
     return Generator.<AllOfBuilderStage, PojoSettings>emptyGen()
         .appendOptional(
             singleMemberSetterGenerator(
-                PList.of(setter, setter.forType(SetterType.NULLABLE_ITEMS_LIST))),
+                PList.of(setter, setter.forType(SetterType.NULLABLE_CONTAINER_VALUES))),
             AllOfBuilderGenerator::standardSetterMemberFromStage);
   }
 

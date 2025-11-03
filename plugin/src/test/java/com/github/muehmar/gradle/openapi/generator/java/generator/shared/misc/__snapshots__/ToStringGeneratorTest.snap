@@ -17,12 +17,19 @@ public String toString() {
     "optionalNullableListWithNullableItems=" + optionalNullableListWithNullableItems + ", " +
     "isOptionalNullableListWithNullableItemsNull=" + isOptionalNullableListWithNullableItemsNull + ", " +
     "requiredMap=" + requiredMap + ", " +
+    "requiredMapWithNullableValues=" + requiredMapWithNullableValues + ", " +
     "requiredNullableMap=" + requiredNullableMap + ", " +
     "isRequiredNullableMapPresent=" + isRequiredNullableMapPresent + ", " +
+    "requiredNullableMapWithNullableValues=" + requiredNullableMapWithNullableValues + ", " +
+    "isRequiredNullableMapWithNullableValuesPresent=" + isRequiredNullableMapWithNullableValuesPresent + ", " +
     "optionalMap=" + optionalMap + ", " +
     "isOptionalMapNotNull=" + isOptionalMapNotNull + ", " +
+    "optionalMapWithNullableValues=" + optionalMapWithNullableValues + ", " +
+    "isOptionalMapWithNullableValuesNotNull=" + isOptionalMapWithNullableValuesNotNull + ", " +
     "optionalNullableMap=" + optionalNullableMap + ", " +
     "isOptionalNullableMapNull=" + isOptionalNullableMapNull + ", " +
+    "optionalNullableMapWithNullableValues=" + optionalNullableMapWithNullableValues + ", " +
+    "isOptionalNullableMapWithNullableValuesNull=" + isOptionalNullableMapWithNullableValuesNull + ", " +
     "additionalProperties=" + additionalProperties +
     "}";
 }

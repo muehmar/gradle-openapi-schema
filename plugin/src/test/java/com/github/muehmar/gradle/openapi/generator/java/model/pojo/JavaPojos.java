@@ -6,14 +6,18 @@ import static com.github.muehmar.gradle.openapi.generator.model.AdditionalProper
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalMap;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalMapWithNullableValues;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableMap;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableMapWithNullableValues;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredMap;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredMapWithNullableValues;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableMap;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableMapWithNullableValues;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.name.ComponentNames.componentName;
@@ -256,9 +260,13 @@ public class JavaPojos {
                 optionalListWithNullableItems(),
                 optionalNullableListWithNullableItems(),
                 requiredMap(),
+                requiredMapWithNullableValues(),
                 requiredNullableMap(),
+                requiredNullableMapWithNullableValues(),
                 optionalMap(),
-                optionalNullableMap()))
+                optionalMapWithNullableValues(),
+                optionalNullableMap(),
+                optionalNullableMapWithNullableValues()))
         .requiredAdditionalProperties(PList.empty())
         .constraints(constraints)
         .additionalProperties(anyTypeAllowed())

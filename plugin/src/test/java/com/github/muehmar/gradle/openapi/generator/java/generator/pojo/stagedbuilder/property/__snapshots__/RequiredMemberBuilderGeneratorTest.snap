@@ -128,19 +128,78 @@ public static final class FullPropertyBuilder5 {
   }
 
   /**
-   * RequiredNullableMap
+   * RequiredMapWithNullableValues
    */
-  public FullOptPropertyBuilder0 setRequiredNullableMap(CustomMap<String, CustomString> requiredNullableMap) {
-    return new FullOptPropertyBuilder0(builder.setRequiredNullableMap(requiredNullableMap));
+  public FullPropertyBuilder6 setRequiredMapWithNullableValues(CustomMap<String, CustomString> requiredMapWithNullableValues) {
+    return new FullPropertyBuilder6(builder.setRequiredMapWithNullableValues(requiredMapWithNullableValues));
+  }
+
+  /**
+   * RequiredMapWithNullableValues
+   */
+  public FullPropertyBuilder6 setRequiredMapWithNullableValues_(CustomMap<String, Optional<CustomString>> requiredMapWithNullableValues) {
+    return new FullPropertyBuilder6(builder.setRequiredMapWithNullableValues_(requiredMapWithNullableValues));
+  }
+
+}
+
+public static final class FullPropertyBuilder6 {
+  private final Builder builder;
+
+  private FullPropertyBuilder6(Builder builder) {
+    this.builder = builder;
   }
 
   /**
    * RequiredNullableMap
    */
-  public FullOptPropertyBuilder0 setRequiredNullableMap(Optional<CustomMap<String, CustomString>> requiredNullableMap) {
-    return new FullOptPropertyBuilder0(builder.setRequiredNullableMap(requiredNullableMap));
+  public FullPropertyBuilder7 setRequiredNullableMap(CustomMap<String, CustomString> requiredNullableMap) {
+    return new FullPropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
   }
 
+  /**
+   * RequiredNullableMap
+   */
+  public FullPropertyBuilder7 setRequiredNullableMap(Optional<CustomMap<String, CustomString>> requiredNullableMap) {
+    return new FullPropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+}
+
+public static final class FullPropertyBuilder7 {
+  private final Builder builder;
+
+  private FullPropertyBuilder7(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues(CustomMap<String, CustomString> requiredNullableMapWithNullableValues) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues(Optional<CustomMap<String, CustomString>> requiredNullableMapWithNullableValues) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues_(CustomMap<String, Optional<CustomString>> requiredNullableMapWithNullableValues) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues_(Optional<CustomMap<String, Optional<CustomString>>> requiredNullableMapWithNullableValues) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
 }
 ]
 
@@ -275,19 +334,78 @@ public static final class PropertyBuilder5 {
   }
 
   /**
-   * RequiredNullableMap
+   * RequiredMapWithNullableValues
    */
-  public PropertyBuilder6 setRequiredNullableMap(CustomMap<String, CustomString> requiredNullableMap) {
-    return new PropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+  public PropertyBuilder6 setRequiredMapWithNullableValues(CustomMap<String, CustomString> requiredMapWithNullableValues) {
+    return new PropertyBuilder6(builder.setRequiredMapWithNullableValues(requiredMapWithNullableValues));
+  }
+
+  /**
+   * RequiredMapWithNullableValues
+   */
+  public PropertyBuilder6 setRequiredMapWithNullableValues_(CustomMap<String, Optional<CustomString>> requiredMapWithNullableValues) {
+    return new PropertyBuilder6(builder.setRequiredMapWithNullableValues_(requiredMapWithNullableValues));
+  }
+
+}
+
+public static final class PropertyBuilder6 {
+  private final Builder builder;
+
+  private PropertyBuilder6(Builder builder) {
+    this.builder = builder;
   }
 
   /**
    * RequiredNullableMap
    */
-  public PropertyBuilder6 setRequiredNullableMap(Optional<CustomMap<String, CustomString>> requiredNullableMap) {
-    return new PropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+  public PropertyBuilder7 setRequiredNullableMap(CustomMap<String, CustomString> requiredNullableMap) {
+    return new PropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
   }
 
+  /**
+   * RequiredNullableMap
+   */
+  public PropertyBuilder7 setRequiredNullableMap(Optional<CustomMap<String, CustomString>> requiredNullableMap) {
+    return new PropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+}
+
+public static final class PropertyBuilder7 {
+  private final Builder builder;
+
+  private PropertyBuilder7(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues(CustomMap<String, CustomString> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues(Optional<CustomMap<String, CustomString>> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues_(CustomMap<String, Optional<CustomString>> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues_(Optional<CustomMap<String, Optional<CustomString>>> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
 }
 ]
 
@@ -419,17 +537,17 @@ public static final class FullPropertyBuilder5 {
   }
 
   /**
-   * RequiredNullableMap
+   * RequiredMapWithNullableValues
    */
-  public FullPropertyBuilder6 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
-    return new FullPropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+  public FullPropertyBuilder6 setRequiredMapWithNullableValues(Map<String, String> requiredMapWithNullableValues) {
+    return new FullPropertyBuilder6(builder.setRequiredMapWithNullableValues(requiredMapWithNullableValues));
   }
 
   /**
-   * RequiredNullableMap
+   * RequiredMapWithNullableValues
    */
-  public FullPropertyBuilder6 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
-    return new FullPropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+  public FullPropertyBuilder6 setRequiredMapWithNullableValues_(Map<String, Optional<String>> requiredMapWithNullableValues) {
+    return new FullPropertyBuilder6(builder.setRequiredMapWithNullableValues_(requiredMapWithNullableValues));
   }
 
 }
@@ -438,6 +556,65 @@ public static final class FullPropertyBuilder6 {
   private final Builder builder;
 
   private FullPropertyBuilder6(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  public FullPropertyBuilder7 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+    return new FullPropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  public FullPropertyBuilder7 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+    return new FullPropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+}
+
+public static final class FullPropertyBuilder7 {
+  private final Builder builder;
+
+  private FullPropertyBuilder7(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullPropertyBuilder8 setRequiredNullableMapWithNullableValues(Map<String, String> requiredNullableMapWithNullableValues) {
+    return new FullPropertyBuilder8(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullPropertyBuilder8 setRequiredNullableMapWithNullableValues(Optional<Map<String, String>> requiredNullableMapWithNullableValues) {
+    return new FullPropertyBuilder8(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullPropertyBuilder8 setRequiredNullableMapWithNullableValues_(Map<String, Optional<String>> requiredNullableMapWithNullableValues) {
+    return new FullPropertyBuilder8(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullPropertyBuilder8 setRequiredNullableMapWithNullableValues_(Optional<Map<String, Optional<String>>> requiredNullableMapWithNullableValues) {
+    return new FullPropertyBuilder8(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
+}
+
+public static final class FullPropertyBuilder8 {
+  private final Builder builder;
+
+  private FullPropertyBuilder8(Builder builder) {
     this.builder = builder;
   }
 
@@ -586,17 +763,17 @@ public static final class PropertyBuilder5 {
   }
 
   /**
-   * RequiredNullableMap
+   * RequiredMapWithNullableValues
    */
-  public PropertyBuilder6 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
-    return new PropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+  public PropertyBuilder6 setRequiredMapWithNullableValues(Map<String, String> requiredMapWithNullableValues) {
+    return new PropertyBuilder6(builder.setRequiredMapWithNullableValues(requiredMapWithNullableValues));
   }
 
   /**
-   * RequiredNullableMap
+   * RequiredMapWithNullableValues
    */
-  public PropertyBuilder6 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
-    return new PropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+  public PropertyBuilder6 setRequiredMapWithNullableValues_(Map<String, Optional<String>> requiredMapWithNullableValues) {
+    return new PropertyBuilder6(builder.setRequiredMapWithNullableValues_(requiredMapWithNullableValues));
   }
 
 }
@@ -609,17 +786,76 @@ public static final class PropertyBuilder6 {
   }
 
   /**
-   * Additional Property 'prop1'
+   * RequiredNullableMap
    */
-  public PropertyBuilder7 setProp1(Object prop1) {
-    return new PropertyBuilder7(builder.setProp1(prop1));
+  public PropertyBuilder7 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+    return new PropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+  /**
+   * RequiredNullableMap
+   */
+  public PropertyBuilder7 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+    return new PropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+}
+
+public static final class PropertyBuilder7 {
+  private final Builder builder;
+
+  private PropertyBuilder7(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues(Map<String, String> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues(Optional<Map<String, String>> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues_(Map<String, Optional<String>> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues_(Optional<Map<String, Optional<String>>> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
+}
+
+public static final class PropertyBuilder8 {
+  private final Builder builder;
+
+  private PropertyBuilder8(Builder builder) {
+    this.builder = builder;
   }
 
   /**
    * Additional Property 'prop1'
    */
-  public PropertyBuilder7 setProp1(Optional<Object> prop1) {
-    return new PropertyBuilder7(builder.setProp1(prop1));
+  public PropertyBuilder9 setProp1(Object prop1) {
+    return new PropertyBuilder9(builder.setProp1(prop1));
+  }
+
+  /**
+   * Additional Property 'prop1'
+   */
+  public PropertyBuilder9 setProp1(Optional<Object> prop1) {
+    return new PropertyBuilder9(builder.setProp1(prop1));
   }
 
 }
@@ -753,19 +989,78 @@ public static final class FullPropertyBuilder5 {
   }
 
   /**
-   * RequiredNullableMap
+   * RequiredMapWithNullableValues
    */
-  public FullOptPropertyBuilder0 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
-    return new FullOptPropertyBuilder0(builder.setRequiredNullableMap(requiredNullableMap));
+  public FullPropertyBuilder6 setRequiredMapWithNullableValues(Map<String, String> requiredMapWithNullableValues) {
+    return new FullPropertyBuilder6(builder.setRequiredMapWithNullableValues(requiredMapWithNullableValues));
+  }
+
+  /**
+   * RequiredMapWithNullableValues
+   */
+  public FullPropertyBuilder6 setRequiredMapWithNullableValues_(Map<String, Optional<String>> requiredMapWithNullableValues) {
+    return new FullPropertyBuilder6(builder.setRequiredMapWithNullableValues_(requiredMapWithNullableValues));
+  }
+
+}
+
+public static final class FullPropertyBuilder6 {
+  private final Builder builder;
+
+  private FullPropertyBuilder6(Builder builder) {
+    this.builder = builder;
   }
 
   /**
    * RequiredNullableMap
    */
-  public FullOptPropertyBuilder0 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
-    return new FullOptPropertyBuilder0(builder.setRequiredNullableMap(requiredNullableMap));
+  public FullPropertyBuilder7 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+    return new FullPropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
   }
 
+  /**
+   * RequiredNullableMap
+   */
+  public FullPropertyBuilder7 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+    return new FullPropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+}
+
+public static final class FullPropertyBuilder7 {
+  private final Builder builder;
+
+  private FullPropertyBuilder7(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues(Map<String, String> requiredNullableMapWithNullableValues) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues(Optional<Map<String, String>> requiredNullableMapWithNullableValues) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues_(Map<String, Optional<String>> requiredNullableMapWithNullableValues) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues_(Optional<Map<String, Optional<String>>> requiredNullableMapWithNullableValues) {
+    return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
 }
 ]
 
@@ -897,19 +1192,78 @@ public static final class PropertyBuilder5 {
   }
 
   /**
-   * RequiredNullableMap
+   * RequiredMapWithNullableValues
    */
-  public PropertyBuilder6 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
-    return new PropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+  public PropertyBuilder6 setRequiredMapWithNullableValues(Map<String, String> requiredMapWithNullableValues) {
+    return new PropertyBuilder6(builder.setRequiredMapWithNullableValues(requiredMapWithNullableValues));
+  }
+
+  /**
+   * RequiredMapWithNullableValues
+   */
+  public PropertyBuilder6 setRequiredMapWithNullableValues_(Map<String, Optional<String>> requiredMapWithNullableValues) {
+    return new PropertyBuilder6(builder.setRequiredMapWithNullableValues_(requiredMapWithNullableValues));
+  }
+
+}
+
+public static final class PropertyBuilder6 {
+  private final Builder builder;
+
+  private PropertyBuilder6(Builder builder) {
+    this.builder = builder;
   }
 
   /**
    * RequiredNullableMap
    */
-  public PropertyBuilder6 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
-    return new PropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+  public PropertyBuilder7 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+    return new PropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
   }
 
+  /**
+   * RequiredNullableMap
+   */
+  public PropertyBuilder7 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+    return new PropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
+  }
+
+}
+
+public static final class PropertyBuilder7 {
+  private final Builder builder;
+
+  private PropertyBuilder7(Builder builder) {
+    this.builder = builder;
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues(Map<String, String> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues(Optional<Map<String, String>> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues_(Map<String, Optional<String>> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public PropertyBuilder8 setRequiredNullableMapWithNullableValues_(Optional<Map<String, Optional<String>>> requiredNullableMapWithNullableValues) {
+    return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+  }
 }
 ]
 

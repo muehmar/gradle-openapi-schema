@@ -20,9 +20,13 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItems());
   setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItems());
   setRequiredMap(dto.getRequiredMap());
+  setRequiredMapWithNullableValues_(dto.getRequiredMapWithNullableValues());
   setRequiredNullableMap(dto.getRequiredNullableMap());
+  setRequiredNullableMapWithNullableValues_(dto.getRequiredNullableMapWithNullableValues());
   setOptionalMap(dto.getOptionalMap());
+  setOptionalMapWithNullableValues_(dto.getOptionalMapWithNullableValues());
   setOptionalNullableMap(dto.getOptionalNullableMap());
+  setOptionalNullableMapWithNullableValues_(dto.getOptionalNullableMapWithNullableValues());
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
@@ -52,9 +56,13 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItems());
   setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItems());
   setRequiredMap(dto.getRequiredMap());
+  setRequiredMapWithNullableValues_(dto.getRequiredMapWithNullableValues());
   setRequiredNullableMap(dto.getRequiredNullableMap());
+  setRequiredNullableMapWithNullableValues_(dto.getRequiredNullableMapWithNullableValues());
   setOptionalMap(dto.getOptionalMap());
+  setOptionalMapWithNullableValues_(dto.getOptionalMapWithNullableValues());
   setOptionalNullableMap(dto.getOptionalNullableMap());
+  setOptionalNullableMapWithNullableValues_(dto.getOptionalNullableMapWithNullableValues());
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
@@ -151,9 +159,13 @@ private Builder setOneOfPojo1Dto(OneOfPojo1Dto dto) {
   if (dto.getIsOptionalListWithNullableItemsNotNull()) setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItems());
   setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItems());
   setRequiredMap(dto.getRequiredMap());
+  setRequiredMapWithNullableValues_(dto.getRequiredMapWithNullableValues());
   if (dto.getIsRequiredNullableMapPresent()) setRequiredNullableMap(dto.getRequiredNullableMap());
+  if (dto.getIsRequiredNullableMapWithNullableValuesPresent()) setRequiredNullableMapWithNullableValues_(dto.getRequiredNullableMapWithNullableValues());
   if (dto.getIsOptionalMapNotNull()) setOptionalMap(dto.getOptionalMap());
+  if (dto.getIsOptionalMapWithNullableValuesNotNull()) setOptionalMapWithNullableValues_(dto.getOptionalMapWithNullableValues());
   setOptionalNullableMap(dto.getOptionalNullableMap());
+  setOptionalNullableMapWithNullableValues_(dto.getOptionalNullableMapWithNullableValues());
   setStringVal(dto.getStringVal());
   setBirthdate(dto.getBirthdate());
   setEmail(dto.getEmail());
@@ -209,9 +221,13 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItemsOpt2());
   setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItemsTristate());
   setRequiredMap(dto.getRequiredMap());
+  setRequiredMapWithNullableValues_(dto.getRequiredMapWithNullableValues());
   setRequiredNullableMap(dto.getRequiredNullableMapOpt1());
+  setRequiredNullableMapWithNullableValues_(dto.getRequiredNullableMapWithNullableValuesOpt1());
   setOptionalMap(dto.getOptionalMapOpt2());
+  setOptionalMapWithNullableValues_(dto.getOptionalMapWithNullableValuesOpt2());
   setOptionalNullableMap(dto.getOptionalNullableMapTristate());
+  setOptionalNullableMapWithNullableValues_(dto.getOptionalNullableMapWithNullableValuesTristate());
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;

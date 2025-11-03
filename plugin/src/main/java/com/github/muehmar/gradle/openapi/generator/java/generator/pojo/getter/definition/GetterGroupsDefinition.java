@@ -77,7 +77,7 @@ public class GetterGroupsDefinition {
             isContainerType(),
             groups(
                 nested(
-                    isNullableItemsList(),
+                    isNullableValueContainerType(),
                     group(
                         JavaPojoMember::isRequiredAndNotNullable,
                         generator(CONTAINER_STANDARD_GETTER),
@@ -103,7 +103,7 @@ public class GetterGroupsDefinition {
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER))),
                 nested(
-                    isNotNullableItemsList(),
+                    isNotNullableValueContainerType(),
                     groups(
                         nested(
                             JavaPojoMember::isRequiredAndNotNullable,
@@ -159,7 +159,7 @@ public class GetterGroupsDefinition {
             isContainerType(),
             groups(
                 nested(
-                    isNullableItemsList(),
+                    isNullableValueContainerType(),
                     group(
                         JavaPojoMember::isRequiredAndNotNullable,
                         generator(CONTAINER_STANDARD_GETTER),
@@ -179,7 +179,7 @@ public class GetterGroupsDefinition {
                         generator(CONTAINER_TRISTATE_GETTER),
                         generator(JSON_GETTER))),
                 nested(
-                    isNotNullableItemsList(),
+                    isNotNullableValueContainerType(),
                     group(
                         JavaPojoMember::isRequiredAndNotNullable,
                         generator(CONTAINER_STANDARD_GETTER, NO_VALIDATION),
@@ -257,12 +257,12 @@ public class GetterGroupsDefinition {
         member.getType().equals(ONE_OF_MEMBER) || member.getType().equals(ANY_OF_MEMBER);
   }
 
-  private static Predicate<JavaPojoMember> isNullableItemsList() {
-    return member -> member.getJavaType().isNullableItemsArrayType();
+  private static Predicate<JavaPojoMember> isNullableValueContainerType() {
+    return member -> member.getJavaType().isNullableContainerValueType();
   }
 
-  private static Predicate<JavaPojoMember> isNotNullableItemsList() {
-    return isNullableItemsList().negate();
+  private static Predicate<JavaPojoMember> isNotNullableValueContainerType() {
+    return isNullableValueContainerType().negate();
   }
 
   private static Predicate<JavaPojoMember> isContainerType() {

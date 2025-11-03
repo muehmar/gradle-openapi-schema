@@ -147,7 +147,9 @@ public class MapAssignmentWriter {
     }
 
     static Function<JavaPojoMember, Writer> autoUnwrapMapItem(JavaPojoMember member) {
-      return unwrapMapItemNotNecessary();
+      return member.getJavaType().isNullableValuesMapType()
+          ? unwrapOptionalMapItem()
+          : unwrapMapItemNotNecessary();
     }
   }
 

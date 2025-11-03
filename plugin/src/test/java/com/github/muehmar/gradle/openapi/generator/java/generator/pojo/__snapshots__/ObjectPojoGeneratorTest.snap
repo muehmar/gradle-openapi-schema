@@ -5980,12 +5980,19 @@ public class NecessityAndNullabilityDto {
   private final List<String> optionalNullableListWithNullableItems;
   private final boolean isOptionalNullableListWithNullableItemsNull;
   private final Map<String, String> requiredMap;
+  private final Map<String, String> requiredMapWithNullableValues;
   private final Map<String, String> requiredNullableMap;
   private final boolean isRequiredNullableMapPresent;
+  private final Map<String, String> requiredNullableMapWithNullableValues;
+  private final boolean isRequiredNullableMapWithNullableValuesPresent;
   private final Map<String, String> optionalMap;
   private final boolean isOptionalMapNotNull;
+  private final Map<String, String> optionalMapWithNullableValues;
+  private final boolean isOptionalMapWithNullableValuesNotNull;
   private final Map<String, String> optionalNullableMap;
   private final boolean isOptionalNullableMapNull;
+  private final Map<String, String> optionalNullableMapWithNullableValues;
+  private final boolean isOptionalNullableMapWithNullableValuesNull;
   private final Map<String, Object> additionalProperties;
 
   public NecessityAndNullabilityDto(
@@ -6004,12 +6011,19 @@ public class NecessityAndNullabilityDto {
       List<String> optionalNullableListWithNullableItems,
       boolean isOptionalNullableListWithNullableItemsNull,
       Map<String, String> requiredMap,
+      Map<String, String> requiredMapWithNullableValues,
       Map<String, String> requiredNullableMap,
       boolean isRequiredNullableMapPresent,
+      Map<String, String> requiredNullableMapWithNullableValues,
+      boolean isRequiredNullableMapWithNullableValuesPresent,
       Map<String, String> optionalMap,
       boolean isOptionalMapNotNull,
+      Map<String, String> optionalMapWithNullableValues,
+      boolean isOptionalMapWithNullableValuesNotNull,
       Map<String, String> optionalNullableMap,
       boolean isOptionalNullableMapNull,
+      Map<String, String> optionalNullableMapWithNullableValues,
+      boolean isOptionalNullableMapWithNullableValuesNull,
       Map<String, Object> additionalProperties
     ) {
     this.requiredStringVal = requiredStringVal;
@@ -6027,12 +6041,19 @@ public class NecessityAndNullabilityDto {
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
     this.isOptionalNullableListWithNullableItemsNull = isOptionalNullableListWithNullableItemsNull;
     this.requiredMap = requiredMap;
+    this.requiredMapWithNullableValues = requiredMapWithNullableValues;
     this.requiredNullableMap = requiredNullableMap;
     this.isRequiredNullableMapPresent = isRequiredNullableMapPresent;
+    this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues;
+    this.isRequiredNullableMapWithNullableValuesPresent = isRequiredNullableMapWithNullableValuesPresent;
     this.optionalMap = optionalMap;
     this.isOptionalMapNotNull = isOptionalMapNotNull;
+    this.optionalMapWithNullableValues = optionalMapWithNullableValues;
+    this.isOptionalMapWithNullableValuesNotNull = isOptionalMapWithNullableValuesNotNull;
     this.optionalNullableMap = optionalNullableMap;
     this.isOptionalNullableMapNull = isOptionalNullableMapNull;
+    this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues;
+    this.isOptionalNullableMapWithNullableValuesNull = isOptionalNullableMapWithNullableValuesNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
 
@@ -6306,6 +6327,33 @@ public class NecessityAndNullabilityDto {
 .
 .
   /**
+   * RequiredMapWithNullableValues
+   */
+  @JsonIgnore
+  public Map<String, Optional<String>> getRequiredMapWithNullableValues() {
+    return mapMap(
+        requiredMapWithNullableValues,
+        Function.identity(),
+        Optional::ofNullable,
+        Function.identity(),
+        Function.identity()
+    );
+  }
+
+  @JsonProperty("requiredMapWithNullableValues")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Map<String, String> getRequiredMapWithNullableValuesJson() {
+    return requiredMapWithNullableValues;
+  }
+
+  @JsonIgnore
+  @NotNull
+  private Map<String, @Pattern(regexp="Hello") String> getRequiredMapWithNullableValuesRaw() {
+    return requiredMapWithNullableValues;
+  }
+.
+.
+  /**
    * RequiredNullableMap
    */
   @JsonIgnore
@@ -6344,6 +6392,54 @@ public class NecessityAndNullabilityDto {
   @JsonIgnore
   private boolean isRequiredNullableMapPresent() {
     return isRequiredNullableMapPresent;
+  }
+.
+.
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  @JsonIgnore
+  public Optional<Map<String, Optional<String>>> getRequiredNullableMapWithNullableValues() {
+    return mapMap(
+        requiredNullableMapWithNullableValues,
+        Function.identity(),
+        Optional::ofNullable,
+        Function.identity(),
+        Optional::ofNullable
+    );
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  @JsonIgnore
+  public Map<String, Optional<String>> getRequiredNullableMapWithNullableValuesOr(Map<String, Optional<String>> defaultValue) {
+    return this.requiredNullableMapWithNullableValues == null
+        ? defaultValue
+        : mapMap(
+            requiredNullableMapWithNullableValues,
+            Function.identity(),
+            Optional::ofNullable,
+            Function.identity(),
+            Function.identity()
+        );
+  }
+
+  @JsonProperty("requiredNullableMapWithNullableValues")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getRequiredNullableMapWithNullableValuesJson() {
+    return isRequiredNullableMapWithNullableValuesPresent ? new JacksonNullContainer<>(requiredNullableMapWithNullableValues) : null;
+  }
+
+  @JsonIgnore
+  private Map<String, @Pattern(regexp="Hello") String> getRequiredNullableMapWithNullableValuesRaw() {
+    return requiredNullableMapWithNullableValues;
+  }
+
+  @AssertTrue(message = "requiredNullableMapWithNullableValues is required but it is not present")
+  @JsonIgnore
+  private boolean isRequiredNullableMapWithNullableValuesPresent() {
+    return isRequiredNullableMapWithNullableValuesPresent;
   }
 .
 .
@@ -6390,6 +6486,54 @@ public class NecessityAndNullabilityDto {
 .
 .
   /**
+   * OptionalMapWithNullableValues
+   */
+  @JsonIgnore
+  public Optional<Map<String, Optional<String>>> getOptionalMapWithNullableValues() {
+    return mapMap(
+        optionalMapWithNullableValues,
+        Function.identity(),
+        Optional::ofNullable,
+        Function.identity(),
+        Optional::ofNullable
+    );
+  }
+
+  /**
+   * OptionalMapWithNullableValues
+   */
+  @JsonIgnore
+  public Map<String, Optional<String>> getOptionalMapWithNullableValuesOr(Map<String, Optional<String>> defaultValue) {
+    return this.optionalMapWithNullableValues == null
+        ? defaultValue
+        : mapMap(
+            optionalMapWithNullableValues,
+            Function.identity(),
+            Optional::ofNullable,
+            Function.identity(),
+            Function.identity()
+        );
+  }
+
+  @JsonProperty("optionalMapWithNullableValues")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Map<String, String> getOptionalMapWithNullableValuesJson() {
+    return optionalMapWithNullableValues;
+  }
+
+  @JsonIgnore
+  private Map<String, @Pattern(regexp="Hello") String> getOptionalMapWithNullableValuesRaw() {
+    return optionalMapWithNullableValues;
+  }
+
+  @AssertTrue(message = "optionalMapWithNullableValues is required to be non-null but is null")
+  @JsonIgnore
+  private boolean isOptionalMapWithNullableValuesNotNull() {
+    return isOptionalMapWithNullableValuesNotNull;
+  }
+.
+.
+  /**
    * OptionalNullableMap
    */
   @JsonIgnore
@@ -6412,6 +6556,32 @@ public class NecessityAndNullabilityDto {
   @JsonIgnore
   private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMapRaw() {
     return optionalNullableMap;
+  }
+.
+.
+  /**
+   * OptionalNullableMapWithNullableValues
+   */
+  @JsonIgnore
+  public Tristate<Map<String, Optional<String>>> getOptionalNullableMapWithNullableValues() {
+    return mapMap(
+        optionalNullableMapWithNullableValues,
+        Function.identity(),
+        Optional::ofNullable,
+        Function.identity(),
+        m -> Tristate.ofNullableAndNullFlag(m, isOptionalNullableMapWithNullableValuesNull)
+    );
+  }
+
+  @JsonProperty("optionalNullableMapWithNullableValues")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getOptionalNullableMapWithNullableValuesJson() {
+    return isOptionalNullableMapWithNullableValuesNull ? new JacksonNullContainer<>(optionalNullableMapWithNullableValues) : optionalNullableMapWithNullableValues;
+  }
+
+  @JsonIgnore
+  private Map<String, @Pattern(regexp="Hello") String> getOptionalNullableMapWithNullableValuesRaw() {
+    return optionalNullableMapWithNullableValues;
   }
 
   @Valid
@@ -6457,9 +6627,13 @@ public class NecessityAndNullabilityDto {
       (optionalListWithNullableItems != null ? 1 : 0) +
       ((isOptionalNullableListWithNullableItemsNull || optionalNullableListWithNullableItems != null) ? 1 : 0) +
       (requiredMap != null ? 1 : 0) +
+      (requiredMapWithNullableValues != null ? 1 : 0) +
       (isRequiredNullableMapPresent ? 1 : 0) +
+      (isRequiredNullableMapWithNullableValuesPresent ? 1 : 0) +
       (optionalMap != null ? 1 : 0) +
+      (optionalMapWithNullableValues != null ? 1 : 0) +
       ((isOptionalNullableMapNull || optionalNullableMap != null) ? 1 : 0) +
+      ((isOptionalNullableMapWithNullableValuesNull || optionalNullableMapWithNullableValues != null) ? 1 : 0) +
       additionalProperties.size();
   }
 
@@ -6484,12 +6658,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6515,12 +6696,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6546,12 +6734,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6577,12 +6772,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6608,12 +6810,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6639,12 +6848,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6670,12 +6886,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6701,12 +6924,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6738,12 +6968,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6769,12 +7006,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6800,12 +7044,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6837,12 +7088,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6874,12 +7132,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6905,12 +7170,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6936,12 +7208,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -6973,12 +7252,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7010,12 +7296,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7041,12 +7334,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         false,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7072,12 +7372,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
         optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7109,12 +7416,19 @@ public class NecessityAndNullabilityDto {
         ),
         false,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7146,12 +7460,19 @@ public class NecessityAndNullabilityDto {
         ),
         optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7177,12 +7498,57 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
+        additionalProperties
+      );
+  }
+
+  /**
+   * RequiredMapWithNullableValues
+   */
+  public NecessityAndNullabilityDto withRequiredMapWithNullableValues(Map<String, String> requiredMapWithNullableValues) {
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        requiredMap,
+        requiredMapWithNullableValues,
+        requiredNullableMap,
+        isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
+        optionalMap,
+        isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
+        optionalNullableMap,
+        isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7208,12 +7574,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         true,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7239,12 +7612,95 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap.orElse(null),
+        true,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
+        optionalMap,
+        isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
+        optionalNullableMap,
+        isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
+        additionalProperties
+      );
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public NecessityAndNullabilityDto withRequiredNullableMapWithNullableValues(Map<String, String> requiredNullableMapWithNullableValues) {
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        requiredMap,
+        requiredMapWithNullableValues,
+        requiredNullableMap,
+        isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
         true,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
+        additionalProperties
+      );
+  }
+
+  /**
+   * RequiredNullableMapWithNullableValues
+   */
+  public NecessityAndNullabilityDto withRequiredNullableMapWithNullableValues(Optional<Map<String, String>> requiredNullableMapWithNullableValues) {
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        requiredMap,
+        requiredMapWithNullableValues,
+        requiredNullableMap,
+        isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues.orElse(null),
+        true,
+        optionalMap,
+        isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
+        optionalNullableMap,
+        isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7270,12 +7726,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         true,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7301,12 +7764,95 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap.orElse(null),
+        true,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
+        optionalNullableMap,
+        isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
+        additionalProperties
+      );
+  }
+
+  /**
+   * OptionalMapWithNullableValues
+   */
+  public NecessityAndNullabilityDto withOptionalMapWithNullableValues(Map<String, String> optionalMapWithNullableValues) {
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        requiredMap,
+        requiredMapWithNullableValues,
+        requiredNullableMap,
+        isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
+        optionalMap,
+        isOptionalMapNotNull,
+        optionalMapWithNullableValues,
         true,
         optionalNullableMap,
         isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
+        additionalProperties
+      );
+  }
+
+  /**
+   * OptionalMapWithNullableValues
+   */
+  public NecessityAndNullabilityDto withOptionalMapWithNullableValues(Optional<Map<String, String>> optionalMapWithNullableValues) {
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        requiredMap,
+        requiredMapWithNullableValues,
+        requiredNullableMap,
+        isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
+        optionalMap,
+        isOptionalMapNotNull,
+        optionalMapWithNullableValues.orElse(null),
+        true,
+        optionalNullableMap,
+        isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7332,12 +7878,19 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap,
         false,
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
         additionalProperties
       );
   }
@@ -7363,12 +7916,95 @@ public class NecessityAndNullabilityDto {
         optionalNullableListWithNullableItems,
         isOptionalNullableListWithNullableItemsNull,
         requiredMap,
+        requiredMapWithNullableValues,
         requiredNullableMap,
         isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
         optionalMap,
         isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
         optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
         optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+        optionalNullableMapWithNullableValues,
+        isOptionalNullableMapWithNullableValuesNull,
+        additionalProperties
+      );
+  }
+
+  /**
+   * OptionalNullableMapWithNullableValues
+   */
+  public NecessityAndNullabilityDto withOptionalNullableMapWithNullableValues(Map<String, String> optionalNullableMapWithNullableValues) {
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        requiredMap,
+        requiredMapWithNullableValues,
+        requiredNullableMap,
+        isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
+        optionalMap,
+        isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
+        optionalNullableMap,
+        isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues,
+        false,
+        additionalProperties
+      );
+  }
+
+  /**
+   * OptionalNullableMapWithNullableValues
+   */
+  public NecessityAndNullabilityDto withOptionalNullableMapWithNullableValues(Tristate<Map<String, String>> optionalNullableMapWithNullableValues) {
+    return
+      new NecessityAndNullabilityDto(
+        requiredStringVal,
+        requiredNullableStringVal,
+        isRequiredNullableStringValPresent,
+        optionalStringVal,
+        isOptionalStringValNotNull,
+        optionalNullableStringVal,
+        isOptionalNullableStringValNull,
+        requiredListWithNullableItems,
+        requiredNullableListWithNullableItems,
+        isRequiredNullableListWithNullableItemsPresent,
+        optionalListWithNullableItems,
+        isOptionalListWithNullableItemsNotNull,
+        optionalNullableListWithNullableItems,
+        isOptionalNullableListWithNullableItemsNull,
+        requiredMap,
+        requiredMapWithNullableValues,
+        requiredNullableMap,
+        isRequiredNullableMapPresent,
+        requiredNullableMapWithNullableValues,
+        isRequiredNullableMapWithNullableValuesPresent,
+        optionalMap,
+        isOptionalMapNotNull,
+        optionalMapWithNullableValues,
+        isOptionalMapWithNullableValuesNotNull,
+        optionalNullableMap,
+        isOptionalNullableMapNull,
+        optionalNullableMapWithNullableValues.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+        optionalNullableMapWithNullableValues.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
         additionalProperties
       );
   }
@@ -7602,6 +8238,22 @@ public class NecessityAndNullabilityDto {
       return false;
     }
 
+    private boolean isRequiredMapWithNullableValuesValid() {
+      if(requiredMapWithNullableValues != null) {
+        return requiredMapWithNullableValues.values().stream().allMatch(this::isRequiredMapWithNullableValuesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isRequiredMapWithNullableValuesValueValid(String requiredMapWithNullableValuesValue) {
+      if(requiredMapWithNullableValuesValue != null) {
+        return java.util.regex.Pattern.matches("Hello", requiredMapWithNullableValuesValue);
+      }
+
+      return true;
+    }
+
     private boolean isRequiredNullableMapValid() {
       if(requiredNullableMap != null) {
         return requiredNullableMap.values().stream().allMatch(this::isRequiredNullableMapValueValid);
@@ -7616,6 +8268,22 @@ public class NecessityAndNullabilityDto {
       }
 
       return false;
+    }
+
+    private boolean isRequiredNullableMapWithNullableValuesValid() {
+      if(requiredNullableMapWithNullableValues != null) {
+        return requiredNullableMapWithNullableValues.values().stream().allMatch(this::isRequiredNullableMapWithNullableValuesValueValid);
+      }
+
+      return isRequiredNullableMapWithNullableValuesPresent;
+    }
+
+    private boolean isRequiredNullableMapWithNullableValuesValueValid(String requiredNullableMapWithNullableValuesValue) {
+      if(requiredNullableMapWithNullableValuesValue != null) {
+        return java.util.regex.Pattern.matches("Hello", requiredNullableMapWithNullableValuesValue);
+      }
+
+      return true;
     }
 
     private boolean isOptionalMapValid() {
@@ -7634,6 +8302,22 @@ public class NecessityAndNullabilityDto {
       return false;
     }
 
+    private boolean isOptionalMapWithNullableValuesValid() {
+      if(optionalMapWithNullableValues != null) {
+        return optionalMapWithNullableValues.values().stream().allMatch(this::isOptionalMapWithNullableValuesValueValid);
+      }
+
+      return isOptionalMapWithNullableValuesNotNull;
+    }
+
+    private boolean isOptionalMapWithNullableValuesValueValid(String optionalMapWithNullableValuesValue) {
+      if(optionalMapWithNullableValuesValue != null) {
+        return java.util.regex.Pattern.matches("Hello", optionalMapWithNullableValuesValue);
+      }
+
+      return true;
+    }
+
     private boolean isOptionalNullableMapValid() {
       if(optionalNullableMap != null) {
         return optionalNullableMap.values().stream().allMatch(this::isOptionalNullableMapValueValid);
@@ -7648,6 +8332,22 @@ public class NecessityAndNullabilityDto {
       }
 
       return false;
+    }
+
+    private boolean isOptionalNullableMapWithNullableValuesValid() {
+      if(optionalNullableMapWithNullableValues != null) {
+        return optionalNullableMapWithNullableValues.values().stream().allMatch(this::isOptionalNullableMapWithNullableValuesValueValid);
+      }
+
+      return true;
+    }
+
+    private boolean isOptionalNullableMapWithNullableValuesValueValid(String optionalNullableMapWithNullableValuesValue) {
+      if(optionalNullableMapWithNullableValuesValue != null) {
+        return java.util.regex.Pattern.matches("Hello", optionalNullableMapWithNullableValuesValue);
+      }
+
+      return true;
     }
 
     private boolean isAdditionalPropertiesValid() {
@@ -7672,9 +8372,13 @@ public class NecessityAndNullabilityDto {
           && isOptionalListWithNullableItemsValid()
           && isOptionalNullableListWithNullableItemsValid()
           && isRequiredMapValid()
+          && isRequiredMapWithNullableValuesValid()
           && isRequiredNullableMapValid()
+          && isRequiredNullableMapWithNullableValuesValid()
           && isOptionalMapValid()
+          && isOptionalMapWithNullableValuesValid()
           && isOptionalNullableMapValid()
+          && isOptionalNullableMapWithNullableValuesValid()
           && isAdditionalPropertiesValid();
     }
   }
@@ -7699,12 +8403,19 @@ public class NecessityAndNullabilityDto {
         && Objects.deepEquals(this.optionalNullableListWithNullableItems, other.optionalNullableListWithNullableItems)
         && Objects.deepEquals(this.isOptionalNullableListWithNullableItemsNull, other.isOptionalNullableListWithNullableItemsNull)
         && Objects.deepEquals(this.requiredMap, other.requiredMap)
+        && Objects.deepEquals(this.requiredMapWithNullableValues, other.requiredMapWithNullableValues)
         && Objects.deepEquals(this.requiredNullableMap, other.requiredNullableMap)
         && Objects.deepEquals(this.isRequiredNullableMapPresent, other.isRequiredNullableMapPresent)
+        && Objects.deepEquals(this.requiredNullableMapWithNullableValues, other.requiredNullableMapWithNullableValues)
+        && Objects.deepEquals(this.isRequiredNullableMapWithNullableValuesPresent, other.isRequiredNullableMapWithNullableValuesPresent)
         && Objects.deepEquals(this.optionalMap, other.optionalMap)
         && Objects.deepEquals(this.isOptionalMapNotNull, other.isOptionalMapNotNull)
+        && Objects.deepEquals(this.optionalMapWithNullableValues, other.optionalMapWithNullableValues)
+        && Objects.deepEquals(this.isOptionalMapWithNullableValuesNotNull, other.isOptionalMapWithNullableValuesNotNull)
         && Objects.deepEquals(this.optionalNullableMap, other.optionalNullableMap)
         && Objects.deepEquals(this.isOptionalNullableMapNull, other.isOptionalNullableMapNull)
+        && Objects.deepEquals(this.optionalNullableMapWithNullableValues, other.optionalNullableMapWithNullableValues)
+        && Objects.deepEquals(this.isOptionalNullableMapWithNullableValuesNull, other.isOptionalNullableMapWithNullableValuesNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
 
@@ -7726,12 +8437,19 @@ public class NecessityAndNullabilityDto {
       optionalNullableListWithNullableItems,
       isOptionalNullableListWithNullableItemsNull,
       requiredMap,
+      requiredMapWithNullableValues,
       requiredNullableMap,
       isRequiredNullableMapPresent,
+      requiredNullableMapWithNullableValues,
+      isRequiredNullableMapWithNullableValuesPresent,
       optionalMap,
       isOptionalMapNotNull,
+      optionalMapWithNullableValues,
+      isOptionalMapWithNullableValuesNotNull,
       optionalNullableMap,
       isOptionalNullableMapNull,
+      optionalNullableMapWithNullableValues,
+      isOptionalNullableMapWithNullableValuesNull,
       additionalProperties
     );
   }
@@ -7754,12 +8472,19 @@ public class NecessityAndNullabilityDto {
       "optionalNullableListWithNullableItems=" + optionalNullableListWithNullableItems + ", " +
       "isOptionalNullableListWithNullableItemsNull=" + isOptionalNullableListWithNullableItemsNull + ", " +
       "requiredMap=" + requiredMap + ", " +
+      "requiredMapWithNullableValues=" + requiredMapWithNullableValues + ", " +
       "requiredNullableMap=" + requiredNullableMap + ", " +
       "isRequiredNullableMapPresent=" + isRequiredNullableMapPresent + ", " +
+      "requiredNullableMapWithNullableValues=" + requiredNullableMapWithNullableValues + ", " +
+      "isRequiredNullableMapWithNullableValuesPresent=" + isRequiredNullableMapWithNullableValuesPresent + ", " +
       "optionalMap=" + optionalMap + ", " +
       "isOptionalMapNotNull=" + isOptionalMapNotNull + ", " +
+      "optionalMapWithNullableValues=" + optionalMapWithNullableValues + ", " +
+      "isOptionalMapWithNullableValuesNotNull=" + isOptionalMapWithNullableValuesNotNull + ", " +
       "optionalNullableMap=" + optionalNullableMap + ", " +
       "isOptionalNullableMapNull=" + isOptionalNullableMapNull + ", " +
+      "optionalNullableMapWithNullableValues=" + optionalNullableMapWithNullableValues + ", " +
+      "isOptionalNullableMapWithNullableValuesNull=" + isOptionalNullableMapWithNullableValuesNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
   }
@@ -7785,12 +8510,19 @@ public class NecessityAndNullabilityDto {
     private List<String> optionalNullableListWithNullableItems;
     private boolean isOptionalNullableListWithNullableItemsNull = false;
     private Map<String, String> requiredMap;
+    private Map<String, String> requiredMapWithNullableValues;
     private Map<String, String> requiredNullableMap;
     private boolean isRequiredNullableMapPresent = false;
+    private Map<String, String> requiredNullableMapWithNullableValues;
+    private boolean isRequiredNullableMapWithNullableValuesPresent = false;
     private Map<String, String> optionalMap;
     private boolean isOptionalMapNotNull = true;
+    private Map<String, String> optionalMapWithNullableValues;
+    private boolean isOptionalMapWithNullableValuesNotNull = true;
     private Map<String, String> optionalNullableMap;
     private boolean isOptionalNullableMapNull = false;
+    private Map<String, String> optionalNullableMapWithNullableValues;
+    private boolean isOptionalNullableMapWithNullableValuesNull = false;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonProperty("requiredStringVal")
@@ -8118,6 +8850,37 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
+    @JsonProperty("requiredMapWithNullableValues")
+    private Builder setRequiredMapWithNullableValuesJson(Map<String, String> requiredMapWithNullableValues) {
+      this.requiredMapWithNullableValues = requiredMapWithNullableValues;
+      return this;
+    }
+
+    /**
+     * RequiredMapWithNullableValues
+     */
+    @JsonIgnore
+    private Builder setRequiredMapWithNullableValues(Map<String, String> requiredMapWithNullableValues) {
+      this.requiredMapWithNullableValues = requiredMapWithNullableValues;
+      return this;
+    }
+
+    /**
+     * RequiredMapWithNullableValues
+     */
+    @JsonIgnore
+    private Builder setRequiredMapWithNullableValues_(Map<String, Optional<String>> requiredMapWithNullableValues) {
+      this.requiredMapWithNullableValues =
+          unmapMap(
+              requiredMapWithNullableValues,
+              Function.identity(),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity()
+          );
+      return this;
+    }
+
     @JsonProperty("requiredNullableMap")
     private Builder setRequiredNullableMapJson(Map<String, String> requiredNullableMap) {
       this.requiredNullableMap = requiredNullableMap;
@@ -8142,6 +8905,67 @@ public class NecessityAndNullabilityDto {
     private Builder setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
       this.requiredNullableMap = requiredNullableMap.orElse(null);
       this.isRequiredNullableMapPresent = true;
+      return this;
+    }
+
+    @JsonProperty("requiredNullableMapWithNullableValues")
+    private Builder setRequiredNullableMapWithNullableValuesJson(Map<String, String> requiredNullableMapWithNullableValues) {
+      this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues;
+      this.isRequiredNullableMapWithNullableValuesPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableMapWithNullableValues
+     */
+    @JsonIgnore
+    private Builder setRequiredNullableMapWithNullableValues(Map<String, String> requiredNullableMapWithNullableValues) {
+      this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues;
+      this.isRequiredNullableMapWithNullableValuesPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableMapWithNullableValues
+     */
+    @JsonIgnore
+    private Builder setRequiredNullableMapWithNullableValues(Optional<Map<String, String>> requiredNullableMapWithNullableValues) {
+      this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues.orElse(null);
+      this.isRequiredNullableMapWithNullableValuesPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableMapWithNullableValues
+     */
+    @JsonIgnore
+    private Builder setRequiredNullableMapWithNullableValues_(Map<String, Optional<String>> requiredNullableMapWithNullableValues) {
+      this.requiredNullableMapWithNullableValues =
+          unmapMap(
+              requiredNullableMapWithNullableValues,
+              Function.identity(),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity()
+          );
+      this.isRequiredNullableMapWithNullableValuesPresent = true;
+      return this;
+    }
+
+    /**
+     * RequiredNullableMapWithNullableValues
+     */
+    @JsonIgnore
+    private Builder setRequiredNullableMapWithNullableValues_(Optional<Map<String, Optional<String>>> requiredNullableMapWithNullableValues) {
+      this.requiredNullableMapWithNullableValues =
+          unmapMap(
+              requiredNullableMapWithNullableValues,
+              m -> m.orElse(null),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity()
+          );
+      this.isRequiredNullableMapWithNullableValuesPresent = true;
       return this;
     }
 
@@ -8172,6 +8996,67 @@ public class NecessityAndNullabilityDto {
       return this;
     }
 
+    @JsonProperty("optionalMapWithNullableValues")
+    private Builder setOptionalMapWithNullableValuesJson(Map<String, String> optionalMapWithNullableValues) {
+      this.optionalMapWithNullableValues = optionalMapWithNullableValues;
+      this.isOptionalMapWithNullableValuesNotNull = optionalMapWithNullableValues != null;
+      return this;
+    }
+
+    /**
+     * OptionalMapWithNullableValues
+     */
+    @JsonIgnore
+    public Builder setOptionalMapWithNullableValues(Map<String, String> optionalMapWithNullableValues) {
+      this.optionalMapWithNullableValues = optionalMapWithNullableValues;
+      this.isOptionalMapWithNullableValuesNotNull = optionalMapWithNullableValues != null;
+      return this;
+    }
+
+    /**
+     * OptionalMapWithNullableValues
+     */
+    @JsonIgnore
+    public Builder setOptionalMapWithNullableValues(Optional<Map<String, String>> optionalMapWithNullableValues) {
+      this.optionalMapWithNullableValues = optionalMapWithNullableValues.orElse(null);
+      this.isOptionalMapWithNullableValuesNotNull = true;
+      return this;
+    }
+
+    /**
+     * OptionalMapWithNullableValues
+     */
+    @JsonIgnore
+    public Builder setOptionalMapWithNullableValues_(Map<String, Optional<String>> optionalMapWithNullableValues) {
+      this.optionalMapWithNullableValues =
+          unmapMap(
+              optionalMapWithNullableValues,
+              Function.identity(),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity()
+          );
+      this.isOptionalMapWithNullableValuesNotNull = optionalMapWithNullableValues != null;
+      return this;
+    }
+
+    /**
+     * OptionalMapWithNullableValues
+     */
+    @JsonIgnore
+    public Builder setOptionalMapWithNullableValues_(Optional<Map<String, Optional<String>>> optionalMapWithNullableValues) {
+      this.optionalMapWithNullableValues =
+          unmapMap(
+              optionalMapWithNullableValues,
+              m -> m.orElse(null),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity()
+          );
+      this.isOptionalMapWithNullableValuesNotNull = true;
+      return this;
+    }
+
     @JsonProperty("optionalNullableMap")
     private Builder setOptionalNullableMapJson(Map<String, String> optionalNullableMap) {
       this.optionalNullableMap = optionalNullableMap;
@@ -8196,6 +9081,67 @@ public class NecessityAndNullabilityDto {
     public Builder setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
       this.optionalNullableMap = optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isOptionalNullableMapNull = optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    @JsonProperty("optionalNullableMapWithNullableValues")
+    private Builder setOptionalNullableMapWithNullableValuesJson(Map<String, String> optionalNullableMapWithNullableValues) {
+      this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues;
+      this.isOptionalNullableMapWithNullableValuesNull = optionalNullableMapWithNullableValues == null;
+      return this;
+    }
+
+    /**
+     * OptionalNullableMapWithNullableValues
+     */
+    @JsonIgnore
+    public Builder setOptionalNullableMapWithNullableValues(Map<String, String> optionalNullableMapWithNullableValues) {
+      this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues;
+      this.isOptionalNullableMapWithNullableValuesNull = optionalNullableMapWithNullableValues == null;
+      return this;
+    }
+
+    /**
+     * OptionalNullableMapWithNullableValues
+     */
+    @JsonIgnore
+    public Builder setOptionalNullableMapWithNullableValues(Tristate<Map<String, String>> optionalNullableMapWithNullableValues) {
+      this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isOptionalNullableMapWithNullableValuesNull = optionalNullableMapWithNullableValues.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    /**
+     * OptionalNullableMapWithNullableValues
+     */
+    @JsonIgnore
+    public Builder setOptionalNullableMapWithNullableValues_(Map<String, Optional<String>> optionalNullableMapWithNullableValues) {
+      this.optionalNullableMapWithNullableValues =
+          unmapMap(
+              optionalNullableMapWithNullableValues,
+              Function.identity(),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity()
+          );
+      this.isOptionalNullableMapWithNullableValuesNull = optionalNullableMapWithNullableValues == null;
+      return this;
+    }
+
+    /**
+     * OptionalNullableMapWithNullableValues
+     */
+    @JsonIgnore
+    public Builder setOptionalNullableMapWithNullableValues_(Tristate<Map<String, Optional<String>>> optionalNullableMapWithNullableValues) {
+      this.optionalNullableMapWithNullableValues =
+          unmapMap(
+              optionalNullableMapWithNullableValues,
+              t -> t.onValue(m -> m).onNull(() -> null).onAbsent(() -> null),
+              Function.identity(),
+              i -> i.orElse(null),
+              Function.identity()
+          );
+      this.isOptionalNullableMapWithNullableValuesNull = optionalNullableMapWithNullableValues.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
       return this;
     }
 
@@ -8228,11 +9174,15 @@ public class NecessityAndNullabilityDto {
       additionalProperties.remove("optionalListWithNullableItems");
       additionalProperties.remove("optionalNullableListWithNullableItems");
       additionalProperties.remove("requiredMap");
+      additionalProperties.remove("requiredMapWithNullableValues");
       additionalProperties.remove("requiredNullableMap");
+      additionalProperties.remove("requiredNullableMapWithNullableValues");
       additionalProperties.remove("optionalMap");
+      additionalProperties.remove("optionalMapWithNullableValues");
       additionalProperties.remove("optionalNullableMap");
+      additionalProperties.remove("optionalNullableMapWithNullableValues");
 
-      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, requiredMap, requiredNullableMap, isRequiredNullableMapPresent, optionalMap, isOptionalMapNotNull, optionalNullableMap, isOptionalNullableMapNull, additionalProperties);
+      return new NecessityAndNullabilityDto(requiredStringVal, requiredNullableStringVal, isRequiredNullableStringValPresent, optionalStringVal, isOptionalStringValNotNull, optionalNullableStringVal, isOptionalNullableStringValNull, requiredListWithNullableItems, requiredNullableListWithNullableItems, isRequiredNullableListWithNullableItemsPresent, optionalListWithNullableItems, isOptionalListWithNullableItemsNotNull, optionalNullableListWithNullableItems, isOptionalNullableListWithNullableItemsNull, requiredMap, requiredMapWithNullableValues, requiredNullableMap, isRequiredNullableMapPresent, requiredNullableMapWithNullableValues, isRequiredNullableMapWithNullableValuesPresent, optionalMap, isOptionalMapNotNull, optionalMapWithNullableValues, isOptionalMapWithNullableValuesNotNull, optionalNullableMap, isOptionalNullableMapNull, optionalNullableMapWithNullableValues, isOptionalNullableMapWithNullableValuesNull, additionalProperties);
     }
   }
 
@@ -8397,19 +9347,78 @@ public class NecessityAndNullabilityDto {
       }
 
       /**
-       * RequiredNullableMap
+       * RequiredMapWithNullableValues
        */
-      public FullOptPropertyBuilder0 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
-        return new FullOptPropertyBuilder0(builder.setRequiredNullableMap(requiredNullableMap));
+      public FullPropertyBuilder6 setRequiredMapWithNullableValues(Map<String, String> requiredMapWithNullableValues) {
+        return new FullPropertyBuilder6(builder.setRequiredMapWithNullableValues(requiredMapWithNullableValues));
+      }
+
+      /**
+       * RequiredMapWithNullableValues
+       */
+      public FullPropertyBuilder6 setRequiredMapWithNullableValues_(Map<String, Optional<String>> requiredMapWithNullableValues) {
+        return new FullPropertyBuilder6(builder.setRequiredMapWithNullableValues_(requiredMapWithNullableValues));
+      }
+
+    }
+
+    public static final class FullPropertyBuilder6 {
+      private final Builder builder;
+
+      private FullPropertyBuilder6(Builder builder) {
+        this.builder = builder;
       }
 
       /**
        * RequiredNullableMap
        */
-      public FullOptPropertyBuilder0 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
-        return new FullOptPropertyBuilder0(builder.setRequiredNullableMap(requiredNullableMap));
+      public FullPropertyBuilder7 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+        return new FullPropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
       }
 
+      /**
+       * RequiredNullableMap
+       */
+      public FullPropertyBuilder7 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+        return new FullPropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
+      }
+
+    }
+
+    public static final class FullPropertyBuilder7 {
+      private final Builder builder;
+
+      private FullPropertyBuilder7(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredNullableMapWithNullableValues
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues(Map<String, String> requiredNullableMapWithNullableValues) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+      }
+
+      /**
+       * RequiredNullableMapWithNullableValues
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues(Optional<Map<String, String>> requiredNullableMapWithNullableValues) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+      }
+
+      /**
+       * RequiredNullableMapWithNullableValues
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues_(Map<String, Optional<String>> requiredNullableMapWithNullableValues) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+      }
+
+      /**
+       * RequiredNullableMapWithNullableValues
+       */
+      public FullOptPropertyBuilder0 setRequiredNullableMapWithNullableValues_(Optional<Map<String, Optional<String>>> requiredNullableMapWithNullableValues) {
+        return new FullOptPropertyBuilder0(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+      }
     }
 
     public static final class FullOptPropertyBuilder0 {
@@ -8562,17 +9571,31 @@ public class NecessityAndNullabilityDto {
       }
 
       /**
-       * OptionalNullableMap
+       * OptionalMapWithNullableValues
        */
-      public FullOptPropertyBuilder6 setOptionalNullableMap(Map<String, String> optionalNullableMap) {
-        return new FullOptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+      public FullOptPropertyBuilder6 setOptionalMapWithNullableValues(Map<String, String> optionalMapWithNullableValues) {
+        return new FullOptPropertyBuilder6(builder.setOptionalMapWithNullableValues(optionalMapWithNullableValues));
       }
 
       /**
-       * OptionalNullableMap
+       * OptionalMapWithNullableValues
        */
-      public FullOptPropertyBuilder6 setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
-        return new FullOptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+      public FullOptPropertyBuilder6 setOptionalMapWithNullableValues(Optional<Map<String, String>> optionalMapWithNullableValues) {
+        return new FullOptPropertyBuilder6(builder.setOptionalMapWithNullableValues(optionalMapWithNullableValues));
+      }
+
+      /**
+       * OptionalMapWithNullableValues
+       */
+      public FullOptPropertyBuilder6 setOptionalMapWithNullableValues_(Map<String, Optional<String>> optionalMapWithNullableValues) {
+        return new FullOptPropertyBuilder6(builder.setOptionalMapWithNullableValues_(optionalMapWithNullableValues));
+      }
+
+      /**
+       * OptionalMapWithNullableValues
+       */
+      public FullOptPropertyBuilder6 setOptionalMapWithNullableValues_(Optional<Map<String, Optional<String>>> optionalMapWithNullableValues) {
+        return new FullOptPropertyBuilder6(builder.setOptionalMapWithNullableValues_(optionalMapWithNullableValues));
       }
 
     }
@@ -8584,16 +9607,75 @@ public class NecessityAndNullabilityDto {
         this.builder = builder;
       }
 
-      public FullOptPropertyBuilder6 addAdditionalProperty(String key, Object value) {
-        return new FullOptPropertyBuilder6(builder.addAdditionalProperty(key, value));
+      /**
+       * OptionalNullableMap
+       */
+      public FullOptPropertyBuilder7 setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+        return new FullOptPropertyBuilder7(builder.setOptionalNullableMap(optionalNullableMap));
       }
 
-      public FullOptPropertyBuilder6 addAdditionalProperty(String key, Tristate<Object> value) {
-        return new FullOptPropertyBuilder6(builder.addAdditionalProperty(key, value));
+      /**
+       * OptionalNullableMap
+       */
+      public FullOptPropertyBuilder7 setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+        return new FullOptPropertyBuilder7(builder.setOptionalNullableMap(optionalNullableMap));
       }
 
-      public FullOptPropertyBuilder6 setAdditionalProperties(Map<String, Object> additionalProperties) {
-        return new FullOptPropertyBuilder6(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public static final class FullOptPropertyBuilder7 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder7(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * OptionalNullableMapWithNullableValues
+       */
+      public FullOptPropertyBuilder8 setOptionalNullableMapWithNullableValues(Map<String, String> optionalNullableMapWithNullableValues) {
+        return new FullOptPropertyBuilder8(builder.setOptionalNullableMapWithNullableValues(optionalNullableMapWithNullableValues));
+      }
+
+      /**
+       * OptionalNullableMapWithNullableValues
+       */
+      public FullOptPropertyBuilder8 setOptionalNullableMapWithNullableValues(Tristate<Map<String, String>> optionalNullableMapWithNullableValues) {
+        return new FullOptPropertyBuilder8(builder.setOptionalNullableMapWithNullableValues(optionalNullableMapWithNullableValues));
+      }
+
+      /**
+       * OptionalNullableMapWithNullableValues
+       */
+      public FullOptPropertyBuilder8 setOptionalNullableMapWithNullableValues_(Map<String, Optional<String>> optionalNullableMapWithNullableValues) {
+        return new FullOptPropertyBuilder8(builder.setOptionalNullableMapWithNullableValues_(optionalNullableMapWithNullableValues));
+      }
+
+      /**
+       * OptionalNullableMapWithNullableValues
+       */
+      public FullOptPropertyBuilder8 setOptionalNullableMapWithNullableValues_(Tristate<Map<String, Optional<String>>> optionalNullableMapWithNullableValues) {
+        return new FullOptPropertyBuilder8(builder.setOptionalNullableMapWithNullableValues_(optionalNullableMapWithNullableValues));
+      }
+    }
+
+    public static final class FullOptPropertyBuilder8 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder8(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder8 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder8(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder8 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder8(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder8 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder8(builder.setAdditionalProperties(additionalProperties));
       }
 
       public NecessityAndNullabilityDto build(){
@@ -8723,17 +9805,17 @@ public class NecessityAndNullabilityDto {
       }
 
       /**
-       * RequiredNullableMap
+       * RequiredMapWithNullableValues
        */
-      public PropertyBuilder6 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
-        return new PropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+      public PropertyBuilder6 setRequiredMapWithNullableValues(Map<String, String> requiredMapWithNullableValues) {
+        return new PropertyBuilder6(builder.setRequiredMapWithNullableValues(requiredMapWithNullableValues));
       }
 
       /**
-       * RequiredNullableMap
+       * RequiredMapWithNullableValues
        */
-      public PropertyBuilder6 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
-        return new PropertyBuilder6(builder.setRequiredNullableMap(requiredNullableMap));
+      public PropertyBuilder6 setRequiredMapWithNullableValues_(Map<String, Optional<String>> requiredMapWithNullableValues) {
+        return new PropertyBuilder6(builder.setRequiredMapWithNullableValues_(requiredMapWithNullableValues));
       }
 
     }
@@ -8742,6 +9824,65 @@ public class NecessityAndNullabilityDto {
       private final Builder builder;
 
       private PropertyBuilder6(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredNullableMap
+       */
+      public PropertyBuilder7 setRequiredNullableMap(Map<String, String> requiredNullableMap) {
+        return new PropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
+      }
+
+      /**
+       * RequiredNullableMap
+       */
+      public PropertyBuilder7 setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
+        return new PropertyBuilder7(builder.setRequiredNullableMap(requiredNullableMap));
+      }
+
+    }
+
+    public static final class PropertyBuilder7 {
+      private final Builder builder;
+
+      private PropertyBuilder7(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * RequiredNullableMapWithNullableValues
+       */
+      public PropertyBuilder8 setRequiredNullableMapWithNullableValues(Map<String, String> requiredNullableMapWithNullableValues) {
+        return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+      }
+
+      /**
+       * RequiredNullableMapWithNullableValues
+       */
+      public PropertyBuilder8 setRequiredNullableMapWithNullableValues(Optional<Map<String, String>> requiredNullableMapWithNullableValues) {
+        return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues(requiredNullableMapWithNullableValues));
+      }
+
+      /**
+       * RequiredNullableMapWithNullableValues
+       */
+      public PropertyBuilder8 setRequiredNullableMapWithNullableValues_(Map<String, Optional<String>> requiredNullableMapWithNullableValues) {
+        return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+      }
+
+      /**
+       * RequiredNullableMapWithNullableValues
+       */
+      public PropertyBuilder8 setRequiredNullableMapWithNullableValues_(Optional<Map<String, Optional<String>>> requiredNullableMapWithNullableValues) {
+        return new PropertyBuilder8(builder.setRequiredNullableMapWithNullableValues_(requiredNullableMapWithNullableValues));
+      }
+    }
+
+    public static final class PropertyBuilder8 {
+      private final Builder builder;
+
+      private PropertyBuilder8(Builder builder) {
         this.builder = builder;
       }
 
@@ -8908,17 +10049,31 @@ public class NecessityAndNullabilityDto {
       }
 
       /**
-       * OptionalNullableMap
+       * OptionalMapWithNullableValues
        */
-      public OptPropertyBuilder6 setOptionalNullableMap(Map<String, String> optionalNullableMap) {
-        return new OptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+      public OptPropertyBuilder6 setOptionalMapWithNullableValues(Map<String, String> optionalMapWithNullableValues) {
+        return new OptPropertyBuilder6(builder.setOptionalMapWithNullableValues(optionalMapWithNullableValues));
       }
 
       /**
-       * OptionalNullableMap
+       * OptionalMapWithNullableValues
        */
-      public OptPropertyBuilder6 setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
-        return new OptPropertyBuilder6(builder.setOptionalNullableMap(optionalNullableMap));
+      public OptPropertyBuilder6 setOptionalMapWithNullableValues(Optional<Map<String, String>> optionalMapWithNullableValues) {
+        return new OptPropertyBuilder6(builder.setOptionalMapWithNullableValues(optionalMapWithNullableValues));
+      }
+
+      /**
+       * OptionalMapWithNullableValues
+       */
+      public OptPropertyBuilder6 setOptionalMapWithNullableValues_(Map<String, Optional<String>> optionalMapWithNullableValues) {
+        return new OptPropertyBuilder6(builder.setOptionalMapWithNullableValues_(optionalMapWithNullableValues));
+      }
+
+      /**
+       * OptionalMapWithNullableValues
+       */
+      public OptPropertyBuilder6 setOptionalMapWithNullableValues_(Optional<Map<String, Optional<String>>> optionalMapWithNullableValues) {
+        return new OptPropertyBuilder6(builder.setOptionalMapWithNullableValues_(optionalMapWithNullableValues));
       }
 
     }
@@ -8930,16 +10085,75 @@ public class NecessityAndNullabilityDto {
         this.builder = builder;
       }
 
-      public OptPropertyBuilder6 addAdditionalProperty(String key, Object value) {
-        return new OptPropertyBuilder6(builder.addAdditionalProperty(key, value));
+      /**
+       * OptionalNullableMap
+       */
+      public OptPropertyBuilder7 setOptionalNullableMap(Map<String, String> optionalNullableMap) {
+        return new OptPropertyBuilder7(builder.setOptionalNullableMap(optionalNullableMap));
       }
 
-      public OptPropertyBuilder6 addAdditionalProperty(String key, Tristate<Object> value) {
-        return new OptPropertyBuilder6(builder.addAdditionalProperty(key, value));
+      /**
+       * OptionalNullableMap
+       */
+      public OptPropertyBuilder7 setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
+        return new OptPropertyBuilder7(builder.setOptionalNullableMap(optionalNullableMap));
       }
 
-      public OptPropertyBuilder6 setAdditionalProperties(Map<String, Object> additionalProperties) {
-        return new OptPropertyBuilder6(builder.setAdditionalProperties(additionalProperties));
+    }
+
+    public static final class OptPropertyBuilder7 {
+      private final Builder builder;
+
+      private OptPropertyBuilder7(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * OptionalNullableMapWithNullableValues
+       */
+      public OptPropertyBuilder8 setOptionalNullableMapWithNullableValues(Map<String, String> optionalNullableMapWithNullableValues) {
+        return new OptPropertyBuilder8(builder.setOptionalNullableMapWithNullableValues(optionalNullableMapWithNullableValues));
+      }
+
+      /**
+       * OptionalNullableMapWithNullableValues
+       */
+      public OptPropertyBuilder8 setOptionalNullableMapWithNullableValues(Tristate<Map<String, String>> optionalNullableMapWithNullableValues) {
+        return new OptPropertyBuilder8(builder.setOptionalNullableMapWithNullableValues(optionalNullableMapWithNullableValues));
+      }
+
+      /**
+       * OptionalNullableMapWithNullableValues
+       */
+      public OptPropertyBuilder8 setOptionalNullableMapWithNullableValues_(Map<String, Optional<String>> optionalNullableMapWithNullableValues) {
+        return new OptPropertyBuilder8(builder.setOptionalNullableMapWithNullableValues_(optionalNullableMapWithNullableValues));
+      }
+
+      /**
+       * OptionalNullableMapWithNullableValues
+       */
+      public OptPropertyBuilder8 setOptionalNullableMapWithNullableValues_(Tristate<Map<String, Optional<String>>> optionalNullableMapWithNullableValues) {
+        return new OptPropertyBuilder8(builder.setOptionalNullableMapWithNullableValues_(optionalNullableMapWithNullableValues));
+      }
+    }
+
+    public static final class OptPropertyBuilder8 {
+      private final Builder builder;
+
+      private OptPropertyBuilder8(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder8 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder8(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder8 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder8(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder8 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder8(builder.setAdditionalProperties(additionalProperties));
       }
 
       public NecessityAndNullabilityDto build(){

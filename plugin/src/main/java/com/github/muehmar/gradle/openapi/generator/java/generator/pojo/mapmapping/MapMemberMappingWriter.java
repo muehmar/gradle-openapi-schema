@@ -90,7 +90,10 @@ public class MapMemberMappingWriter {
     }
 
     static Function<JavaPojoMember, Writer> autoWrapMapItem() {
-      return wrapMapItemNotNecessary();
+      return member ->
+          member.getJavaType().isNullableValuesMapType()
+              ? wrapOptionalMapItem().apply(member)
+              : wrapMapItemNotNecessary().apply(member);
     }
   }
 

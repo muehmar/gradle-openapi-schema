@@ -51,8 +51,8 @@ public class DtoSetterGenerator {
 
   private static Generator<ParentPojoAndComposedPojo, PojoSettings> dtoSetterContent() {
     final Generator<PojosAndMember, PojoSettings> singleMemberSetter =
-        setSingleNonDiscriminatorAndNonNullableItemsListMember()
-            .append(setSingleNullableItemsListMember())
+        setSingleNonDiscriminatorAndNonNullableContainerValueMember()
+            .append(setSingleNullableContainerValueMember())
             .append(setSingleDiscriminatorMember());
     return Generator.<ParentPojoAndComposedPojo, PojoSettings>emptyGen()
         .appendList(singleMemberSetter, ParentPojoAndComposedPojo::getMembers)
@@ -62,7 +62,7 @@ public class DtoSetterGenerator {
   }
 
   private static Generator<PojosAndMember, PojoSettings>
-      setSingleNonDiscriminatorAndNonNullableItemsListMember() {
+      setSingleNonDiscriminatorAndNonNullableContainerValueMember() {
     return Generator.<PojosAndMember, PojoSettings>emptyGen()
         .append(
             (member, s, w) ->
@@ -71,10 +71,10 @@ public class DtoSetterGenerator {
                     member.setterCondition(),
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
                     member.getGetterNameWithSuffix(s)))
-        .filter(PojosAndMember::isNotDiscriminatorAndNotNullableItemsListMember);
+        .filter(PojosAndMember::isNotDiscriminatorAndNotNullableContainerValueMember);
   }
 
-  private static Generator<PojosAndMember, PojoSettings> setSingleNullableItemsListMember() {
+  private static Generator<PojosAndMember, PojoSettings> setSingleNullableContainerValueMember() {
     return Generator.<PojosAndMember, PojoSettings>emptyGen()
         .append(
             (member, s, w) ->
@@ -83,7 +83,7 @@ public class DtoSetterGenerator {
                     member.setterCondition(),
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
                     member.getGetterNameWithSuffix(s)))
-        .filter(PojosAndMember::isNullableItemsListMember);
+        .filter(PojosAndMember::isNullableContainerValueType);
   }
 
   private static Generator<PojosAndMember, PojoSettings> setSingleDiscriminatorMember() {
@@ -219,12 +219,12 @@ public class DtoSetterGenerator {
       return "";
     }
 
-    private boolean isNotDiscriminatorAndNotNullableItemsListMember() {
-      return not(isDiscriminatorMember()) && not(isNullableItemsListMember());
+    private boolean isNotDiscriminatorAndNotNullableContainerValueMember() {
+      return not(isDiscriminatorMember()) && not(isNullableContainerValueType());
     }
 
-    private boolean isNullableItemsListMember() {
-      return not(isDiscriminatorMember()) && member.getJavaType().isNullableItemsArrayType();
+    private boolean isNullableContainerValueType() {
+      return not(isDiscriminatorMember()) && member.getJavaType().isNullableContainerValueType();
     }
 
     private boolean isDiscriminatorMember() {

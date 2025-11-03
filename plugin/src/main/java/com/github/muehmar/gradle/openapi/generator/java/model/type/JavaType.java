@@ -132,6 +132,10 @@ public interface JavaType {
     return onArrayType().isPresent();
   }
 
+  default boolean isNullableContainerValueType() {
+    return isNullableValuesMapType() || isNullableItemsArrayType();
+  }
+
   default boolean isNullableItemsArrayType() {
     return onArrayType()
         .map(JavaArrayType::getItemType)

@@ -17,12 +17,19 @@ private final boolean isOptionalListWithNullableItemsNotNull;
 private final List<String> optionalNullableListWithNullableItems;
 private final boolean isOptionalNullableListWithNullableItemsNull;
 private final Map<String, String> requiredMap;
+private final Map<String, String> requiredMapWithNullableValues;
 private final Map<String, String> requiredNullableMap;
 private final boolean isRequiredNullableMapPresent;
+private final Map<String, String> requiredNullableMapWithNullableValues;
+private final boolean isRequiredNullableMapWithNullableValuesPresent;
 private final Map<String, String> optionalMap;
 private final boolean isOptionalMapNotNull;
+private final Map<String, String> optionalMapWithNullableValues;
+private final boolean isOptionalMapWithNullableValuesNotNull;
 private final Map<String, String> optionalNullableMap;
 private final boolean isOptionalNullableMapNull;
+private final Map<String, String> optionalNullableMapWithNullableValues;
+private final boolean isOptionalNullableMapWithNullableValuesNull;
 private final Map<String, Object> additionalProperties;
 ]
 
