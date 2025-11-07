@@ -37,6 +37,13 @@ class MapMemberMappingWriterTest {
           TypeMappings.ofClassTypeMappings(
               MAP_MAPPING_WITH_CONVERSION, STRING_MAPPING_WITH_CONVERSION));
 
+  private static final JavaPojoMember NULLABLE_MEMBER =
+      JavaPojoMember.wrap(
+          PojoMembers.optionalNullableMapWithNullableValues(),
+          invoiceName(),
+          TypeMappings.ofClassTypeMappings(
+              MAP_MAPPING_WITH_CONVERSION, STRING_MAPPING_WITH_CONVERSION));
+
   private static final JavaMapType JAVA_MAP_TYPE = MEMBER.getJavaType().onMapType().get();
 
   @Test

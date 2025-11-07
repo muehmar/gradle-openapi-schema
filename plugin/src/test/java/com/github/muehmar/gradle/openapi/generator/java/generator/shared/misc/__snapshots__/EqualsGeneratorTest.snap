@@ -21,12 +21,19 @@ public boolean equals(Object obj) {
       && Objects.deepEquals(this.optionalNullableListWithNullableItems, other.optionalNullableListWithNullableItems)
       && Objects.deepEquals(this.isOptionalNullableListWithNullableItemsNull, other.isOptionalNullableListWithNullableItemsNull)
       && Objects.deepEquals(this.requiredMap, other.requiredMap)
+      && Objects.deepEquals(this.requiredMapWithNullableValues, other.requiredMapWithNullableValues)
       && Objects.deepEquals(this.requiredNullableMap, other.requiredNullableMap)
       && Objects.deepEquals(this.isRequiredNullableMapPresent, other.isRequiredNullableMapPresent)
+      && Objects.deepEquals(this.requiredNullableMapWithNullableValues, other.requiredNullableMapWithNullableValues)
+      && Objects.deepEquals(this.isRequiredNullableMapWithNullableValuesPresent, other.isRequiredNullableMapWithNullableValuesPresent)
       && Objects.deepEquals(this.optionalMap, other.optionalMap)
       && Objects.deepEquals(this.isOptionalMapNotNull, other.isOptionalMapNotNull)
+      && Objects.deepEquals(this.optionalMapWithNullableValues, other.optionalMapWithNullableValues)
+      && Objects.deepEquals(this.isOptionalMapWithNullableValuesNotNull, other.isOptionalMapWithNullableValuesNotNull)
       && Objects.deepEquals(this.optionalNullableMap, other.optionalNullableMap)
       && Objects.deepEquals(this.isOptionalNullableMapNull, other.isOptionalNullableMapNull)
+      && Objects.deepEquals(this.optionalNullableMapWithNullableValues, other.optionalNullableMapWithNullableValues)
+      && Objects.deepEquals(this.isOptionalNullableMapWithNullableValuesNull, other.isOptionalNullableMapWithNullableValuesNull)
       && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
 }
 ]

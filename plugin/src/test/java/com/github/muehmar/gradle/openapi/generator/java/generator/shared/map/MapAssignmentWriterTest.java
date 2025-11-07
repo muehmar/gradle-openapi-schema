@@ -28,6 +28,14 @@ class MapAssignmentWriterTest {
               ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION,
               ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION));
 
+  private static final JavaPojoMember NULLABLE_MEMBER =
+      JavaPojoMember.wrap(
+          PojoMembers.optionalNullableMapWithNullableValues(),
+          invoiceName(),
+          TypeMappings.ofClassTypeMappings(
+              ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION,
+              ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION));
+
   private static final JavaMapType JAVA_MAP_TYPE = MEMBER.getJavaType().onMapType().get();
 
   @Test
@@ -105,6 +113,22 @@ class MapAssignmentWriterTest {
             .autoUnmapMapType(MEMBER)
             .autoUnwrapMapItem(MEMBER)
             .autoUnmapMapItemType(MEMBER)
+            .build();
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("autoMappingNullableMap")
+  void fullMapAssignmentWriterBuilder_when_autoMappingNullableMap_then_matchSnapshot() {
+    final Writer writer =
+        fullMapAssignmentWriterBuilder()
+            .member(NULLABLE_MEMBER)
+            .fieldAssigment()
+            .autoUnwrapMap(NULLABLE_MEMBER)
+            .autoUnmapMapType(NULLABLE_MEMBER)
+            .autoUnwrapMapItem(NULLABLE_MEMBER)
+            .autoUnmapMapItemType(NULLABLE_MEMBER)
             .build();
 
     expect.toMatchSnapshot(writerSnapshot(writer));

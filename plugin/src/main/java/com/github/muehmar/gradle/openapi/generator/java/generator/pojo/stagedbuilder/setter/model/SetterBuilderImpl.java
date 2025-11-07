@@ -19,7 +19,7 @@ public class SetterBuilderImpl {
 
   public enum SetterType {
     DEFAULT,
-    NULLABLE_ITEMS_LIST
+    NULLABLE_CONTAINER_VALUES
   }
 
   @BuildMethod
@@ -39,7 +39,7 @@ public class SetterBuilderImpl {
       public boolean includeInBuilder(SetterMember member) {
         return setter.includeInBuilder.test(member)
             && (setter.type.equals(SetterType.DEFAULT)
-                || member.getMember().getJavaType().isNullableItemsArrayType());
+                || member.getMember().getJavaType().isNullableContainerValueType());
       }
 
       @Override

@@ -39,11 +39,10 @@ public class ContainerOptionalGetter {
   }
 
   private static Object getReturnType(JavaPojoMember member) {
-    if (member.getJavaType().isArrayType()) {
-      return ListReturnType.fromPojoMember(member);
-    } else {
-      return MapReturnType.fromPojoMember(member);
-    }
+    return member
+        .getJavaType()
+        .getWriteableParameterizedClassName()
+        .asStringWrappingNullableValueType();
   }
 
   private static Writer methodWriter(JavaPojoMember member) {

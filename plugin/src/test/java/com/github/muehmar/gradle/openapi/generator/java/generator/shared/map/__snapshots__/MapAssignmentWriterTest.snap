@@ -21,6 +21,21 @@ this.optionalMap =
 ]
 
 
+autoMappingNullableMap=[
+com.custom.CustomMap
+com.custom.CustomString
+
+this.optionalNullableMapWithNullableValues =
+    unmapMap(
+        optionalNullableMapWithNullableValues,
+        t -> t.onValue(m -> m).onNull(() -> null).onAbsent(() -> null),
+        m -> CustomMap.toMap(m),
+        i -> i.orElse(null),
+        i -> CustomString.toString(i)
+    );
+]
+
+
 expressionOnly=[
 .
 .

@@ -60,8 +60,8 @@ public class RequiredMemberBuilderGenerator {
         PList.of(
             NORMAL_SETTER,
             OPTIONAL_SETTER,
-            NORMAL_SETTER.forType(SetterBuilderImpl.SetterType.NULLABLE_ITEMS_LIST),
-            OPTIONAL_SETTER.forType(SetterBuilderImpl.SetterType.NULLABLE_ITEMS_LIST));
+            NORMAL_SETTER.forType(SetterBuilderImpl.SetterType.NULLABLE_CONTAINER_VALUES),
+            OPTIONAL_SETTER.forType(SetterBuilderImpl.SetterType.NULLABLE_CONTAINER_VALUES));
     return singleMemberSetterGenerator(setters);
   }
 
