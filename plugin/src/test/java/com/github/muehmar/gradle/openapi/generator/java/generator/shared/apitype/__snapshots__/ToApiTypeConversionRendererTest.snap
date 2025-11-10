@@ -1,0 +1,56 @@
+apiTypeWithFactoryMethods[NO_NULL_CHECK]=[
+com.github.muehmar.UserId
+
+UserId.fromString(field)
+]
+
+
+apiTypeWithFactoryMethods[NULL_SAFE]=[
+com.github.muehmar.UserId
+
+field != null ? UserId.fromString(field) : null
+]
+
+
+apiTypeWithInstanceMethods[NO_NULL_CHECK]=[
+.
+.
+field.toCounter()
+]
+
+
+apiTypeWithInstanceMethods[NULL_SAFE]=[
+.
+.
+field != null ? field.toCounter() : null
+]
+
+
+combinedPluginAndUserDefinedApiType[NO_NULL_CHECK]=[
+com.github.muehmar.CustomSet
+java.util.HashSet
+
+CustomSet.of(new HashSet<>(field))
+]
+
+
+combinedPluginAndUserDefinedApiType[NULL_SAFE]=[
+com.github.muehmar.CustomSet
+java.util.HashSet
+
+field != null ? CustomSet.of(new HashSet<>(field)) : null
+]
+
+
+pluginApiType[NO_NULL_CHECK]=[
+java.util.HashSet
+
+new HashSet<>(field)
+]
+
+
+pluginApiType[NULL_SAFE]=[
+java.util.HashSet
+
+field != null ? new HashSet<>(field) : null
+]

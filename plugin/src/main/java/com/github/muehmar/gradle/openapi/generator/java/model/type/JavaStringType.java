@@ -61,10 +61,14 @@ public class JavaStringType extends NonGenericJavaType {
 
     final TypeMapping formatTypeMapping =
         TypeMapping.fromFormatMappings(
-            internalClassName, stringType.getFormatString(), typeMappings.getFormatTypeMappings());
+            internalClassName,
+            Optional.empty(),
+            stringType.getFormatString(),
+            typeMappings.getFormatTypeMappings());
 
     final TypeMapping classTypeMapping =
-        TypeMapping.fromClassMappings(internalClassName, typeMappings.getClassTypeMappings());
+        TypeMapping.fromClassMappings(
+            internalClassName, Optional.empty(), typeMappings.getClassTypeMappings());
 
     return formatTypeMapping.or(classTypeMapping, internalClassName);
   }

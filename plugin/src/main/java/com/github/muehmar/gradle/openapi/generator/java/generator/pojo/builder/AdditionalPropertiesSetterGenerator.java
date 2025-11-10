@@ -13,7 +13,7 @@ import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversionRenderer;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -205,7 +205,7 @@ class AdditionalPropertiesSetterGenerator {
         .getApiType()
         .map(
             apiType ->
-                FromApiTypeConversion.fromApiTypeConversion(
+                FromApiTypeConversionRenderer.fromApiTypeConversion(
                     apiType, valueName, ConversionGenerationMode.NULL_SAFE))
         .map(Writer::asString)
         .orElse(valueName);
@@ -217,7 +217,7 @@ class AdditionalPropertiesSetterGenerator {
         .getApiType()
         .map(
             apiType ->
-                FromApiTypeConversion.fromApiTypeConversion(
+                FromApiTypeConversionRenderer.fromApiTypeConversion(
                     apiType, valueName, ConversionGenerationMode.NO_NULL_CHECK))
         .map(Writer::asString)
         .orElse(valueName);

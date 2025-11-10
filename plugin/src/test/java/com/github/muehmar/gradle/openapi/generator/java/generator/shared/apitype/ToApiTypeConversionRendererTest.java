@@ -15,7 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 @SnapshotTest
-class ToApiTypeConversionTest {
+class ToApiTypeConversionRendererTest {
   private Expect expect;
 
   @ParameterizedTest
@@ -23,7 +23,7 @@ class ToApiTypeConversionTest {
   @SnapshotName("apiTypeWithFactoryMethods")
   void generate_when_apiTypeWithFactoryMethods_then_matchSnapshot(ConversionGenerationMode mode) {
     final Generator<ApiType, Void> generator =
-        ToApiTypeConversion.toApiTypeConversion("field", mode);
+        ToApiTypeConversionRenderer.toApiTypeConversion("field", mode);
 
     final Writer writer = generator.generate(ApiTypes.userId(), noSettings(), javaWriter());
 
@@ -35,9 +35,35 @@ class ToApiTypeConversionTest {
   @SnapshotName("apiTypeWithInstanceMethods")
   void generate_when_apiTypeWithInstanceMethods_then_matchSnapshot(ConversionGenerationMode mode) {
     final Generator<ApiType, Void> generator =
-        ToApiTypeConversion.toApiTypeConversion("field", mode);
+        ToApiTypeConversionRenderer.toApiTypeConversion("field", mode);
 
     final Writer writer = generator.generate(ApiTypes.counter(), noSettings(), javaWriter());
+
+    expect.scenario(mode.name()).toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @ParameterizedTest
+  @EnumSource(ConversionGenerationMode.class)
+  @SnapshotName("pluginApiType")
+  void generate_when_pluginApiType_then_matchSnapshot(ConversionGenerationMode mode) {
+    final Generator<ApiType, Void> generator =
+        ToApiTypeConversionRenderer.toApiTypeConversion("field", mode);
+
+    final Writer writer = generator.generate(ApiTypes.pluginApiType(), noSettings(), javaWriter());
+
+    expect.scenario(mode.name()).toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @ParameterizedTest
+  @EnumSource(ConversionGenerationMode.class)
+  @SnapshotName("combinedPluginAndUserDefinedApiType")
+  void generate_when_combinedPluginAndUserDefinedApiType_then_matchSnapshot(
+      ConversionGenerationMode mode) {
+    final Generator<ApiType, Void> generator =
+        ToApiTypeConversionRenderer.toApiTypeConversion("field", mode);
+
+    final Writer writer =
+        generator.generate(ApiTypes.pluginApiTypeAndUserMapping(), noSettings(), javaWriter());
 
     expect.scenario(mode.name()).toMatchSnapshot(writerSnapshot(writer));
   }

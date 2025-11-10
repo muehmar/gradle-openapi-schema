@@ -18,26 +18,39 @@ public class TypeMapping {
     return new TypeMapping(className, Optional.empty());
   }
 
-  public static TypeMapping fromClassMappings(
-      QualifiedClassName originalClassName, PList<ClassTypeMapping> classTypeMappings) {
-    return fromClassMappings(originalClassName, classTypeMappings, PList.empty());
+  public static TypeMapping fromClassNameAndPluginApiType(
+      QualifiedClassName className, Optional<PluginApiType> pluginApiType) {
+    return new TypeMapping(className, pluginApiType.map(ApiType::ofPluginType));
   }
 
   public static TypeMapping fromClassMappings(
-      QualifiedClassName originalClassName,
+      QualifiedClassName internalClassName,
+      Optional<PluginApiType> pluginApiType,
+      PList<ClassTypeMapping> classTypeMappings) {
+    return fromClassMappings(internalClassName, pluginApiType, classTypeMappings, PList.empty());
+  }
+
+  public static TypeMapping fromClassMappings(
+      QualifiedClassName internalClassName,
+      Optional<PluginApiType> pluginApiType,
       PList<ClassTypeMapping> classTypeMappings,
       PList<JavaType> generics) {
+    final QualifiedClassName standardApiType =
+        pluginApiType.map(PluginApiType::getClassName).orElse(internalClassName);
     return classTypeMappings
         .filter(
             classMapping ->
-                classMapping.getFromClass().equals(originalClassName.getClassName().asString()))
+                classMapping.getFromClass().equals(standardApiType.getClassName().asString()))
         .headOption()
-        .map(classMapping -> fromClassMapping(originalClassName, classMapping, generics))
-        .orElseGet(() -> fromClassName(originalClassName));
+        .map(
+            classMapping ->
+                fromClassMapping(internalClassName, pluginApiType, classMapping, generics))
+        .orElseGet(() -> fromClassNameAndPluginApiType(internalClassName, pluginApiType));
   }
 
   private static TypeMapping fromClassMapping(
-      QualifiedClassName originalClassName,
+      QualifiedClassName internalClassName,
+      Optional<PluginApiType> pluginApiType,
       ClassTypeMapping classTypeMapping,
       PList<JavaType> generics) {
     final QualifiedClassName mappedClassName =
@@ -45,32 +58,41 @@ public class TypeMapping {
 
     return classTypeMapping
         .getTypeConversion()
-        .map(conversion -> ApiType.fromConversion(mappedClassName, conversion, generics))
-        .map(apiType -> new TypeMapping(originalClassName, Optional.of(apiType)))
-        .orElseGet(() -> fromClassName(mappedClassName));
+        .map(conversion -> UserDefinedApiType.fromConversion(mappedClassName, conversion, generics))
+        .map(
+            userDefinedApiType ->
+                new TypeMapping(
+                    internalClassName, Optional.of(ApiType.of(userDefinedApiType, pluginApiType))))
+        .orElseGet(() -> fromClassNameAndPluginApiType(mappedClassName, Optional.empty()));
   }
 
   public static TypeMapping fromFormatMappings(
-      QualifiedClassName originalClassName,
+      QualifiedClassName internalClassName,
+      Optional<PluginApiType> pluginApiType,
       String formatString,
       PList<FormatTypeMapping> formatTypeMappings) {
-    return fromFormatMappings(originalClassName, formatString, formatTypeMappings, PList.empty());
+    return fromFormatMappings(
+        internalClassName, pluginApiType, formatString, formatTypeMappings, PList.empty());
   }
 
   public static TypeMapping fromFormatMappings(
-      QualifiedClassName originalClassName,
+      QualifiedClassName internalClassName,
+      Optional<PluginApiType> pluginApiType,
       String formatString,
       PList<FormatTypeMapping> formatTypeMappings,
       PList<JavaType> generics) {
     return formatTypeMappings
         .filter(formatMapping -> formatMapping.getFormatType().equals(formatString))
         .headOption()
-        .map(formatMapping -> fromFormatMapping(originalClassName, formatMapping, generics))
-        .orElseGet(() -> fromClassName(originalClassName));
+        .map(
+            formatMapping ->
+                fromFormatMapping(internalClassName, pluginApiType, formatMapping, generics))
+        .orElseGet(() -> fromClassNameAndPluginApiType(internalClassName, pluginApiType));
   }
 
   private static TypeMapping fromFormatMapping(
-      QualifiedClassName originalClassName,
+      QualifiedClassName internalClassName,
+      Optional<PluginApiType> pluginApiType,
       FormatTypeMapping formatTypeMapping,
       PList<JavaType> generics) {
     final QualifiedClassName mappedClassName =
@@ -78,29 +100,35 @@ public class TypeMapping {
 
     return formatTypeMapping
         .getTypeConversion()
-        .map(conversion -> ApiType.fromConversion(mappedClassName, conversion, generics))
-        .map(apiType -> new TypeMapping(originalClassName, Optional.of(apiType)))
-        .orElseGet(() -> fromClassName(mappedClassName));
+        .map(conversion -> UserDefinedApiType.fromConversion(mappedClassName, conversion, generics))
+        .map(
+            userDefinedApiType ->
+                new TypeMapping(
+                    internalClassName, Optional.of(ApiType.of(userDefinedApiType, pluginApiType))))
+        .orElseGet(() -> fromClassNameAndPluginApiType(mappedClassName, Optional.empty()));
   }
 
   public static TypeMapping fromDtoMappings(
-      QualifiedClassName originalClassName, PList<DtoMapping> dtoMappings) {
+      QualifiedClassName internalClassName, PList<DtoMapping> dtoMappings) {
     return dtoMappings
-        .filter(dtoMapping -> dtoMapping.getDtoName().equals(originalClassName.asString()))
+        .filter(dtoMapping -> dtoMapping.getDtoName().equals(internalClassName.asString()))
         .headOption()
-        .map(dtoMapping -> fromDtoMapping(originalClassName, dtoMapping))
-        .orElseGet(() -> fromClassName(originalClassName));
+        .map(dtoMapping -> fromDtoMapping(internalClassName, dtoMapping))
+        .orElseGet(() -> fromClassName(internalClassName));
   }
 
   private static TypeMapping fromDtoMapping(
-      QualifiedClassName originalClassName, DtoMapping dtoMapping) {
+      QualifiedClassName internalClassName, DtoMapping dtoMapping) {
     final QualifiedClassName mappedClassName =
         QualifiedClassName.ofQualifiedClassName(dtoMapping.getCustomType());
 
     return dtoMapping
         .getTypeConversion()
-        .map(conversion -> ApiType.fromConversion(mappedClassName, conversion, PList.empty()))
-        .map(apiType -> new TypeMapping(originalClassName, Optional.of(apiType)))
+        .map(
+            conversion ->
+                UserDefinedApiType.fromConversion(mappedClassName, conversion, PList.empty()))
+        .map(ApiType::ofUserDefinedType)
+        .map(apiType -> new TypeMapping(internalClassName, Optional.of(apiType)))
         .orElseGet(() -> fromClassName(mappedClassName));
   }
 

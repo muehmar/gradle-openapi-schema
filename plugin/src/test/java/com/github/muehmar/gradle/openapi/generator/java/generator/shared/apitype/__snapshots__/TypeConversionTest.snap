@@ -1,0 +1,84 @@
+constructorConversionWithGenericClass[NO_NULL_CHECK]=[
+java.util.ArrayList
+
+new ArrayList<>(value)
+]
+
+
+constructorConversionWithGenericClass[NULL_SAFE]=[
+java.util.ArrayList
+
+value != null ? new ArrayList<>(value) : null
+]
+
+
+emptyConversionMethods[NO_NULL_CHECK]=[
+.
+.
+value
+]
+
+
+emptyConversionMethods[NULL_SAFE]=[
+.
+.
+value != null ? value : null
+]
+
+
+multipleConversions[NO_NULL_CHECK]=[
+com.example.Result
+java.util.ArrayList
+
+Result.fromString(new ArrayList<>(field.asString()))
+]
+
+
+multipleConversions[NULL_SAFE]=[
+com.example.Result
+java.util.ArrayList
+
+field != null ? Result.fromString(new ArrayList<>(field.asString())) : null
+]
+
+
+singleConstructorConversion[NO_NULL_CHECK]=[
+com.example.UserId
+
+new UserId(value)
+]
+
+
+singleConstructorConversion[NULL_SAFE]=[
+com.example.UserId
+
+value != null ? new UserId(value) : null
+]
+
+
+singleFactoryMethodConversion[NO_NULL_CHECK]=[
+com.example.UserId
+
+UserId.of(value)
+]
+
+
+singleFactoryMethodConversion[NULL_SAFE]=[
+com.example.UserId
+
+value != null ? UserId.of(value) : null
+]
+
+
+singleInstanceMethodConversion[NO_NULL_CHECK]=[
+.
+.
+value.toString()
+]
+
+
+singleInstanceMethodConversion[NULL_SAFE]=[
+.
+.
+value != null ? value.toString() : null
+]

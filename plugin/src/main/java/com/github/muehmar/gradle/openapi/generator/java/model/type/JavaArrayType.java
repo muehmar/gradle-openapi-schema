@@ -5,6 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.Parameterized
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.PluginApiType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.TypeMapping;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -42,9 +43,16 @@ public class JavaArrayType implements JavaType {
 
   public static JavaArrayType wrap(ArrayType arrayType, TypeMappings typeMappings) {
     final JavaType itemType = JavaType.wrap(arrayType.getItemType(), typeMappings);
+    final Optional<PluginApiType> pluginApiType =
+        arrayType.getConstraints().isUniqueItems()
+            ? Optional.of(PluginApiType.useSetForListType(itemType))
+            : Optional.empty();
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            INTERNAL_JAVA_CLASS_NAME, typeMappings.getClassTypeMappings(), PList.single(itemType));
+            INTERNAL_JAVA_CLASS_NAME,
+            pluginApiType,
+            typeMappings.getClassTypeMappings(),
+            PList.single(itemType));
     return new JavaArrayType(
         typeMapping.getClassName(),
         typeMapping.getApiType(),

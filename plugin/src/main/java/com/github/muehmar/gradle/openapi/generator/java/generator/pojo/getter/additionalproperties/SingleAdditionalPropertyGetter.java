@@ -9,7 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRe
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversion;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversionRenderer;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -130,7 +130,9 @@ class SingleAdditionalPropertyGetter {
     return props
         .getType()
         .getApiType()
-        .map(apiType -> ToApiTypeConversion.toApiTypeConversion(apiType, "val", NO_NULL_CHECK))
+        .map(
+            apiType ->
+                ToApiTypeConversionRenderer.toApiTypeConversion(apiType, "val", NO_NULL_CHECK))
         .map(conversionWriter -> String.format(".map(val -> %s)", conversionWriter.asString()))
         .orElse("");
   }

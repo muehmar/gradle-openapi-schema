@@ -17,7 +17,8 @@ class ConversionMethodTest {
     final String result =
         conversionMethod.fold(
             factoryMethodConversion -> factoryMethodConversion.getMethodName().asString(),
-            instanceMethodConversion -> fail("Should not be an instance method conversion"));
+            instanceMethodConversion -> fail("Should not be an instance method conversion"),
+            constructorConversion -> fail("Should not be an constructor conversion"));
 
     assertEquals("methodName", result);
   }
@@ -31,7 +32,8 @@ class ConversionMethodTest {
     final String result =
         conversionMethod.fold(
             factoryMethodConversion -> fail("Should not be an instance method conversion"),
-            instanceMethodConversion -> instanceMethodConversion.getMethodName().asString());
+            instanceMethodConversion -> instanceMethodConversion.getMethodName().asString(),
+            constructorConversion -> fail("Should not be an constructor conversion"));
 
     assertEquals("toObject", result);
   }

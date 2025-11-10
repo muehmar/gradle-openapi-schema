@@ -49,7 +49,10 @@ public class JavaMapType implements JavaType {
     final JavaType value = JavaType.wrap(mapType.getValue(), typeMappings);
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            INTERNAL_JAVA_CLASS_NAME, typeMappings.getClassTypeMappings(), PList.of(key, value));
+            INTERNAL_JAVA_CLASS_NAME,
+            Optional.empty(),
+            typeMappings.getClassTypeMappings(),
+            PList.of(key, value));
     return new JavaMapType(
         typeMapping.getClassName(),
         typeMapping.getApiType(),

@@ -3,27 +3,71 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type.api;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
-import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
-import lombok.Value;
+import com.github.muehmar.gradle.openapi.util.OneOrBoth;
+import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-@Value
+@EqualsAndHashCode
+@ToString
 public class ApiType {
-  QualifiedClassName className;
-  ParameterizedApiClassName parameterizedClassName;
-  ToApiTypeConversion toApiTypeConversion;
-  FromApiTypeConversion fromApiTypeConversion;
+  private final OneOrBoth<PluginApiType, UserDefinedApiType> type;
 
-  public static ApiType fromConversion(
-      QualifiedClassName className, TypeConversion conversion, PList<JavaType> generics) {
-    final ParameterizedApiClassName parameterizedClassName =
-        ParameterizedApiClassName.ofClassNameAndGenerics(className, generics);
-    final ToApiTypeConversion toApiTypeConversion =
-        new ToApiTypeConversion(ConversionMethod.ofString(className, conversion.getToCustomType()));
-    final FromApiTypeConversion fromApiTypeConversion =
-        new FromApiTypeConversion(
-            ConversionMethod.ofString(className, conversion.getFromCustomType()));
-    return new ApiType(
-        className, parameterizedClassName, toApiTypeConversion, fromApiTypeConversion);
+  private ApiType(OneOrBoth<PluginApiType, UserDefinedApiType> type) {
+    this.type = type;
+  }
+
+  public static ApiType ofPluginType(PluginApiType pluginApiType) {
+    return new ApiType(OneOrBoth.ofFirst(pluginApiType));
+  }
+
+  public static ApiType ofUserDefinedType(UserDefinedApiType userDefinedApiType) {
+    return new ApiType(OneOrBoth.ofSecond(userDefinedApiType));
+  }
+
+  public static ApiType of(
+      UserDefinedApiType userDefinedApiType, Optional<PluginApiType> pluginApiType) {
+    return new ApiType(OneOrBoth.ofBothOptional(pluginApiType, userDefinedApiType));
+  }
+
+  public QualifiedClassName getClassName() {
+    return fold(
+        PluginApiType::getClassName,
+        UserDefinedApiType::getClassName,
+        (pluginType, userDefinedType) -> userDefinedType.getClassName());
+  }
+
+  public ParameterizedApiClassName getParameterizedClassName() {
+    return fold(
+        PluginApiType::getParameterizedClassName,
+        UserDefinedApiType::getParameterizedClassName,
+        (pluginType, userDefinedType) -> userDefinedType.getParameterizedClassName());
+  }
+
+  public PList<ToApiTypeConversion> getToApiTypeConversion() {
+    return fold(
+        pluginApiType -> PList.single(pluginApiType.getToApiTypeConversion()),
+        userDefinedApiType -> PList.single(userDefinedApiType.getToApiTypeConversion()),
+        (pluginType, userDefinedType) ->
+            PList.of(
+                pluginType.getToApiTypeConversion(), userDefinedType.getToApiTypeConversion()));
+  }
+
+  public PList<FromApiTypeConversion> getFromApiTypeConversion() {
+    return fold(
+        pluginApiType -> PList.single(pluginApiType.getFromApiTypeConversion()),
+        userDefinedApiType -> PList.single(userDefinedApiType.getFromApiTypeConversion()),
+        (pluginType, userDefinedType) ->
+            PList.of(
+                userDefinedType.getFromApiTypeConversion(), pluginType.getFromApiTypeConversion()));
+  }
+
+  public <T> T fold(
+      Function<PluginApiType, T> onPluginType,
+      Function<UserDefinedApiType, T> onUserDefinedType,
+      BiFunction<PluginApiType, UserDefinedApiType, T> onPluginAndUserDefinedType) {
+    return type.fold(onPluginType, onUserDefinedType, onPluginAndUserDefinedType);
   }
 }

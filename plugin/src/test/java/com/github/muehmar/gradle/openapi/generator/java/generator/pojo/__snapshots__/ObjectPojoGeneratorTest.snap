@@ -11129,11 +11129,13 @@ package com.github.muehmar;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11141,6 +11143,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
@@ -11163,9 +11166,26 @@ public class ObjectPojo1Dto {
   /**
    * List
    */
-  @NotNull
+  @JsonIgnore
+  public Set<String> getListVal() {
+    return mapList(
+        listVal,
+        Function.identity(),
+        Function.identity(),
+        l -> new HashSet<>(l),
+        Function.identity()
+    );
+  }
+
   @JsonProperty("listVal")
-  public List<@NotNull String> getListVal() {
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<String> getListValJson() {
+    return listVal;
+  }
+
+  @JsonIgnore
+  @NotNull
+  private List<@NotNull String> getListValRaw() {
     return listVal;
   }
 
@@ -11210,10 +11230,16 @@ public class ObjectPojo1Dto {
   /**
    * List
    */
-  public ObjectPojo1Dto withListVal(List<String> listVal) {
+  public ObjectPojo1Dto withListVal(Set<String> listVal) {
     return
       new ObjectPojo1Dto(
-        listVal,
+        unmapList(
+            listVal,
+            Function.identity(),
+            l -> new ArrayList<>(l),
+            Function.identity(),
+            Function.identity()
+        ),
         additionalProperties
       );
   }
@@ -11350,8 +11376,15 @@ public class ObjectPojo1Dto {
      * List
      */
     @JsonIgnore
-    private Builder setListVal(List<String> listVal) {
-      this.listVal = listVal;
+    private Builder setListVal(Set<String> listVal) {
+      this.listVal =
+          unmapList(
+              listVal,
+              Function.identity(),
+              l -> new ArrayList<>(l),
+              Function.identity(),
+              Function.identity()
+          );
       return this;
     }
 
@@ -11422,7 +11455,7 @@ public class ObjectPojo1Dto {
    * directly the DTO with the given property. This method is only generated if the
    * DTO has exactly one property.
    */
-  public static ObjectPojo1Dto fromListVal(List<String> listVal) {
+  public static ObjectPojo1Dto fromListVal(Set<String> listVal) {
     return fullBuilder().setListVal(listVal).build();
   }
 
@@ -11439,7 +11472,7 @@ public class ObjectPojo1Dto {
       /**
        * List
        */
-      public FullOptPropertyBuilder0 setListVal(List<String> listVal) {
+      public FullOptPropertyBuilder0 setListVal(Set<String> listVal) {
         return new FullOptPropertyBuilder0(builder.setListVal(listVal));
       }
 
@@ -11479,7 +11512,7 @@ public class ObjectPojo1Dto {
       /**
        * List
        */
-      public PropertyBuilder1 setListVal(List<String> listVal) {
+      public PropertyBuilder1 setListVal(Set<String> listVal) {
         return new PropertyBuilder1(builder.setListVal(listVal));
       }
 

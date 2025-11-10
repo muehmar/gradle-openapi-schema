@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversionRenderer;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.WriteableParameterizedClassName;
@@ -44,7 +44,8 @@ class OptionalWitherMethod extends WitherMethod {
             .getApiType()
             .map(
                 apiType ->
-                    FromApiTypeConversion.fromApiTypeConversion(apiType, "val", NO_NULL_CHECK))
+                    FromApiTypeConversionRenderer.fromApiTypeConversion(
+                        apiType, "val", NO_NULL_CHECK))
             .map(Writer::asString)
             .map(conversion -> String.format(".map(val -> %s)", conversion))
             .orElse("");

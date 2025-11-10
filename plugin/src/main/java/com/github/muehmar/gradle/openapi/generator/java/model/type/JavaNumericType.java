@@ -47,11 +47,13 @@ public class JavaNumericType extends NonGenericJavaType {
     final TypeMapping formatTypeMapping =
         TypeMapping.fromFormatMappings(
             internalClassName,
+            Optional.empty(),
             numericType.getFormat().asString(),
             typeMappings.getFormatTypeMappings());
 
     final TypeMapping classTypeMapping =
-        TypeMapping.fromClassMappings(internalClassName, typeMappings.getClassTypeMappings());
+        TypeMapping.fromClassMappings(
+            internalClassName, Optional.empty(), typeMappings.getClassTypeMappings());
 
     return formatTypeMapping.or(classTypeMapping, internalClassName);
   }

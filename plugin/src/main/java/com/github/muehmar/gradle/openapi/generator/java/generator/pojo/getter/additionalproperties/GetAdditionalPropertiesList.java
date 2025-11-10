@@ -13,7 +13,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.additionalproperties.AdditionalPropertyClassGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.additionalproperties.NullableAdditionalPropertyClassGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversion;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversionRenderer;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -131,7 +131,9 @@ class GetAdditionalPropertiesList {
         props
             .getType()
             .getApiType()
-            .map(apiType -> ToApiTypeConversion.toApiTypeConversion(apiType, "val", NO_NULL_CHECK))
+            .map(
+                apiType ->
+                    ToApiTypeConversionRenderer.toApiTypeConversion(apiType, "val", NO_NULL_CHECK))
             .map(conversionWriter -> w.println(".map(val -> %s)", conversionWriter.asString()))
             .orElse(w);
   }

@@ -3,7 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversionRenderer;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.WriteableParameterizedClassName;
@@ -40,7 +40,7 @@ class NormalWitherMethod extends WitherMethod {
         .getApiType()
         .map(
             apiType ->
-                FromApiTypeConversion.fromApiTypeConversion(
+                FromApiTypeConversionRenderer.fromApiTypeConversion(
                     apiType, pojoMember.getName().asString(), NO_NULL_CHECK))
         .map(StringOrWriter::ofWriter)
         .ifPresent(writer -> replacement.put(pojoMember.getName(), writer));

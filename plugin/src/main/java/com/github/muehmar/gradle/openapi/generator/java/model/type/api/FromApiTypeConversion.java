@@ -13,7 +13,8 @@ public class FromApiTypeConversion {
 
   public <T> T fold(
       Function<FactoryMethodConversion, T> onFactoryMethod,
-      Function<InstanceMethodConversion, T> onInstanceMethod) {
-    return conversionMethod.fold(onFactoryMethod, onInstanceMethod);
+      Function<InstanceMethodConversion, T> onInstanceMethod,
+      Function<ConstructorConversion, T> onConstructor) {
+    return conversionMethod.fold(onFactoryMethod, onInstanceMethod, onConstructor);
   }
 }

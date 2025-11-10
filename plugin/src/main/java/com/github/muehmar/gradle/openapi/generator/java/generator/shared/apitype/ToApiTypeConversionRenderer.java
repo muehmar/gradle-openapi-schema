@@ -3,22 +3,24 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.apityp
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ToApiTypeConversion;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 
-public class FromApiTypeConversion {
-  private FromApiTypeConversion() {}
+public class ToApiTypeConversionRenderer {
+  private ToApiTypeConversionRenderer() {}
 
-  public static Writer fromApiTypeConversion(
+  public static Writer toApiTypeConversion(
       ApiType apiType, String variableName, ConversionGenerationMode mode) {
-    return fromApiTypeConversion(variableName, mode).generate(apiType, (Void) null, javaWriter());
+    return toApiTypeConversion(variableName, mode).generate(apiType, (Void) null, javaWriter());
   }
 
-  public static Generator<ApiType, Void> fromApiTypeConversion(
+  public static Generator<ApiType, Void> toApiTypeConversion(
       String variableName, ConversionGenerationMode mode) {
     return Generator.<ApiType, Void>emptyGen()
         .append(
             TypeConversion.typeConversion(variableName, mode),
-            apiType -> apiType.getFromApiTypeConversion().getConversionMethod());
+            apiType ->
+                apiType.getToApiTypeConversion().map(ToApiTypeConversion::getConversionMethod));
   }
 }

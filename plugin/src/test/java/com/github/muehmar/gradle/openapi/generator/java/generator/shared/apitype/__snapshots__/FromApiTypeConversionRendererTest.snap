@@ -1,0 +1,54 @@
+apiTypeWithFactoryMethods[NO_NULL_CHECK]=[
+com.github.muehmar.UserId
+
+UserId.toString(field)
+]
+
+
+apiTypeWithFactoryMethods[NULL_SAFE]=[
+com.github.muehmar.UserId
+
+field != null ? UserId.toString(field) : null
+]
+
+
+apiTypeWithInstanceMethods[NO_NULL_CHECK]=[
+.
+.
+field.toLong()
+]
+
+
+apiTypeWithInstanceMethods[NULL_SAFE]=[
+.
+.
+field != null ? field.toLong() : null
+]
+
+
+combinedPluginAndUserDefinedApiType[NO_NULL_CHECK]=[
+java.util.ArrayList
+
+new ArrayList<>(field.toSet())
+]
+
+
+combinedPluginAndUserDefinedApiType[NULL_SAFE]=[
+java.util.ArrayList
+
+field != null ? new ArrayList<>(field.toSet()) : null
+]
+
+
+pluginApiType[NO_NULL_CHECK]=[
+java.util.ArrayList
+
+new ArrayList<>(field)
+]
+
+
+pluginApiType[NULL_SAFE]=[
+java.util.ArrayList
+
+field != null ? new ArrayList<>(field) : null
+]
