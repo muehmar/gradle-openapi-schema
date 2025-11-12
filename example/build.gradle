@@ -102,6 +102,7 @@ def issueNumbers = [
         '307',
         '310',
         '339',
+        '340',
         '341',
         '343',
         '351',
@@ -351,6 +352,17 @@ openApiGenerator {
                     inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-${issueNumber}.yml"
                     packageName = "com.github.muehmar.gradle.openapi.issues.issue${issueNumber}"
                 }
+            }
+        }
+
+        Issue340Mapping {
+            inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-340.yml"
+            packageName = "com.github.muehmar.gradle.openapi.issues.issue340mapping"
+            classMapping {
+                fromClass = "Set"
+                toClass = "com.github.muehmar.gradle.openapi.issues.issue340.CustomSet"
+                conversion.fromCustomType = "asSet"
+                conversion.toCustomType = "CustomSet#fromSet"
             }
         }
 

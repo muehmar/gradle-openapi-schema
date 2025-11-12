@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,6 +19,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class ArrayValidationTest {
+  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+
   @ParameterizedTest
   @ValueSource(ints = {3, 4, 5})
   void validate_when_memberArrayAndValidSize_then_noViolations(int size) {
@@ -138,10 +143,9 @@ class ArrayValidationTest {
   }
 
   @Test
-  void validate_when_memberArrayAndUniqueItems_then_noViolation() {
-    final ArrayList<Long> numbers = new ArrayList<>(Arrays.asList(1L, 2L, 3L, 4L, 5L));
-
-    final LongMemberArrayDto dto = LongMemberArrayDto.builder().setNumbers(numbers).build();
+  void validate_when_memberArrayAndUniqueItems_then_noViolation() throws JsonProcessingException {
+    final LongMemberArrayDto dto =
+        MAPPER.readValue("{\"numbers\": [1, 2, 3, 4, 5]}", LongMemberArrayDto.class);
 
     final Set<ConstraintViolation<LongMemberArrayDto>> constraintViolations = validate(dto);
 
@@ -150,10 +154,9 @@ class ArrayValidationTest {
   }
 
   @Test
-  void validate_when_memberArrayAndNotUniqueItems_then_violation() {
-    final ArrayList<Long> numbers = new ArrayList<>(Arrays.asList(1L, 2L, 2L, 4L, 5L));
-
-    final LongMemberArrayDto dto = LongMemberArrayDto.builder().setNumbers(numbers).build();
+  void validate_when_memberArrayAndNotUniqueItems_then_violation() throws JsonProcessingException {
+    final LongMemberArrayDto dto =
+        MAPPER.readValue("{\"numbers\": [1, 2, 2, 4, 5]}", LongMemberArrayDto.class);
 
     final Set<ConstraintViolation<LongMemberArrayDto>> constraintViolations = validate(dto);
 
