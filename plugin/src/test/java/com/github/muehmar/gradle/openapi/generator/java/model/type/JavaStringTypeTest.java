@@ -114,13 +114,15 @@ class JavaStringTypeTest {
         javaType.getApiType().map(apiType -> apiType.getParameterizedClassName().asString()));
     assertEquals(
         Optional.of(
-            new ToApiTypeConversion(
-                ConversionMethod.ofString(className, typeConversion.getToCustomType()))),
+            PList.single(
+                new ToApiTypeConversion(
+                    ConversionMethod.ofString(className, typeConversion.getToCustomType())))),
         javaType.getApiType().map(ApiType::getToApiTypeConversion));
     assertEquals(
         Optional.of(
-            new FromApiTypeConversion(
-                ConversionMethod.ofString(className, typeConversion.getFromCustomType()))),
+            PList.single(
+                new FromApiTypeConversion(
+                    ConversionMethod.ofString(className, typeConversion.getFromCustomType())))),
         javaType.getApiType().map(ApiType::getFromApiTypeConversion));
 
     assertEquals("byte[]", javaType.getParameterizedClassName().asString());

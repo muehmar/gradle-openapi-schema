@@ -2,12 +2,15 @@ arrayPojo=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.validation.constraints.AssertTrue;
@@ -27,32 +30,57 @@ public class PosologyDto {
     this.items = items;
   }
 
-  public static PosologyDto fromItems(List<Double> items) {
+  public static PosologyDto fromItems(Set<Double> items) {
     return new PosologyDto(
-        items
+        unmapList(
+            items,
+            Function.identity(),
+            l -> new ArrayList<>(l),
+            Function.identity(),
+            Function.identity()
+        )
     );
-  }
-
-  public static PosologyDto empty() {
-    return fromItems(Collections.emptyList());
   }
 
   /**
    * Doses to be taken
    */
-  @NotNull
+  @JsonIgnore
+  public Set<Double> getItems() {
+    return mapList(
+        items,
+        Function.identity(),
+        Function.identity(),
+        l -> new HashSet<>(l),
+        Function.identity()
+    );
+  }
+
   @JsonProperty("items")
-  public List<@NotNull Double> getItems() {
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<Double> getItemsJson() {
+    return items;
+  }
+
+  @JsonIgnore
+  @NotNull
+  private List<@NotNull Double> getItemsRaw() {
     return items;
   }
 
   /**
    * Doses to be taken
    */
-  public PosologyDto withItems(List<Double> items) {
+  public PosologyDto withItems(Set<Double> items) {
     return
       new PosologyDto(
-        items
+        unmapList(
+            items,
+            Function.identity(),
+            l -> new ArrayList<>(l),
+            Function.identity(),
+            Function.identity()
+        )
       );
   }
 

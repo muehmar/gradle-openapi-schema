@@ -6,7 +6,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.UnmapListMethod;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversionRenderer;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.LocalVariableName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
@@ -263,7 +263,7 @@ public class ListAssigmentWriter {
   }
 
   private static Writer conversionWriter(ApiType apiType, String variableName) {
-    return FromApiTypeConversion.fromApiTypeConversion(
+    return FromApiTypeConversionRenderer.fromApiTypeConversion(
         apiType, variableName, ConversionGenerationMode.NO_NULL_CHECK);
   }
 

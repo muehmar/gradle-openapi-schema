@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.generator;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion.fromApiTypeConversion;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversionRenderer.fromApiTypeConversion;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
@@ -12,7 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.d
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.definition.SetterGeneratorSettings;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.SetterModifier;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversion;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversionRenderer;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -80,7 +80,7 @@ public class StandardSetter {
                       .getApiType()
                       .map(
                           apiType ->
-                              FromApiTypeConversion.fromApiTypeConversion(
+                              FromApiTypeConversionRenderer.fromApiTypeConversion(
                                   apiType,
                                   m.getName().asString(),
                                   ConversionGenerationMode.NULL_SAFE))

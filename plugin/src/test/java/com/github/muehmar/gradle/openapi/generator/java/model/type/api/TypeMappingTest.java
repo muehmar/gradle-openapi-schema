@@ -42,7 +42,7 @@ class TypeMappingTest {
   void fromClassMappings_when_wrongMapping_then_noApiTypeAndCorrectClassName() {
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            QualifiedClassNames.LONG, PList.of(STRING_MAPPING_WITH_CONVERSION));
+            QualifiedClassNames.LONG, Optional.empty(), PList.of(STRING_MAPPING_WITH_CONVERSION));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
     assertEquals(QualifiedClassNames.LONG, typeMapping.getClassName());
@@ -52,7 +52,9 @@ class TypeMappingTest {
   void fromClassMappings_when_mappingWithoutConversion_then_noApiTypeAndCorrectClassName() {
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            QualifiedClassNames.STRING, PList.of(STRING_MAPPING_WITHOUT_CONVERSION));
+            QualifiedClassNames.STRING,
+            Optional.empty(),
+            PList.of(STRING_MAPPING_WITHOUT_CONVERSION));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
     assertEquals(
@@ -64,13 +66,14 @@ class TypeMappingTest {
   void fromClassMappings_when_mappingWithConversion_then_correctApiTypeAndClassName() {
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            QualifiedClassNames.STRING, PList.of(STRING_MAPPING_WITH_CONVERSION));
+            QualifiedClassNames.STRING, Optional.empty(), PList.of(STRING_MAPPING_WITH_CONVERSION));
 
     final ApiType expectedApiType =
-        ApiType.fromConversion(
-            QualifiedClassName.ofQualifiedClassName("com.custom.CustomString"),
-            STRING_CONVERSION,
-            PList.empty());
+        ApiType.ofUserDefinedType(
+            UserDefinedApiType.fromConversion(
+                QualifiedClassName.ofQualifiedClassName("com.custom.CustomString"),
+                STRING_CONVERSION,
+                PList.empty()));
     assertEquals(Optional.of(expectedApiType), typeMapping.getApiType());
     assertEquals(QualifiedClassNames.STRING, typeMapping.getClassName());
   }
@@ -80,22 +83,84 @@ class TypeMappingTest {
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
             QualifiedClassNames.STRING,
+            Optional.empty(),
             PList.of(STRING_MAPPING_WITH_CONVERSION),
             PList.of(JavaTypes.integerType()));
     final ApiType expectedApiType =
-        ApiType.fromConversion(
-            QualifiedClassName.ofQualifiedClassName("com.custom.CustomString"),
-            STRING_CONVERSION,
-            PList.of(JavaTypes.integerType()));
+        ApiType.ofUserDefinedType(
+            UserDefinedApiType.fromConversion(
+                QualifiedClassName.ofQualifiedClassName("com.custom.CustomString"),
+                STRING_CONVERSION,
+                PList.of(JavaTypes.integerType())));
     assertEquals(Optional.of(expectedApiType), typeMapping.getApiType());
     assertEquals(QualifiedClassNames.STRING, typeMapping.getClassName());
+  }
+
+  @Test
+  void
+      fromClassMappings_when_mappingWithoutConversionAndPluginApiType_then_useClassMappingWithoutPluginApiType() {
+    final PluginApiType pluginApiType = PluginApiType.useSetForListType(JavaTypes.stringType());
+
+    final ClassTypeMapping classTypeMapping =
+        new ClassTypeMapping("Set", "com.custom.CustomSet", Optional.empty());
+
+    final TypeMapping typeMapping =
+        TypeMapping.fromClassMappings(
+            QualifiedClassNames.LIST, Optional.of(pluginApiType), PList.of(classTypeMapping));
+
+    assertEquals(Optional.empty(), typeMapping.getApiType());
+    assertEquals(
+        QualifiedClassName.ofQualifiedClassName("com.custom.CustomSet"),
+        typeMapping.getClassName());
+  }
+
+  @Test
+  void fromClassMappings_when_mappingPresentButDoesNotMatchPluginApiType_then_usePluginApiType() {
+    final PluginApiType pluginApiType = PluginApiType.useSetForListType(JavaTypes.stringType());
+
+    final ClassTypeMapping classTypeMapping =
+        new ClassTypeMapping("List", "com.custom.CustomList", Optional.empty());
+
+    final TypeMapping typeMapping =
+        TypeMapping.fromClassMappings(
+            QualifiedClassNames.LIST, Optional.of(pluginApiType), PList.of(classTypeMapping));
+
+    assertEquals(Optional.of(ApiType.ofPluginType(pluginApiType)), typeMapping.getApiType());
+    assertEquals(QualifiedClassNames.LIST, typeMapping.getClassName());
+  }
+
+  @Test
+  void fromClassMappings_when_mappingAndPluginApiTypeWithConversion_then_combinedApiType() {
+    final PluginApiType pluginApiType = PluginApiType.useSetForListType(JavaTypes.stringType());
+
+    final TypeConversion typeConversion =
+        new TypeConversion("toSet", "com.custom.CustomList#fromSet");
+    final ClassTypeMapping classTypeMapping =
+        new ClassTypeMapping("Set", "com.custom.CustomSet", Optional.of(typeConversion));
+
+    final TypeMapping typeMapping =
+        TypeMapping.fromClassMappings(
+            QualifiedClassNames.LIST, Optional.of(pluginApiType), PList.of(classTypeMapping));
+
+    final UserDefinedApiType expectedUserDefinedType =
+        UserDefinedApiType.fromConversion(
+            QualifiedClassName.ofQualifiedClassName("com.custom.CustomSet"),
+            typeConversion,
+            PList.empty());
+    final ApiType expectedApiType = ApiType.of(expectedUserDefinedType, Optional.of(pluginApiType));
+
+    assertEquals(Optional.of(expectedApiType), typeMapping.getApiType());
+    assertEquals(QualifiedClassNames.LIST, typeMapping.getClassName());
   }
 
   @Test
   void fromFormatMappings_when_wrongMapping_then_noApiTypeAndCorrectClassName() {
     final TypeMapping typeMapping =
         TypeMapping.fromFormatMappings(
-            QualifiedClassNames.STRING, "key", PList.of(STRING_FORMAT_MAPPING_WITHOUT_CONVERSION));
+            QualifiedClassNames.STRING,
+            Optional.empty(),
+            "key",
+            PList.of(STRING_FORMAT_MAPPING_WITHOUT_CONVERSION));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
     assertEquals(QualifiedClassNames.STRING, typeMapping.getClassName());
@@ -105,7 +170,10 @@ class TypeMappingTest {
   void fromFormatMappings_when_mappingWithoutConversion_then_noApiTypeAndCorrectClassName() {
     final TypeMapping typeMapping =
         TypeMapping.fromFormatMappings(
-            QualifiedClassNames.STRING, "id", PList.of(STRING_FORMAT_MAPPING_WITHOUT_CONVERSION));
+            QualifiedClassNames.STRING,
+            Optional.empty(),
+            "id",
+            PList.of(STRING_FORMAT_MAPPING_WITHOUT_CONVERSION));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
     assertEquals(
@@ -116,13 +184,17 @@ class TypeMappingTest {
   void fromFormatMappings_when_mappingWithConversion_then_correctApiTypeAndClassName() {
     final TypeMapping typeMapping =
         TypeMapping.fromFormatMappings(
-            QualifiedClassNames.STRING, "id", PList.of(STRING_FORMAT_MAPPING_WITH_CONVERSION));
+            QualifiedClassNames.STRING,
+            Optional.empty(),
+            "id",
+            PList.of(STRING_FORMAT_MAPPING_WITH_CONVERSION));
 
     final ApiType expectedApiType =
-        ApiType.fromConversion(
-            QualifiedClassName.ofQualifiedClassName("com.custom.Id"),
-            STRING_ID_CONVERSION,
-            PList.empty());
+        ApiType.ofUserDefinedType(
+            UserDefinedApiType.fromConversion(
+                QualifiedClassName.ofQualifiedClassName("com.custom.Id"),
+                STRING_ID_CONVERSION,
+                PList.empty()));
 
     assertEquals(Optional.of(expectedApiType), typeMapping.getApiType());
     assertEquals(QualifiedClassNames.STRING, typeMapping.getClassName());
@@ -133,17 +205,81 @@ class TypeMappingTest {
     final TypeMapping typeMapping =
         TypeMapping.fromFormatMappings(
             QualifiedClassNames.STRING,
+            Optional.empty(),
             "id",
             PList.of(STRING_FORMAT_MAPPING_WITH_CONVERSION),
             PList.of(JavaTypes.integerType()));
 
     final ApiType expectedApiType =
-        ApiType.fromConversion(
-            QualifiedClassName.ofQualifiedClassName("com.custom.Id"),
-            STRING_ID_CONVERSION,
-            PList.of(JavaTypes.integerType()));
+        ApiType.ofUserDefinedType(
+            UserDefinedApiType.fromConversion(
+                QualifiedClassName.ofQualifiedClassName("com.custom.Id"),
+                STRING_ID_CONVERSION,
+                PList.of(JavaTypes.integerType())));
 
     assertEquals(Optional.of(expectedApiType), typeMapping.getApiType());
+    assertEquals(QualifiedClassNames.STRING, typeMapping.getClassName());
+  }
+
+  @Test
+  void
+      fromFormatMappings_when_mappingWithoutConversionAndPluginApiType_then_useFormatMappingWithoutPluginApiType() {
+    final PluginApiType pluginApiType = PluginApiType.useSetForListType(JavaTypes.stringType());
+    final FormatTypeMapping formatTypeMapping =
+        new FormatTypeMapping("id", "com.custom.Id", Optional.empty());
+    final TypeMapping typeMapping =
+        TypeMapping.fromFormatMappings(
+            QualifiedClassNames.STRING,
+            Optional.of(pluginApiType),
+            "id",
+            PList.of(formatTypeMapping));
+
+    assertEquals(Optional.empty(), typeMapping.getApiType());
+
+    assertEquals(
+        QualifiedClassName.ofQualifiedClassName("com.custom.Id"), typeMapping.getClassName());
+  }
+
+  @Test
+  void fromFormatMappings_when_mappingAndPluginApiTypeWithConversion_then_combinedApiType() {
+    final PluginApiType pluginApiType = PluginApiType.useSetForListType(JavaTypes.stringType());
+
+    final TypeConversion typeConversion = new TypeConversion("toId", "com.custom.Id#fromId");
+    final FormatTypeMapping formatTypeMapping =
+        new FormatTypeMapping("id", "com.custom.Id", Optional.of(typeConversion));
+
+    final TypeMapping typeMapping =
+        TypeMapping.fromFormatMappings(
+            QualifiedClassNames.STRING,
+            Optional.of(pluginApiType),
+            "id",
+            PList.of(formatTypeMapping));
+
+    final UserDefinedApiType expectedUserDefinedType =
+        UserDefinedApiType.fromConversion(
+            QualifiedClassName.ofQualifiedClassName("com.custom.Id"),
+            typeConversion,
+            PList.empty());
+    final ApiType expectedApiType = ApiType.of(expectedUserDefinedType, Optional.of(pluginApiType));
+
+    assertEquals(Optional.of(expectedApiType), typeMapping.getApiType());
+    assertEquals(QualifiedClassNames.STRING, typeMapping.getClassName());
+  }
+
+  @Test
+  void
+      fromFormatMappings_when_pluginApiTypeAndMappingPresentButDoesNotMatchFormat_then_usePluginApiType() {
+    final PluginApiType pluginApiType = PluginApiType.useSetForListType(JavaTypes.stringType());
+    final FormatTypeMapping formatTypeMapping =
+        new FormatTypeMapping("uuid", "com.custom.Id", Optional.empty());
+    final TypeMapping typeMapping =
+        TypeMapping.fromFormatMappings(
+            QualifiedClassNames.STRING,
+            Optional.of(pluginApiType),
+            "id",
+            PList.of(formatTypeMapping));
+
+    assertEquals(Optional.of(ApiType.ofPluginType(pluginApiType)), typeMapping.getApiType());
     assertEquals(QualifiedClassNames.STRING, typeMapping.getClassName());
   }
 
@@ -176,10 +312,12 @@ class TypeMappingTest {
         TypeMapping.fromDtoMappings(userDtoClassName, PList.of(DTO_MAPPING_WITH_CONVERSION));
 
     final ApiType expectedApiType =
-        ApiType.fromConversion(
-            QualifiedClassName.ofQualifiedClassName(DTO_MAPPING_WITHOUT_CONVERSION.getCustomType()),
-            DTO_CONVERSION,
-            PList.empty());
+        ApiType.ofUserDefinedType(
+            UserDefinedApiType.fromConversion(
+                QualifiedClassName.ofQualifiedClassName(
+                    DTO_MAPPING_WITHOUT_CONVERSION.getCustomType()),
+                DTO_CONVERSION,
+                PList.empty()));
 
     assertEquals(Optional.of(expectedApiType), typeMapping.getApiType());
     assertEquals(userDtoClassName, typeMapping.getClassName());
@@ -202,10 +340,11 @@ class TypeMappingTest {
     final TypeMapping stringMapping = new TypeMapping(QualifiedClassNames.STRING, Optional.empty());
 
     final ApiType apiType =
-        ApiType.fromConversion(
-            QualifiedClassName.ofQualifiedClassName("com.custom.Id"),
-            STRING_ID_CONVERSION,
-            PList.empty());
+        ApiType.ofUserDefinedType(
+            UserDefinedApiType.fromConversion(
+                QualifiedClassName.ofQualifiedClassName("com.custom.Id"),
+                STRING_ID_CONVERSION,
+                PList.empty()));
 
     final TypeMapping stringMappingApiType =
         new TypeMapping(QualifiedClassNames.STRING, Optional.of(apiType));

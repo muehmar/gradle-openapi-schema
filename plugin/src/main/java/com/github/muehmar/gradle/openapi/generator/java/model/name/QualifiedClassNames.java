@@ -34,7 +34,10 @@ public class QualifiedClassNames {
   public static final QualifiedClassName URL = ofPackageAndName(JAVA_NET, "URL");
   public static final QualifiedClassName UUID = ofPackageAndName(JAVA_UTIL, "UUID");
   public static final QualifiedClassName LIST = ofPackageAndName(JAVA_UTIL, "List");
+  public static final QualifiedClassName ARRAY_LIST = ofPackageAndName(JAVA_UTIL, "ArrayList");
   public static final QualifiedClassName MAP = ofPackageAndName(JAVA_UTIL, "Map");
+  public static final QualifiedClassName SET = ofPackageAndName(JAVA_UTIL, "Set");
+  public static final QualifiedClassName HASH_SET = ofPackageAndName(JAVA_UTIL, "HashSet");
 
   public static final PList<QualifiedClassName> ALL_LIST_CLASSNAMES =
       PList.of(

@@ -55,7 +55,7 @@ public class JavaEnumType extends NonGenericJavaType {
             .map(
                 format ->
                     TypeMapping.fromFormatMappings(
-                        className, format, typeMappings.getFormatTypeMappings()))
+                        className, Optional.empty(), format, typeMappings.getFormatTypeMappings()))
             .orElseGet(() -> TypeMapping.fromClassName(className));
     if (not(typeMapping.getApiType().isPresent())
         && not(typeMapping.getClassName().equals(className))) {

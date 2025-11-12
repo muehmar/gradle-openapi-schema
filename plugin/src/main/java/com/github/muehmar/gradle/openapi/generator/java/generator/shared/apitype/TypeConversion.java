@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.shared.apityp
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NULL_SAFE;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ConversionMethod;
@@ -12,18 +13,23 @@ import java.util.Optional;
 class TypeConversion {
   private TypeConversion() {}
 
-  public static Generator<ConversionMethod, Void> typeConversion(
+  public static Generator<PList<ConversionMethod>, Void> typeConversion(
       String variableName, ConversionGenerationMode mode) {
-    return Generator.<ConversionMethod, Void>emptyGen()
+    return Generator.<PList<ConversionMethod>, Void>emptyGen()
         .appendConditionally(
-            ((apiType, settings, writer) ->
+            ((methods, settings, writer) ->
                 writer.print(
-                    "%s != null ? %s : null", variableName, conversion(apiType, variableName))),
+                    "%s != null ? %s : null", variableName, conversion(methods, variableName))),
             method -> mode.equals(NULL_SAFE))
         .appendConditionally(
-            ((apiType, settings, writer) -> writer.print("%s", conversion(apiType, variableName))),
+            ((methods, settings, writer) -> writer.print("%s", conversion(methods, variableName))),
             method -> mode.equals(NO_NULL_CHECK))
-        .appendOptional(RefsGenerator.classNameRef(), TypeConversion::getApiTypeOptionalFunction);
+        .appendList(RefsGenerator.classNameRef(), TypeConversion::getConversionClassName);
+  }
+
+  private static String conversion(PList<ConversionMethod> conversionMethods, String variableName) {
+    return conversionMethods.foldLeft(
+        variableName, (variable, method) -> conversion(method, variable));
   }
 
   private static String conversion(ConversionMethod conversionMethod, String variableName) {
@@ -35,13 +41,29 @@ class TypeConversion {
                 factoryMethodConversion.getMethodName(),
                 variableName),
         instanceMethodConversion ->
-            String.format("%s.%s()", variableName, instanceMethodConversion.getMethodName()));
+            String.format("%s.%s()", variableName, instanceMethodConversion.getMethodName()),
+        constructorConversion ->
+            String.format(
+                "new %s%s(%s)",
+                constructorConversion
+                    .getConstructorClassName()
+                    .orElse(constructorConversion.getReferenceClassName())
+                    .getClassName(),
+                constructorConversion.isGenericClass() ? "<>" : "",
+                variableName));
   }
 
-  private static Optional<QualifiedClassName> getApiTypeOptionalFunction(
-      ConversionMethod conversionMethod) {
-    return conversionMethod.fold(
-        factoryMethodConversion -> Optional.of(factoryMethodConversion.getClassName()),
-        instanceMethodConversion -> Optional.empty());
+  private static PList<QualifiedClassName> getConversionClassName(
+      PList<ConversionMethod> conversionMethods) {
+    return conversionMethods.flatMapOptional(
+        conversionMethod ->
+            conversionMethod.fold(
+                factoryMethodConversion -> Optional.of(factoryMethodConversion.getClassName()),
+                instanceMethodConversion -> Optional.empty(),
+                constructorConversion ->
+                    Optional.of(
+                        constructorConversion
+                            .getConstructorClassName()
+                            .orElse(constructorConversion.getReferenceClassName()))));
   }
 }

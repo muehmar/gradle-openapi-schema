@@ -32,7 +32,7 @@ public class JavaBooleanType extends NonGenericJavaType {
   public static JavaBooleanType wrap(BooleanType booleanType, TypeMappings typeMappings) {
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            INTERNAL_JAVA_CLASS_NAME, typeMappings.getClassTypeMappings());
+            INTERNAL_JAVA_CLASS_NAME, Optional.empty(), typeMappings.getClassTypeMappings());
     return new JavaBooleanType(
         typeMapping.getClassName(), typeMapping.getApiType(), booleanType.getNullability());
   }
