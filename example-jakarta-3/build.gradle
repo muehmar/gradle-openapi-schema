@@ -17,8 +17,10 @@ dependencies {
 }
 
 openApiGenerator {
-    validationMethods {
-        getterSuffix = "Raw"
+    validation {
+        validationMethods {
+            getterSuffix = "Raw"
+        }
     }
 
     schemas {
@@ -29,9 +31,12 @@ openApiGenerator {
             packageName = "${project.group}.${project.name}.api.model"
             jsonSupport = "jackson"
             suffix = "Dto"
-            enableValidation = true
-            validationApi = "jakarta-3"
             builderMethodPrefix = "set"
+
+            validation {
+                enabled = true
+                validationApi = "jakarta-3"
+            }
         }
     }
 }

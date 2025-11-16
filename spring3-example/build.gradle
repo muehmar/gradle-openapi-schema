@@ -59,10 +59,12 @@ openApiGenerate {
 compileJava.dependsOn(tasks.openApiGenerate)
 
 openApiGenerator {
-    validationMethods {
-        getterSuffix = "Raw"
-        modifier = "public"
-        deprecatedAnnotation = true
+    validation {
+        validationMethods {
+            getterSuffix = "Raw"
+            modifier = "public"
+            deprecatedAnnotation = true
+        }
     }
 
     schemas {
@@ -73,9 +75,12 @@ openApiGenerator {
             packageName = modelPackageName
             jsonSupport = "jackson"
             suffix = "Dto"
-            enableValidation = true
-            validationApi = "jakarta-3"
             builderMethodPrefix = "set"
+
+            validation {
+                enabled = true
+                validationApi = "jakarta-3"
+            }
         }
     }
 }
