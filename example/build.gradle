@@ -120,8 +120,15 @@ openApiGenerator {
     outputDir = project.layout.buildDirectory.dir("generated/openapi")
     jsonSupport = "jackson"
     suffix = "Dto"
-    enableValidation = true
     builderMethodPrefix = "set"
+
+    validation {
+        enabled = true
+
+        validationMethods {
+            getterSuffix = "Raw"
+        }
+    }
 
     enumDescriptionExtraction {
         enabled = true
@@ -141,10 +148,6 @@ openApiGenerator {
         classType = "com.package.Password"
         conversion.fromCustomType = "getValue"
         conversion.toCustomType = "Password#fromString"
-    }
-
-    validationMethods {
-        getterSuffix = "Raw"
     }
 
     warnings {
@@ -200,10 +203,12 @@ openApiGenerator {
             inputSpec = "$projectDir/src/main/resources/openapi-nullability.yml"
             packageName = "com.github.muehmar.gradle.openapi.nullability"
 
-            validationMethods {
-                getterSuffix = "Raw"
-                modifier = "public"
-                deprecatedAnnotation = true
+            validation {
+                validationMethods {
+                    getterSuffix = "Raw"
+                    modifier = "public"
+                    deprecatedAnnotation = true
+                }
             }
         }
         array {
@@ -294,8 +299,11 @@ openApiGenerator {
             packageName = "com.github.muehmar.gradle.openapi.overrideglobalconfig"
             suffix = ""
             jsonSupport = "none"
-            enableValidation = false
             builderMethodPrefix = ""
+
+            validation {
+                enabled = false
+            }
         }
         oneOfEnumDiscriminator {
             inputSpec = "$projectDir/src/main/resources/openapi-oneof-enum-discriminator.yml"
@@ -339,7 +347,10 @@ openApiGenerator {
         nonStrictOneOfValidation {
             inputSpec = "$projectDir/src/main/resources/openapi-non-strict-oneof-validation.yml"
             packageName = "com.github.muehmar.gradle.openapi.nonstrictoneofvalidation"
-            nonStrictOneOfValidation = true
+
+            validation {
+                nonStrictOneOfValidation = true
+            }
         }
         xml {
             inputSpec = "$projectDir/src/main/resources/openapi-xml.yml"
@@ -386,7 +397,10 @@ openApiGenerator {
                     outputDir = project.layout.buildDirectory.dir("generated/openapi-no-validation")
                     inputSpec = "$projectDir/src/main/resources/${spec.file}"
                     packageName = "${project.group}.${project.name}.api.novalidation.${spec.name}.model"
-                    enableValidation = false
+
+                    validation {
+                        enabled = false
+                    }
                 }
             }
         }
@@ -411,7 +425,10 @@ openApiGenerator {
                     inputSpec = "$projectDir/src/main/resources/${spec.file}"
                     packageName = "${project.group}.${project.name}.api.nojsonsupportandvalidation.${spec.name}.model"
                     jsonSupport = "none"
-                    enableValidation = false
+
+                    validation {
+                        enabled = false
+                    }
                 }
             }
         }
