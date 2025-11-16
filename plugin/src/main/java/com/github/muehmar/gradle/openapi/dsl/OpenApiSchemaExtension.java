@@ -24,10 +24,7 @@ public class OpenApiSchemaExtension implements Serializable {
   private String jsonSupport;
   private String xmlSupport;
   private StagedBuilder stagedBuilder;
-  private Boolean enableValidation;
-  private Boolean nonStrictOneOfValidation;
   private Boolean allowNullableForEnums;
-  private String validationApi;
   private String builderMethodPrefix;
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
@@ -35,7 +32,7 @@ public class OpenApiSchemaExtension implements Serializable {
   private final List<DtoMapping> dtoMappings;
   private final List<ConstantSchemaNameMapping> constantSchemaNameMappings;
   private final GetterSuffixes getterSuffixes;
-  private final ValidationMethods validationMethods;
+  private final ValidationConfig validation;
   private final WarningsConfig warnings;
 
   @Inject
@@ -46,7 +43,7 @@ public class OpenApiSchemaExtension implements Serializable {
     this.dtoMappings = new ArrayList<>();
     this.constantSchemaNameMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
-    this.validationMethods = ValidationMethods.allUndefined();
+    this.validation = objectFactory.newInstance(ValidationConfig.class);
     this.warnings = WarningsConfig.allUndefined();
     this.stagedBuilder = StagedBuilder.defaultStagedBuilder();
   }
@@ -83,23 +80,8 @@ public class OpenApiSchemaExtension implements Serializable {
   }
 
   // DSL API
-  public void setEnableValidation(Boolean enableValidation) {
-    this.enableValidation = enableValidation;
-  }
-
-  // DSL API
-  public void setNonStrictOneOfValidation(Boolean nonStrictOneOfValidation) {
-    this.nonStrictOneOfValidation = nonStrictOneOfValidation;
-  }
-
-  // DSL API
   public void setAllowNullableForEnums(Boolean allowNullableForEnums) {
     this.allowNullableForEnums = allowNullableForEnums;
-  }
-
-  // DSL API
-  public void setValidationApi(String validationApi) {
-    this.validationApi = validationApi;
   }
 
   // DSL API
@@ -150,8 +132,13 @@ public class OpenApiSchemaExtension implements Serializable {
   }
 
   // DSL API
-  public void validationMethods(Action<ValidationMethods> action) {
-    action.execute(validationMethods);
+  public void validation(Action<ValidationConfig> action) {
+    action.execute(validation);
+  }
+
+  // DSL API - Groovy closure support
+  public ValidationConfig validation(Closure<ValidationConfig> closure) {
+    return org.gradle.util.internal.ConfigureUtil.configureSelf(closure, validation);
   }
 
   // DSL API
@@ -186,8 +173,8 @@ public class OpenApiSchemaExtension implements Serializable {
     return getterSuffixes;
   }
 
-  private ValidationMethods getCommonValidationMethods() {
-    return validationMethods;
+  private ValidationConfig getCommonValidation() {
+    return validation;
   }
 
   private List<ConstantSchemaNameMapping> getCommonConstantSchemaNameMappings() {
@@ -226,18 +213,6 @@ public class OpenApiSchemaExtension implements Serializable {
     return stagedBuilder;
   }
 
-  private Optional<Boolean> getCommonEnableValidation() {
-    return Optional.ofNullable(enableValidation);
-  }
-
-  public Optional<Boolean> getCommonNonStrictOneOfValidation() {
-    return Optional.ofNullable(nonStrictOneOfValidation);
-  }
-
-  private Optional<String> getCommonValidationApi() {
-    return Optional.ofNullable(validationApi);
-  }
-
   private Optional<String> getCommonBuilderMethodPrefix() {
     return Optional.ofNullable(builderMethodPrefix);
   }
@@ -250,15 +225,12 @@ public class OpenApiSchemaExtension implements Serializable {
         .map(ext -> ext.withCommonJsonSupport(getCommonJsonSupport()))
         .map(ext -> ext.withCommonXmlSupport(getCommonXmlSupport()))
         .map(ext -> ext.withCommonStagedBuilder(getCommonStagedBuilder()))
-        .map(ext -> ext.withCommonEnableValidation(getCommonEnableValidation()))
-        .map(ext -> ext.withCommonValidationApi(getCommonValidationApi()))
-        .map(ext -> ext.withCommonNonStrictOneOfValidation(getCommonNonStrictOneOfValidation()))
         .map(ext -> ext.withCommonBuilderMethodPrefix(getCommonBuilderMethodPrefix()))
         .map(ext -> ext.withCommonClassMappings(getCommonClassMappings()))
         .map(ext -> ext.withCommonFormatTypeMappings(getCommonFormatTypeMappings()))
         .map(ext -> ext.withCommonEnumDescription(getCommonEnumDescription()))
         .map(ext -> ext.withCommonGetterSuffixes(getCommonGetterSuffixes()))
-        .map(ext -> ext.withCommonValidationMethods(getCommonValidationMethods()))
+        .map(ext -> ext.withCommonValidation(getCommonValidation()))
         .map(ext -> ext.withCommonConstantSchemaNameMappings(getCommonConstantSchemaNameMappings()))
         .map(ext -> ext.withCommonWarnings(getCommonWarnings()))
         .map(ext -> ext.withCommonAllowNullableForEnums(getCommonAllowNullableForEnums()));
@@ -286,13 +258,6 @@ public class OpenApiSchemaExtension implements Serializable {
         + '\''
         + ", stagedBuilder="
         + stagedBuilder
-        + ", enableValidation="
-        + enableValidation
-        + ", nonStrictOneOfValidation="
-        + nonStrictOneOfValidation
-        + ", validationApi='"
-        + validationApi
-        + '\''
         + ", builderMethodPrefix='"
         + builderMethodPrefix
         + '\''
@@ -308,8 +273,8 @@ public class OpenApiSchemaExtension implements Serializable {
         + constantSchemaNameMappings
         + ", getterSuffixes="
         + getterSuffixes
-        + ", validationMethods="
-        + validationMethods
+        + ", validation="
+        + validation
         + ", warnings="
         + warnings
         + '}';
