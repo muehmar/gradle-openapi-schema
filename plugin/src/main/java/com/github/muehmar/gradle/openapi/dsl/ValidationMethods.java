@@ -8,6 +8,7 @@ import io.github.muehmar.pojobuilder.annotations.Nullable;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.io.Serializable;
 import java.util.Optional;
+import javax.inject.Inject;
 import lombok.Data;
 import org.gradle.api.InvalidUserDataException;
 
@@ -22,6 +23,7 @@ public class ValidationMethods implements Serializable {
   @Nullable String getterSuffix;
   @Nullable Boolean deprecatedAnnotation;
 
+  @Inject
   public ValidationMethods() {
     this(null, null, null);
   }

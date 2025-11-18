@@ -21,6 +21,7 @@ public class TestPojoSettings {
         .builderMethodPrefix("set")
         .enableValidation(true)
         .nonStrictOneOfValidation(false)
+        .disableUniqueItemsValidation(false)
         .allowNullableForEnums(false)
         .validationApi(ValidationApi.JAKARTA_2_0)
         .classTypeMappings(Collections.emptyList())

@@ -111,6 +111,23 @@ private boolean isListValValueValid(String listValValue) {
 ]
 
 
+listUniqueItemsDisabledUniqueItemsValidation=[
+.
+.
+private boolean isListValValid() {
+  if(listVal != null) {
+    return listVal.stream().allMatch(this::isListValValueValid);
+  }
+
+  return false;
+}
+
+private boolean isListValValueValid(String listValValue) {
+  return listValValue != null;
+}
+]
+
+
 listWithSize=[
 .
 .

@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
@@ -13,6 +16,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.XmlSupport;
 import java.util.Collections;
 import java.util.Optional;
 import org.gradle.api.Action;
+import org.gradle.api.model.ObjectFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -22,7 +26,7 @@ class SingleSchemaExtensionTest {
 
   @Test
   void withCommonClassMappings_when_oneAdditionalClassMapping_then_concatenated() {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     final Action<ClassMapping> classMappingAction =
         mapping -> {
           mapping.setFromClass("List");
@@ -47,7 +51,7 @@ class SingleSchemaExtensionTest {
 
   @Test
   void withCommonFormatTypeMappings_when_oneAdditionalFormatTypeMapping_then_concatenated() {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     final Action<FormatTypeMapping> formatTypeMappingAction =
         mapping -> {
           mapping.setFormatType("Username");
@@ -73,7 +77,7 @@ class SingleSchemaExtensionTest {
 
   @Test
   void withCommonEnumDescription_when_specificExtensionPresent_then_commonIgnored() {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     final Action<EnumDescriptionExtension> enumDescriptionExtensionAction =
         enumDescription -> {
           enumDescription.setEnabled(true);
@@ -99,7 +103,7 @@ class SingleSchemaExtensionTest {
 
   @Test
   void withCommonEnumDescription_when_noCommonExtensionPresent_then_specificUsed() {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     final Action<EnumDescriptionExtension> enumDescriptionExtensionAction =
         enumDescription -> {
           enumDescription.setEnabled(true);
@@ -121,7 +125,7 @@ class SingleSchemaExtensionTest {
 
   @Test
   void withCommonEnumDescription_when_specificExtensionNotPresent_then_commonIgnored() {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
 
     final EnumDescriptionExtension commonEnumDescriptionExtension = new EnumDescriptionExtension();
     commonEnumDescriptionExtension.setFailOnIncompleteDescriptions(false);
@@ -138,7 +142,7 @@ class SingleSchemaExtensionTest {
 
   @Test
   void withCommonConstantSchemaNameMappings_when_oneAdditionalMappingPresent_then_concatenated() {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     final Action<ConstantSchemaNameMapping> constantSchemaNameMappingAction =
         mapping -> {
           mapping.setConstant("User");
@@ -168,7 +172,7 @@ class SingleSchemaExtensionTest {
 
   @Test
   void withCommonWarnings_when_oneAdditionalMappingPresent_then_concatenated() {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     final Action<WarningsConfig> warningsConfigAction =
         config -> {
           config.setDisableWarnings(false);
@@ -194,7 +198,7 @@ class SingleSchemaExtensionTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   void withCommonStagedBuilder_when_nothingSet_then_commonSettingsUsed(boolean enabled) {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     final Action<StagedBuilder> stagedBuilderAction = config -> {};
     extension.stagedBuilder(stagedBuilderAction);
 
@@ -212,7 +216,7 @@ class SingleSchemaExtensionTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   void withCommonStagedBuilder_when_alreadySet_then_commonSettingsDiscarded(boolean enabled) {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     final Action<StagedBuilder> stagedBuilderAction =
         config -> {
           config.setEnabled(true);
@@ -232,7 +236,7 @@ class SingleSchemaExtensionTest {
 
   @Test
   void classMapping_when_invalidConversionConfig_then_throwsOpenApiGeneratorException() {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     final Action<ClassMapping> classMappingAction =
         mapping -> {
           mapping.setFromClass("List");
@@ -245,7 +249,7 @@ class SingleSchemaExtensionTest {
 
   @Test
   void formatTypeMapping_when_invalidConversionConfig_then_throwsOpenApiGeneratorException() {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     final Action<FormatTypeMapping> formatTypeMappingAction =
         mapping -> {
           mapping.setClassType("List");
@@ -260,35 +264,123 @@ class SingleSchemaExtensionTest {
 
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
-  void withCommonNonStrictOneOfValidation_when_nothingSet_then_commonSettingsUsed(
+  void withCommonValidation_when_nothingSet_then_commonSettingsUsed(
       boolean commonNonStrictOneOfValidation) {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
+
+    final ValidationConfig commonValidation = createValidationConfig();
+    commonValidation.setNonStrictOneOfValidation(commonNonStrictOneOfValidation);
 
     // method call
-    extension.withCommonNonStrictOneOfValidation(Optional.of(commonNonStrictOneOfValidation));
+    extension.withCommonValidation(commonValidation);
 
-    final boolean nonStrictOneOfValidation = extension.getNonStrictOneOfValidation();
+    final boolean nonStrictOneOfValidation =
+        extension.getValidation().getNonStrictOneOfValidationOrDefault();
 
     assertEquals(commonNonStrictOneOfValidation, nonStrictOneOfValidation);
   }
 
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
-  void withCommonNonStrictOneOfValidation_when_alreadySet_then_commonSettingIgnored(
+  void withCommonValidation_when_alreadySet_then_useSchemaSpecificSetting(
       boolean nonStrictOneOfValidation) {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
-    extension.setNonStrictOneOfValidation(nonStrictOneOfValidation);
+    final SingleSchemaExtension extension = createExtension("apiV1");
+    final Action<ValidationConfig> validationAction =
+        validation -> validation.setNonStrictOneOfValidation(nonStrictOneOfValidation);
+    extension.validation(validationAction);
+
+    final ValidationConfig commonValidation = createValidationConfig();
+    commonValidation.setNonStrictOneOfValidation(!nonStrictOneOfValidation);
 
     // method call
-    extension.withCommonNonStrictOneOfValidation(Optional.of(true));
+    extension.withCommonValidation(commonValidation);
 
-    assertEquals(nonStrictOneOfValidation, extension.getNonStrictOneOfValidation());
+    assertEquals(
+        nonStrictOneOfValidation, extension.getValidation().getNonStrictOneOfValidationOrDefault());
+  }
+
+  @Test
+  void withCommonValidation_when_enabledSetInCommon_then_usesCommonSetting() {
+    final SingleSchemaExtension extension = createExtension("apiV1");
+
+    final ValidationConfig commonValidation = createValidationConfig();
+    commonValidation.setEnabled(true);
+
+    // method call
+    extension.withCommonValidation(commonValidation);
+
+    assertTrue(extension.getValidation().getEnabledOrDefault());
+  }
+
+  @Test
+  void withCommonValidation_when_validationApiSetInCommon_then_usesCommonSetting() {
+    final SingleSchemaExtension extension = createExtension("apiV1");
+
+    final ValidationConfig commonValidation = createValidationConfig();
+    commonValidation.setValidationApi("jakarta-3.0");
+
+    // method call
+    extension.withCommonValidation(commonValidation);
+
+    assertEquals("jakarta-3.0", extension.getValidation().getValidationApiString().get());
+  }
+
+  @Test
+  void withCommonValidation_when_schemaSpecificOverridesAll_then_usesSchemaSpecific() {
+    final SingleSchemaExtension extension = createExtension("apiV1");
+    final Action<ValidationConfig> validationAction =
+        validation -> {
+          validation.setEnabled(false);
+          validation.setValidationApi("jakarta-2.0");
+          validation.setNonStrictOneOfValidation(false);
+        };
+    extension.validation(validationAction);
+
+    final ValidationConfig commonValidation = createValidationConfig();
+    commonValidation.setEnabled(true);
+    commonValidation.setValidationApi("jakarta-3.0");
+    commonValidation.setNonStrictOneOfValidation(true);
+
+    // method call
+    extension.withCommonValidation(commonValidation);
+
+    assertFalse(extension.getValidation().getEnabledOrDefault());
+    assertEquals("jakarta-2.0", extension.getValidation().getValidationApiString().get());
+    assertFalse(extension.getValidation().getNonStrictOneOfValidationOrDefault());
+  }
+
+  @Test
+  void withCommonValidation_when_validationMethodsInBoth_then_mergesCorrectly() {
+    final SingleSchemaExtension extension = createExtension("apiV1");
+    final Action<ValidationConfig> validationAction =
+        validation ->
+            validation.validationMethods(
+                methods -> {
+                  methods.setModifier("public");
+                });
+    extension.validation(validationAction);
+
+    final ValidationConfig commonValidation = createValidationConfig();
+    commonValidation.validationMethods(
+        methods -> {
+          methods.setModifier("private");
+          methods.setGetterSuffix("Internal");
+          methods.setDeprecatedAnnotation(true);
+        });
+
+    // method call
+    extension.withCommonValidation(commonValidation);
+
+    assertEquals("public", extension.getValidation().getValidationMethods().getModifier().get());
+    assertEquals(
+        "Internal", extension.getValidation().getValidationMethods().getGetterSuffix().get());
+    assertTrue(extension.getValidation().getValidationMethods().getDeprecatedAnnotation().get());
   }
 
   @ParameterizedTest
   @EnumSource(value = XmlSupport.class)
   void withCommonXmlSupport_when_nothingSet_then_commonSettingsUsed(XmlSupport commonXmlSupport) {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
 
     // method call
     extension.withCommonXmlSupport(Optional.of(commonXmlSupport.getValue()));
@@ -301,7 +393,7 @@ class SingleSchemaExtensionTest {
   @ParameterizedTest
   @EnumSource(value = XmlSupport.class)
   void withCommonXmlSupport_when_alreadySet_then_commonSettingIgnored(XmlSupport xmlSupport) {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     extension.setXmlSupport(xmlSupport.getValue());
 
     // method call
@@ -314,7 +406,7 @@ class SingleSchemaExtensionTest {
   @EnumSource(value = JsonSupport.class)
   void withCommonJsonSupport_when_nothingSet_then_commonSettingsUsed(
       JsonSupport commonJsonSupport) {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
 
     // method call
     extension.withCommonJsonSupport(Optional.of(commonJsonSupport.getValue()));
@@ -327,12 +419,37 @@ class SingleSchemaExtensionTest {
   @ParameterizedTest
   @EnumSource(value = JsonSupport.class)
   void withCommonJsonSupport_when_alreadySet_then_commonSettingIgnored(JsonSupport jsonSupport) {
-    final SingleSchemaExtension extension = new SingleSchemaExtension("apiV1");
+    final SingleSchemaExtension extension = createExtension("apiV1");
     extension.setJsonSupport(jsonSupport.getValue());
 
     // method call
     extension.withCommonJsonSupport(Optional.of("none"));
 
     assertEquals(jsonSupport, extension.getJsonSupport());
+  }
+
+  private static SingleSchemaExtension createExtension(String name) {
+    final ObjectFactory objectFactory = createMockObjectFactory();
+    return new SingleSchemaExtension(name, objectFactory);
+  }
+
+  private static ValidationConfig createValidationConfig() {
+    return new ValidationConfig(createMockObjectFactory());
+  }
+
+  private static ObjectFactory createMockObjectFactory() {
+    final ObjectFactory objectFactory = mock(ObjectFactory.class);
+    when(objectFactory.newInstance(any()))
+        .thenAnswer(
+            invocation -> {
+              Class<?> type = invocation.getArgument(0);
+              if (type.equals(ValidationConfig.class)) {
+                return new ValidationConfig(createMockObjectFactory());
+              } else if (type.equals(ValidationMethods.class)) {
+                return new ValidationMethods();
+              }
+              throw new IllegalArgumentException("Unexpected type: " + type);
+            });
+    return objectFactory;
   }
 }

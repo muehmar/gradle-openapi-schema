@@ -11,7 +11,6 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettingsBuilder;
-import com.github.muehmar.gradle.openapi.generator.settings.ValidationApi;
 import com.github.muehmar.gradle.openapi.generator.settings.XmlSupport;
 import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import com.github.muehmar.gradle.openapi.util.Optionals;
@@ -27,6 +26,7 @@ import org.gradle.api.Action;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.Project;
 import org.gradle.api.file.Directory;
+import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Provider;
 
 @EqualsAndHashCode
@@ -43,16 +43,13 @@ public class SingleSchemaExtension implements Serializable {
   private Boolean resolveInputSpecs;
   private String suffix;
   private GetterSuffixes getterSuffixes;
-  private ValidationMethods validationMethods;
+  private ValidationConfig validation;
   private String packageName;
   private String jsonSupport;
   private String xmlSupport;
   private StagedBuilder stagedBuilder;
   private String builderMethodPrefix;
-  private Boolean enableValidation;
-  private Boolean nonStrictOneOfValidation;
   private Boolean allowNullableForEnums;
-  private String validationApi;
   private EnumDescriptionExtension enumDescriptionExtension = null;
   private final List<ClassMapping> classMappings;
   private final List<FormatTypeMapping> formatTypeMappings;
@@ -62,14 +59,14 @@ public class SingleSchemaExtension implements Serializable {
   private WarningsConfig warnings;
 
   @Inject
-  public SingleSchemaExtension(String name) {
+  public SingleSchemaExtension(String name, ObjectFactory objectFactory) {
     this.name = name;
     this.classMappings = new ArrayList<>();
     this.formatTypeMappings = new ArrayList<>();
     this.dtoMappings = new ArrayList<>();
     this.getterSuffixes = GetterSuffixes.allUndefined();
     this.stagedBuilder = StagedBuilder.allUndefined();
-    this.validationMethods = ValidationMethods.allUndefined();
+    this.validation = objectFactory.newInstance(ValidationConfig.class);
     this.constantSchemaNameMappings = new ArrayList<>();
     this.excludeSchemas = new ArrayList<>();
     this.warnings = WarningsConfig.allUndefined();
@@ -147,12 +144,17 @@ public class SingleSchemaExtension implements Serializable {
   }
 
   // DSL API
-  public void validationMethods(Action<ValidationMethods> action) {
-    action.execute(validationMethods);
+  public void validation(Action<ValidationConfig> action) {
+    action.execute(validation);
   }
 
-  public ValidationMethods getValidationMethods() {
-    return validationMethods;
+  // DSL API - Groovy closure support
+  public ValidationConfig validation(groovy.lang.Closure<ValidationConfig> closure) {
+    return org.gradle.util.internal.ConfigureUtil.configureSelf(closure, validation);
+  }
+
+  public ValidationConfig getValidation() {
+    return validation;
   }
 
   public PackageName getPackageName(Project project) {
@@ -213,32 +215,6 @@ public class SingleSchemaExtension implements Serializable {
     action.execute(stagedBuilder);
   }
 
-  public boolean getEnableValidation() {
-    return Optional.ofNullable(enableValidation).orElse(false);
-  }
-
-  public boolean getNonStrictOneOfValidation() {
-    return Optional.ofNullable(nonStrictOneOfValidation).orElse(false);
-  }
-
-  // DSL API
-  public void setValidationApi(String validationApi) {
-    this.validationApi = validationApi;
-  }
-
-  public ValidationApi getValidationApi() {
-    final Supplier<IllegalArgumentException> unsupportedValueException =
-        () ->
-            new IllegalArgumentException(
-                "Unsupported value for validationApi: '"
-                    + validationApi
-                    + "'. Supported values are ["
-                    + PList.of(ValidationApi.values()).map(ValidationApi::getValue).mkString(", "));
-    return Optional.ofNullable(validationApi)
-        .map(support -> ValidationApi.fromString(support).orElseThrow(unsupportedValueException))
-        .orElse(ValidationApi.JAKARTA_2_0);
-  }
-
   public String getBuilderMethodPrefix() {
     return Optional.ofNullable(builderMethodPrefix).orElse("");
   }
@@ -246,16 +222,6 @@ public class SingleSchemaExtension implements Serializable {
   // DSL API
   public void setBuilderMethodPrefix(String builderMethodPrefix) {
     this.builderMethodPrefix = builderMethodPrefix;
-  }
-
-  // DSL API
-  public void setEnableValidation(Boolean enableValidation) {
-    this.enableValidation = enableValidation;
-  }
-
-  // DSL API
-  public void setNonStrictOneOfValidation(Boolean nonStrictOneOfValidation) {
-    this.nonStrictOneOfValidation = nonStrictOneOfValidation;
   }
 
   // DSL API
@@ -349,8 +315,8 @@ public class SingleSchemaExtension implements Serializable {
     return this;
   }
 
-  SingleSchemaExtension withCommonValidationMethods(ValidationMethods commonValidationMethods) {
-    this.validationMethods = this.validationMethods.withCommonRawGetter(commonValidationMethods);
+  SingleSchemaExtension withCommonValidation(ValidationConfig commonValidation) {
+    this.validation = this.validation.withCommonValidationConfig(commonValidation);
     return this;
   }
 
@@ -410,9 +376,10 @@ public class SingleSchemaExtension implements Serializable {
     final com.github.muehmar.gradle.openapi.generator.settings.ValidationMethods
         settingsValidationMethods =
             com.github.muehmar.gradle.openapi.generator.settings.ValidationMethodsBuilder.create()
-                .modifier(validationMethods.getModifierOrDefault())
-                .getterSuffix(validationMethods.getGetterSuffixOrDefault())
-                .deprecatedAnnotation(validationMethods.getDeprecatedAnnotationOrDefault())
+                .modifier(validation.getValidationMethods().getModifierOrDefault())
+                .getterSuffix(validation.getValidationMethods().getGetterSuffixOrDefault())
+                .deprecatedAnnotation(
+                    validation.getValidationMethods().getDeprecatedAnnotationOrDefault())
                 .andAllOptionals()
                 .build();
 
@@ -428,10 +395,11 @@ public class SingleSchemaExtension implements Serializable {
         .suffix(getSuffix())
         .stagedBuilder(stagedBuilderSettings)
         .builderMethodPrefix(getBuilderMethodPrefix())
-        .enableValidation(getEnableValidation())
-        .nonStrictOneOfValidation(getNonStrictOneOfValidation())
+        .enableValidation(validation.getEnabledOrDefault())
+        .nonStrictOneOfValidation(validation.getNonStrictOneOfValidationOrDefault())
+        .disableUniqueItemsValidation(validation.getDisableUniqueItemsValidationOrDefault())
         .allowNullableForEnums(getAllowNullableForEnums())
-        .validationApi(getValidationApi())
+        .validationApi(validation.getValidationApiOrDefault())
         .classTypeMappings(getClassMappings().map(ClassMapping::toSettingsClassMapping))
         .formatTypeMappings(
             getFormatTypeMappings().map(FormatTypeMapping::toSettingsFormatTypeMapping))
@@ -489,28 +457,6 @@ public class SingleSchemaExtension implements Serializable {
         StagedBuilderBuilder.fullStagedBuilderBuilder()
             .enabled(Optionals.or(stagedBuilder.getEnabled(), commonStagedBuilder.getEnabled()))
             .build();
-    return this;
-  }
-
-  SingleSchemaExtension withCommonEnableValidation(Optional<Boolean> commonEnableValidation) {
-    if (enableValidation == null) {
-      commonEnableValidation.ifPresent(this::setEnableValidation);
-    }
-    return this;
-  }
-
-  SingleSchemaExtension withCommonNonStrictOneOfValidation(
-      Optional<Boolean> commonNonStrictOneOfValidation) {
-    if (nonStrictOneOfValidation == null) {
-      commonNonStrictOneOfValidation.ifPresent(this::setNonStrictOneOfValidation);
-    }
-    return this;
-  }
-
-  SingleSchemaExtension withCommonValidationApi(Optional<String> commonValidationApi) {
-    if (validationApi == null) {
-      commonValidationApi.ifPresent(this::setValidationApi);
-    }
     return this;
   }
 

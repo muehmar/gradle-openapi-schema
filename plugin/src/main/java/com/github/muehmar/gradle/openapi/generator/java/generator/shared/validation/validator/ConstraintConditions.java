@@ -8,6 +8,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.validation.
 import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.MULTIPLE_OF;
 import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.PATTERN;
 import static com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType.SIZE;
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
@@ -209,7 +210,9 @@ class ConstraintConditions {
 
   public static Condition uniqueArrayItemsCondition() {
     return (propertyValue, settings, writer) -> {
-      final boolean uniqueItems = propertyValue.getType().getConstraints().isUniqueItems();
+      final boolean uniqueItems =
+          propertyValue.getType().getConstraints().isUniqueItems()
+              && not(settings.isDisableUniqueItemsValidation());
       final boolean isArrayType = propertyValue.getType().isArrayType();
       if (uniqueItems && isArrayType) {
         final JavaName methodName =
