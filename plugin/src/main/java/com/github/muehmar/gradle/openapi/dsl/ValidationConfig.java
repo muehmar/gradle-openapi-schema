@@ -16,10 +16,12 @@ public class ValidationConfig implements Serializable {
   private static final boolean DEFAULT_ENABLED = false;
   private static final ValidationApi DEFAULT_VALIDATION_API = ValidationApi.JAKARTA_2_0;
   private static final boolean DEFAULT_NON_STRICT_ONE_OF_VALIDATION = false;
+  private static final boolean DEFAULT_DISABLE_UNIQUE_ITEMS_VALIDATION = false;
 
   private Boolean enabled;
   private String validationApi;
   private Boolean nonStrictOneOfValidation;
+  private Boolean disableUniqueItemsValidation;
   private final ValidationMethods validationMethods;
 
   @Inject
@@ -28,17 +30,19 @@ public class ValidationConfig implements Serializable {
   }
 
   public static ValidationConfig allUndefined() {
-    return new ValidationConfig(null, null, null, ValidationMethods.allUndefined());
+    return new ValidationConfig(null, null, null, null, ValidationMethods.allUndefined());
   }
 
   private ValidationConfig(
       Boolean enabled,
       String validationApi,
       Boolean nonStrictOneOfValidation,
+      Boolean disableUniqueItemsValidation,
       ValidationMethods validationMethods) {
     this.enabled = enabled;
     this.validationApi = validationApi;
     this.nonStrictOneOfValidation = nonStrictOneOfValidation;
+    this.disableUniqueItemsValidation = disableUniqueItemsValidation;
     this.validationMethods = validationMethods;
   }
 
@@ -55,6 +59,11 @@ public class ValidationConfig implements Serializable {
   // DSL API
   public void setNonStrictOneOfValidation(Boolean nonStrictOneOfValidation) {
     this.nonStrictOneOfValidation = nonStrictOneOfValidation;
+  }
+
+  // DSL API
+  public void setDisableUniqueItemsValidation(Boolean disableUniqueItemsValidation) {
+    this.disableUniqueItemsValidation = disableUniqueItemsValidation;
   }
 
   // DSL API - Nested configuration with Action
@@ -85,6 +94,10 @@ public class ValidationConfig implements Serializable {
         Optionals.or(
                 Optional.ofNullable(nonStrictOneOfValidation),
                 Optional.ofNullable(commonValidationConfig.nonStrictOneOfValidation))
+            .orElse(null),
+        Optionals.or(
+                Optional.ofNullable(disableUniqueItemsValidation),
+                Optional.ofNullable(commonValidationConfig.disableUniqueItemsValidation))
             .orElse(null),
         mergedMethods);
   }
@@ -121,5 +134,13 @@ public class ValidationConfig implements Serializable {
 
   boolean getNonStrictOneOfValidationOrDefault() {
     return getNonStrictOneOfValidation().orElse(DEFAULT_NON_STRICT_ONE_OF_VALIDATION);
+  }
+
+  Optional<Boolean> getDisableUniqueItemsValidation() {
+    return Optional.ofNullable(disableUniqueItemsValidation);
+  }
+
+  boolean getDisableUniqueItemsValidationOrDefault() {
+    return getDisableUniqueItemsValidation().orElse(DEFAULT_DISABLE_UNIQUE_ITEMS_VALIDATION);
   }
 }

@@ -26,6 +26,7 @@ public class PojoSettings implements Serializable {
   String builderMethodPrefix;
   boolean enableValidation;
   boolean nonStrictOneOfValidation;
+  boolean disableUniqueItemsValidation;
   boolean allowNullableForEnums;
 
   ValidationApi validationApi;
@@ -54,6 +55,10 @@ public class PojoSettings implements Serializable {
 
   public boolean isNonStrictOneOfValidation() {
     return nonStrictOneOfValidation;
+  }
+
+  public boolean isDisableUniqueItemsValidation() {
+    return disableUniqueItemsValidation;
   }
 
   public List<ClassTypeMapping> getClassTypeMappingsList() {

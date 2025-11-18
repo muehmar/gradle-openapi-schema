@@ -397,6 +397,7 @@ public class SingleSchemaExtension implements Serializable {
         .builderMethodPrefix(getBuilderMethodPrefix())
         .enableValidation(validation.getEnabledOrDefault())
         .nonStrictOneOfValidation(validation.getNonStrictOneOfValidationOrDefault())
+        .disableUniqueItemsValidation(validation.getDisableUniqueItemsValidationOrDefault())
         .allowNullableForEnums(getAllowNullableForEnums())
         .validationApi(validation.getValidationApiOrDefault())
         .classTypeMappings(getClassMappings().map(ClassMapping::toSettingsClassMapping))
