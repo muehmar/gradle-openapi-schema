@@ -106,7 +106,8 @@ def issueNumbers = [
         '341',
         '343',
         '351',
-        '352']
+        '352',
+        '361']
 
 specifications.addAll(issueNumbers.collect { issueNumber -> [name: "Issue${issueNumber}", file: "issues/openapi-issue-${issueNumber}.yml"] })
 
@@ -387,6 +388,12 @@ openApiGenerator {
                 toClass = "com.github.muehmar.gradle.openapi.typemappingwithconversion.CustomString"
                 conversion.fromCustomType = "getValue"
                 conversion.toCustomType = "CustomString#fromString"
+            }
+        }
+
+        Issue361 {
+            validation {
+                disableUniqueItemsValidation = true
             }
         }
 
