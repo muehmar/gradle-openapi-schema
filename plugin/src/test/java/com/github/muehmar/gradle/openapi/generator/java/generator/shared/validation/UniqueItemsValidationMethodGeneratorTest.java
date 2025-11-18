@@ -54,6 +54,21 @@ class UniqueItemsValidationMethodGeneratorTest {
   }
 
   @Test
+  void generate_when_noUniqueItemsConstraintButDisabledUniqueItemsValidation_then_noOutput() {
+    final Generator<JavaPojoMember, PojoSettings> generator =
+        uniqueItemsValidationMethodGenerator();
+
+    final Writer writer =
+        generator.generate(
+            TestJavaPojoMembers.list(
+                StringType.noFormat(), REQUIRED, NOT_NULLABLE, Constraints.ofUniqueItems(true)),
+            defaultTestSettings().withEnableValidation(true).withDisableUniqueItemsValidation(true),
+            javaWriter());
+
+    assertEquals("", writer.asString());
+  }
+
+  @Test
   @SnapshotName("validationDisabled")
   void generate_when_validationDisabled_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =

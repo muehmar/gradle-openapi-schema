@@ -218,6 +218,21 @@ class PropertyValidationGeneratorTest {
   }
 
   @Test
+  @SnapshotName("listUniqueItemsDisabledUniqueItemsValidation")
+  void generate_when_listUniqueItemsDisabledUniqueItemsValidation_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();
+
+    final JavaPojoMember listType =
+        list(StringType.noFormat(), REQUIRED, NOT_NULLABLE, Constraints.ofUniqueItems(true));
+
+    final Writer writer =
+        generator.generate(
+            listType, defaultTestSettings().withDisableUniqueItemsValidation(true), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
   @SnapshotName("listUniqueItems")
   void generate_when_listUniqueItems_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator = memberValidationGenerator();

@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation;
 
+import static com.github.muehmar.gradle.openapi.util.Booleans.not;
+
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
@@ -39,6 +41,7 @@ public class UniqueItemsValidationMethodGenerator {
 
   private static boolean generateMethod(JavaPojoMember member, PojoSettings settings) {
     return member.getJavaType().isArrayType()
-        && member.getJavaType().getConstraints().isUniqueItems();
+        && member.getJavaType().getConstraints().isUniqueItems()
+        && not(settings.isDisableUniqueItemsValidation());
   }
 }
