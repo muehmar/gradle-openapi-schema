@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: Issue 361 - Disable Unique Items Validation
+  version: 1.0.0
+  description: Test disableUniqueItemsValidation configuration option
+
+paths:
+  /tags:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagCollection'
+      responses:
+        '200':
+          description: Success
+
+components:
+  schemas:
+    TagCollection:
+      type: object
+      required:
+        - tags
+        - uniqueTags
+      properties:
+        tags:
+          type: array
+          description: Regular array without unique constraint
+          items:
+            type: string
+        uniqueTags:
+          type: array
+          description: Array with unique items constraint - validation should be disabled
+          uniqueItems: true
+          items:
+            type: string
+        uniqueNumbers:
+          type: array
+          description: Array with unique number items - validation should be disabled
+          uniqueItems: true
+          items:
+            type: integer
+        optionalUniqueTags:
+          type: array
+          description: Optional array with unique items
+          uniqueItems: true
+          items:
+            type: string
