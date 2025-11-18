@@ -19,6 +19,37 @@
     ```
 * Map structures as additional properties of objects will now result in a separate DTO class instead of a Map<String,
   Object>.
+* The DSL concerning the configuration of the validation is restructured. Some options are moved into a new `validation`
+  block:
+    ```groovy
+    openApiGenerator {
+        enableValidation = true
+        validationApi = "jakarta-3.0"
+        nonStrictOneOfValidation = false
+        validationMethods {
+            getterSuffix = "Raw"
+            modifier = "private"
+            deprecatedAnnotation = false
+        }
+    }
+    ```
+  becomes
+    ```groovy
+    openApiGenerator {
+        validation {
+            enabled = true
+            validationApi = "jakarta-3.0"
+            nonStrictOneOfValidation = false
+
+            validationMethods {
+                getterSuffix = "Raw"
+                modifier = "private"
+                deprecatedAnnotation = false
+            }
+        }
+    }
+    ```
+  The structure of the `validation` is the same if globally configured or configured per specification.
 
 ## Migrating from v2.x to 3.x
 
