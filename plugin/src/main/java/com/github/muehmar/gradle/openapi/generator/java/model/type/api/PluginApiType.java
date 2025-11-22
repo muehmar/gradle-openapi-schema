@@ -4,6 +4,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
+import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import lombok.Value;
 
 @Value
@@ -24,5 +25,18 @@ public class PluginApiType {
         parameterizedApiClassName,
         new ToApiTypeConversion(ConversionMethod.ofConstructor(conversionForSet)),
         new FromApiTypeConversion(ConversionMethod.ofConstructor(conversionForList)));
+  }
+
+  public static PluginApiType useEnumAsApiType(QualifiedClassName enumClassName) {
+    final ParameterizedApiClassName parameterizedApiClassName =
+        ParameterizedApiClassName.ofClassNameAndGenerics(enumClassName);
+    return new PluginApiType(
+        enumClassName,
+        parameterizedApiClassName,
+        new ToApiTypeConversion(
+            ConversionMethod.ofFactoryMethod(
+                new FactoryMethodConversion(enumClassName, Name.ofString("valueOf")))),
+        new FromApiTypeConversion(
+            ConversionMethod.ofInstanceMethod(InstanceMethodConversion.ofString("name"))));
   }
 }

@@ -10,7 +10,9 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ConversionMethod;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.FactoryMethodConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.FromApiTypeConversion;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.InstanceMethodConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ToApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -102,30 +104,43 @@ class JavaEnumTypeTest {
     // method call
     final JavaType javaType = JavaEnumType.wrap(enumType, typeMappings);
 
-    final QualifiedClassName className =
+    final QualifiedClassName customClassName =
         QualifiedClassName.ofQualifiedClassName("com.github.muehmar.gradle.openapi.CustomGender");
+    final QualifiedClassName enumClassName = QualifiedClassName.ofName(Name.ofString("Gender"));
 
-    assertEquals(Optional.of(className), javaType.getApiType().map(ApiType::getClassName));
+    assertEquals(Optional.of(customClassName), javaType.getApiType().map(ApiType::getClassName));
     assertEquals(
         Optional.of("CustomGender"),
         javaType.getApiType().map(apiType -> apiType.getParameterizedClassName().asString()));
+
+    // Now expects BOTH the enum plugin type conversion AND the custom type conversion
+    // Note: Enum plugin conversion comes first, then custom type conversion
     assertEquals(
         Optional.of(
-            PList.single(
+            PList.of(
                 new ToApiTypeConversion(
-                    ConversionMethod.ofString(className, typeConversion.getToCustomType())))),
+                    ConversionMethod.ofFactoryMethod(
+                        new FactoryMethodConversion(enumClassName, Name.ofString("valueOf")))),
+                new ToApiTypeConversion(
+                    ConversionMethod.ofString(customClassName, typeConversion.getToCustomType())))),
         javaType.getApiType().map(ApiType::getToApiTypeConversion));
     assertEquals(
         Optional.of(
-            PList.single(
+            PList.of(
                 new FromApiTypeConversion(
-                    ConversionMethod.ofString(className, typeConversion.getFromCustomType())))),
+                    ConversionMethod.ofString(customClassName, typeConversion.getFromCustomType())),
+                new FromApiTypeConversion(
+                    ConversionMethod.ofInstanceMethod(InstanceMethodConversion.ofString("name"))))),
         javaType.getApiType().map(ApiType::getFromApiTypeConversion));
 
-    assertEquals("Gender", javaType.getParameterizedClassName().asString());
-    assertEquals("Gender", javaType.getQualifiedClassName().asName().asString());
+    // The internal type uses String, so parameterizedClassName returns String
+    assertEquals("String", javaType.getParameterizedClassName().asString());
+    // Internal className is java.lang.String (the fully qualified underlying type)
+    assertEquals("java.lang.String", javaType.getQualifiedClassName().asName().asString());
+    // getAllQualifiedClassNames includes custom type and internal String, but not enum name when
+    // custom type is present
     assertEquals(
-        PList.of("Gender", "com.github.muehmar.gradle.openapi.CustomGender"),
+        PList.of("com.github.muehmar.gradle.openapi.CustomGender", "java.lang.String"),
         javaType
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)
@@ -146,12 +161,60 @@ class JavaEnumTypeTest {
     // method call
     final JavaType javaType = JavaEnumType.wrap(enumType, TypeMappings.empty());
 
-    assertEquals(Optional.empty(), javaType.getApiType());
+    final QualifiedClassName enumClassName = QualifiedClassName.ofName(Name.ofString("Gender"));
 
-    assertEquals("Gender", javaType.getParameterizedClassName().asString());
-    assertEquals("Gender", javaType.getQualifiedClassName().getClassName().asString());
+    // Verify the enum has a PluginApiType with valueOf/name conversions
+    assertTrue(javaType.getApiType().isPresent());
+    assertEquals(enumClassName, javaType.getApiType().get().getClassName());
+    assertEquals("Gender", javaType.getApiType().get().getParameterizedClassName().asString());
+
+    // Verify toApiTypeConversion contains valueOf
+    final PList<ToApiTypeConversion> toConversions =
+        javaType.getApiType().get().getToApiTypeConversion();
+    assertEquals(1, toConversions.size());
+    final ConversionMethod toMethod = toConversions.head().getConversionMethod();
+    toMethod.fold(
+        factoryMethod -> {
+          assertEquals(enumClassName, factoryMethod.getClassName());
+          assertEquals("valueOf", factoryMethod.getMethodName().asString());
+          return null;
+        },
+        instanceMethod -> {
+          fail("Expected factory method but got instance method");
+          return null;
+        },
+        constructor -> {
+          fail("Expected factory method but got constructor");
+          return null;
+        });
+
+    // Verify fromApiTypeConversion contains name
+    final PList<FromApiTypeConversion> fromConversions =
+        javaType.getApiType().get().getFromApiTypeConversion();
+    assertEquals(1, fromConversions.size());
+    final ConversionMethod fromMethod = fromConversions.head().getConversionMethod();
+    fromMethod.fold(
+        factoryMethod -> {
+          fail("Expected instance method but got factory method");
+          return null;
+        },
+        instanceMethod -> {
+          assertEquals("name", instanceMethod.getMethodName().asString());
+          return null;
+        },
+        constructor -> {
+          fail("Expected instance method but got constructor");
+          return null;
+        });
+
+    // The internal type uses String, so parameterizedClassName returns String
+    assertEquals("String", javaType.getParameterizedClassName().asString());
+    // Internal className is String
+    assertEquals("String", javaType.getQualifiedClassName().getClassName().asString());
+    // getAllQualifiedClassNames should include both the internal String and the enum Gender from
+    // API type
     assertEquals(
-        PList.of("Gender"),
+        PList.of("Gender", "java.lang.String"),
         javaType
             .getAllQualifiedClassNames()
             .map(QualifiedClassName::asString)

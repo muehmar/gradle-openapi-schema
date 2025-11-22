@@ -169,6 +169,19 @@ public interface JavaType {
     return onMapType().isPresent();
   }
 
+  default Optional<JavaEnumType> onEnumType() {
+    return fold(
+        javaArrayType -> Optional.empty(),
+        javaBooleanType -> Optional.empty(),
+        Optional::of,
+        javaMapType -> Optional.empty(),
+        javaAnyType -> Optional.empty(),
+        javaNumericType -> Optional.empty(),
+        javaIntegerType -> Optional.empty(),
+        javaObjectType -> Optional.empty(),
+        javaStringType -> Optional.empty());
+  }
+
   default boolean isAnyType() {
     return fold(
         JavaAnyType.class::isInstance,

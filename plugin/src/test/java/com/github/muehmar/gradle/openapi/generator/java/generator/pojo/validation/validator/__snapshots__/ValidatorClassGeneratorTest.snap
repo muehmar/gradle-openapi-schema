@@ -1,7 +1,11 @@
 allOfPojoWithMembers=[
 private class Validator {
   private boolean isColorValid() {
-    return color != null;
+    if(color != null) {
+      return java.util.regex.Pattern.matches("yellow|orange|red", color);
+    }
+
+    return false;
   }
 
   private boolean isAdditionalPropertiesValid() {
@@ -53,7 +57,11 @@ private class Validator {
 anyOfPojoWithMembers=[
 private class Validator {
   private boolean isColorValid() {
-    return color != null;
+    if(color != null) {
+      return java.util.regex.Pattern.matches("yellow|orange|red", color);
+    }
+
+    return false;
   }
 
   private boolean isAdditionalPropertiesValid() {
@@ -809,7 +817,11 @@ private class Validator {
 oneOfPojoWithMembers=[
 private class Validator {
   private boolean isColorValid() {
-    return color != null;
+    if(color != null) {
+      return java.util.regex.Pattern.matches("yellow|orange|red", color);
+    }
+
+    return false;
   }
 
   private boolean isAdditionalPropertiesValid() {

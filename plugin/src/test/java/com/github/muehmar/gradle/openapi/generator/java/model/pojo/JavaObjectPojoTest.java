@@ -39,6 +39,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.Mul
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.SinglePojoContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PojoPromotionResult;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
@@ -188,7 +189,7 @@ class JavaObjectPojoTest {
   }
 
   @Test
-  void getAllMembers_when_nestedComposedPojo_then_correctOuterClassUsed() {
+  void getAllMembers_when_nestedComposedPojo_then_correctOuterClassUsedForEnumClassName() {
     final JavaObjectPojo oneOfPojoWithEnum =
         oneOfPojo(
             objectPojo(TestJavaPojoMembers.requiredColorEnum())
@@ -205,7 +206,13 @@ class JavaObjectPojoTest {
     assertEquals(2, members.size());
     assertEquals(
         PList.of("Direction", "ColorPojoDto.Color"),
-        members.map(m -> m.getJavaType().getParameterizedClassName().asString()));
+        members.map(
+            m ->
+                m.getJavaType()
+                    .onEnumType()
+                    .map(JavaEnumType::getEnumClassName)
+                    .orElse(m.getJavaType().getQualifiedClassName())
+                    .asString()));
   }
 
   @Test

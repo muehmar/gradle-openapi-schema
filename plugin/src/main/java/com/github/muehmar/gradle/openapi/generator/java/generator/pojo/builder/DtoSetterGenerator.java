@@ -12,7 +12,9 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -198,11 +200,15 @@ public class DtoSetterGenerator {
                   d.getValueForSchemaName(
                       schemaName,
                       strValue -> String.format("\"%s\"", strValue),
-                      enumName ->
-                          String.format(
-                              "%s.%s",
-                              member.getJavaType().getQualifiedClassName().getClassName(),
-                              enumName)))
+                      enumName -> {
+                        final QualifiedClassName enumClassName =
+                            member
+                                .getJavaType()
+                                .onEnumType()
+                                .map(JavaEnumType::getEnumClassName)
+                                .orElse(member.getJavaType().getQualifiedClassName());
+                        return String.format("%s.%s", enumClassName.getClassName(), enumName);
+                      }))
           .orElse("");
     }
 

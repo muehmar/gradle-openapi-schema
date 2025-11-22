@@ -20,6 +20,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -151,12 +152,17 @@ class JavaPojoMemberTest {
   }
 
   @Test
-  void asInnerEnumOf_when_calledForEnumMember_then_classNameReferencedWithOuterClass() {
+  void asInnerEnumOf_when_calledForEnumMember_then_enumClassNameReferencedWithOuterClass() {
     final JavaPojoMember member = TestJavaPojoMembers.requiredColorEnum();
     final JavaPojoMember mappedMember = member.asInnerEnumOf(JavaName.fromString("AdminDto"));
     assertEquals(
         "AdminDto.Color",
-        mappedMember.getJavaType().getQualifiedClassName().getClassName().asString());
+        mappedMember
+            .getJavaType()
+            .onEnumType()
+            .map(JavaEnumType::getEnumClassName)
+            .orElse(mappedMember.getJavaType().getQualifiedClassName())
+            .asString());
   }
 
   @ParameterizedTest

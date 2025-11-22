@@ -312,7 +312,7 @@ public class JavaPojos {
         Optional.of(JavaAllOfComposition.fromPojos(NonEmptyList.of(allOfPojo)));
     final EnumType enumType =
         EnumType.ofNameAndMembers(
-            requiredColorEnum().getName().getOriginalName(),
+            ((JavaEnumType) requiredColorEnum().getJavaType()).getEnumClassName().getClassName(),
             ((JavaEnumType) requiredColorEnum().getJavaType())
                 .getMembers()
                 .map(EnumConstantName::getOriginalConstant));

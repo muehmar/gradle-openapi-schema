@@ -1,15 +1,17 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
-import static com.github.muehmar.gradle.openapi.util.Booleans.not;
-
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.PluginApiType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.TypeMapping;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
@@ -20,61 +22,115 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class JavaEnumType extends NonGenericJavaType {
+  private final QualifiedClassName enumClassName;
   private final PList<EnumConstantName> members;
+  private final Constraints constraints;
 
   private JavaEnumType(
       QualifiedClassName className,
       Optional<ApiType> apiType,
+      QualifiedClassName enumClassName,
       PList<EnumConstantName> members,
-      Nullability nullability) {
+      Nullability nullability,
+      Constraints constraints) {
     super(className, apiType, nullability);
+    this.enumClassName = enumClassName;
     this.members = members;
+    this.constraints = constraints;
   }
 
   private static JavaEnumType of(
-      EnumType enumType, TypeMapping typeMapping, Nullability nullability) {
+      EnumType enumType,
+      TypeMapping typeMapping,
+      Nullability nullability,
+      Constraints constraints) {
     return new JavaEnumType(
         typeMapping.getClassName(),
         typeMapping.getApiType(),
+        QualifiedClassName.ofName(enumType.getName()),
         enumType.getMembers().map(EnumConstantName::ofString),
-        nullability);
+        nullability,
+        constraints);
   }
 
   public static JavaEnumType wrapForDiscriminator(EnumType enumType) {
     return of(
         enumType,
         TypeMapping.fromClassName(QualifiedClassName.ofName(enumType.getName())),
-        Nullability.NOT_NULLABLE);
+        Nullability.NOT_NULLABLE,
+        Constraints.empty());
   }
 
   public static JavaType wrap(EnumType enumType, TypeMappings typeMappings) {
-    final QualifiedClassName className = QualifiedClassName.ofName(enumType.getName());
+    final QualifiedClassName enumClassName = QualifiedClassName.ofName(enumType.getName());
+    final QualifiedClassName internalClassName = QualifiedClassNames.STRING;
+    final Optional<PluginApiType> pluginApiType =
+        Optional.of(PluginApiType.useEnumAsApiType(enumClassName));
     final TypeMapping typeMapping =
         enumType
             .getFormat()
             .map(
                 format ->
                     TypeMapping.fromFormatMappings(
-                        className, Optional.empty(), format, typeMappings.getFormatTypeMappings()))
-            .orElseGet(() -> TypeMapping.fromClassName(className));
-    if (not(typeMapping.getApiType().isPresent())
-        && not(typeMapping.getClassName().equals(className))) {
-      return JavaObjectType.fromClassName(typeMapping.getClassName());
-    }
+                        internalClassName,
+                        pluginApiType,
+                        format,
+                        typeMappings.getFormatTypeMappings()))
+            .orElseGet(
+                () -> TypeMapping.fromClassNameAndPluginApiType(internalClassName, pluginApiType));
 
-    final Nullability nullability =
-        Nullability.leastRestrictive(
-            enumType.getNullability(),
-            typeMappings.isAllowNullableForEnums()
-                ? enumType.getLegacyNullability()
-                : Nullability.NOT_NULLABLE);
+    return typeMapping
+        .getApiType()
+        .<JavaType>map(
+            apiType -> {
+              final Nullability nullability =
+                  Nullability.leastRestrictive(
+                      enumType.getNullability(),
+                      typeMappings.isAllowNullableForEnums()
+                          ? enumType.getLegacyNullability()
+                          : Nullability.NOT_NULLABLE);
 
-    return of(enumType, typeMapping, nullability);
+              final String pattern = enumType.getMembers().mkString("|");
+
+              final Constraints constraints =
+                  Constraints.ofPattern(Pattern.ofUnescapedString(pattern));
+
+              return of(enumType, typeMapping, nullability, constraints);
+            })
+        .orElse(JavaObjectType.fromClassName(typeMapping.getClassName()));
   }
 
   public JavaEnumType asInnerClassOf(JavaName outerClassName) {
+    final QualifiedClassName newClassName =
+        className.equals(QualifiedClassNames.STRING)
+            ? className
+            : className.asInnerClassOf(outerClassName);
+
+    final QualifiedClassName newEnumClassName = enumClassName.asInnerClassOf(outerClassName);
+
+    final Function<PluginApiType, PluginApiType> updatePluginApiType =
+        pluginApiType ->
+            new PluginApiType(
+                newEnumClassName,
+                ParameterizedApiClassName.ofClassNameAndGenerics(newEnumClassName),
+                pluginApiType.getToApiTypeConversion(),
+                pluginApiType.getFromApiTypeConversion());
+
+    final Optional<ApiType> newApiType =
+        apiType.map(
+            api ->
+                api.fold(
+                    pluginType -> ApiType.ofPluginType(updatePluginApiType.apply(pluginType)),
+                    ApiType::ofUserDefinedType,
+                    (pluginType, userType) ->
+                        ApiType.of(userType, Optional.of(updatePluginApiType.apply(pluginType)))));
+
     return new JavaEnumType(
-        className.asInnerClassOf(outerClassName), apiType, members, getNullability());
+        newClassName, newApiType, newEnumClassName, members, getNullability(), constraints);
+  }
+
+  public QualifiedClassName getEnumClassName() {
+    return enumClassName;
   }
 
   @Override
@@ -84,12 +140,12 @@ public class JavaEnumType extends NonGenericJavaType {
 
   @Override
   public JavaType withNullability(Nullability nullability) {
-    return new JavaEnumType(className, apiType, members, nullability);
+    return new JavaEnumType(className, apiType, enumClassName, members, nullability, constraints);
   }
 
   @Override
   public Constraints getConstraints() {
-    return Constraints.empty();
+    return constraints;
   }
 
   public PList<EnumConstantName> getMembers() {
