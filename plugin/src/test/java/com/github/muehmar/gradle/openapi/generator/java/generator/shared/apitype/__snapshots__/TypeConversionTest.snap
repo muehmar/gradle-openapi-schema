@@ -42,6 +42,20 @@ field != null ? Result.fromString(new ArrayList<>(field.asString())) : null
 ]
 
 
+nonImportableClassesUsed[NO_NULL_CHECK]=[
+.
+.
+SomeEnum.fromString(String.fromOtherString(value))
+]
+
+
+nonImportableClassesUsed[NULL_SAFE]=[
+.
+.
+value != null ? SomeEnum.fromString(String.fromOtherString(value)) : null
+]
+
+
 singleConstructorConversion[NO_NULL_CHECK]=[
 com.example.UserId
 

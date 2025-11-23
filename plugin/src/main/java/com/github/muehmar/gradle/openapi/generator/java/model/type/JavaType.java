@@ -227,9 +227,7 @@ public interface JavaType {
   }
 
   default PList<QualifiedClassName> getImports() {
-    return getAllQualifiedClassNames()
-        .filter(qualifiedClassName -> qualifiedClassName.getPackageName().isPresent())
-        .filter(qualifiedClassName -> not(qualifiedClassName.isJavaLangPackage()));
+    return getAllQualifiedClassNames().filter(QualifiedClassName::usedForImport);
   }
 
   default PList<String> getImportsAsString() {

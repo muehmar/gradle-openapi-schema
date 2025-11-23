@@ -288,6 +288,18 @@ public class JavaPojos {
     return arrayPojo(Constraints.empty());
   }
 
+  public static JavaArrayPojo arrayPojoWithEnumItem() {
+    final ArrayPojo arrayPojo =
+        ArrayPojo.of(
+            componentName("DirectionArray", "Dto"),
+            "Direction array",
+            NOT_NULLABLE,
+            EnumType.ofNameAndMembers(
+                Name.ofString("Direction"), PList.of("north", "east", "south", "west")),
+            Constraints.empty());
+    return JavaArrayPojo.wrap(arrayPojo, TypeMappings.empty());
+  }
+
   public static JavaPojo enumPojo() {
     final EnumPojo enumPojo =
         EnumPojo.of(

@@ -24,7 +24,7 @@ class TypeConversion {
         .appendConditionally(
             ((methods, settings, writer) -> writer.print("%s", conversion(methods, variableName))),
             method -> mode.equals(NO_NULL_CHECK))
-        .appendList(RefsGenerator.classNameRef(), TypeConversion::getConversionClassName);
+        .appendList(RefsGenerator.classNameRef(), TypeConversion::getConversionClassNameForImport);
   }
 
   private static String conversion(PList<ConversionMethod> conversionMethods, String variableName) {
@@ -53,17 +53,19 @@ class TypeConversion {
                 variableName));
   }
 
-  private static PList<QualifiedClassName> getConversionClassName(
+  private static PList<QualifiedClassName> getConversionClassNameForImport(
       PList<ConversionMethod> conversionMethods) {
-    return conversionMethods.flatMapOptional(
-        conversionMethod ->
-            conversionMethod.fold(
-                factoryMethodConversion -> Optional.of(factoryMethodConversion.getClassName()),
-                instanceMethodConversion -> Optional.empty(),
-                constructorConversion ->
-                    Optional.of(
-                        constructorConversion
-                            .getConstructorClassName()
-                            .orElse(constructorConversion.getReferenceClassName()))));
+    return conversionMethods
+        .flatMapOptional(
+            conversionMethod ->
+                conversionMethod.fold(
+                    factoryMethodConversion -> Optional.of(factoryMethodConversion.getClassName()),
+                    instanceMethodConversion -> Optional.empty(),
+                    constructorConversion ->
+                        Optional.of(
+                            constructorConversion
+                                .getConstructorClassName()
+                                .orElse(constructorConversion.getReferenceClassName()))))
+        .filter(QualifiedClassName::usedForImport);
   }
 }

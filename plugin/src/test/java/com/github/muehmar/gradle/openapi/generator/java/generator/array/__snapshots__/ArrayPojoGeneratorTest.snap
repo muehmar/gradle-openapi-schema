@@ -182,3 +182,231 @@ public class PosologyDto {
   }
 }
 ]
+
+
+arrayPojoWithEnumItem=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+/**
+ * Direction array
+ */
+public class DirectionArrayDto {
+  @JsonValue
+  private final List<String> items;
+
+  @JsonCreator
+  public DirectionArrayDto(
+      List<String> items
+    ) {
+    this.items = items;
+  }
+
+  public static DirectionArrayDto fromItems(List<Direction> items) {
+    return new DirectionArrayDto(
+        unmapList(
+            items,
+            Function.identity(),
+            Function.identity(),
+            Function.identity(),
+            i -> i.name()
+        )
+    );
+  }
+
+  public enum Direction {
+    NORTH("north", ""),
+    EAST("east", ""),
+    SOUTH("south", ""),
+    WEST("west", "");
+
+    private final String value;
+    private final String description;
+
+    Direction(String value, String description) {
+      this.value = value;
+      this.description = description;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    boolean isValid() {
+      return true;
+    }
+
+    @Override
+    public String toString() {
+      return value;
+    }
+
+    @JsonCreator
+    public static Direction fromValue(String value) {
+      for (Direction e: Direction.values()) {
+        if (e.value.equals(value)) {
+          return e;
+        }
+      }
+      final String possibleValues =
+        Stream.of(values()).map(Direction::getValue).collect(Collectors.joining(", "));
+      throw new IllegalArgumentException(
+        "Unexpected value '"
+          + value
+          + "' for Direction, possible values are ["
+          + possibleValues
+          + "]");
+    }
+  }
+
+  /**
+   * Direction array
+   */
+  @JsonIgnore
+  public List<Direction> getItems() {
+    return mapList(
+        items,
+        i -> Direction.valueOf(i),
+        Function.identity(),
+        Function.identity(),
+        Function.identity()
+    );
+  }
+
+  @JsonProperty("items")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<String> getItemsJson() {
+    return items;
+  }
+
+  @JsonIgnore
+  @NotNull
+  private List<@NotNull @Pattern(regexp="north|east|south|west") String> getItemsRaw() {
+    return items;
+  }
+
+  /**
+   * Direction array
+   */
+  public DirectionArrayDto withItems(List<Direction> items) {
+    return
+      new DirectionArrayDto(
+        unmapList(
+            items,
+            Function.identity(),
+            Function.identity(),
+            Function.identity(),
+            i -> i.name()
+        )
+      );
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isItemsValid() {
+      if(items != null) {
+        return items.stream().allMatch(this::isItemsValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isItemsValueValid(String itemsValue) {
+      if(itemsValue != null) {
+        return java.util.regex.Pattern.matches("north|east|south|west", itemsValue);
+      }
+
+      return false;
+    }
+
+    private boolean isValid() {
+      return isItemsValid();
+    }
+  }
+
+  private static <A, B, C, D, E> List<E> unmapList(
+      A list,
+      Function<A, B> unwrapList,
+      Function<B, List<C>> unmapListType,
+      Function<C, D> unwrapListItem,
+      Function<D, E> unmapListItemType) {
+    if (list == null) {
+      return null;
+    }
+
+    final B unwrappedList = unwrapList.apply(list);
+
+    if (unwrappedList == null) {
+      return null;
+    }
+
+    final List<C> unmappedListType = unmapListType.apply(unwrappedList);
+
+    if (unmappedListType == null) {
+      return null;
+    }
+
+    return unmappedListType.stream()
+        .map(i -> i != null ? unwrapListItem.apply(i) : null)
+        .map(i -> i != null ? unmapListItemType.apply(i) : null)
+        .collect(Collectors.toList());
+  }
+
+  private static <A, B, C, D, E> E mapList(
+      List<A> list,
+      Function<A, B> mapListItemType,
+      Function<B, C> wrapListItem,
+      Function<List<C>, D> mapListType,
+      Function<D, E> wrapListType) {
+    if (list == null) {
+      return wrapListType.apply(null);
+    }
+
+    final List<C> mappedListType =
+        list.stream()
+            .map(i -> i != null ? mapListItemType.apply(i) : null)
+            .map(wrapListItem)
+            .collect(Collectors.toList());
+
+    return wrapListType.apply(mapListType.apply(mappedListType));
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final DirectionArrayDto other = (DirectionArrayDto) obj;
+    return Objects.deepEquals(this.items, other.items);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      items
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "DirectionArrayDto{" +
+      "items=" + items +
+      "}";
+  }
+}
+]
