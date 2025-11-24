@@ -308,18 +308,21 @@ public class JavaPojoMember {
    * referenced via outer-class {@code javaPojoName}.
    */
   public JavaPojoMember asInnerEnumOf(JavaName javaPojoName) {
-    final JavaType newType =
-        javaType.fold(
-            arrayType -> arrayType,
-            booleanType -> booleanType,
-            enumType -> enumType.asInnerClassOf(javaPojoName),
-            mapType -> mapType,
-            noType -> noType,
-            numericType -> numericType,
-            integerType -> integerType,
-            objectType -> objectType,
-            stringType -> stringType);
+    final JavaType newType = asInnerEnumOf(javaType, javaPojoName);
     return new JavaPojoMember(pojoName, name, description, newType, necessity, type, memberXml);
+  }
+
+  private static JavaType asInnerEnumOf(JavaType javaType, JavaName javaPojoName) {
+    return javaType.fold(
+        arrayType -> arrayType.withItemType(asInnerEnumOf(arrayType.getItemType(), javaPojoName)),
+        booleanType -> booleanType,
+        enumType -> enumType.asInnerClassOf(javaPojoName),
+        mapType -> mapType.withValue(asInnerEnumOf(mapType.getValue(), javaPojoName)),
+        noType -> noType,
+        numericType -> numericType,
+        integerType -> integerType,
+        objectType -> objectType,
+        stringType -> stringType);
   }
 
   public enum MemberType {
