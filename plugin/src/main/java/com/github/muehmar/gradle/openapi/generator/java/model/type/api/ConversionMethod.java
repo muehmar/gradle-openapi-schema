@@ -45,4 +45,18 @@ public class ConversionMethod {
       Function<ConstructorConversion, T> onConstructor) {
     return method.fold(onFactoryMethod, onInstanceMethod, onConstructor);
   }
+
+  public ConversionMethod replaceClassName(
+      QualifiedClassName currentClassName, QualifiedClassName newClassName) {
+    return fold(
+        factoryMethod ->
+            ConversionMethod.ofFactoryMethod(
+                factoryMethod.replaceClassName(currentClassName, newClassName)),
+        instanceMethod ->
+            ConversionMethod.ofInstanceMethod(
+                instanceMethod.replaceClassName(currentClassName, newClassName)),
+        constructor ->
+            ConversionMethod.ofConstructor(
+                constructor.replaceClassName(currentClassName, newClassName)));
+  }
 }

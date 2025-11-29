@@ -121,4 +121,9 @@ public class QualifiedClassName {
     return new QualifiedClassName(
         pkg, Name.ofString(outerClassName.asString()).append(".").append(name));
   }
+
+  public QualifiedClassName replaceIfEquals(
+      QualifiedClassName currentClassName, QualifiedClassName newClassName) {
+    return this.equals(currentClassName) ? newClassName : this;
+  }
 }

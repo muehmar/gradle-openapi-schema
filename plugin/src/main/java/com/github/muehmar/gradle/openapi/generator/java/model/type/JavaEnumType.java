@@ -3,14 +3,10 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.ParameterizedApiClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ConversionMethod;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.api.FactoryMethodConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.PluginApiType;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ToApiTypeConversion;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.TypeMapping;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
@@ -111,38 +107,8 @@ public class JavaEnumType extends NonGenericJavaType {
 
     final QualifiedClassName newEnumClassName = enumClassName.asInnerClassOf(outerClassName);
 
-    final Function<PluginApiType, PluginApiType> updatePluginApiType =
-        pluginApiType -> {
-          final ToApiTypeConversion newToApiTypeConversion =
-              pluginApiType
-                  .getToApiTypeConversion()
-                  .fold(
-                      factoryMethod ->
-                          new ToApiTypeConversion(
-                              ConversionMethod.ofFactoryMethod(
-                                  new FactoryMethodConversion(
-                                      newEnumClassName, factoryMethod.getMethodName()))),
-                      instanceMethod ->
-                          new ToApiTypeConversion(
-                              ConversionMethod.ofInstanceMethod(instanceMethod)),
-                      constructor ->
-                          new ToApiTypeConversion(ConversionMethod.ofConstructor(constructor)));
-
-          return new PluginApiType(
-              newEnumClassName,
-              ParameterizedApiClassName.ofClassNameAndGenerics(newEnumClassName),
-              newToApiTypeConversion,
-              pluginApiType.getFromApiTypeConversion());
-        };
-
     final Optional<ApiType> newApiType =
-        apiType.map(
-            api ->
-                api.fold(
-                    pluginType -> ApiType.ofPluginType(updatePluginApiType.apply(pluginType)),
-                    ApiType::ofUserDefinedType,
-                    (pluginType, userType) ->
-                        ApiType.of(userType, Optional.of(updatePluginApiType.apply(pluginType)))));
+        apiType.map(api -> api.replaceClassName(enumClassName, newEnumClassName));
 
     return new JavaEnumType(
         newClassName, newApiType, newEnumClassName, members, getNullability(), constraints);

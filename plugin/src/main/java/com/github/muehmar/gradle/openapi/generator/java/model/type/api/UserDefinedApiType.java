@@ -26,4 +26,13 @@ public class UserDefinedApiType {
     return new UserDefinedApiType(
         className, parameterizedClassName, toApiTypeConversion, fromApiTypeConversion);
   }
+
+  public UserDefinedApiType replaceClassName(
+      QualifiedClassName currentClassName, QualifiedClassName newClassName) {
+    return new UserDefinedApiType(
+        className.replaceIfEquals(currentClassName, newClassName),
+        parameterizedClassName.replaceClassName(currentClassName, newClassName),
+        toApiTypeConversion.replaceClassName(currentClassName, newClassName),
+        fromApiTypeConversion.replaceClassName(currentClassName, newClassName));
+  }
 }

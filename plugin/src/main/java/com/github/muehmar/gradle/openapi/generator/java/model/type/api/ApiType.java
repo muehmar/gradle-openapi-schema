@@ -64,6 +64,20 @@ public class ApiType {
                 userDefinedType.getFromApiTypeConversion(), pluginType.getFromApiTypeConversion()));
   }
 
+  public ApiType replaceClassName(
+      QualifiedClassName currentClassName, QualifiedClassName newClassName) {
+    return fold(
+        pluginType ->
+            ApiType.ofPluginType(pluginType.replaceClassName(currentClassName, newClassName)),
+        userDefinedType ->
+            ApiType.ofUserDefinedType(
+                userDefinedType.replaceClassName(currentClassName, newClassName)),
+        (pluginType, userDefinedType) ->
+            ApiType.of(
+                userDefinedType.replaceClassName(currentClassName, newClassName),
+                Optional.of(pluginType.replaceClassName(currentClassName, newClassName))));
+  }
+
   public <T> T fold(
       Function<PluginApiType, T> onPluginType,
       Function<UserDefinedApiType, T> onUserDefinedType,

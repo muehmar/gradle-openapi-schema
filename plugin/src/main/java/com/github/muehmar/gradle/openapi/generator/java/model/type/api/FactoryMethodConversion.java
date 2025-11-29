@@ -36,6 +36,12 @@ public class FactoryMethodConversion {
     }
   }
 
+  public FactoryMethodConversion replaceClassName(
+      QualifiedClassName currentClassName, QualifiedClassName newClassName) {
+    return new FactoryMethodConversion(
+        className.replaceIfEquals(currentClassName, newClassName), methodName);
+  }
+
   private static OpenApiGeneratorException createInvalidFormatException(
       String factoryMethodConversion) {
     return new OpenApiGeneratorException(

@@ -39,4 +39,13 @@ public class PluginApiType {
         new FromApiTypeConversion(
             ConversionMethod.ofInstanceMethod(InstanceMethodConversion.ofString("name"))));
   }
+
+  public PluginApiType replaceClassName(
+      QualifiedClassName currentClassName, QualifiedClassName newClassName) {
+    return new PluginApiType(
+        className.replaceIfEquals(currentClassName, newClassName),
+        parameterizedClassName.replaceClassName(currentClassName, newClassName),
+        toApiTypeConversion.replaceClassName(currentClassName, newClassName),
+        fromApiTypeConversion.replaceClassName(currentClassName, newClassName));
+  }
 }

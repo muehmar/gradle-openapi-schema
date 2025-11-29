@@ -20,4 +20,12 @@ public class ConstructorConversion {
     return new ConstructorConversion(
         QualifiedClassNames.LIST, Optional.of(QualifiedClassNames.ARRAY_LIST), true);
   }
+
+  public ConstructorConversion replaceClassName(
+      QualifiedClassName currentClassName, QualifiedClassName newClassName) {
+    return new ConstructorConversion(
+        referenceClassName.replaceIfEquals(currentClassName, newClassName),
+        constructorClassName.map(cc -> cc.replaceIfEquals(currentClassName, newClassName)),
+        isGenericClass);
+  }
 }

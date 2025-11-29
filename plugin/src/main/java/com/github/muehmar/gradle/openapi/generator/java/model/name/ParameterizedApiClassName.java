@@ -136,6 +136,14 @@ public class ParameterizedApiClassName implements WriteableParameterizedClassNam
     return asString();
   }
 
+  public ParameterizedApiClassName replaceClassName(
+      QualifiedClassName currentClassName, QualifiedClassName newClassName) {
+    return new ParameterizedApiClassName(
+        qualifiedClassName.replaceIfEquals(currentClassName, newClassName),
+        genericTypes.map(gc -> gc.replaceIfEquals(currentClassName, newClassName)),
+        genericValueType);
+  }
+
   public enum RenderOption {
     DEFAULT,
     WRAPPING_NULLABLE_VALUE_TYPE

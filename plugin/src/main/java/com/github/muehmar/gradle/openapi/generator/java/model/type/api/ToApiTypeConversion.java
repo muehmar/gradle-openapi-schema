@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type.api;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import java.util.function.Function;
 import lombok.Value;
 
@@ -16,5 +17,11 @@ public class ToApiTypeConversion {
       Function<InstanceMethodConversion, T> onInstanceMethod,
       Function<ConstructorConversion, T> onConstructor) {
     return conversionMethod.fold(onFactoryMethod, onInstanceMethod, onConstructor);
+  }
+
+  public ToApiTypeConversion replaceClassName(
+      QualifiedClassName currentClassName, QualifiedClassName newClassName) {
+    return new ToApiTypeConversion(
+        conversionMethod.replaceClassName(currentClassName, newClassName));
   }
 }
