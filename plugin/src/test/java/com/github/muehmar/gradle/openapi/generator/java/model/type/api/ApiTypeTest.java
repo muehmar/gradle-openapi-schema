@@ -245,4 +245,63 @@ class ApiTypeTest {
         parameterizedClassName,
         "When both types present, user-defined parameterizedClassName should be returned");
   }
+
+  @Test
+  void replaceClassName_when_pluginTypeOnly_then_replacesPluginClassName() {
+    final QualifiedClassName enumClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.DataEnum");
+    final PluginApiType pluginApiType = PluginApiType.useEnumAsApiType(enumClassName);
+    final ApiType apiType = ApiType.ofPluginType(pluginApiType);
+    final QualifiedClassName newEnumClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.Dto.DataEnum");
+
+    final ApiType result = apiType.replaceClassName(enumClassName, newEnumClassName);
+
+    assertEquals(newEnumClassName, result.getClassName());
+  }
+
+  @Test
+  void replaceClassName_when_userDefinedTypeOnly_then_replacesUserDefinedClassName() {
+    final QualifiedClassName userClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.CustomType");
+    final UserDefinedApiType userDefinedApiType =
+        new UserDefinedApiType(
+            userClassName,
+            ParameterizedApiClassName.ofClassNameAndGenerics(userClassName),
+            new ToApiTypeConversion(
+                ConversionMethod.ofFactoryMethod(
+                    new FactoryMethodConversion(userClassName, Name.ofString("of")))),
+            new FromApiTypeConversion(
+                ConversionMethod.ofInstanceMethod(InstanceMethodConversion.ofString("toString"))));
+    final ApiType apiType = ApiType.ofUserDefinedType(userDefinedApiType);
+    final QualifiedClassName newClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.Dto.CustomType");
+
+    final ApiType result = apiType.replaceClassName(userClassName, newClassName);
+
+    assertEquals(newClassName, result.getClassName());
+  }
+
+  @Test
+  void replaceClassName_when_bothTypes_then_replacesBothClassNames() {
+    final QualifiedClassName enumClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.DataEnum");
+    final PluginApiType pluginApiType = PluginApiType.useEnumAsApiType(enumClassName);
+    final UserDefinedApiType userDefinedApiType =
+        new UserDefinedApiType(
+            enumClassName,
+            ParameterizedApiClassName.ofClassNameAndGenerics(enumClassName),
+            new ToApiTypeConversion(
+                ConversionMethod.ofFactoryMethod(
+                    new FactoryMethodConversion(enumClassName, Name.ofString("fromString")))),
+            new FromApiTypeConversion(
+                ConversionMethod.ofInstanceMethod(InstanceMethodConversion.ofString("toString"))));
+    final ApiType apiType = ApiType.of(userDefinedApiType, Optional.of(pluginApiType));
+    final QualifiedClassName newEnumClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.Dto.DataEnum");
+
+    final ApiType result = apiType.replaceClassName(enumClassName, newEnumClassName);
+
+    assertEquals(newEnumClassName, result.getClassName());
+  }
 }

@@ -68,4 +68,38 @@ class FactoryMethodConversionTest {
 
     assertEquals(Optional.empty(), factoryMethodConversion);
   }
+
+  @Test
+  void replaceClassName_when_classNameMatches_then_replacedWithNewClassName() {
+    final QualifiedClassName currentClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.DataEnum");
+    final QualifiedClassName newClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.Dto.DataEnum");
+    final FactoryMethodConversion conversion =
+        new FactoryMethodConversion(currentClassName, Name.ofString("valueOf"));
+
+    final FactoryMethodConversion result =
+        conversion.replaceClassName(currentClassName, newClassName);
+
+    assertEquals(newClassName, result.getClassName());
+    assertEquals(Name.ofString("valueOf"), result.getMethodName());
+  }
+
+  @Test
+  void replaceClassName_when_classNameDoesNotMatch_then_classNameUnchanged() {
+    final QualifiedClassName currentClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.DataEnum");
+    final QualifiedClassName differentClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.OtherEnum");
+    final QualifiedClassName newClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.Dto.DataEnum");
+    final FactoryMethodConversion conversion =
+        new FactoryMethodConversion(differentClassName, Name.ofString("valueOf"));
+
+    final FactoryMethodConversion result =
+        conversion.replaceClassName(currentClassName, newClassName);
+
+    assertEquals(differentClassName, result.getClassName());
+    assertEquals(Name.ofString("valueOf"), result.getMethodName());
+  }
 }

@@ -129,4 +129,36 @@ class ParameterizedApiClassNameTest {
         Optional.of("CustomString"),
         parameterizedApiClassName.map(ParameterizedApiClassName::asString));
   }
+
+  @Test
+  void replaceClassName_when_classNameMatches_then_replacedWithNewClassName() {
+    final QualifiedClassName currentClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.DataEnum");
+    final QualifiedClassName newClassName =
+        QualifiedClassName.ofName("InlineEnumArrayDto.DataEnum");
+    final ParameterizedApiClassName parameterizedClassName =
+        ParameterizedApiClassName.ofClassNameAndGenerics(currentClassName);
+
+    final ParameterizedApiClassName result =
+        parameterizedClassName.replaceClassName(currentClassName, newClassName);
+
+    assertEquals("InlineEnumArrayDto.DataEnum", result.asString());
+  }
+
+  @Test
+  void replaceClassName_when_classNameInGenerics_then_genericsReplaced() {
+    final QualifiedClassName listClassName = QualifiedClassNames.LIST;
+    final QualifiedClassName currentEnumClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.DataEnum");
+    final QualifiedClassName newEnumClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.Dto.DataEnum");
+    final ParameterizedApiClassName parameterizedClassName =
+        ParameterizedApiClassName.ofClassNameAndGenerics(
+            listClassName, ch.bluecare.commons.data.PList.single(JavaTypes.stringType()));
+
+    final ParameterizedApiClassName result =
+        parameterizedClassName.replaceClassName(currentEnumClassName, newEnumClassName);
+
+    assertEquals("List<String>", result.asString());
+  }
 }

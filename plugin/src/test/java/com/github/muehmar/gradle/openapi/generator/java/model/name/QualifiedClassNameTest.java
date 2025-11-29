@@ -123,4 +123,34 @@ class QualifiedClassNameTest {
     final QualifiedClassName className = QualifiedClassName.ofQualifiedClassName(qualifiedName);
     assertEquals(expected, className.usedForImport());
   }
+
+  @Test
+  void replaceIfEquals_when_classNameMatches_then_replacedWithNewClassName() {
+    final QualifiedClassName currentClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.DataEnum");
+    final QualifiedClassName newClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.Dto.DataEnum");
+
+    final QualifiedClassName result =
+        currentClassName.replaceIfEquals(currentClassName, newClassName);
+
+    assertEquals(newClassName, result);
+    assertEquals("com.example.Dto.DataEnum", result.asString());
+  }
+
+  @Test
+  void replaceIfEquals_when_classNameDoesNotMatch_then_returnsOriginalClassName() {
+    final QualifiedClassName originalClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.OtherEnum");
+    final QualifiedClassName currentClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.DataEnum");
+    final QualifiedClassName newClassName =
+        QualifiedClassName.ofQualifiedClassName("com.example.Dto.DataEnum");
+
+    final QualifiedClassName result =
+        originalClassName.replaceIfEquals(currentClassName, newClassName);
+
+    assertEquals(originalClassName, result);
+    assertEquals("OtherEnum", result.getClassName().asString());
+  }
 }
