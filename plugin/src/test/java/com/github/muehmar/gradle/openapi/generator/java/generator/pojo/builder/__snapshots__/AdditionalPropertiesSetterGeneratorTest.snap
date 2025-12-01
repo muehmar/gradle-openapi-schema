@@ -32,9 +32,14 @@ com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
 java.util.Map
 
-@JsonAnySetter
 public Builder addAdditionalProperty(String key, CustomString value) {
   this.additionalProperties.put(key, value != null ? CustomString.toString(value) : null);
+  return this;
+}
+
+@JsonAnySetter
+private Builder addAdditionalProperty(String key, String value) {
+  this.additionalProperties.put(key, value);
   return this;
 }
 
@@ -112,9 +117,14 @@ java.util.HashMap
 java.util.Map
 java.util.Optional
 
-@JsonAnySetter
 public Builder addAdditionalProperty(String key, CustomString value) {
   this.additionalProperties.put(key, value != null ? CustomString.toString(value) : null);
+  return this;
+}
+
+@JsonAnySetter
+private Builder addAdditionalProperty(String key, String value) {
+  this.additionalProperties.put(key, value);
   return this;
 }
 
