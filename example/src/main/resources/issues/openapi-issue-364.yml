@@ -1,0 +1,32 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+
+    TypeMappedAdditionalProperties:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+      additionalProperties:
+        type: string
+        minLength: 3
+        maxLength: 20
+
+    TypeMappedAdditionalPropertiesWithNullable:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+        nullable: true
+        minLength: 2
+        maxLength: 15
