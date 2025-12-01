@@ -34,7 +34,9 @@ class AdditionalPropertiesSetterGenerator {
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> additionalPropertiesSetters() {
-    return singleAdditionalPropertiesSetter()
+    return singleAdditionalPropertiesSetter(SingleAdditionPropertySetterType.API)
+        .appendSingleBlankLine()
+        .append(singleAdditionalPropertiesSetter(SingleAdditionPropertySetterType.JSON))
         .appendSingleBlankLine()
         .append(singleOptionalAdditionalPropertiesSetter())
         .appendSingleBlankLine()
@@ -43,13 +45,11 @@ class AdditionalPropertiesSetterGenerator {
         .append(allAdditionalPropertiesSetter());
   }
 
-  private static Generator<JavaAdditionalProperties, PojoSettings>
-      singleAdditionalPropertiesSetter() {
+  private static Generator<JavaAdditionalProperties, PojoSettings> singleAdditionalPropertiesSetter(
+      SingleAdditionPropertySetterType type) {
     final Generator<JavaAdditionalProperties, PojoSettings> method =
         MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
-            .modifiers(
-                AdditionalPropertiesSetterGenerator
-                    ::createModifiersForSingleAdditionalPropertiesSetter)
+            .modifiers(props -> createModifiersForSingleAdditionalPropertiesSetter(props, type))
             .noGenericTypes()
             .returnType("Builder")
             .methodName("addAdditionalProperty")
@@ -57,31 +57,40 @@ class AdditionalPropertiesSetterGenerator {
                 props ->
                     PList.of(
                         new Argument("String", "key"),
-                        new Argument(parameterizedClassName(props), "value")))
+                        new Argument(parameterizedClassName(props, type), "value")))
             .doesNotThrow()
             .content(
                 (props, s, w) ->
                     w.println(
                             "this.%s.put(key, %s);",
                             additionalPropertiesName(),
-                            nullSafeApiTypeConversionOrValue(props, "value"))
+                            nullSafeApiTypeConversionOrValue(props, type, "value"))
                         .println("return this;"))
             .build()
             .append(RefsGenerator.javaTypeRefs(), JavaAdditionalProperties::getType);
-    return JacksonAnnotationGenerator.<JavaAdditionalProperties>jsonAnySetter().append(method);
+    return JacksonAnnotationGenerator.<JavaAdditionalProperties>jsonAnySetter()
+        .filter(
+            props ->
+                type == AdditionalPropertiesSetterGenerator.SingleAdditionPropertySetterType.JSON
+                    || props.getType().hasNoApiTypeDeep())
+        .append(method)
+        .filter(
+            props ->
+                props.getType().hasApiTypeDeep() || type == SingleAdditionPropertySetterType.API);
   }
 
   private static JavaModifiers createModifiersForSingleAdditionalPropertiesSetter(
-      JavaAdditionalProperties props) {
+      JavaAdditionalProperties props, SingleAdditionPropertySetterType type) {
     final boolean privateMethod = not(props.isAllowed());
-    return JavaModifiers.of(privateMethod ? PRIVATE : PUBLIC);
+    final boolean isJsonAnySetter = type == SingleAdditionPropertySetterType.JSON;
+    return JavaModifiers.of((privateMethod || isJsonAnySetter) ? PRIVATE : PUBLIC);
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings>
       singleOptionalAdditionalPropertiesSetter() {
+    final SingleAdditionPropertySetterType setterType = SingleAdditionPropertySetterType.API;
     return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
-        .modifiers(
-            AdditionalPropertiesSetterGenerator::createModifiersForSingleAdditionalPropertiesSetter)
+        .modifiers(props -> createModifiersForSingleAdditionalPropertiesSetter(props, setterType))
         .noGenericTypes()
         .returnType("Builder")
         .methodName("addAdditionalProperty")
@@ -89,7 +98,8 @@ class AdditionalPropertiesSetterGenerator {
             props ->
                 PList.of(
                     new Argument("String", "key"),
-                    new Argument("Optional<" + parameterizedClassName(props) + ">", "value")))
+                    new Argument(
+                        "Optional<" + parameterizedClassName(props, setterType) + ">", "value")))
         .doesNotThrow()
         .content(singleOptionalAdditionalPropertiesSetterContent())
         .build()
@@ -111,9 +121,9 @@ class AdditionalPropertiesSetterGenerator {
 
   private static Generator<JavaAdditionalProperties, PojoSettings>
       singleTristateAdditionalPropertiesSetter() {
+    final SingleAdditionPropertySetterType setterType = SingleAdditionPropertySetterType.API;
     return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
-        .modifiers(
-            AdditionalPropertiesSetterGenerator::createModifiersForSingleAdditionalPropertiesSetter)
+        .modifiers(props -> createModifiersForSingleAdditionalPropertiesSetter(props, setterType))
         .noGenericTypes()
         .returnType("Builder")
         .methodName("addAdditionalProperty")
@@ -121,7 +131,8 @@ class AdditionalPropertiesSetterGenerator {
             props ->
                 PList.of(
                     new Argument("String", "key"),
-                    new Argument("Tristate<" + parameterizedClassName(props) + ">", "value")))
+                    new Argument(
+                        "Tristate<" + parameterizedClassName(props, setterType) + ">", "value")))
         .doesNotThrow()
         .content(singleTristateAdditionalPropertiesSetterContent())
         .build()
@@ -146,6 +157,7 @@ class AdditionalPropertiesSetterGenerator {
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> allAdditionalPropertiesSetter() {
+    final SingleAdditionPropertySetterType setterType = SingleAdditionPropertySetterType.API;
     return MethodGenBuilder.<JavaAdditionalProperties, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
@@ -154,7 +166,7 @@ class AdditionalPropertiesSetterGenerator {
         .singleArgument(
             props ->
                 argument(
-                    "Map<String, " + parameterizedClassName(props) + ">",
+                    "Map<String, " + parameterizedClassName(props, setterType) + ">",
                     additionalPropertiesName()))
         .doesNotThrow()
         .content(allAdditionalPropertiesSetterContent())
@@ -193,13 +205,17 @@ class AdditionalPropertiesSetterGenerator {
                     "%s.forEach((key, val) -> this.%s.put(key, %s));",
                     additionalPropertiesName(),
                     additionalPropertiesName(),
-                    nullSafeApiTypeConversionOrValue(props, "val")))
+                    nullSafeApiTypeConversionOrValue(
+                        props, SingleAdditionPropertySetterType.API, "val")))
         .append(constant("return this;"))
         .filter(props -> props.getType().hasApiTypeDeep());
   }
 
   private static String nullSafeApiTypeConversionOrValue(
-      JavaAdditionalProperties props, String valueName) {
+      JavaAdditionalProperties props, SingleAdditionPropertySetterType type, String valueName) {
+    if (type == SingleAdditionPropertySetterType.JSON) {
+      return valueName;
+    }
     return props
         .getType()
         .getApiType()
@@ -223,7 +239,17 @@ class AdditionalPropertiesSetterGenerator {
         .orElse(valueName);
   }
 
-  private static String parameterizedClassName(JavaAdditionalProperties props) {
-    return props.getType().getWriteableParameterizedClassName().asString();
+  private static String parameterizedClassName(
+      JavaAdditionalProperties props, SingleAdditionPropertySetterType type) {
+    if (type == SingleAdditionPropertySetterType.API) {
+      return props.getType().getWriteableParameterizedClassName().asString();
+    } else {
+      return props.getType().getParameterizedClassName().asString();
+    }
+  }
+
+  private enum SingleAdditionPropertySetterType {
+    API,
+    JSON
   }
 }
