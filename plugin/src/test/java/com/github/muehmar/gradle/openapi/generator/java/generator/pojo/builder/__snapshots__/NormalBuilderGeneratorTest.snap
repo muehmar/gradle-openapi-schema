@@ -2,13 +2,13 @@ allNecessityAndNullabilityVariants=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
 java.util.List
 java.util.Map
 java.util.Optional
 java.util.function.Function
+tools.jackson.databind.annotation.JsonPOJOBuilder
 
 @JsonPOJOBuilder(withPrefix = "set")
 public static final class Builder {
@@ -1272,13 +1272,13 @@ allNecessityAndNullabilityVariantsDisabledStagedBuilder=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
 java.util.List
 java.util.Map
 java.util.Optional
 java.util.function.Function
+tools.jackson.databind.annotation.JsonPOJOBuilder
 
 public static Builder newBuilder() {
   return new Builder();
@@ -1982,11 +1982,11 @@ public static final class Builder {
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGeneratorTest.generate_when_additionalPropertyTypeIsList_then_containsListInRefs=[
 com.fasterxml.jackson.annotation.JsonAnySetter
-com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 java.util.HashMap
 java.util.List
 java.util.Map
 java.util.Optional
+tools.jackson.databind.annotation.JsonPOJOBuilder
 
 @JsonPOJOBuilder(withPrefix = "set")
 public static final class Builder {
@@ -2023,11 +2023,11 @@ nestedRequiredAdditionalPropertiesInAllOfSubPojos=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
 java.time.LocalDate
 java.util.HashMap
 java.util.Map
+tools.jackson.databind.annotation.JsonPOJOBuilder
 
 @JsonPOJOBuilder(withPrefix = "set")
 public static final class Builder {
@@ -2170,11 +2170,11 @@ oneOfPojo=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder
 com.github.muehmar.openapi.util.Tristate
 java.time.LocalDate
 java.util.HashMap
 java.util.Map
+tools.jackson.databind.annotation.JsonPOJOBuilder
 
 @JsonPOJOBuilder(withPrefix = "set")
 public static final class Builder {

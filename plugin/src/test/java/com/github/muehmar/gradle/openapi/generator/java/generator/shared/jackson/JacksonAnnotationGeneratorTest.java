@@ -198,7 +198,8 @@ class JacksonAnnotationGeneratorTest {
     final Writer writer = generator.generate(noData(), defaultTestSettings(), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_POJO_BUILDER::equals));
+    assertTrue(
+        writer.getRefs().exists("tools.jackson.databind.annotation.JsonPOJOBuilder"::equals));
     assertEquals("@JsonPOJOBuilder(withPrefix = \"set\")", writer.asString());
   }
 
@@ -227,7 +228,10 @@ class JacksonAnnotationGeneratorTest {
             javaWriter());
 
     assertEquals(1, writer.getRefs().size());
-    assertTrue(writer.getRefs().exists(JacksonRefs.JACKSON_XML_ROOT_ELEMENT::equals));
+    assertTrue(
+        writer
+            .getRefs()
+            .exists("tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement"::equals));
     assertEquals("@JacksonXmlRootElement(localName = \"root-name\")", writer.asString());
   }
 
@@ -333,7 +337,10 @@ class JacksonAnnotationGeneratorTest {
             member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
-    assertTrue(writer.getRefs().exists(JacksonRefs.JACKSON_XML_PROPERTY::equals));
+    assertTrue(
+        writer
+            .getRefs()
+            .exists("tools.jackson.dataformat.xml.annotation.JacksonXmlProperty"::equals));
     assertEquals(expectedOutput, writer.asString());
   }
 
@@ -414,7 +421,10 @@ class JacksonAnnotationGeneratorTest {
             member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
-    assertTrue(writer.getRefs().exists(JacksonRefs.JACKSON_XML_ELEMENT_WRAPPER::equals));
+    assertTrue(
+        writer
+            .getRefs()
+            .exists("tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper"::equals));
     assertEquals(expectedOutput, writer.asString());
   }
 

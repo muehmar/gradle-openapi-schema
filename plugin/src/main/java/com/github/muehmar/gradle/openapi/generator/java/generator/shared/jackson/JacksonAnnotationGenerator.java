@@ -85,7 +85,7 @@ public class JacksonAnnotationGenerator {
         prefix.map(p -> String.format("(withPrefix = \"%s\")", p)).orElse("");
     return Generator.<A, PojoSettings>emptyGen()
         .append(w -> w.println("@JsonPOJOBuilder%s", prefixString))
-        .append(w -> w.ref(JacksonRefs.JSON_POJO_BUILDER))
+        .append(JacksonRefs.jsonPojoBuilderRef())
         .filter(isJacksonJson());
   }
 
@@ -98,7 +98,7 @@ public class JacksonAnnotationGenerator {
         .append(
             (pojo, settings, writer) ->
                 writer.println("@JsonDeserialize(builder = %s.Builder.class)", pojo.getClassName()))
-        .append(w -> w.ref(JacksonRefs.JSON_DESERIALIZE))
+        .append(JacksonRefs.jsonDeserializeRef())
         .filter(isJacksonJson());
   }
 
@@ -108,7 +108,7 @@ public class JacksonAnnotationGenerator {
             (member, settings, writer) ->
                 writer.println(
                     "@JsonDeserialize(using = %s.class)", ZONED_DATE_TIME_DESERIALIZER_CLASSNAME))
-        .append(w -> w.ref(JacksonRefs.JSON_DESERIALIZE))
+        .append(JacksonRefs.jsonDeserializeRef())
         .append(w -> w.ref(OpenApiUtilRefs.ZONED_DATE_TIME_DESERIALIZER))
         .filter(
             member ->
@@ -131,9 +131,9 @@ public class JacksonAnnotationGenerator {
                   PList.of(Optional.of(name).map(n -> String.format("localName = \"%s\"", n)))
                       .flatMapOptional(Function.identity())
                       .mkString(", ");
-              return w.println("@JacksonXmlRootElement(%s)", annotationValues)
-                  .ref(JacksonRefs.JACKSON_XML_ROOT_ELEMENT);
+              return w.println("@JacksonXmlRootElement(%s)", annotationValues);
             })
+        .append(JacksonRefs.xmlRootElementRef())
         .filter(isJacksonXml());
   }
 
@@ -170,7 +170,7 @@ public class JacksonAnnotationGenerator {
                   .map(
                       values ->
                           w.println("@JacksonXmlProperty(%s)", values.toPList().mkString(", "))
-                              .ref(JacksonRefs.JACKSON_XML_PROPERTY))
+                              .ref(JacksonRefs.xmlPropertyRef(s)))
                   .orElse(w);
             },
             m -> m.getMemberXml().hasDefinition())
@@ -194,7 +194,7 @@ public class JacksonAnnotationGenerator {
                         .flatMapOptional(Function.identity())
                         .mkString(", ");
                 return w.println("@JacksonXmlElementWrapper(%s)", annotationValues)
-                    .ref(JacksonRefs.JACKSON_XML_ELEMENT_WRAPPER);
+                    .ref(JacksonRefs.xmlElementWrapperRef(s));
               } else {
                 return w;
               }

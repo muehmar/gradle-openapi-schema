@@ -1,9 +1,9 @@
 arrayWithXmlDefinitions[NO_JAVA_DOC]=[
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 java.util.List
 javax.validation.constraints.NotNull
+tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
+tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
 @NotNull
 @JsonProperty("listVal")
@@ -33,9 +33,9 @@ public List<@NotNull String> getListVal() {
 
 arrayWithXmlDefinitions[NO_VALIDATION]=[
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 java.util.List
+tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
+tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
 /**
  * List
@@ -51,10 +51,10 @@ public List<String> getListVal() {
 
 arrayWithXmlDefinitions[PACKAGE_PRIVATE]=[
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 java.util.List
 javax.validation.constraints.NotNull
+tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
+tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
 /**
  * List
@@ -71,10 +71,10 @@ List<@NotNull String> getListVal() {
 
 arrayWithXmlDefinitions[]=[
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 java.util.List
 javax.validation.constraints.NotNull
+tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
+tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
 /**
  * List
@@ -184,9 +184,9 @@ public CustomString getStringVal() {
 
 requiredString[NO_JAVA_DOC]=[
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
+tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
 @NotNull
 @Pattern(regexp="Hello")
@@ -217,7 +217,7 @@ public String getStringVal() {
 
 requiredString[NO_VALIDATION]=[
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
 /**
  * stringVal
@@ -232,9 +232,9 @@ public String getStringVal() {
 
 requiredString[PACKAGE_PRIVATE]=[
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
+tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
 /**
  * stringVal
@@ -251,9 +251,9 @@ String getStringVal() {
 
 requiredString[]=[
 com.fasterxml.jackson.annotation.JsonProperty
-com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
+tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
 /**
  * stringVal
