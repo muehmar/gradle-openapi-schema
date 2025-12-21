@@ -42,11 +42,11 @@ public class PojoSettings implements Serializable {
   TaskIdentifier taskIdentifier;
 
   public boolean isJacksonJson() {
-    return jsonSupport.equals(JsonSupport.JACKSON) || isJacksonXml();
+    return jsonSupport.getGroup().equals(JsonSupportGroup.JACKSON) || isJacksonXml();
   }
 
   public boolean isJacksonXml() {
-    return xmlSupport.equals(XmlSupport.JACKSON);
+    return xmlSupport.getGroup().equals(XmlSupportGroup.JACKSON);
   }
 
   public boolean isEnableValidation() {

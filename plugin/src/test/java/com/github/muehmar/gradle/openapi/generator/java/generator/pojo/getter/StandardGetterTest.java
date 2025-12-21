@@ -55,7 +55,7 @@ class StandardGetterTest {
                 .withMemberXml(
                     new JavaPojoMemberXml(
                         Optional.of("xml-name"), Optional.of(true), Optional.empty())),
-            defaultTestSettings().withXmlSupport(XmlSupport.JACKSON),
+            defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3),
             javaWriter());
 
     expect
@@ -86,7 +86,7 @@ class StandardGetterTest {
     final Writer writer;
     writer =
         generator.generate(
-            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3), javaWriter());
 
     expect
         .scenario(generatorSettings.getSettings().mkString("|"))
