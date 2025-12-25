@@ -4,6 +4,7 @@ public class JavaRefs {
   private JavaRefs() {}
 
   public static final String JAVA_TIME_LOCAL_DATE = "java.time.LocalDate";
+  public static final String JAVA_TIME_ZONED_DATE_TIME = "java.time.ZonedDateTime";
 
   public static final String JAVA_UTIL_OBJECTS = "java.util.Objects";
   public static final String JAVA_UTIL_ARRAYS = "java.util.Arrays";
@@ -29,4 +30,6 @@ public class JavaRefs {
   public static final String JAVA_UTIL_STREAM_STREAM = "java.util.stream.Stream";
 
   public static final String JAVA_MATH_BIG_DECIMAL = "java.math.BigDecimal";
+
+  public static final String JAVA_IO_IOEXCEPTION = "java.io.IOException";
 }

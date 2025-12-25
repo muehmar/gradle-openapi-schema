@@ -85,7 +85,7 @@ public class JacksonAnnotationGenerator {
         prefix.map(p -> String.format("(withPrefix = \"%s\")", p)).orElse("");
     return Generator.<A, PojoSettings>emptyGen()
         .append(w -> w.println("@JsonPOJOBuilder%s", prefixString))
-        .append(JacksonRefs.jsonPojoBuilderRef())
+        .append(JacksonRefs.generator(JacksonRefs::jsonPojoBuilderRef))
         .filter(isJacksonJson());
   }
 
@@ -98,7 +98,7 @@ public class JacksonAnnotationGenerator {
         .append(
             (pojo, settings, writer) ->
                 writer.println("@JsonDeserialize(builder = %s.Builder.class)", pojo.getClassName()))
-        .append(JacksonRefs.jsonDeserializeRef())
+        .append(JacksonRefs.generator(JacksonRefs::jsonDeserializeRef))
         .filter(isJacksonJson());
   }
 
@@ -108,7 +108,7 @@ public class JacksonAnnotationGenerator {
             (member, settings, writer) ->
                 writer.println(
                     "@JsonDeserialize(using = %s.class)", ZONED_DATE_TIME_DESERIALIZER_CLASSNAME))
-        .append(JacksonRefs.jsonDeserializeRef())
+        .append(JacksonRefs.generator(JacksonRefs::jsonDeserializeRef))
         .append(w -> w.ref(OpenApiUtilRefs.ZONED_DATE_TIME_DESERIALIZER))
         .filter(
             member ->
@@ -133,7 +133,7 @@ public class JacksonAnnotationGenerator {
                       .mkString(", ");
               return w.println("@JacksonXmlRootElement(%s)", annotationValues);
             })
-        .append(JacksonRefs.xmlRootElementRef())
+        .append(JacksonRefs.generator(JacksonRefs::xmlRootElementRef))
         .filter(isJacksonXml());
   }
 
