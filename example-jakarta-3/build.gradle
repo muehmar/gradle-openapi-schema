@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation sampleLibs.bundles.jackson
+    implementation sampleLibs.bundles.jackson.latest
 
     implementation sampleLibs.jakarta3.validation.api
 

@@ -4,8 +4,7 @@ import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
@@ -15,11 +14,10 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 public class MapAdditionalPropertiesTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void validate_when_validAdditionalProperty_then_noViolationsAndValueReturned()
-      throws JsonProcessingException {
+  void validate_when_validAdditionalProperty_then_noViolationsAndValueReturned() throws Exception {
     final MapAdditionalPropertiesDto dto =
         MAPPER.readValue(
             "{\"name\":\"name\",\"data\":{\"hello\":\"world\"}}", MapAdditionalPropertiesDto.class);
@@ -36,8 +34,7 @@ public class MapAdditionalPropertiesTest {
   }
 
   @Test
-  void serialize_when_withArrayAsAdditionalProperty_then_correctJson()
-      throws JsonProcessingException {
+  void serialize_when_withArrayAsAdditionalProperty_then_correctJson() throws Exception {
     final MapAdditionalPropertiesDto dto =
         MapAdditionalPropertiesDto.builder()
             .setName("name")

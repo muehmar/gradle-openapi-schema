@@ -41,6 +41,7 @@ group = 'com.github.muehmar.openapischema'
 gradlePlugin {
     website = "https://github.com/muehmar/gradle-openapi-schema"
     vcsUrl = "https://github.com/muehmar/gradle-openapi-schema.git"
+
     plugins {
         openApiSchemaPlugin {
             id = 'com.github.muehmar.openapischema'

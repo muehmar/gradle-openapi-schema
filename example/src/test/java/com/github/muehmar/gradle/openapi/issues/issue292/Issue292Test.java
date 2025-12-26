@@ -4,8 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,11 +12,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 public class Issue292Test {
-  private static final ObjectMapper mapper = MapperFactory.mapper();
+  private static final JsonMapper mapper = MapperFactory.jsonMapper();
 
   @Test
-  void deserialize_when_requiredNullableMapWithNullValues_then_wrapsInOptional()
-      throws JsonProcessingException {
+  void deserialize_when_requiredNullableMapWithNullValues_then_wrapsInOptional() throws Exception {
     final String json = "{\"data\":{\"key1\":\"value1\",\"key2\":null},\"metadata\":\"meta\"}";
     final RequiredNullableMapObjectDto dto =
         mapper.readValue(json, RequiredNullableMapObjectDto.class);
@@ -31,7 +29,7 @@ public class Issue292Test {
 
   @Test
   void serialize_when_requiredNullableMapBuiltWithBuilder_then_correctJsonOutput()
-      throws JsonProcessingException {
+      throws Exception {
     final Map<String, Optional<String>> data = new HashMap<>();
     data.put("key1", Optional.of("value1"));
     data.put("key2", Optional.empty());
@@ -49,8 +47,7 @@ public class Issue292Test {
 
   // OptionalNullableMapObject tests
   @Test
-  void deserialize_when_optionalNullableMapAbsent_then_optionalEmpty()
-      throws JsonProcessingException {
+  void deserialize_when_optionalNullableMapAbsent_then_optionalEmpty() throws Exception {
     final String json = "{\"id\":\"123\"}";
     final OptionalNullableMapObjectDto dto =
         mapper.readValue(json, OptionalNullableMapObjectDto.class);
@@ -60,8 +57,7 @@ public class Issue292Test {
   }
 
   @Test
-  void deserialize_when_optionalNullableMapWithNullValues_then_wrapsInOptional()
-      throws JsonProcessingException {
+  void deserialize_when_optionalNullableMapWithNullValues_then_wrapsInOptional() throws Exception {
     final String json = "{\"id\":\"123\",\"data\":{\"k1\":\"v1\",\"k2\":null}}";
     final OptionalNullableMapObjectDto dto =
         mapper.readValue(json, OptionalNullableMapObjectDto.class);
@@ -75,8 +71,7 @@ public class Issue292Test {
   }
 
   @Test
-  void serialize_when_optionalNullableMapWithData_then_correctJsonOutput()
-      throws JsonProcessingException {
+  void serialize_when_optionalNullableMapWithData_then_correctJsonOutput() throws Exception {
     final Map<String, Optional<String>> data = new HashMap<>();
     data.put("k1", Optional.of("v1"));
     data.put("k2", Optional.empty());
@@ -94,7 +89,7 @@ public class Issue292Test {
   }
 
   @Test
-  void serialize_when_optionalNullableMapAbsent_then_fieldOmitted() throws JsonProcessingException {
+  void serialize_when_optionalNullableMapAbsent_then_fieldOmitted() throws Exception {
     final OptionalNullableMapObjectDto dto =
         OptionalNullableMapObjectDto.builder()
             .setId("123")
@@ -110,7 +105,7 @@ public class Issue292Test {
   // NestedObjectMapObject tests
   @Test
   void deserialize_when_nestedObjectMapWithOptionalFields_then_tristateHandlesAbsent()
-      throws JsonProcessingException {
+      throws Exception {
     final String json =
         "{\"nestedMap\":{\"item1\":{\"id\":\"id1\",\"description\":\"desc1\"},\"item2\":{\"id\":\"id2\"}}}";
     final NestedObjectMapObjectDto dto = mapper.readValue(json, NestedObjectMapObjectDto.class);
@@ -140,8 +135,7 @@ public class Issue292Test {
   }
 
   @Test
-  void serialize_when_nestedObjectMapWithOptionalFields_then_correctJsonOutput()
-      throws JsonProcessingException {
+  void serialize_when_nestedObjectMapWithOptionalFields_then_correctJsonOutput() throws Exception {
     final Map<String, NestedValueDto> nestedMap = new HashMap<>();
     nestedMap.put(
         "item1",
@@ -160,8 +154,7 @@ public class Issue292Test {
 
   // IntegerMapObject tests
   @Test
-  void deserialize_when_integerMapWithNullValues_then_wrapsInOptional()
-      throws JsonProcessingException {
+  void deserialize_when_integerMapWithNullValues_then_wrapsInOptional() throws Exception {
     final String json = "{\"counters\":{\"count1\":100,\"count2\":null,\"count3\":0}}";
     final IntegerMapObjectDto dto = mapper.readValue(json, IntegerMapObjectDto.class);
 
@@ -173,8 +166,7 @@ public class Issue292Test {
   }
 
   @Test
-  void serialize_when_integerMapBuiltWithBuilder_then_correctJsonOutput()
-      throws JsonProcessingException {
+  void serialize_when_integerMapBuiltWithBuilder_then_correctJsonOutput() throws Exception {
     final Map<String, Optional<Integer>> counters = new HashMap<>();
     counters.put("count1", Optional.of(100));
     counters.put("count2", Optional.empty());
@@ -190,7 +182,7 @@ public class Issue292Test {
   // Round-trip tests to ensure serialization and deserialization are consistent
   @Test
   void serializeAndDeserialize_when_requiredNullableMapRoundTrip_then_objectsEqual()
-      throws JsonProcessingException {
+      throws Exception {
     final Map<String, Optional<String>> data = new HashMap<>();
     data.put("key1", Optional.of("value1"));
     data.put("key2", Optional.empty());
@@ -207,8 +199,7 @@ public class Issue292Test {
   }
 
   @Test
-  void serializeAndDeserialize_when_integerMapRoundTrip_then_objectsEqual()
-      throws JsonProcessingException {
+  void serializeAndDeserialize_when_integerMapRoundTrip_then_objectsEqual() throws Exception {
     final Map<String, Optional<Integer>> counters = new HashMap<>();
     counters.put("count1", Optional.of(100));
     counters.put("count2", Optional.empty());

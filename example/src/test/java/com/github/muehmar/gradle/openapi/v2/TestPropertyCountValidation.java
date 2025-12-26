@@ -4,8 +4,8 @@ import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Set;
 import java.util.stream.Stream;
 import javax.validation.ConstraintViolation;
@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class TestPropertyCountValidation {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   public static Stream<Arguments> patientJsonInputs() {
     return Stream.of(
@@ -33,7 +33,7 @@ public class TestPropertyCountValidation {
   @ParameterizedTest
   @MethodSource("patientJsonInputs")
   void validate_when_jsonInput_then_matchExpectedValidationViolationCount(
-      String inputJson, int expectedViolationsCount) throws JsonProcessingException {
+      String inputJson, int expectedViolationsCount) throws Exception {
     final PatientDto dto = MAPPER.readValue(inputJson, PatientDto.class);
 
     final Set<ConstraintViolation<PatientDto>> violations = validate(dto);

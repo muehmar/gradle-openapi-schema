@@ -3,19 +3,18 @@ package com.github.muehmar.gradle.openapi.oneofenumdiscriminator;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.muehmar.gradle.openapi.oneof.AdminOrUserDiscriminatorMappingDto;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class AdminUserDeserialisationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void fold_when_matchesAdmin_then_adminDtoReturned() throws JsonProcessingException {
+  void fold_when_matchesAdmin_then_adminDtoReturned() throws Exception {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"admin-id\",\"type\":\"admin\",\"adminname\":\"admin-name\",\"level\":5.5}",
@@ -37,7 +36,7 @@ class AdminUserDeserialisationTest {
   }
 
   @Test
-  void fold_when_matchesUser_then_userDtoReturned() throws JsonProcessingException {
+  void fold_when_matchesUser_then_userDtoReturned() throws Exception {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"user-id\",\"type\":\"user\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
@@ -58,7 +57,7 @@ class AdminUserDeserialisationTest {
   }
 
   @Test
-  void fold_when_invalidTypeWithoutOnInvalid_then_exceptionThrown() throws JsonProcessingException {
+  void fold_when_invalidTypeWithoutOnInvalid_then_exceptionThrown() throws Exception {
     final AdminOrUserDiscriminatorMappingDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"admin-id\",\"type\":\"Admin\",\"adminname\":\"admin-name\",\"level\":5.5}",
@@ -69,7 +68,7 @@ class AdminUserDeserialisationTest {
   }
 
   @Test
-  void fold_when_invalidTypeWithOnInvalid_then_onInvalidReturned() throws JsonProcessingException {
+  void fold_when_invalidTypeWithOnInvalid_then_onInvalidReturned() throws Exception {
     final AdminOrUserDiscriminatorMappingDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"admin-id\",\"type\":\"Admin\",\"adminname\":\"admin-name\",\"level\":5.5}",

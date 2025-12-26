@@ -2,8 +2,7 @@ package com.github.muehmar.gradle.openapi.nullableitemslist;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Arrays;
@@ -12,10 +11,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 public class SerialisationTest {
-  private static final ObjectMapper OBJECT_MAPPER = MapperFactory.mapper();
+  private static final JsonMapper OBJECT_MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void writeValueAsString_when_standardSetters_then_matchJson() throws JsonProcessingException {
+  void writeValueAsString_when_standardSetters_then_matchJson() throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder()
             .setIds(Collections.singletonList("id-1234"))
@@ -30,8 +29,7 @@ public class SerialisationTest {
   }
 
   @Test
-  void writeValueAsString_when_standardOverloadedSetters_then_matchJson()
-      throws JsonProcessingException {
+  void writeValueAsString_when_standardOverloadedSetters_then_matchJson() throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder()
             .setIds(Collections.singletonList("id-1234"))
@@ -46,8 +44,7 @@ public class SerialisationTest {
   }
 
   @Test
-  void writeValueAsString_when_standardOverloadedEmptySetters_then_matchJson()
-      throws JsonProcessingException {
+  void writeValueAsString_when_standardOverloadedEmptySetters_then_matchJson() throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder()
             .setIds(Collections.singletonList("id-1234"))
@@ -63,7 +60,7 @@ public class SerialisationTest {
 
   @Test
   void writeValueAsString_when_standardOverloadedSettersAndAbsentTristate_then_matchJson()
-      throws JsonProcessingException {
+      throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder()
             .setIds(Collections.singletonList("id-1234"))
@@ -78,7 +75,7 @@ public class SerialisationTest {
 
   @Test
   void writeValueAsString_when_nullableItemsSettersAndPresentItems_then_matchJson()
-      throws JsonProcessingException {
+      throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder()
             .setIds_(Collections.singletonList(Optional.of("id-1234")))
@@ -94,7 +91,7 @@ public class SerialisationTest {
 
   @Test
   void writeValueAsString_when_nullableItemsSettersAndAbsentItems_then_matchJson()
-      throws JsonProcessingException {
+      throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder()
             .setIds_(Collections.singletonList(Optional.empty()))
@@ -110,7 +107,7 @@ public class SerialisationTest {
 
   @Test
   void writeValueAsString_when_overloadedNullableItemsSettersAndPresentItems_then_matchJson()
-      throws JsonProcessingException {
+      throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder()
             .setIds_(Collections.singletonList(Optional.of("id-1234")))
@@ -126,7 +123,7 @@ public class SerialisationTest {
 
   @Test
   void writeValueAsString_when_overloadedNullableItemsSettersAndMixedItems_then_matchJson()
-      throws JsonProcessingException {
+      throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder()
             .setIds_(
@@ -152,7 +149,7 @@ public class SerialisationTest {
 
   @Test
   void writeValueAsString_when_overloadedNullableItemsSettersAndAbsentItems_then_matchJson()
-      throws JsonProcessingException {
+      throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder()
             .setIds_(Collections.singletonList(Optional.empty()))
@@ -168,7 +165,7 @@ public class SerialisationTest {
 
   @Test
   void writeValueAsString_when_overloadedNullableItemsSettersAndNoLists_then_matchJson()
-      throws JsonProcessingException {
+      throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder()
             .setIds_(Collections.singletonList(Optional.empty()))
@@ -184,7 +181,7 @@ public class SerialisationTest {
 
   @Test
   void writeValueAsString_when_overloadedNullableItemsSettersAndTristateAbsent_then_matchJson()
-      throws JsonProcessingException {
+      throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder()
             .setIds_(Collections.singletonList(Optional.empty()))

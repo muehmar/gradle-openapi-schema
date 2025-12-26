@@ -6,8 +6,7 @@ import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static com.github.muehmar.gradle.openapi.util.ViolationFormatter.formatViolations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Collections;
 import java.util.Optional;
@@ -16,7 +15,7 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 public class Issue263Test {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
   void fullBar1DtoBuilder_when_used_then_correctDto() {
@@ -27,7 +26,7 @@ public class Issue263Test {
   }
 
   @Test
-  void deserializeBar1Json_when_fooIsNull_then_noViolation() throws JsonProcessingException {
+  void deserializeBar1Json_when_fooIsNull_then_noViolation() throws Exception {
     final String json = "{\"hello\":\"World\",\"foo\":null}";
 
     final Bar1Dto barDto = MAPPER.readValue(json, Bar1Dto.class);
@@ -49,7 +48,7 @@ public class Issue263Test {
   }
 
   @Test
-  void deserializeBar2Json_when_fooIsNull_then_violation() throws JsonProcessingException {
+  void deserializeBar2Json_when_fooIsNull_then_violation() throws Exception {
     final String json = "{\"hello\":\"World\",\"foo\":null}";
 
     final Bar2Dto barDto = MAPPER.readValue(json, Bar2Dto.class);

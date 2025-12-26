@@ -2,41 +2,41 @@ package com.github.muehmar.gradle.openapi.identifiers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class TestSerialisation {
 
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void writeValueAsString_when_user1Dto_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_user1Dto_then_correctJson() throws Exception {
     final User1 dto1 =
         User1.builder().setNew("new").andAllOptionals().setInterface(Optional.empty()).build();
     assertEquals("{\"new\":\"new\"}", MAPPER.writeValueAsString(dto1));
   }
 
   @Test
-  void writeValueAsString_when_user2DtoInAnyOf_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_user2DtoInAnyOf_then_correctJson() throws Exception {
     final User2 dto2 =
         User2.builder().setPublic("public").andAllOptionals().setNull(Tristate.ofNull()).build();
     final User1OrUser2 dto = User1OrUser2.builder().setUser2(dto2).build();
 
-    assertEquals("{\"public\":\"public\",\"null\":null}", MAPPER.writeValueAsString(dto));
+    assertEquals("{\"null\":null,\"public\":\"public\"}", MAPPER.writeValueAsString(dto));
   }
 
   @Test
-  void writeValueAsString_when_newDto_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_newDto_then_correctJson() throws Exception {
     final New dto = New.builder().andAllOptionals().setBar("bar").build();
 
     assertEquals("{\"bar\":\"bar\"}", MAPPER.writeValueAsString(dto));
   }
 
   @Test
-  void readValue_when_user1Dto_then_correctDto() throws JsonProcessingException {
+  void readValue_when_user1Dto_then_correctDto() throws Exception {
     final User1 user1Dto =
         MAPPER.readValue("{\"new\":\"new\",\"interface\":\"interface\"}", User1.class);
     final User1 expectedDto =
@@ -45,7 +45,7 @@ class TestSerialisation {
   }
 
   @Test
-  void readValue_when_user2DtoInAnyOf_then_correctDto() throws JsonProcessingException {
+  void readValue_when_user2DtoInAnyOf_then_correctDto() throws Exception {
     final User1OrUser2 dto =
         MAPPER.readValue("{\"public\":\"public\",\"null\":null}", User1OrUser2.class);
     final User2 dto2 =
@@ -55,7 +55,7 @@ class TestSerialisation {
   }
 
   @Test
-  void readValue_when_newDto_then_correctDto() throws JsonProcessingException {
+  void readValue_when_newDto_then_correctDto() throws Exception {
     final New dto = MAPPER.readValue("{\"bar\":\"bar\"}", New.class);
     final New expectedDto = New.builder().andAllOptionals().setBar("bar").build();
     assertEquals(expectedDto, dto);

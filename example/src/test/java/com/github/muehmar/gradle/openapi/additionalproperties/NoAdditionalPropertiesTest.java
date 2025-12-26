@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -19,10 +18,10 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 class NoAdditionalPropertiesTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void validate_when_noAdditionalProperties_then_noViolations() throws JsonProcessingException {
+  void validate_when_noAdditionalProperties_then_noViolations() throws Exception {
     final NoAdditionalPropertiesDto dto =
         MAPPER.readValue("{\"name\":\"hello\"}", NoAdditionalPropertiesDto.class);
 
@@ -33,7 +32,7 @@ class NoAdditionalPropertiesTest {
   }
 
   @Test
-  void validate_when_additionalProperty_then_violation() throws JsonProcessingException {
+  void validate_when_additionalProperty_then_violation() throws Exception {
     final NoAdditionalPropertiesDto dto =
         MAPPER.readValue("{\"name\":\"hello\",\"color\":\"red\"}", NoAdditionalPropertiesDto.class);
 

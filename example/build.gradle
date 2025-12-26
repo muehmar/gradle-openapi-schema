@@ -3,11 +3,14 @@ plugins {
     id "com.diffplug.spotless"
     id 'openapischema.java11'
     id 'java-test-fixtures'
+    id 'jvm-test-suite'
 }
 
 sourceSets {
-    generated {
+    jackson2 {
         java {}
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
     }
     noJsonAndValidation {
         java {}
@@ -19,30 +22,38 @@ sourceSets {
         java {}
     }
     test {
-        compileClasspath += generated.output
-        runtimeClasspath += generated.output
+        compileClasspath += jackson2.output
+        runtimeClasspath += jackson2.output
     }
 
 }
 
+// Common test dependencies configuration
+configurations {
+    commonTestImplementation
+}
+
 dependencies {
-    implementation sampleLibs.bundles.jackson
-    implementation sampleLibs.jackson.dataformat.xml
+    implementation sampleLibs.bundles.jackson.latest
     implementation sampleLibs.javax2.validation.api
 
-    noValidationImplementation sampleLibs.jackson.databind
-    noValidationImplementation sampleLibs.jackson.annotations
+    jackson2Implementation sampleLibs.bundles.jackson.latest
+    jackson2Implementation sampleLibs.javax2.validation.api
+
+    noValidationImplementation sampleLibs.jackson.latest.databind
+    noValidationImplementation sampleLibs.jackson.latest.annotations
 
     noJsonImplementation sampleLibs.javax2.validation.api
 
-    testImplementation testLibs.junit
-    testImplementation testLibs.junit.params
-
-    testImplementation sampleLibs.hibernate6.validator
-    testRuntimeOnly sampleLibs.glassfish.javax.el3
-
-    testImplementation testLibs.reflections
-    testImplementation testFixtures(project(":java-snapshot"))
+    // Common dependencies for all test suites
+    commonTestImplementation project(':mapper:api')
+    commonTestImplementation sampleLibs.javax2.validation.api
+    commonTestImplementation testLibs.junit
+    commonTestImplementation testLibs.junit.params
+    commonTestImplementation sampleLibs.hibernate6.validator
+    commonTestImplementation sampleLibs.glassfish.javax.el3
+    commonTestImplementation testLibs.reflections
+    commonTestImplementation testFixtures(project(":java-snapshot"))
 }
 
 def specifications =
@@ -110,9 +121,10 @@ def issueNumbers = [
         '361',
         '364']
 
+def jacksonMajorVersions = ['jackson2'] // Add 'jackson3' here when ready
+
 specifications.addAll(issueNumbers.collect { issueNumber -> [name: "Issue${issueNumber}", file: "issues/openapi-issue-${issueNumber}.yml"] })
 
-compileJava.dependsOn compileGeneratedJava
 compileJava.dependsOn compileNoJsonJava
 compileJava.dependsOn compileNoValidationJava
 compileJava.dependsOn compileNoJsonAndValidationJava
@@ -174,147 +186,263 @@ openApiGenerator {
     }
 
     schemas {
-        apiV1 {
-            inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
-            packageName = "com.github.muehmar.gradle.openapi.v1"
 
-            formatTypeMapping {
-                formatType = "MedicationKind"
-                classType = "com.github.muehmar.gradle.openapi.v1.MedicationKind"
+        jacksonMajorVersions.forEach { jacksonMajorVersion ->
+            apiV1 {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
+                packageName = "com.github.muehmar.gradle.openapi.v1"
+
+                formatTypeMapping {
+                    formatType = "MedicationKind"
+                    classType = "com.github.muehmar.gradle.openapi.v1.MedicationKind"
+                }
+
+                classMapping {
+                    fromClass = "List"
+                    toClass = "java.util.ArrayList"
+                }
+
+                warnings {
+                    failOnMissingMappingConversion = false
+                }
             }
-
-            classMapping {
-                fromClass = "List"
-                toClass = "java.util.ArrayList"
+            apiV2 {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-v2.yml"
+                packageName = "com.github.muehmar.gradle.openapi.v2"
+                builderMethodPrefix = ""
             }
-
-            warnings {
-                failOnMissingMappingConversion = false
+            inlineObject {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-inline-object.yml"
+                packageName = "com.github.muehmar.gradle.openapi.inlineobject"
             }
-        }
-        apiV2 {
-            inputSpec = "$projectDir/src/main/resources/openapi-v2.yml"
-            packageName = "com.github.muehmar.gradle.openapi.v2"
-            builderMethodPrefix = ""
-        }
-        inlineObject {
-            inputSpec = "$projectDir/src/main/resources/openapi-inline-object.yml"
-            packageName = "com.github.muehmar.gradle.openapi.inlineobject"
-        }
-        nullability {
-            inputSpec = "$projectDir/src/main/resources/openapi-nullability.yml"
-            packageName = "com.github.muehmar.gradle.openapi.nullability"
+            nullability {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-nullability.yml"
+                packageName = "com.github.muehmar.gradle.openapi.nullability"
 
+                validation {
+                    validationMethods {
+                        getterSuffix = "Raw"
+                        modifier = "public"
+                        deprecatedAnnotation = true
+                    }
+                }
+            }
+            array {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-array.yml"
+                packageName = "com.github.muehmar.gradle.openapi.array"
+            }
+            remoteRef {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-remote-ref-main.yml"
+                packageName = "com.github.muehmar.gradle.openapi.remoteref"
+            }
+            excludeSchema {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-excluded-schema.yml"
+                packageName = "com.github.muehmar.gradle.openapi.excludedschema"
+                excludeSchemas = ["User"] // This schema contains an unsupported URL-reference
+            }
+            freeForm {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-freeform.yml"
+                packageName = "com.github.muehmar.gradle.openapi.freeform"
+            }
             validation {
-                validationMethods {
-                    getterSuffix = "Raw"
-                    modifier = "public"
-                    deprecatedAnnotation = true
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-validation.yml"
+                packageName = "com.github.muehmar.gradle.openapi.validation"
+
+                formatTypeMapping {
+                    formatType = "name"
+                    classType = "com.github.muehmar.gradle.openapi.validation.Name"
+                }
+
+                warnings {
+                    failOnUnsupportedValidation = false
+                    failOnMissingMappingConversion = false
+                }
+            }
+            oneOf {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-oneof.yml"
+                packageName = "com.github.muehmar.gradle.openapi.oneof"
+            }
+            anyOf {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-anyof.yml"
+                packageName = "com.github.muehmar.gradle.openapi.anyof"
+            }
+            allOf {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-allof.yml"
+                packageName = "com.github.muehmar.gradle.openapi.allof"
+            }
+            identifiers {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-identifiers.yml"
+                packageName = "com.github.muehmar.gradle.openapi.identifiers"
+                suffix = ""
+            }
+            readOnlyWriteOnly {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-read-only-write-only.yml"
+                packageName = "com.github.muehmar.gradle.openapi.readwriteonly"
+            }
+            specVersionV31 {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-spec-version-v31.yml"
+                packageName = "com.github.muehmar.gradle.openapi.specversionv31"
+            }
+            fullObject {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-full-object.yml"
+                packageName = "com.github.muehmar.gradle.openapi.fullobject"
+            }
+            additionalProperties {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-additional-properties.yml"
+                packageName = "com.github.muehmar.gradle.openapi.additionalproperties"
+            }
+            sasis {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/sasis-api.json"
+                packageName = "com.github.muehmar.gradle.openapi.sasis"
+
+                formatTypeMapping {
+                    formatType = "date-time"
+                    classType = "java.time.LocalDate"
+                }
+
+                warnings {
+                    failOnMissingMappingConversion = false
+                }
+            }
+            promotion {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-promotion.yml"
+                packageName = "com.github.muehmar.gradle.openapi.promotion"
+            }
+            oneOfEnumDiscriminator {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-oneof-enum-discriminator.yml"
+                packageName = "com.github.muehmar.gradle.openapi.oneofenumdiscriminator"
+            }
+            nullableItemsList {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-nullable-items-list.yml"
+                packageName = "com.github.muehmar.gradle.openapi.nullableitemslist"
+            }
+            nonStrictOneOfValidation {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-non-strict-oneof-validation.yml"
+                packageName = "com.github.muehmar.gradle.openapi.nonstrictoneofvalidation"
+
+                validation {
+                    nonStrictOneOfValidation = true
+                }
+            }
+            xml {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-xml.yml"
+                packageName = "com.github.muehmar.gradle.openapi.xml"
+                xmlSupport = "jackson"
+            }
+
+            overrideGlobalConfig {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/openapi-override-global-config.yml"
+                packageName = "com.github.muehmar.gradle.openapi.overrideglobalconfig"
+                suffix = ""
+                jsonSupport = "none"
+                builderMethodPrefix = ""
+
+                validation {
+                    enabled = false
+                }
+            }
+
+            issueNumbers.forEach { issueNumber ->
+                {
+                    "Issue${issueNumber}" {
+                        sourceSet = "${jacksonMajorVersion}"
+                        outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                        inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-${issueNumber}.yml"
+                        packageName = "com.github.muehmar.gradle.openapi.issues.issue${issueNumber}"
+                    }
+                }
+            }
+
+            Issue340Mapping {
+                sourceSet = "${jacksonMajorVersion}"
+                outputDir = project.layout.buildDirectory.dir("generated/openapi-${jacksonMajorVersion}")
+                inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-340.yml"
+                packageName = "com.github.muehmar.gradle.openapi.issues.issue340mapping"
+                classMapping {
+                    fromClass = "Set"
+                    toClass = "com.github.muehmar.gradle.openapi.issues.issue340.CustomSet"
+                    conversion.fromCustomType = "asSet"
+                    conversion.toCustomType = "CustomSet#fromSet"
+                }
+            }
+
+            Issue352 {
+                allowNullableForEnums = true
+            }
+
+            Issue307 {
+                classMapping {
+                    fromClass = "String"
+                    toClass = "com.github.muehmar.gradle.openapi.typemappingwithconversion.CustomString"
+                    conversion.fromCustomType = "getValue"
+                    conversion.toCustomType = "CustomString#fromString"
+                }
+            }
+
+            Issue361 {
+                validation {
+                    disableUniqueItemsValidation = true
+                }
+            }
+
+            Issue364 {
+                classMapping {
+                    fromClass = "String"
+                    toClass = "com.github.muehmar.gradle.openapi.issues.issue364.CustomString"
+                    conversion.fromCustomType = "getValue"
+                    conversion.toCustomType = "CustomString#create"
                 }
             }
         }
-        array {
-            inputSpec = "$projectDir/src/main/resources/openapi-array.yml"
-            packageName = "com.github.muehmar.gradle.openapi.array"
-        }
-        remoteRef {
-            inputSpec = "$projectDir/src/main/resources/openapi-remote-ref-main.yml"
-            packageName = "com.github.muehmar.gradle.openapi.remoteref"
-        }
-        excludeSchema {
-            inputSpec = "$projectDir/src/main/resources/openapi-excluded-schema.yml"
-            packageName = "com.github.muehmar.gradle.openapi.excludedschema"
-            excludeSchemas = ["User"] // This schema contains an unsupported URL-reference
-        }
-        freeForm {
-            inputSpec = "$projectDir/src/main/resources/openapi-freeform.yml"
-            packageName = "com.github.muehmar.gradle.openapi.freeform"
-        }
-        validation {
-            inputSpec = "$projectDir/src/main/resources/openapi-validation.yml"
-            packageName = "com.github.muehmar.gradle.openapi.validation"
 
-            formatTypeMapping {
-                formatType = "name"
-                classType = "com.github.muehmar.gradle.openapi.validation.Name"
-            }
-
-            warnings {
-                failOnUnsupportedValidation = false
-                failOnMissingMappingConversion = false
-            }
-        }
-        oneOf {
-            inputSpec = "$projectDir/src/main/resources/openapi-oneof.yml"
-            packageName = "com.github.muehmar.gradle.openapi.oneof"
-        }
-        anyOf {
-            inputSpec = "$projectDir/src/main/resources/openapi-anyof.yml"
-            packageName = "com.github.muehmar.gradle.openapi.anyof"
-        }
-        allOf {
-            inputSpec = "$projectDir/src/main/resources/openapi-allof.yml"
-            packageName = "com.github.muehmar.gradle.openapi.allof"
-        }
-        identifiers {
-            inputSpec = "$projectDir/src/main/resources/openapi-identifiers.yml"
-            packageName = "com.github.muehmar.gradle.openapi.identifiers"
-            suffix = ""
-        }
-        readOnlyWriteOnly {
-            inputSpec = "$projectDir/src/main/resources/openapi-read-only-write-only.yml"
-            packageName = "com.github.muehmar.gradle.openapi.readwriteonly"
-        }
-        specVersionV31 {
-            inputSpec = "$projectDir/src/main/resources/openapi-spec-version-v31.yml"
-            packageName = "com.github.muehmar.gradle.openapi.specversionv31"
-        }
-        fullObject {
-            inputSpec = "$projectDir/src/main/resources/openapi-full-object.yml"
-            packageName = "com.github.muehmar.gradle.openapi.fullobject"
-        }
-        additionalProperties {
-            inputSpec = "$projectDir/src/main/resources/openapi-additional-properties.yml"
-            packageName = "com.github.muehmar.gradle.openapi.additionalproperties"
-        }
-        sasis {
-            inputSpec = "$projectDir/src/main/resources/sasis-api.json"
-            packageName = "com.github.muehmar.gradle.openapi.sasis"
-
-            formatTypeMapping {
-                formatType = "date-time"
-                classType = "java.time.LocalDate"
-            }
-
-            warnings {
-                failOnMissingMappingConversion = false
-            }
-        }
-        promotion {
-            inputSpec = "$projectDir/src/main/resources/openapi-promotion.yml"
-            packageName = "com.github.muehmar.gradle.openapi.promotion"
-        }
-        overrideGlobalConfig {
-            sourceSet = "generated"
-            inputSpec = "$projectDir/src/main/resources/openapi-override-global-config.yml"
-            outputDir = project.layout.buildDirectory.dir("generated/openapi-override")
-            packageName = "com.github.muehmar.gradle.openapi.overrideglobalconfig"
-            suffix = ""
-            jsonSupport = "none"
-            builderMethodPrefix = ""
-
-            validation {
-                enabled = false
-            }
-        }
-        oneOfEnumDiscriminator {
-            inputSpec = "$projectDir/src/main/resources/openapi-oneof-enum-discriminator.yml"
-            packageName = "com.github.muehmar.gradle.openapi.oneofenumdiscriminator"
-        }
-        nullableItemsList {
-            inputSpec = "$projectDir/src/main/resources/openapi-nullable-items-list.yml"
-            packageName = "com.github.muehmar.gradle.openapi.nullableitemslist"
-        }
         typeMappingWithConversion {
             inputSpec = "$projectDir/src/main/resources/openapi-type-mapping-with-conversion.yml"
             packageName = "com.github.muehmar.gradle.openapi.typemappingwithconversion"
@@ -344,66 +472,6 @@ openApiGenerator {
                 dtoName = "FhirDataDto"
                 customType = "com.github.muehmar.gradle.openapi.typemappingwithconversion.FhirData"
                 disableMissingConversionWarning = true
-            }
-        }
-        nonStrictOneOfValidation {
-            inputSpec = "$projectDir/src/main/resources/openapi-non-strict-oneof-validation.yml"
-            packageName = "com.github.muehmar.gradle.openapi.nonstrictoneofvalidation"
-
-            validation {
-                nonStrictOneOfValidation = true
-            }
-        }
-        xml {
-            inputSpec = "$projectDir/src/main/resources/openapi-xml.yml"
-            packageName = "com.github.muehmar.gradle.openapi.xml"
-            xmlSupport = "jackson"
-        }
-        issueNumbers.forEach { issueNumber ->
-            {
-                "Issue${issueNumber}" {
-                    inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-${issueNumber}.yml"
-                    packageName = "com.github.muehmar.gradle.openapi.issues.issue${issueNumber}"
-                }
-            }
-        }
-
-        Issue340Mapping {
-            inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-340.yml"
-            packageName = "com.github.muehmar.gradle.openapi.issues.issue340mapping"
-            classMapping {
-                fromClass = "Set"
-                toClass = "com.github.muehmar.gradle.openapi.issues.issue340.CustomSet"
-                conversion.fromCustomType = "asSet"
-                conversion.toCustomType = "CustomSet#fromSet"
-            }
-        }
-
-        Issue352 {
-            allowNullableForEnums = true
-        }
-
-        Issue307 {
-            classMapping {
-                fromClass = "String"
-                toClass = "com.github.muehmar.gradle.openapi.typemappingwithconversion.CustomString"
-                conversion.fromCustomType = "getValue"
-                conversion.toCustomType = "CustomString#fromString"
-            }
-        }
-
-        Issue361 {
-            validation {
-                disableUniqueItemsValidation = true
-            }
-        }
-
-        Issue364 {
-            classMapping {
-                fromClass = "String"
-                toClass = "com.github.muehmar.gradle.openapi.issues.issue364.CustomString"
-                conversion.fromCustomType = "getValue"
-                conversion.toCustomType = "CustomString#create"
             }
         }
 
@@ -463,5 +531,63 @@ test {
     if (updateSnapshot != null) {
         systemProperties.put("updateSnapshot", updateSnapshot)
     }
+}
+
+testing {
+    suites {
+        test {
+            useJUnitJupiter()
+
+            dependencies {
+                implementation project()
+                implementation sourceSets.jackson2.output
+
+                implementation.bundle(sampleLibs.bundles.jackson.latest)
+                runtimeOnly project(':mapper:jackson2')
+
+                implementation configurations.commonTestImplementation
+            }
+        }
+
+        jackson208Test(JvmTestSuite) {
+            useJUnitJupiter()
+
+            sources {
+                java {
+                    srcDirs = ['src/test/java']
+                }
+            }
+
+            dependencies {
+                implementation project()
+                implementation sourceSets.jackson2.output
+
+                implementation.bundle(sampleLibs.bundles.jackson.v208)
+                runtimeOnly project(':mapper:jackson2')
+
+                implementation configurations.commonTestImplementation
+            }
+        }
+    }
+
+    // Configure updateSnapshot for all test suites
+    suites.configureEach {
+        if (it.name != 'test') {
+            targets {
+                all {
+                    testTask.configure {
+                        def updateSnapshot = project.properties["updateSnapshot"]
+                        if (updateSnapshot != null) {
+                            systemProperties.put("updateSnapshot", updateSnapshot)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+check {
+    dependsOn testing.suites.jackson208Test
 }
 

@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.gradle.openapi.util.ValidationUtil;
 import java.util.Collections;
@@ -16,7 +15,7 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 public class Issue159Test {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
   void personDtoBuilder_when_used_then_genderEnumNotNullable() {
@@ -33,7 +32,7 @@ public class Issue159Test {
   }
 
   @Test
-  void deserializePatient_when_validated_then_genderMustNotBeNull() throws JsonProcessingException {
+  void deserializePatient_when_validated_then_genderMustNotBeNull() throws Exception {
     final String json =
         "{\n"
             + "  \"firstName\": null,\n"
@@ -50,7 +49,7 @@ public class Issue159Test {
   }
 
   @Test
-  void serialize_when_patientDto_then_dataIsNullable() throws JsonProcessingException {
+  void serialize_when_patientDto_then_dataIsNullable() throws Exception {
     final PatientDto patientDto =
         PatientDto.patientDtoBuilder().setName("John").setAge(25).setData(Optional.empty()).build();
 
@@ -59,7 +58,7 @@ public class Issue159Test {
   }
 
   @Test
-  void deserialize_when_patientDto_then_nullForDataIsValid() throws JsonProcessingException {
+  void deserialize_when_patientDto_then_nullForDataIsValid() throws Exception {
     final String json = "{\"age\":25,\"data\":null,\"name\":\"John\"}";
 
     final PatientDto patientDto = MAPPER.readValue(json, PatientDto.class);

@@ -2,8 +2,7 @@ package com.github.muehmar.gradle.openapi.anyof;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.ArrayList;
@@ -13,10 +12,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class DeserialisationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void fold_when_matchesAdmin_then_adminDtoReturned() throws JsonProcessingException {
+  void fold_when_matchesAdmin_then_adminDtoReturned() throws Exception {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5,\"color\":\"yellow\",\"type\":\"admin\"}",
@@ -40,7 +39,7 @@ class DeserialisationTest {
   }
 
   @Test
-  void fold_when_matchesAdminOfInlined_then_adminDtoReturned() throws JsonProcessingException {
+  void fold_when_matchesAdminOfInlined_then_adminDtoReturned() throws Exception {
     final InlinedAnyOfDto inlinedDto =
         MAPPER.readValue(
             "{\"adminOrUser\":{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5,\"type\":\"admin\"}}",
@@ -62,7 +61,7 @@ class DeserialisationTest {
   }
 
   @Test
-  void fold_when_matchesUser_then_userDtoReturned() throws JsonProcessingException {
+  void fold_when_matchesUser_then_userDtoReturned() throws Exception {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"type\":\"user\"}",
@@ -83,7 +82,7 @@ class DeserialisationTest {
   }
 
   @Test
-  void fold_when_matchesUserOfInlinedDto_then_userDtoReturned() throws JsonProcessingException {
+  void fold_when_matchesUserOfInlinedDto_then_userDtoReturned() throws Exception {
     final InlinedAnyOfDto inlinedDto =
         MAPPER.readValue(
             "{\"adminOrUser\":{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"type\":\"user\"}}",
@@ -104,8 +103,7 @@ class DeserialisationTest {
   }
 
   @Test
-  void fold_when_matchesAdminAndUser_then_adminDtoAndUserDtoReturned()
-      throws JsonProcessingException {
+  void fold_when_matchesAdminAndUser_then_adminDtoAndUserDtoReturned() throws Exception {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"adminname\":\"admin-name\",\"type\":\"type\",\"level\":5.5}",
@@ -147,7 +145,7 @@ class DeserialisationTest {
 
   @Test
   void fold_when_matchesAdminAndUserOfInlinedDto_then_adminDtoAndUserDtoReturned()
-      throws JsonProcessingException {
+      throws Exception {
     final InlinedAnyOfDto inlinedDto =
         MAPPER.readValue(
             "{\"adminOrUser\":{\"id\":\"id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"adminname\":\"admin-name\",\"level\":5.5,\"type\":\"type\"}}",

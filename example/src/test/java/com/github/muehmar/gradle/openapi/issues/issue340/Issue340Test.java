@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,7 +18,7 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 public class Issue340Test {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
   void userBuilder_when_tagsSet_then_returnsSet() {
@@ -41,7 +40,7 @@ public class Issue340Test {
   }
 
   @Test
-  void serialize_when_userDtoWithTags_then_jsonContainsTagsArray() throws JsonProcessingException {
+  void serialize_when_userDtoWithTags_then_jsonContainsTagsArray() throws Exception {
     final Set<String> tags = new HashSet<>(Arrays.asList("java", "kotlin", "scala"));
     final UserDto userDto = UserDto.fullUserDtoBuilder().setName("John").setTags(tags).build();
 
@@ -51,8 +50,7 @@ public class Issue340Test {
   }
 
   @Test
-  void serialize_when_userDtoWithEmptyTags_then_jsonContainsEmptyArray()
-      throws JsonProcessingException {
+  void serialize_when_userDtoWithEmptyTags_then_jsonContainsEmptyArray() throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder().setName("Jane").setTags(Collections.emptySet()).build();
 
@@ -62,7 +60,7 @@ public class Issue340Test {
   }
 
   @Test
-  void serialize_when_userDtoWithoutTags_then_jsonOmitsTags() throws JsonProcessingException {
+  void serialize_when_userDtoWithoutTags_then_jsonOmitsTags() throws Exception {
     final UserDto userDto =
         UserDto.fullUserDtoBuilder().setName("Bob").setTags(Optional.empty()).build();
 
@@ -72,8 +70,7 @@ public class Issue340Test {
   }
 
   @Test
-  void deserialize_when_jsonWithTagsArray_then_returnsUserDtoWithSet()
-      throws JsonProcessingException {
+  void deserialize_when_jsonWithTagsArray_then_returnsUserDtoWithSet() throws Exception {
     final String json = "{\"name\":\"John\",\"tags\":[\"java\",\"kotlin\",\"scala\"]}";
 
     final UserDto userDto = MAPPER.readValue(json, UserDto.class);
@@ -85,8 +82,7 @@ public class Issue340Test {
   }
 
   @Test
-  void deserialize_when_jsonWithEmptyTagsArray_then_returnsUserDtoWithEmptySet()
-      throws JsonProcessingException {
+  void deserialize_when_jsonWithEmptyTagsArray_then_returnsUserDtoWithEmptySet() throws Exception {
     final String json = "{\"name\":\"Jane\",\"tags\":[]}";
 
     final UserDto userDto = MAPPER.readValue(json, UserDto.class);
@@ -97,8 +93,7 @@ public class Issue340Test {
   }
 
   @Test
-  void deserialize_when_jsonWithoutTags_then_returnsUserDtoWithoutTags()
-      throws JsonProcessingException {
+  void deserialize_when_jsonWithoutTags_then_returnsUserDtoWithoutTags() throws Exception {
     final String json = "{\"name\":\"Bob\"}";
 
     final UserDto userDto = MAPPER.readValue(json, UserDto.class);
@@ -108,8 +103,7 @@ public class Issue340Test {
   }
 
   @Test
-  void deserialize_when_jsonWithDuplicateTags_then_returnsUserDtoWithUniqueTags()
-      throws JsonProcessingException {
+  void deserialize_when_jsonWithDuplicateTags_then_returnsUserDtoWithUniqueTags() throws Exception {
     final String json = "{\"name\":\"Alice\",\"tags\":[\"java\",\"kotlin\",\"java\",\"scala\"]}";
 
     final UserDto userDto = MAPPER.readValue(json, UserDto.class);
@@ -120,7 +114,7 @@ public class Issue340Test {
   }
 
   @Test
-  void validate_when_userDtoWithNonUniqueTags_then_violations() throws JsonProcessingException {
+  void validate_when_userDtoWithNonUniqueTags_then_violations() throws Exception {
     final String json = "{\"name\":\"Alice\",\"tags\":[\"java\",\"kotlin\",\"java\",\"scala\"]}";
 
     final UserDto userDto = MAPPER.readValue(json, UserDto.class);
@@ -175,7 +169,7 @@ public class Issue340Test {
   }
 
   @Test
-  void serialize_when_tagListDto_then_jsonIsArray() throws JsonProcessingException {
+  void serialize_when_tagListDto_then_jsonIsArray() throws Exception {
     final Set<String> tags = new HashSet<>(Arrays.asList("java", "kotlin", "scala"));
     final TagListDto tagListDto = TagListDto.fromItems(tags);
 
@@ -185,7 +179,7 @@ public class Issue340Test {
   }
 
   @Test
-  void serialize_when_tagListDtoEmpty_then_jsonIsEmptyArray() throws JsonProcessingException {
+  void serialize_when_tagListDtoEmpty_then_jsonIsEmptyArray() throws Exception {
     final TagListDto tagListDto = TagListDto.fromItems(Collections.emptySet());
 
     final String json = MAPPER.writeValueAsString(tagListDto);
@@ -195,7 +189,7 @@ public class Issue340Test {
 
   // Deserialization Tests for TagListDto
   @Test
-  void deserialize_when_jsonArray_then_returnsTagListDtoWithSet() throws JsonProcessingException {
+  void deserialize_when_jsonArray_then_returnsTagListDtoWithSet() throws Exception {
     final String json = "[\"java\",\"kotlin\",\"scala\"]";
 
     final TagListDto tagListDto = MAPPER.readValue(json, TagListDto.class);
@@ -204,8 +198,7 @@ public class Issue340Test {
   }
 
   @Test
-  void deserialize_when_emptyJsonArray_then_returnsTagListDtoWithEmptySet()
-      throws JsonProcessingException {
+  void deserialize_when_emptyJsonArray_then_returnsTagListDtoWithEmptySet() throws Exception {
     final String json = "[]";
 
     final TagListDto tagListDto = MAPPER.readValue(json, TagListDto.class);
@@ -216,7 +209,7 @@ public class Issue340Test {
 
   @Test
   void deserialize_when_jsonArrayWithDuplicates_then_returnsTagListDtoWithUniqueItems()
-      throws JsonProcessingException {
+      throws Exception {
     final String json = "[\"java\",\"kotlin\",\"java\",\"scala\",\"kotlin\"]";
 
     final TagListDto tagListDto = MAPPER.readValue(json, TagListDto.class);
@@ -226,8 +219,7 @@ public class Issue340Test {
   }
 
   @Test
-  void validate_when_tagListDtoWithNonUniqueItems_then_noViolations()
-      throws JsonProcessingException {
+  void validate_when_tagListDtoWithNonUniqueItems_then_noViolations() throws Exception {
     final String json = "[\"java\",\"kotlin\",\"java\",\"scala\",\"kotlin\"]";
 
     final TagListDto tagListDto = MAPPER.readValue(json, TagListDto.class);

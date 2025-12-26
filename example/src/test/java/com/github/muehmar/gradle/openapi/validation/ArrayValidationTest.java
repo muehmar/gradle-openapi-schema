@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +18,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class ArrayValidationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @ParameterizedTest
   @ValueSource(ints = {3, 4, 5})
@@ -143,7 +142,7 @@ class ArrayValidationTest {
   }
 
   @Test
-  void validate_when_memberArrayAndUniqueItems_then_noViolation() throws JsonProcessingException {
+  void validate_when_memberArrayAndUniqueItems_then_noViolation() throws Exception {
     final LongMemberArrayDto dto =
         MAPPER.readValue("{\"numbers\": [1, 2, 3, 4, 5]}", LongMemberArrayDto.class);
 
@@ -154,7 +153,7 @@ class ArrayValidationTest {
   }
 
   @Test
-  void validate_when_memberArrayAndNotUniqueItems_then_violation() throws JsonProcessingException {
+  void validate_when_memberArrayAndNotUniqueItems_then_violation() throws Exception {
     final LongMemberArrayDto dto =
         MAPPER.readValue("{\"numbers\": [1, 2, 2, 4, 5]}", LongMemberArrayDto.class);
 

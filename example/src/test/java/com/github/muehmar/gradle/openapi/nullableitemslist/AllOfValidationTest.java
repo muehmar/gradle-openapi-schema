@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Arrays;
 import java.util.Set;
@@ -15,10 +14,10 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 public class AllOfValidationTest {
-  private static final ObjectMapper OBJECT_MAPPER = MapperFactory.mapper();
+  private static final JsonMapper OBJECT_MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void validate_when_validIds_then_noViolations() throws JsonProcessingException {
+  void validate_when_validIds_then_noViolations() throws Exception {
     final String json = "{\"ids\":[\"id-1234\"],\"usernames\":null}";
     final SuperUserDto userDto = OBJECT_MAPPER.readValue(json, SuperUserDto.class);
 
@@ -29,7 +28,7 @@ public class AllOfValidationTest {
   }
 
   @Test
-  void validate_when_invalidLists_then_correctViolationMessages() throws JsonProcessingException {
+  void validate_when_invalidLists_then_correctViolationMessages() throws Exception {
     final String json =
         "{\"emails\":[\"email-1234\"],\"ids\":[],\"phones\":[\"phone-1234\"],\"superUserId\":\"super-user-id\",\"usernames\":[\"user-1234\"]}";
     final SuperUserDto userDto = OBJECT_MAPPER.readValue(json, SuperUserDto.class);

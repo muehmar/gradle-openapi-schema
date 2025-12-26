@@ -2,8 +2,7 @@ package com.github.muehmar.gradle.openapi.v1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.net.URI;
 import java.net.URL;
@@ -17,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 
 class DataTypesTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   private static final DataTypesDto DTO =
       DataTypesDto.builder()
@@ -48,12 +47,12 @@ class DataTypesTest {
       "{\"binary\":\"FUc=\",\"bool\":true,\"byte\":\"bytes\",\"data\":\"data\",\"date\":\"2018-12-30\",\"dateTime\":\"2021-09-21T09:36:00+02:00\",\"defaultInt\":24,\"defaultNumber\":25.75,\"double\":125.5,\"email\":\"mail@mail.ch\",\"float\":87.25,\"int32\":26,\"int64\":64,\"string\":\"string\",\"time\":\"12:32:15\",\"uri\":\"github.com\",\"url\":\"https://github.com\",\"uuid\":\"12263dbb-1a07-4dfa-822c-f3e58dc6a420\"}";
 
   @Test
-  void writeValueAsString_when_dto_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_dto_then_correctJson() throws Exception {
     assertEquals(JSON, MAPPER.writeValueAsString(DTO));
   }
 
   @Test
-  void readValue_when_json_then_correctDto() throws JsonProcessingException {
+  void readValue_when_json_then_correctDto() throws Exception {
     final DataTypesDto deserializedDto = MAPPER.readValue(JSON, DataTypesDto.class);
 
     assertEquals(DTO, deserializedDto);

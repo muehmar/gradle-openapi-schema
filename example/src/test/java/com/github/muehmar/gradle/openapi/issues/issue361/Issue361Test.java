@@ -3,7 +3,8 @@ package com.github.muehmar.gradle.openapi.issues.issue361;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 class Issue361Test {
   private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-  private final ObjectMapper objectMapper = new ObjectMapper();
+  private final JsonMapper objectMapper = MapperFactory.jsonMapper();
 
   @Test
   void uniqueTags_when_deserializedFromJsonWithDuplicates_then_noValidationError()

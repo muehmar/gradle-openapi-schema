@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
@@ -15,11 +14,10 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 class Issue364Test {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void validate_when_validAdditionalProperty_then_noViolationsAndValueReturned()
-      throws JsonProcessingException {
+  void validate_when_validAdditionalProperty_then_noViolationsAndValueReturned() throws Exception {
     final TypeMappedAdditionalPropertiesDto dto =
         MAPPER.readValue(
             "{\"id\":123,\"message\":\"hello\"}", TypeMappedAdditionalPropertiesDto.class);
@@ -33,7 +31,7 @@ class Issue364Test {
   }
 
   @Test
-  void validate_when_tooShortAdditionalProperty_then_violation() throws JsonProcessingException {
+  void validate_when_tooShortAdditionalProperty_then_violation() throws Exception {
     final TypeMappedAdditionalPropertiesDto dto =
         MAPPER.readValue(
             "{\"id\":123,\"message\":\"hi\"}", TypeMappedAdditionalPropertiesDto.class);
@@ -47,7 +45,7 @@ class Issue364Test {
   }
 
   @Test
-  void validate_when_tooLongAdditionalProperty_then_violation() throws JsonProcessingException {
+  void validate_when_tooLongAdditionalProperty_then_violation() throws Exception {
     final TypeMappedAdditionalPropertiesDto dto =
         MAPPER.readValue(
             "{\"id\":123,\"message\":\"this-is-a-very-long-message-that-exceeds-max-length\"}",
@@ -62,8 +60,7 @@ class Issue364Test {
   }
 
   @Test
-  void serialize_when_dtoWithTypeMappedAdditionalProperties_then_correctJson()
-      throws JsonProcessingException {
+  void serialize_when_dtoWithTypeMappedAdditionalProperties_then_correctJson() throws Exception {
     final TypeMappedAdditionalPropertiesDto dto =
         TypeMappedAdditionalPropertiesDto.builder()
             .setId(456)
@@ -77,8 +74,7 @@ class Issue364Test {
   }
 
   @Test
-  void deserialize_when_jsonWithAdditionalProperties_then_correctDto()
-      throws JsonProcessingException {
+  void deserialize_when_jsonWithAdditionalProperties_then_correctDto() throws Exception {
     final String json = "{\"id\":789,\"greeting\":\"hello\",\"farewell\":\"goodbye\"}";
 
     final TypeMappedAdditionalPropertiesDto dto =
@@ -99,7 +95,7 @@ class Issue364Test {
 
   @Test
   void validate_when_validNullableAdditionalProperty_then_noViolationsAndValueReturned()
-      throws JsonProcessingException {
+      throws Exception {
     final TypeMappedAdditionalPropertiesWithNullableDto dto =
         MAPPER.readValue(
             "{\"name\":\"test\",\"message\":\"hello\"}",
@@ -116,8 +112,7 @@ class Issue364Test {
   }
 
   @Test
-  void validate_when_nullableAdditionalPropertyIsNull_then_noViolations()
-      throws JsonProcessingException {
+  void validate_when_nullableAdditionalPropertyIsNull_then_noViolations() throws Exception {
     final TypeMappedAdditionalPropertiesWithNullableDto dto =
         MAPPER.readValue(
             "{\"name\":\"test\",\"message\":null}",
@@ -149,8 +144,7 @@ class Issue364Test {
   }
 
   @Test
-  void validate_when_nullableAdditionalPropertyTooShort_then_violation()
-      throws JsonProcessingException {
+  void validate_when_nullableAdditionalPropertyTooShort_then_violation() throws Exception {
     final TypeMappedAdditionalPropertiesWithNullableDto dto =
         MAPPER.readValue(
             "{\"name\":\"test\",\"message\":\"x\"}",
@@ -166,8 +160,7 @@ class Issue364Test {
   }
 
   @Test
-  void validate_when_nullableAdditionalPropertyTooLong_then_violation()
-      throws JsonProcessingException {
+  void validate_when_nullableAdditionalPropertyTooLong_then_violation() throws Exception {
     final TypeMappedAdditionalPropertiesWithNullableDto dto =
         MAPPER.readValue(
             "{\"name\":\"test\",\"message\":\"this-is-too-long-message\"}",
@@ -183,8 +176,7 @@ class Issue364Test {
   }
 
   @Test
-  void serialize_when_nullableAdditionalPropertiesWithValue_then_correctJson()
-      throws JsonProcessingException {
+  void serialize_when_nullableAdditionalPropertiesWithValue_then_correctJson() throws Exception {
     final TypeMappedAdditionalPropertiesWithNullableDto dto =
         TypeMappedAdditionalPropertiesWithNullableDto.builder()
             .setName(CustomString.create("test"))
@@ -198,8 +190,7 @@ class Issue364Test {
   }
 
   @Test
-  void serialize_when_nullableAdditionalPropertiesWithNull_then_correctJson()
-      throws JsonProcessingException {
+  void serialize_when_nullableAdditionalPropertiesWithNull_then_correctJson() throws Exception {
     final TypeMappedAdditionalPropertiesWithNullableDto dto =
         TypeMappedAdditionalPropertiesWithNullableDto.builder()
             .setName(CustomString.create("test"))
@@ -213,8 +204,7 @@ class Issue364Test {
   }
 
   @Test
-  void deserialize_when_jsonWithNullableAdditionalProperties_then_correctDto()
-      throws JsonProcessingException {
+  void deserialize_when_jsonWithNullableAdditionalProperties_then_correctDto() throws Exception {
     final String json = "{\"name\":\"test\",\"key1\":\"value1\",\"key2\":null}";
 
     final TypeMappedAdditionalPropertiesWithNullableDto dto =

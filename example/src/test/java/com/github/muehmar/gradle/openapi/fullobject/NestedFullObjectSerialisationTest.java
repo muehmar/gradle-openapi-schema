@@ -4,8 +4,7 @@ import static java.util.stream.Collectors.toMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
@@ -15,10 +14,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class NestedFullObjectSerialisationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void serialize_when_adminDto_then_correctJson() throws JsonProcessingException {
+  void serialize_when_adminDto_then_correctJson() throws Exception {
     final BaseDataDto baseDataDto =
         BaseDataDto.builder().setColor(BaseDataDto.ColorEnum.RED).setSchema("schema").build();
     final AdminDto adminDto =
@@ -55,7 +54,7 @@ class NestedFullObjectSerialisationTest {
   }
 
   @Test
-  void deserialize_when_json_then_correctOutput() throws JsonProcessingException {
+  void deserialize_when_json_then_correctOutput() throws Exception {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
             "{\"adminname\":\"adminname\",\"amount\":15,\"code\":\"code\",\"color\":\"red\",\"message\":\"message\",\"type\":\"Admin\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",

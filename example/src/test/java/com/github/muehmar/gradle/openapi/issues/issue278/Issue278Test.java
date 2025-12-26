@@ -5,17 +5,16 @@ import static com.github.muehmar.gradle.openapi.issues.issue278.NestedFullObject
 import static com.github.muehmar.gradle.openapi.issues.issue278.UserDto.fullUserDtoBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import org.junit.jupiter.api.Test;
 
 public class Issue278Test {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
   void serialize_when_userDtoUsed_then_requiredNullablePropertyFromAdminDtoIsNotSerialized()
-      throws JsonProcessingException {
+      throws Exception {
     final UserDto userDto =
         fullUserDtoBuilder().setType("type-user").setUsername("username-user").build();
 

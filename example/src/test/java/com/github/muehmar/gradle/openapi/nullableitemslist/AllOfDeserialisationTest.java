@@ -2,8 +2,7 @@ package com.github.muehmar.gradle.openapi.nullableitemslist;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
@@ -11,11 +10,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 public class AllOfDeserialisationTest {
-  private static final ObjectMapper OBJECT_MAPPER = MapperFactory.mapper();
+  private static final JsonMapper OBJECT_MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void readValue_when_allListsHaveValues_then_gettersReturnExpectedValues()
-      throws JsonProcessingException {
+  void readValue_when_allListsHaveValues_then_gettersReturnExpectedValues() throws Exception {
     final String json =
         "{\"emails\":[\"email-1234\"],\"ids\":[\"id-1234\"],\"phones\":[\"phone-1234\"],\"superUserId\":\"super-user-id\",\"usernames\":[\"user-1234\"]}";
     final SuperUserDto superUserDto = OBJECT_MAPPER.readValue(json, SuperUserDto.class);

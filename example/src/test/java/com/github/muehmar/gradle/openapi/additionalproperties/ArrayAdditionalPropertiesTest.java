@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,11 +15,10 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 class ArrayAdditionalPropertiesTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void validate_when_validAdditionalProperty_then_noViolationsAndValueReturned()
-      throws JsonProcessingException {
+  void validate_when_validAdditionalProperty_then_noViolationsAndValueReturned() throws Exception {
     final ArrayAdditionalPropertiesDto dto =
         MAPPER.readValue(
             "{\"name\":\"martin\",\"data\":[\"hello\",\"world\"]}",
@@ -37,7 +35,7 @@ class ArrayAdditionalPropertiesTest {
   }
 
   @Test
-  void validate_when_arrayWithTooManyItems_then_violation() throws JsonProcessingException {
+  void validate_when_arrayWithTooManyItems_then_violation() throws Exception {
     final ArrayAdditionalPropertiesDto dto =
         MAPPER.readValue(
             "{\"name\":\"martin\",\"data\":[\"hello\",\"world\",\"!\"]}",
@@ -52,8 +50,7 @@ class ArrayAdditionalPropertiesTest {
   }
 
   @Test
-  void serialize_when_withArrayAsAdditionalProperty_then_correctJson()
-      throws JsonProcessingException {
+  void serialize_when_withArrayAsAdditionalProperty_then_correctJson() throws Exception {
     final ArrayAdditionalPropertiesDto dto =
         ArrayAdditionalPropertiesDto.builder()
             .setName("name")
@@ -68,8 +65,7 @@ class ArrayAdditionalPropertiesTest {
   }
 
   @Test
-  void deserialize_when_withArrayAsAdditionalProperty_then_correctDto()
-      throws JsonProcessingException {
+  void deserialize_when_withArrayAsAdditionalProperty_then_correctDto() throws Exception {
     final String json = "{\"name\":\"name\",\"hello\":[\"world\"]}";
 
     final ArrayAdditionalPropertiesDto dto =

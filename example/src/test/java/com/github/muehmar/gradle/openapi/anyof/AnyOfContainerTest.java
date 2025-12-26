@@ -2,18 +2,17 @@ package com.github.muehmar.gradle.openapi.anyof;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class AnyOfContainerTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void writeValueAsString_when_adminDto_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_adminDto_then_correctJson() throws Exception {
     final AdminDto adminDto =
         AdminDto.builder()
             .setId("admin-id")
@@ -34,7 +33,7 @@ class AnyOfContainerTest {
   }
 
   @Test
-  void writeValueAsString_when_userDto_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_userDto_then_correctJson() throws Exception {
     final UserDto userDto =
         UserDto.builder()
             .setId("user-id")
@@ -55,8 +54,7 @@ class AnyOfContainerTest {
   }
 
   @Test
-  void writeValueAsString_when_adminAndUserOfInlinedDto_then_correctJson()
-      throws JsonProcessingException {
+  void writeValueAsString_when_adminAndUserOfInlinedDto_then_correctJson() throws Exception {
     final UserDto userDto =
         UserDto.builder()
             .setId("id")

@@ -5,8 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.HashMap;
 import java.util.Optional;
@@ -17,11 +16,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class StringAdditionalPropertyTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void validate_when_validAdditionalProperty_then_noViolationsAndValueReturned()
-      throws JsonProcessingException {
+  void validate_when_validAdditionalProperty_then_noViolationsAndValueReturned() throws Exception {
     final StringAdditionalPropertiesDto dto =
         MAPPER.readValue(
             "{\"name\":\"hello\",\"message\":\"world\"}", StringAdditionalPropertiesDto.class);
@@ -35,8 +33,7 @@ class StringAdditionalPropertyTest {
   }
 
   @Test
-  void validate_when_invalidPatternAdditionalProperty_then_violation()
-      throws JsonProcessingException {
+  void validate_when_invalidPatternAdditionalProperty_then_violation() throws Exception {
     final StringAdditionalPropertiesDto dto =
         MAPPER.readValue(
             "{\"name\":\"hello\",\"message\":\"world!\"}", StringAdditionalPropertiesDto.class);
@@ -49,8 +46,7 @@ class StringAdditionalPropertyTest {
   }
 
   @Test
-  void validate_when_toLongStringAdditionalProperty_then_violation()
-      throws JsonProcessingException {
+  void validate_when_toLongStringAdditionalProperty_then_violation() throws Exception {
     final StringAdditionalPropertiesDto dto =
         MAPPER.readValue(
             "{\"name\":\"hello\",\"message\":\"worldworldworld\"}",
@@ -100,8 +96,7 @@ class StringAdditionalPropertyTest {
   }
 
   @Test
-  void serialize_when_dtoWithAdditionalProperties_then_correctJson()
-      throws JsonProcessingException {
+  void serialize_when_dtoWithAdditionalProperties_then_correctJson() throws Exception {
     final StringAdditionalPropertiesDto dto =
         StringAdditionalPropertiesDto.builder()
             .setName("name")
@@ -115,8 +110,7 @@ class StringAdditionalPropertyTest {
   }
 
   @Test
-  void deserialize_when_jsonWithAdditionalProperties_then_correctDto()
-      throws JsonProcessingException {
+  void deserialize_when_jsonWithAdditionalProperties_then_correctDto() throws Exception {
     final String json = "{\"name\":\"name\",\"HELLO\":\"WORLD\",\"hello\":\"world\"}";
 
     final StringAdditionalPropertiesDto dto =

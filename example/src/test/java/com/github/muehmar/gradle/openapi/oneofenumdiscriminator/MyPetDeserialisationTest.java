@@ -2,17 +2,16 @@ package com.github.muehmar.gradle.openapi.oneofenumdiscriminator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class MyPetDeserialisationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void fold_when_matchesDog_then_dogDtoReturned() throws JsonProcessingException {
+  void fold_when_matchesDog_then_dogDtoReturned() throws Exception {
     final MyPetDto myPetDto =
         MAPPER.readValue("{\"id\":\"dog-id\",\"type\":\"Dog\",\"bark\":\"bark\"}", MyPetDto.class);
 
@@ -32,7 +31,7 @@ class MyPetDeserialisationTest {
   }
 
   @Test
-  void fold_when_matchesCat_then_catDtoReturned() throws JsonProcessingException {
+  void fold_when_matchesCat_then_catDtoReturned() throws Exception {
     final MyPetDto myPetDto =
         MAPPER.readValue("{\"id\":\"cat-id\",\"type\":\"Cat\",\"name\":\"mimmi\"}", MyPetDto.class);
 

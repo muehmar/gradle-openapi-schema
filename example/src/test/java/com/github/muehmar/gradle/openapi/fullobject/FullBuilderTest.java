@@ -2,18 +2,16 @@ package com.github.muehmar.gradle.openapi.fullobject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import org.junit.jupiter.api.Test;
 
 class FullBuilderTest {
 
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void fullBuilderForFullObject_when_called_then_needsToSetAllProperties()
-      throws JsonProcessingException {
+  void fullBuilderForFullObject_when_called_then_needsToSetAllProperties() throws Exception {
     final FullObjectDto dto =
         FullObjectDto.fullBuilder()
             .setColor(BaseDataDto.ColorEnum.GREEN)

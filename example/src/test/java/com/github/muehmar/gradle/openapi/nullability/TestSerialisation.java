@@ -3,29 +3,21 @@ package com.github.muehmar.gradle.openapi.nullability;
 import static java.util.Optional.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class TestSerialisation {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
-
-  @BeforeAll
-  static void setupMapper() {
-    MAPPER.setConfig(
-        MAPPER.getSerializationConfig().with(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY));
-  }
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void deserialize_when_onlyIdPresent_then_correctDeserialized() throws JsonProcessingException {
+  void deserialize_when_onlyIdPresent_then_correctDeserialized() throws Exception {
     final UserDto dto = MAPPER.readValue("{\"id\":\"123abc\",\"username\":null}", UserDto.class);
 
     assertEquals("123abc", dto.getId());
@@ -36,7 +28,7 @@ class TestSerialisation {
   }
 
   @Test
-  void deserialize_when_usernameNotNull_then_correctDeserialized() throws JsonProcessingException {
+  void deserialize_when_usernameNotNull_then_correctDeserialized() throws Exception {
     final UserDto dto =
         MAPPER.readValue("{\"id\":\"123abc\",\"username\":\"Dexter\"}", UserDto.class);
 
@@ -48,7 +40,7 @@ class TestSerialisation {
   }
 
   @Test
-  void deserialize_when_emailPresent_then_correctDeserialized() throws JsonProcessingException {
+  void deserialize_when_emailPresent_then_correctDeserialized() throws Exception {
     final UserDto dto =
         MAPPER.readValue(
             "{\"id\":\"123abc\",\"username\":\"Dexter\",\"email\":\"hello@github.com\"}",
@@ -62,7 +54,7 @@ class TestSerialisation {
   }
 
   @Test
-  void deserialize_when_phoneNull_then_correctDeserialized() throws JsonProcessingException {
+  void deserialize_when_phoneNull_then_correctDeserialized() throws Exception {
     final UserDto dto =
         MAPPER.readValue(
             "{\"id\":\"123abc\",\"username\":\"Dexter\",\"email\":\"hello@github.com\",\"phone\":null}",
@@ -76,7 +68,7 @@ class TestSerialisation {
   }
 
   @Test
-  void deserialize_when_phonePresent_then_correctDeserialized() throws JsonProcessingException {
+  void deserialize_when_phonePresent_then_correctDeserialized() throws Exception {
     final UserDto dto =
         MAPPER.readValue(
             "{\"id\":\"123abc\",\"username\":\"Dexter\",\"email\":\"hello@github.com\",\"phone\":\"00411234567\"}",
@@ -90,7 +82,7 @@ class TestSerialisation {
   }
 
   @Test
-  void serialize_when_usernameAbsent_then_serializedAsNull() throws JsonProcessingException {
+  void serialize_when_usernameAbsent_then_serializedAsNull() throws Exception {
     final UserDto userDto =
         UserDto.builder()
             .setId("123abc")
@@ -106,7 +98,7 @@ class TestSerialisation {
   }
 
   @Test
-  void serialize_when_usernamePresent_then_serialized() throws JsonProcessingException {
+  void serialize_when_usernamePresent_then_serialized() throws Exception {
     final UserDto userDto =
         UserDto.builder()
             .setId("123abc")
@@ -122,7 +114,7 @@ class TestSerialisation {
   }
 
   @Test
-  void serialize_when_emailPresent_then_serialized() throws JsonProcessingException {
+  void serialize_when_emailPresent_then_serialized() throws Exception {
     final UserDto userDto =
         UserDto.builder()
             .setId("123abc")
@@ -139,7 +131,7 @@ class TestSerialisation {
   @ParameterizedTest
   @MethodSource("phoneVariants")
   void serialize_when_phoneAbsent_then_noPhoneSerialized(
-      Tristate<String> phone, String expectedOutput) throws JsonProcessingException {
+      Tristate<String> phone, String expectedOutput) throws Exception {
     final UserDto userDto =
         UserDto.builder()
             .setId("123abc")

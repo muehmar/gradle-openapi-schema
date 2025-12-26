@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Collections;
 import java.util.Set;
@@ -17,7 +16,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class ValidationTest {
-  private static final ObjectMapper OBJECT_MAPPER = MapperFactory.mapper();
+  private static final JsonMapper OBJECT_MAPPER = MapperFactory.jsonMapper();
 
   @ParameterizedTest
   @ValueSource(
@@ -31,7 +30,7 @@ public class ValidationTest {
         "[null, \"id-1234\"]",
         "[\"id-1234\", null]",
       })
-  void validate_when_validIds_then_noViolations(String idsJson) throws JsonProcessingException {
+  void validate_when_validIds_then_noViolations(String idsJson) throws Exception {
     final String json = String.format("{\"ids\":%s,\"usernames\":null}", idsJson);
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -52,7 +51,7 @@ public class ValidationTest {
         "[\"id-1234\", \"id-1235\", \"id-1236\"]",
         "[null, null, null]",
       })
-  void validate_when_invalidIds_then_violations(String idsJson) throws JsonProcessingException {
+  void validate_when_invalidIds_then_violations(String idsJson) throws Exception {
     final String json = String.format("{\"ids\":%s,\"usernames\":null}", idsJson);
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -63,7 +62,7 @@ public class ValidationTest {
   }
 
   @Test
-  void validate_when_idsIsNull_then_violationWithCorrectMessage() throws JsonProcessingException {
+  void validate_when_idsIsNull_then_violationWithCorrectMessage() throws Exception {
     final String json = "{\"ids\":null,\"usernames\":null}";
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -77,7 +76,7 @@ public class ValidationTest {
   }
 
   @Test
-  void validate_when_toManyIds_then_violationWithCorrectMessage() throws JsonProcessingException {
+  void validate_when_toManyIds_then_violationWithCorrectMessage() throws Exception {
     final String json = "{\"ids\":[\"id-1234\", \"id-1235\", \"id-1236\"],\"usernames\":null}";
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -91,7 +90,7 @@ public class ValidationTest {
   }
 
   @Test
-  void validate_when_invalidIds_then_violationWithCorrectMessage() throws JsonProcessingException {
+  void validate_when_invalidIds_then_violationWithCorrectMessage() throws Exception {
     final String json = "{\"ids\":[\"id-1234\", \"id-123456789\"],\"usernames\":null}";
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -116,8 +115,7 @@ public class ValidationTest {
         "[null, \"user-1234\", null]",
         "[\"user-1234\", null, \"user-1235\", null]",
       })
-  void validate_when_validUsernames_then_noViolations(String usernamesJson)
-      throws JsonProcessingException {
+  void validate_when_validUsernames_then_noViolations(String usernamesJson) throws Exception {
     final String json = String.format("{\"ids\":[null],\"usernames\":%s}", usernamesJson);
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -137,8 +135,7 @@ public class ValidationTest {
         "[\"user-1234\", \"user-1235\", \"user-1236\", \"user-1237\", \"user-1238\"]",
         "[null, null, null, null, null]",
       })
-  void validate_when_invalidUsernames_then_violations(String usernamesJson)
-      throws JsonProcessingException {
+  void validate_when_invalidUsernames_then_violations(String usernamesJson) throws Exception {
     final String json = String.format("{\"ids\":[null],\"usernames\":%s}", usernamesJson);
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -149,8 +146,7 @@ public class ValidationTest {
   }
 
   @Test
-  void validate_when_usernamesAbsent_then_violationWithCorrectMessage()
-      throws JsonProcessingException {
+  void validate_when_usernamesAbsent_then_violationWithCorrectMessage() throws Exception {
     final String json = "{\"ids\":[null]}";
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -165,8 +161,7 @@ public class ValidationTest {
   }
 
   @Test
-  void validate_when_toManyUsernames_then_violationWithCorrectMessage()
-      throws JsonProcessingException {
+  void validate_when_toManyUsernames_then_violationWithCorrectMessage() throws Exception {
     final String json = "{\"ids\":[null],\"usernames\":[null, null, null, null, null]}";
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -180,8 +175,7 @@ public class ValidationTest {
   }
 
   @Test
-  void validate_when_invalidUsernames_then_violationWithCorrectMessage()
-      throws JsonProcessingException {
+  void validate_when_invalidUsernames_then_violationWithCorrectMessage() throws Exception {
     final String json = "{\"ids\":[null],\"usernames\":[null, \"user-123456780\", null]}";
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -204,8 +198,7 @@ public class ValidationTest {
         "[null,null,null,null,null]",
         "[null,null,null,null,null,null]"
       })
-  void validate_when_validEmails_then_noViolations(String emailsJson)
-      throws JsonProcessingException {
+  void validate_when_validEmails_then_noViolations(String emailsJson) throws Exception {
     final String json =
         String.format("{\"ids\":[null],\"usernames\":null,\"emails\":%s}", emailsJson);
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
@@ -227,8 +220,7 @@ public class ValidationTest {
         "[null, null, null, null, null, null, null]",
         "[\"email-123\", null, null, null, null]"
       })
-  void validate_when_invalidEmails_then_violations(String emailsJson)
-      throws JsonProcessingException {
+  void validate_when_invalidEmails_then_violations(String emailsJson) throws Exception {
     final String json =
         String.format("{\"ids\":[null],\"usernames\":null,\"emails\":%s}", emailsJson);
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
@@ -240,7 +232,7 @@ public class ValidationTest {
   }
 
   @Test
-  void validate_when_toFewEmails_then_violationWithCorrectMessage() throws JsonProcessingException {
+  void validate_when_toFewEmails_then_violationWithCorrectMessage() throws Exception {
     final String json = "{\"ids\":[null],\"usernames\":null,\"emails\":[null]}";
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -254,8 +246,7 @@ public class ValidationTest {
   }
 
   @Test
-  void validate_when_emailsIsNull_then_violationWithCorrectMessage()
-      throws JsonProcessingException {
+  void validate_when_emailsIsNull_then_violationWithCorrectMessage() throws Exception {
     final String json = "{\"ids\":[null],\"usernames\":null,\"emails\":null}";
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -269,8 +260,7 @@ public class ValidationTest {
   }
 
   @Test
-  void validate_when_invalidEmails_then_violationWithCorrectMessage()
-      throws JsonProcessingException {
+  void validate_when_invalidEmails_then_violationWithCorrectMessage() throws Exception {
     final String json =
         "{\"ids\":[null],\"usernames\":null,\"emails\":[\"email-123456780\",null,null,null,null]}";
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
@@ -295,8 +285,7 @@ public class ValidationTest {
         "[null,null,null,null,null,null,null]",
         "[null,null,null,null,null,null,null,null]"
       })
-  void validate_when_validPhones_then_noViolations(String phonesJson)
-      throws JsonProcessingException {
+  void validate_when_validPhones_then_noViolations(String phonesJson) throws Exception {
     final String json =
         String.format("{\"ids\":[null],\"usernames\":null,\"phones\":%s}", phonesJson);
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
@@ -317,8 +306,7 @@ public class ValidationTest {
         "[null, null, null, null, null, null, null, null, null]",
         "[\"phone-123\", null, null, null, null, null, null]"
       })
-  void validate_when_invalidPhones_then_violations(String phonesJson)
-      throws JsonProcessingException {
+  void validate_when_invalidPhones_then_violations(String phonesJson) throws Exception {
     final String json =
         String.format("{\"ids\":[null],\"usernames\":null,\"phones\":%s}", phonesJson);
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
@@ -330,7 +318,7 @@ public class ValidationTest {
   }
 
   @Test
-  void validate_when_toFewPhones_then_violationWithCorrectMessage() throws JsonProcessingException {
+  void validate_when_toFewPhones_then_violationWithCorrectMessage() throws Exception {
     final String json = "{\"ids\":[null],\"usernames\":null,\"phones\":[null]}";
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);
 
@@ -344,8 +332,7 @@ public class ValidationTest {
   }
 
   @Test
-  void validate_when_invalidPhones_then_violationWithCorrectMessage()
-      throws JsonProcessingException {
+  void validate_when_invalidPhones_then_violationWithCorrectMessage() throws Exception {
     final String json =
         "{\"ids\":[null],\"usernames\":null,\"phones\":[\"phone-123456780\",null,null,null,null,null,null]}";
     final UserDto userDto = OBJECT_MAPPER.readValue(json, UserDto.class);

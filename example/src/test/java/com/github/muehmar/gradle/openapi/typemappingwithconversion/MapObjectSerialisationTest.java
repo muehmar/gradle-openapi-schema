@@ -7,17 +7,16 @@ import static java.util.Collections.emptyMap;
 import static java.util.Optional.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import org.junit.jupiter.api.Test;
 
 public class MapObjectSerialisationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void writeValueAsString_when_mapObjectDto_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_mapObjectDto_then_correctJson() throws Exception {
     final MapObjectDto mapObjectDto =
         fullMapObjectDtoBuilder()
             .setIdsMap(map("id-k-1", customString("id-v-1")))
@@ -32,8 +31,7 @@ public class MapObjectSerialisationTest {
   }
 
   @Test
-  void writeValueAsString_when_mapObjectDtoAbsentOrNullable_then_correctJson()
-      throws JsonProcessingException {
+  void writeValueAsString_when_mapObjectDtoAbsentOrNullable_then_correctJson() throws Exception {
     final MapObjectDto mapObjectDto =
         fullMapObjectDtoBuilder()
             .setIdsMap(emptyMap())
@@ -46,8 +44,7 @@ public class MapObjectSerialisationTest {
   }
 
   @Test
-  void writeValueAsString_when_mapObjectDtoTristateNull_then_correctJson()
-      throws JsonProcessingException {
+  void writeValueAsString_when_mapObjectDtoTristateNull_then_correctJson() throws Exception {
     final MapObjectDto mapObjectDto =
         fullMapObjectDtoBuilder()
             .setIdsMap(emptyMap())

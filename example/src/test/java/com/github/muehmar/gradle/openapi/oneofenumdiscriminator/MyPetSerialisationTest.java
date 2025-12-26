@@ -2,16 +2,15 @@ package com.github.muehmar.gradle.openapi.oneofenumdiscriminator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import org.junit.jupiter.api.Test;
 
 class MyPetSerialisationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void writeValueAsString_when_dogDto_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_dogDto_then_correctJson() throws Exception {
     final DogDto dogDto =
         DogDto.builder()
             .setId("dog-id")
@@ -26,7 +25,7 @@ class MyPetSerialisationTest {
   }
 
   @Test
-  void writeValueAsString_when_userDto_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_userDto_then_correctJson() throws Exception {
     final CatDto catDto =
         CatDto.builder()
             .setId("cat-id")
