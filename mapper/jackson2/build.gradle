@@ -13,5 +13,5 @@ java {
 
 dependencies {
     api project(':mapper:api')
-    implementation sampleLibs.bundles.jackson.latest
+    implementation sampleLibs.bundles.jackson.v219
 }

@@ -5,7 +5,6 @@ IntegerMemberArrayDto
 IntegerPojoArrayDto
 LongMemberArrayDto
 LongPojoArrayDto
-ManualAllValueObjectDto
 MultipleOfObjectDto
 Name
 NestedDto

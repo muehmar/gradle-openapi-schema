@@ -9,6 +9,7 @@ rootProject.name = 'openapi-schema'
 include 'plugin'
 include 'mapper:api'
 include 'mapper:jackson2'
+include 'mapper:jackson3'
 include 'example'
 include 'example-jakarta-3'
 include 'spring2-example'
@@ -56,13 +57,21 @@ dependencyResolutionManagement {
             version('swaggerAnnotations', '2.2.39')
             library('swagger-annotations', 'io.swagger.core.v3', 'swagger-annotations').versionRef('swaggerAnnotations')
 
-            version('jackson-latest', '2.19.2')
-            library('jackson-latest-core', 'com.fasterxml.jackson.core', 'jackson-core').versionRef('jackson-latest')
-            library('jackson-latest-databind', 'com.fasterxml.jackson.core', 'jackson-databind').versionRef('jackson-latest')
-            library('jackson-latest-annotations', 'com.fasterxml.jackson.core', 'jackson-annotations').versionRef('jackson-latest')
-            library('jackson-latest-datatype', 'com.fasterxml.jackson.datatype', 'jackson-datatype-jsr310').versionRef('jackson-latest')
-            library('jackson-latest-dataformat-xml', 'com.fasterxml.jackson.dataformat', 'jackson-dataformat-xml').versionRef('jackson-latest')
-            bundle('jackson-latest', ['jackson-latest-core', 'jackson-latest-databind', 'jackson-latest-annotations', 'jackson-latest-datatype', 'jackson-latest-dataformat-xml'])
+            version('jackson-v219', '2.19.2')
+            library('jackson-v219-core', 'com.fasterxml.jackson.core', 'jackson-core').versionRef('jackson-v219')
+            library('jackson-v219-databind', 'com.fasterxml.jackson.core', 'jackson-databind').versionRef('jackson-v219')
+            library('jackson-v219-annotations', 'com.fasterxml.jackson.core', 'jackson-annotations').versionRef('jackson-v219')
+            library('jackson-v219-datatype', 'com.fasterxml.jackson.datatype', 'jackson-datatype-jsr310').versionRef('jackson-v219')
+            library('jackson-v219-dataformat-xml', 'com.fasterxml.jackson.dataformat', 'jackson-dataformat-xml').versionRef('jackson-v219')
+            bundle('jackson-v219', ['jackson-v219-core', 'jackson-v219-databind', 'jackson-v219-annotations', 'jackson-v219-datatype', 'jackson-v219-dataformat-xml'])
+
+            version('jackson-latest', '3.0.3')
+            version('jackson-latest-annotations', '2.20')
+            library('jackson-latest-core', 'tools.jackson.core', 'jackson-core').versionRef('jackson-latest')
+            library('jackson-latest-databind', 'tools.jackson.core', 'jackson-databind').versionRef('jackson-latest')
+            library('jackson-latest-annotations', 'com.fasterxml.jackson.core', 'jackson-annotations').versionRef('jackson-latest-annotations')
+            library('jackson-latest-dataformat-xml', 'tools.jackson.dataformat', 'jackson-dataformat-xml').versionRef('jackson-latest')
+            bundle('jackson-latest', ['jackson-latest-core', 'jackson-latest-databind', 'jackson-latest-annotations', 'jackson-latest-dataformat-xml'])
 
             version('jackson-v208', '2.8.11')
             library('jackson-v208-core', 'com.fasterxml.jackson.core', 'jackson-core').versionRef('jackson-v208')
