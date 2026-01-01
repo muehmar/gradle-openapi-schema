@@ -50,6 +50,13 @@
     }
     ```
   The structure of the `validation` is the same if globally configured or configured per specification.
+* Since Jackson 3 is supported now, `jsonSupport = "jackson"` as well as `xmlSupport = "jackson"` is removed from
+  the options. The properties have the following options now (as you can see in the following table):
+
+  | Property     | Options                     | 
+    |:-------------|:----------------------------|
+  | jsonSupport  | jackson-2, jackson-3, none  |
+  | xmlSupport   | jackson-2, jackson-3, none  |
 
 ## Migrating from v2.x to 3.x
 
