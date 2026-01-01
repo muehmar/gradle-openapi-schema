@@ -1,7 +1,17 @@
 ## Change Log
 
 * 4.0.0
+    * Support Jackson 3 (issue `#366`)
+    * Group validation options in DSL (issue `#361`)
+    * Fix TypeMapping for additional properties (issue `#364`)
+    * Use Set instead of List for arrays with unique items (issue `#340`)
+    * Remove 'partial-time' as format for partial-time from RFC 3339 (issue `#336`)
+    * Improve Map additional properties (issue `#308`)
+    * Support conversions for mappings of Map classes as additional properties (issue `#307`)
+    * Set minimum JDK version to 11 (issue `#301`)
     * Remove parameters generation (issue `#299`)
+    * Support for nullable map values (issue `#292`)
+    * Use correct Java Type for format date-time (issue `#270`)
 * 3.8.0
     * Properly support null values for enums (issue `#351`)
     * Add config option for nullable enums for OpenAPI spec v3.0.x (issue `#352`)
