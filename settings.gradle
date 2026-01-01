@@ -12,8 +12,9 @@ include 'mapper:jackson2'
 include 'mapper:jackson3'
 include 'example'
 include 'example-jakarta-3'
-include 'spring2-example'
-include 'spring3-example'
+include 'springboot2-example'
+include 'springboot3-example'
+include 'springboot4-example'
 include 'java-snapshot'
 
 dependencyResolutionManagement {
@@ -108,6 +109,7 @@ dependencyResolutionManagement {
             plugin('openapiGenerator', 'org.openapi.generator').version('6.6.0')
             plugin('springboot2', 'org.springframework.boot').version('2.7.9')
             plugin('springboot3', 'org.springframework.boot').version('3.3.13')
+            plugin('springboot4', 'org.springframework.boot').version('4.0.1')
             plugin('springDependencyManagement', 'io.spring.dependency-management').version('1.1.7')
             plugin('integrationTest', 'com.coditory.integration-test').version('1.4.5')
         }
