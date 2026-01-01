@@ -53,9 +53,9 @@ public class JavaUtilsGenerator implements UtilsGenerator {
   private static Optional<GeneratedFile> jacksonZonedDateTimeDeserializerClass(
       PojoSettings settings) {
     if (settings.isJacksonJson()) {
-      final Generator<Void, Void> generator =
+      final Generator<Void, PojoSettings> generator =
           JacksonZonedDateTimeDeserializerGenerator.zonedDateTimeDeserializer();
-      final Writer writer = generator.generate(noData(), noSettings(), javaWriter());
+      final Writer writer = generator.generate(noData(), settings, javaWriter());
       final JavaFileName javaFileName =
           JavaFileName.fromRef(OpenApiUtilRefs.ZONED_DATE_TIME_DESERIALIZER);
       return Optional.of(new GeneratedFile(javaFileName.asPath(), writer.asString()));

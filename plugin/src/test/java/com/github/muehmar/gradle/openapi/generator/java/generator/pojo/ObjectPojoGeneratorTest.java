@@ -151,7 +151,7 @@ class ObjectPojoGeneratorTest {
 
     final PojoSettings pojoSettings =
         defaultTestSettings()
-            .withXmlSupport(XmlSupport.JACKSON)
+            .withXmlSupport(XmlSupport.JACKSON_3)
             .withStagedBuilder(fullStagedBuilderSettingsBuilder().enabled(false).build())
             .withEnableValidation(false);
 

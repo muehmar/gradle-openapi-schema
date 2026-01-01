@@ -1,4 +1,4 @@
-zonedDateTimeDeserializer=[
+zonedDateTimeDeserializerJackson2=[
 package com.github.muehmar.openapi.util;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -11,6 +11,24 @@ public class ZonedDateTimeDeserializer extends JsonDeserializer<ZonedDateTime> {
 
   @Override
   public ZonedDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+    return ZonedDateTime.parse(p.getText().trim());
+  }
+}
+]
+
+
+zonedDateTimeDeserializerJackson3=[
+package com.github.muehmar.openapi.util;
+
+import java.time.ZonedDateTime;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ValueDeserializer;
+
+public class ZonedDateTimeDeserializer extends ValueDeserializer<ZonedDateTime> {
+
+  @Override
+  public ZonedDateTime deserialize(JsonParser p, DeserializationContext ctxt) {
     return ZonedDateTime.parse(p.getText().trim());
   }
 }

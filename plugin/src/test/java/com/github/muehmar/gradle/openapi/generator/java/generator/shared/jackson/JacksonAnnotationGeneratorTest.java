@@ -198,7 +198,8 @@ class JacksonAnnotationGeneratorTest {
     final Writer writer = generator.generate(noData(), defaultTestSettings(), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_POJO_BUILDER::equals));
+    assertTrue(
+        writer.getRefs().exists("tools.jackson.databind.annotation.JsonPOJOBuilder"::equals));
     assertEquals("@JsonPOJOBuilder(withPrefix = \"set\")", writer.asString());
   }
 
@@ -223,11 +224,14 @@ class JacksonAnnotationGeneratorTest {
     final Writer writer =
         generator.generate(
             sampleObjectPojo1().withPojoXml(new JavaPojoXml(Optional.of("root-name"))),
-            defaultTestSettings().withXmlSupport(XmlSupport.JACKSON),
+            defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3),
             javaWriter());
 
     assertEquals(1, writer.getRefs().size());
-    assertTrue(writer.getRefs().exists(JacksonRefs.JACKSON_XML_ROOT_ELEMENT::equals));
+    assertTrue(
+        writer
+            .getRefs()
+            .exists("tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement"::equals));
     assertEquals("@JacksonXmlRootElement(localName = \"root-name\")", writer.asString());
   }
 
@@ -240,7 +244,7 @@ class JacksonAnnotationGeneratorTest {
     final Writer writer =
         generator.generate(
             sampleObjectPojo1().withPojoXml(JavaPojoXml.noXmlDefinition()),
-            defaultTestSettings().withXmlSupport(XmlSupport.JACKSON),
+            defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3),
             javaWriter());
 
     assertEquals(1, writer.getRefs().size());
@@ -290,7 +294,7 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3), javaWriter());
 
     assertEquals(0, writer.getRefs().size());
     assertEquals("", writer.asString());
@@ -313,7 +317,7 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3), javaWriter());
 
     assertEquals(0, writer.getRefs().size());
     assertEquals("", writer.asString());
@@ -330,10 +334,13 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
-    assertTrue(writer.getRefs().exists(JacksonRefs.JACKSON_XML_PROPERTY::equals));
+    assertTrue(
+        writer
+            .getRefs()
+            .exists("tools.jackson.dataformat.xml.annotation.JacksonXmlProperty"::equals));
     assertEquals(expectedOutput, writer.asString());
   }
 
@@ -386,7 +393,7 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3), javaWriter());
     assertEquals(0, writer.getRefs().size());
     assertEquals("", writer.asString());
   }
@@ -411,10 +418,13 @@ class JacksonAnnotationGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
-    assertTrue(writer.getRefs().exists(JacksonRefs.JACKSON_XML_ELEMENT_WRAPPER::equals));
+    assertTrue(
+        writer
+            .getRefs()
+            .exists("tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper"::equals));
     assertEquals(expectedOutput, writer.asString());
   }
 

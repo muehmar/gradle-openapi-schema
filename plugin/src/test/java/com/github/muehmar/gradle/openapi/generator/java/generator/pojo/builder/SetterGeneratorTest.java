@@ -44,7 +44,7 @@ class SetterGeneratorTest {
         generator.generate(
             member.withMemberXml(
                 new JavaPojoMemberXml(Optional.empty(), Optional.of(true), Optional.empty())),
-            defaultTestSettings().withXmlSupport(XmlSupport.JACKSON),
+            defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3),
             javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
@@ -87,7 +87,7 @@ class SetterGeneratorTest {
 
     final Writer writer =
         generator.generate(
-            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON), javaWriter());
+            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3), javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }

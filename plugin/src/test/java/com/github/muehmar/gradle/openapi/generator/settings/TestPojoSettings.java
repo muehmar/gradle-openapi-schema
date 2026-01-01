@@ -13,7 +13,7 @@ public class TestPojoSettings {
 
   public static PojoSettings defaultTestSettings() {
     return fullPojoSettingsBuilder()
-        .jsonSupport(JsonSupport.JACKSON)
+        .jsonSupport(JsonSupport.JACKSON_3)
         .xmlSupport(XmlSupport.NONE)
         .packageName(PackageName.fromString("com.github.muehmar"))
         .suffix("Dto")
