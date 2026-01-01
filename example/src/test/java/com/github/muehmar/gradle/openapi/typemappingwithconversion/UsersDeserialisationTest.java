@@ -7,17 +7,16 @@ import static com.github.muehmar.gradle.openapi.typemappingwithconversion.ListOb
 import static java.util.Optional.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import org.junit.jupiter.api.Test;
 
 public class UsersDeserialisationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void readValue_when_ListObjectDto_then_matchExpected() throws JsonProcessingException {
+  void readValue_when_ListObjectDto_then_matchExpected() throws Exception {
     final ListObjectDto ListObjectDto =
         MAPPER.readValue(
             "{\"emails\":[\"email-1\"],\"ids\":[\"id-1\"],\"phones\":[\"phone-1\"],\"usernames\":[\"username-1\"]}",
@@ -35,8 +34,7 @@ public class UsersDeserialisationTest {
   }
 
   @Test
-  void readValue_when_ListObjectDtoWithNullableItems_then_matchExpected()
-      throws JsonProcessingException {
+  void readValue_when_ListObjectDtoWithNullableItems_then_matchExpected() throws Exception {
     final ListObjectDto ListObjectDto =
         MAPPER.readValue(
             "{\"emails\":[\"email-1\",null],\"ids\":[\"id-1\",null],\"phones\":[\"phone-1\",null],\"usernames\":[\"username-1\",null]}",
@@ -54,8 +52,7 @@ public class UsersDeserialisationTest {
   }
 
   @Test
-  void readValue_when_ListObjectDtoAbsentOrNullable_then_matchExpected()
-      throws JsonProcessingException {
+  void readValue_when_ListObjectDtoAbsentOrNullable_then_matchExpected() throws Exception {
     final ListObjectDto listObjectDto =
         MAPPER.readValue("{\"ids\":[\"id-1\"],\"usernames\":null}", ListObjectDto.class);
 
@@ -71,8 +68,7 @@ public class UsersDeserialisationTest {
   }
 
   @Test
-  void readValue_when_listObjectDtoTristateNull_then_matchExpected()
-      throws JsonProcessingException {
+  void readValue_when_listObjectDtoTristateNull_then_matchExpected() throws Exception {
     final ListObjectDto listObjectDto =
         MAPPER.readValue(
             "{\"ids\":[\"id-1\"],\"phones\":null,\"usernames\":null}", ListObjectDto.class);

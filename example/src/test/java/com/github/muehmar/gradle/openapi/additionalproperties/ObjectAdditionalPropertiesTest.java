@@ -4,15 +4,14 @@ import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 class ObjectAdditionalPropertiesTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   private static final ObjectAdditionalPropertiesDto DTO;
   private static final String JSON =
@@ -35,14 +34,12 @@ class ObjectAdditionalPropertiesTest {
   }
 
   @Test
-  void serialize_when_objectWithObjectAdditionalProperty_then_correctJson()
-      throws JsonProcessingException {
+  void serialize_when_objectWithObjectAdditionalProperty_then_correctJson() throws Exception {
     assertEquals(JSON, MAPPER.writeValueAsString(DTO));
   }
 
   @Test
-  void deserialize_when_objectWithObjectAdditionalProperty_then_correctDto()
-      throws JsonProcessingException {
+  void deserialize_when_objectWithObjectAdditionalProperty_then_correctDto() throws Exception {
     final ObjectAdditionalPropertiesDto actual =
         MAPPER.readValue(JSON, ObjectAdditionalPropertiesDto.class);
     assertEquals(DTO, actual);

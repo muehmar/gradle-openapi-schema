@@ -2,18 +2,17 @@ package com.github.muehmar.gradle.openapi.anyof;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class DiscriminatorDeserialisationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void fold_when_matchesAdmin_then_adminDtoReturned() throws JsonProcessingException {
+  void fold_when_matchesAdmin_then_adminDtoReturned() throws Exception {
     final AdminOrUserDiscriminatorDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"admin-id\",\"adminname\":\"admin-name\",\"level\":5.5,\"color\":\"yellow\",\"type\":\"Admin\"}",
@@ -37,7 +36,7 @@ class DiscriminatorDeserialisationTest {
   }
 
   @Test
-  void fold_when_matchesUser_then_userDtoReturned() throws JsonProcessingException {
+  void fold_when_matchesUser_then_userDtoReturned() throws Exception {
     final AdminOrUserDiscriminatorDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"user-id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"type\":\"User\"}",
@@ -59,7 +58,7 @@ class DiscriminatorDeserialisationTest {
 
   @Test
   void fold_when_matchesAdminAndUserButDiscriminatorIsAdmin_then_adminDtoDtoReturned()
-      throws JsonProcessingException {
+      throws Exception {
     final AdminOrUserDiscriminatorDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"id\",\"username\":\"user-name\",\"age\":25,\"email\":null,\"adminname\":\"admin-name\",\"type\":\"Admin\",\"level\":5.5}",

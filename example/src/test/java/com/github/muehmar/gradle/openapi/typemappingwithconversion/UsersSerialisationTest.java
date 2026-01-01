@@ -7,17 +7,16 @@ import static com.github.muehmar.gradle.openapi.typemappingwithconversion.ListOb
 import static java.util.Optional.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import org.junit.jupiter.api.Test;
 
 public class UsersSerialisationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void writeValueAsString_when_ListObjectDto_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_ListObjectDto_then_correctJson() throws Exception {
     final ListObjectDto ListObjectDto =
         fullListObjectDtoBuilder()
             .setIds(customList(customString("id-1")))
@@ -32,8 +31,7 @@ public class UsersSerialisationTest {
   }
 
   @Test
-  void writeValueAsString_when_ListObjectDtoWithNullableItems_then_correctJson()
-      throws JsonProcessingException {
+  void writeValueAsString_when_ListObjectDtoWithNullableItems_then_correctJson() throws Exception {
     final ListObjectDto listObjectDto =
         fullListObjectDtoBuilder()
             .setIds_(customList(opt(customString("id-1")), empty()))
@@ -48,8 +46,7 @@ public class UsersSerialisationTest {
   }
 
   @Test
-  void writeValueAsString_when_listObjectDtoAbsentOrNullable_then_correctJson()
-      throws JsonProcessingException {
+  void writeValueAsString_when_listObjectDtoAbsentOrNullable_then_correctJson() throws Exception {
     final ListObjectDto listObjectDto =
         fullListObjectDtoBuilder()
             .setIds(customList(customString("id-1")))
@@ -63,8 +60,7 @@ public class UsersSerialisationTest {
   }
 
   @Test
-  void writeValueAsString_when_listObjectDtoTristateNull_then_correctJson()
-      throws JsonProcessingException {
+  void writeValueAsString_when_listObjectDtoTristateNull_then_correctJson() throws Exception {
     final ListObjectDto listObjectDto =
         fullListObjectDtoBuilder()
             .setIds(customList(customString("id-1")))

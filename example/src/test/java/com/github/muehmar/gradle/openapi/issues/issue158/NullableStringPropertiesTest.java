@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
@@ -23,10 +22,10 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 class NullableStringPropertiesTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void serialize_when_dto_then_correctJson() throws JsonProcessingException {
+  void serialize_when_dto_then_correctJson() throws Exception {
     final NullableStringPropertiesDto dto =
         nullableStringPropertiesDtoBuilder()
             .andAllOptionals()
@@ -43,7 +42,7 @@ class NullableStringPropertiesTest {
   }
 
   @Test
-  void deserialize_when_json_then_correctDto() throws JsonProcessingException {
+  void deserialize_when_json_then_correctDto() throws Exception {
     final String json = "{\"foo\":\"foo\",\"hi\":null,\"hello\":\"world\"}";
 
     final NullableStringPropertiesDto dto =
@@ -71,7 +70,7 @@ class NullableStringPropertiesTest {
   }
 
   @Test
-  void validate_when_validJson_then_noViolations() throws JsonProcessingException {
+  void validate_when_validJson_then_noViolations() throws Exception {
     final String json = "{\"foo\":\"foo\",\"hi\":null,\"hello\":\"world\"}";
 
     final NullableStringPropertiesDto dto =

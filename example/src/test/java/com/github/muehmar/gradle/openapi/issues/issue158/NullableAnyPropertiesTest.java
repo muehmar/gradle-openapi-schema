@@ -5,8 +5,7 @@ import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
@@ -18,10 +17,10 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 public class NullableAnyPropertiesTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void serialize_when_dto_then_correctJson() throws JsonProcessingException {
+  void serialize_when_dto_then_correctJson() throws Exception {
     final NullableAnyPropertiesDto dto =
         nullableAnyPropertiesDtoBuilder()
             .andAllOptionals()
@@ -40,7 +39,7 @@ public class NullableAnyPropertiesTest {
   }
 
   @Test
-  void deserialize_when_json_then_correctDto() throws JsonProcessingException {
+  void deserialize_when_json_then_correctDto() throws Exception {
     final String json =
         "{\"foo\":\"foo\",\"hi\":null,\"ciao\":5,\"hello\":\"world\",\"allegra\":[true]}";
 
@@ -73,7 +72,7 @@ public class NullableAnyPropertiesTest {
   }
 
   @Test
-  void validate_when_validJson_then_noViolations() throws JsonProcessingException {
+  void validate_when_validJson_then_noViolations() throws Exception {
     final String json =
         "{\"foo\":\"foo\",\"hi\":null,\"ciao\":5,\"hello\":\"world\",\"allegra\":[true]}";
 

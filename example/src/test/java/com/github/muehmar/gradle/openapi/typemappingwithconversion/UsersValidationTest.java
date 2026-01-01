@@ -7,18 +7,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 public class UsersValidationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void validate_when_everythingOk_then_noViolations() throws JsonProcessingException {
+  void validate_when_everythingOk_then_noViolations() throws Exception {
     final String json = "{\"ids\":[\"id-1234\"],\"usernames\":null}";
 
     final ListObjectDto listObjectDto = MAPPER.readValue(json, ListObjectDto.class);
@@ -30,7 +29,7 @@ public class UsersValidationTest {
   }
 
   @Test
-  void validate_when_idsHasTooMuchItems_then_violation() throws JsonProcessingException {
+  void validate_when_idsHasTooMuchItems_then_violation() throws Exception {
     final String json = "{\"ids\":[\"id-1234\", null, null],\"usernames\":null}";
 
     final ListObjectDto listObjectDto = MAPPER.readValue(json, ListObjectDto.class);
@@ -45,7 +44,7 @@ public class UsersValidationTest {
   }
 
   @Test
-  void validate_when_usernamesHasToFewItems_then_violation() throws JsonProcessingException {
+  void validate_when_usernamesHasToFewItems_then_violation() throws Exception {
     final String json = "{\"ids\":[\"id-1234\", null],\"usernames\":[]}";
 
     final ListObjectDto listObjectDto = MAPPER.readValue(json, ListObjectDto.class);
@@ -60,7 +59,7 @@ public class UsersValidationTest {
   }
 
   @Test
-  void validate_when_emailsHasToFewItems_then_violation() throws JsonProcessingException {
+  void validate_when_emailsHasToFewItems_then_violation() throws Exception {
     final String json = "{\"ids\":[\"id-1234\", null],\"usernames\":null,\"emails\":[]}";
 
     final ListObjectDto listObjectDto = MAPPER.readValue(json, ListObjectDto.class);
@@ -75,7 +74,7 @@ public class UsersValidationTest {
   }
 
   @Test
-  void validate_when_phonesHasTooFewItems_then_violation() throws JsonProcessingException {
+  void validate_when_phonesHasTooFewItems_then_violation() throws Exception {
     final String json = "{\"ids\":[\"id-1234\", null],\"usernames\":null,\"phones\":[]}";
 
     final ListObjectDto listObjectDto = MAPPER.readValue(json, ListObjectDto.class);

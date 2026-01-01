@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
@@ -20,10 +19,10 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 class NonNullableStringPropertiesTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void serialize_when_dto_then_correctJson() throws JsonProcessingException {
+  void serialize_when_dto_then_correctJson() throws Exception {
     final NonNullableStringPropertiesDto dto =
         nonNullableStringPropertiesDtoBuilder()
             .andAllOptionals()
@@ -38,7 +37,7 @@ class NonNullableStringPropertiesTest {
   }
 
   @Test
-  void deserialize_when_json_then_correctDto() throws JsonProcessingException {
+  void deserialize_when_json_then_correctDto() throws Exception {
     final String json = "{\"foo\":\"foo\",\"hello\":\"world\"}";
 
     final NonNullableStringPropertiesDto dto =
@@ -65,7 +64,7 @@ class NonNullableStringPropertiesTest {
   }
 
   @Test
-  void validate_when_validJson_then_noViolations() throws JsonProcessingException {
+  void validate_when_validJson_then_noViolations() throws Exception {
     final String json = "{\"foo\":\"foo\",\"hello\":\"world\"}";
 
     final NonNullableStringPropertiesDto dto =
@@ -78,7 +77,7 @@ class NonNullableStringPropertiesTest {
   }
 
   @Test
-  void validate_when_additionalPropertyIsNull_then_violation() throws JsonProcessingException {
+  void validate_when_additionalPropertyIsNull_then_violation() throws Exception {
     final String json = "{\"foo\":\"foo\",\"hi\":null,\"hello\":\"world\"}";
 
     final NonNullableStringPropertiesDto dto =

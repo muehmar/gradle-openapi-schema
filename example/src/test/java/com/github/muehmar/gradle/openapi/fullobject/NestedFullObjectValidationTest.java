@@ -6,18 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 class NestedFullObjectValidationTest {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void validate_when_allOk_then_noViolations() throws JsonProcessingException {
+  void validate_when_allOk_then_noViolations() throws Exception {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
             "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\"}",
@@ -30,8 +30,7 @@ class NestedFullObjectValidationTest {
   }
 
   @Test
-  void getPropertyCount_when_called_then_correctPropertyCountReturned()
-      throws JsonProcessingException {
+  void getPropertyCount_when_called_then_correctPropertyCountReturned() throws Exception {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
             "{\"amount\":15,\"route\":\"route\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\"}",
@@ -41,8 +40,7 @@ class NestedFullObjectValidationTest {
   }
 
   @Test
-  void validate_when_invalidAdditionalPropertiesTypeForAdminDto_then_violation()
-      throws JsonProcessingException {
+  void validate_when_invalidAdditionalPropertiesTypeForAdminDto_then_violation() throws Exception {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
             "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"Admin\",\"adminname\":\"adminname\",\"message\":\"message\",\"hello\":\"world!\"}",
@@ -62,7 +60,7 @@ class NestedFullObjectValidationTest {
   }
 
   @Test
-  void validate_when_tooMuchProperties_then_violation() throws JsonProcessingException {
+  void validate_when_tooMuchProperties_then_violation() throws Exception {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
             "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\",\"too-much\":\"properties\"}",
@@ -82,7 +80,7 @@ class NestedFullObjectValidationTest {
   }
 
   @Test
-  void validate_when_wrongDiscriminator_then_violation() throws JsonProcessingException {
+  void validate_when_wrongDiscriminator_then_violation() throws Exception {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
             "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"Admin\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\"}",
@@ -102,7 +100,7 @@ class NestedFullObjectValidationTest {
   }
 
   @Test
-  void validate_when_requiredAllOfMemberMissing_then_violation() throws JsonProcessingException {
+  void validate_when_requiredAllOfMemberMissing_then_violation() throws Exception {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
             "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"hello\":\"world!\"}",
@@ -121,7 +119,7 @@ class NestedFullObjectValidationTest {
   }
 
   @Test
-  void validate_when_propertyTooLong_then_violation() throws JsonProcessingException {
+  void validate_when_propertyTooLong_then_violation() throws Exception {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
             "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message-too-long\",\"hello\":\"world!\"}",
@@ -140,7 +138,7 @@ class NestedFullObjectValidationTest {
   }
 
   @Test
-  void validate_when_anyOfPropertyTooLong_then_violation() throws JsonProcessingException {
+  void validate_when_anyOfPropertyTooLong_then_violation() throws Exception {
     final NestedFullObjectDto dto =
         MAPPER.readValue(
             "{\"amount\":15,\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username-too-long\",\"message\":\"message\",\"hello\":\"world!\"}",

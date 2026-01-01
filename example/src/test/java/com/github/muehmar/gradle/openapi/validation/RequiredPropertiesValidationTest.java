@@ -5,20 +5,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class RequiredPropertiesValidationTest {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @ParameterizedTest
   @ValueSource(strings = {"{\"val1\":\"\",\"val2\":\"\"}", "{\"val1\":\"\",\"val2\":null}"})
-  void validate_when_propertiesPresent_then_noViolations(String json)
-      throws JsonProcessingException {
+  void validate_when_propertiesPresent_then_noViolations(String json) throws Exception {
     final RequiredPropertiesDto dto = MAPPER.readValue(json, RequiredPropertiesDto.class);
 
     final Set<ConstraintViolation<RequiredPropertiesDto>> constraintViolations = validate(dto);
@@ -29,8 +28,7 @@ class RequiredPropertiesValidationTest {
 
   @ParameterizedTest
   @ValueSource(strings = {"{\"val1\":\"\"}", "{\"val2\":\"\"}", "{\"val1\":null,\"val2\":\"\"}"})
-  void validate_when_propertiesNotPresent_then_violations(String json)
-      throws JsonProcessingException {
+  void validate_when_propertiesNotPresent_then_violations(String json) throws Exception {
     final RequiredPropertiesDto dto = MAPPER.readValue(json, RequiredPropertiesDto.class);
 
     final Set<ConstraintViolation<RequiredPropertiesDto>> constraintViolations = validate(dto);

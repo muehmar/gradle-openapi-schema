@@ -7,16 +7,15 @@ import static com.github.muehmar.gradle.openapi.typemappingwithconversion.Custom
 import static com.github.muehmar.gradle.openapi.typemappingwithconversion.ListObjectDto.fullListObjectDtoBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import org.junit.jupiter.api.Test;
 
 public class AllOfListObjectSerialisationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void writeValueAsString_whenSuperUser_thenSerialiseCorrectly() throws JsonProcessingException {
+  void writeValueAsString_whenSuperUser_thenSerialiseCorrectly() throws Exception {
     final AllOfListObjectDto allOfListObjectDto =
         AllOfListObjectDto.builder()
             .setListObjectDto(

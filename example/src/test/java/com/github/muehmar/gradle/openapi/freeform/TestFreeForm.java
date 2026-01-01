@@ -3,8 +3,7 @@ package com.github.muehmar.gradle.openapi.freeform;
 import static com.github.muehmar.gradle.openapi.util.ValidationUtil.validate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.HashMap;
@@ -14,10 +13,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class TestFreeForm {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void serialize_when_rootFreeFormDtos_then_correctJson() throws JsonProcessingException {
+  void serialize_when_rootFreeFormDtos_then_correctJson() throws Exception {
     final HashMap<String, Object> map = new HashMap<>();
     map.put("firstName", "Dexter");
     map.put("lastName", "Morgan");
@@ -32,7 +31,7 @@ class TestFreeForm {
   }
 
   @Test
-  void serialize_when_inlineFreeFormDto_then_correctJson() throws JsonProcessingException {
+  void serialize_when_inlineFreeFormDto_then_correctJson() throws Exception {
     final HashMap<String, Object> map = new HashMap<>();
     map.put("firstName", "Dexter");
     map.put("lastName", "Morgan");
@@ -44,7 +43,7 @@ class TestFreeForm {
   }
 
   @Test
-  void deserialize_when_rootFreeFormDtos_then_correctObject() throws JsonProcessingException {
+  void deserialize_when_rootFreeFormDtos_then_correctObject() throws Exception {
     final String input = "{\"firstName\":\"Dexter\",\"lastName\":\"Morgan\"}";
 
     final FreeForm1Dto dto1 = MAPPER.readValue(input, FreeForm1Dto.class);
@@ -64,7 +63,7 @@ class TestFreeForm {
   }
 
   @Test
-  void deserialize_when_inlineFreeFormDto_then_correctObject() throws JsonProcessingException {
+  void deserialize_when_inlineFreeFormDto_then_correctObject() throws Exception {
     final String input = "{\"data\":{\"firstName\":\"Dexter\",\"lastName\":\"Morgan\"}}";
 
     final InlineFreeFormDto dto = MAPPER.readValue(input, InlineFreeFormDto.class);

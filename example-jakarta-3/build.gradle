@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation sampleLibs.bundles.jackson
+    implementation sampleLibs.bundles.jackson.v219
 
     implementation sampleLibs.jakarta3.validation.api
 
@@ -17,8 +17,10 @@ dependencies {
 }
 
 openApiGenerator {
-    validationMethods {
-        getterSuffix = "Raw"
+    validation {
+        validationMethods {
+            getterSuffix = "Raw"
+        }
     }
 
     schemas {
@@ -27,11 +29,14 @@ openApiGenerator {
             inputSpec = "$projectDir/src/main/resources/openapi.yml"
             outputDir = project.layout.buildDirectory.dir("generated/openapi")
             packageName = "${project.group}.${project.name}.api.model"
-            jsonSupport = "jackson"
+            jsonSupport = "jackson-2"
             suffix = "Dto"
-            enableValidation = true
-            validationApi = "jakarta-3"
             builderMethodPrefix = "set"
+
+            validation {
+                enabled = true
+                validationApi = "jakarta-3"
+            }
         }
     }
 }

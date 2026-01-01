@@ -10,15 +10,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 public class MapObjectValidationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
   void validate_when_everythingOk_then_noViolations() {
@@ -37,7 +36,7 @@ public class MapObjectValidationTest {
   }
 
   @Test
-  void validate_when_usernamesMapMissing_then_violation() throws JsonProcessingException {
+  void validate_when_usernamesMapMissing_then_violation() throws Exception {
     final MapObjectDto mapObjectDto = MAPPER.readValue("{\"idsMap\":{}}", MapObjectDto.class);
 
     final Set<ConstraintViolation<MapObjectDto>> violations = validate(mapObjectDto);
@@ -50,7 +49,7 @@ public class MapObjectValidationTest {
   }
 
   @Test
-  void validate_when_emailsNull_then_violation() throws JsonProcessingException {
+  void validate_when_emailsNull_then_violation() throws Exception {
     final MapObjectDto mapObjectDto =
         MAPPER.readValue(
             "{\"idsMap\":{},\"usernamesMap\":null,\"emailsMap\":null}", MapObjectDto.class);
@@ -65,7 +64,7 @@ public class MapObjectValidationTest {
   }
 
   @Test
-  void validate_when_idsValueTooShort_then_violation() throws JsonProcessingException {
+  void validate_when_idsValueTooShort_then_violation() throws Exception {
     final MapObjectDto mapObjectDto =
         MAPPER.readValue(
             "{\"idsMap\":{\"ids-k-1\":\"short\"},\"usernamesMap\":null}", MapObjectDto.class);
@@ -80,7 +79,7 @@ public class MapObjectValidationTest {
   }
 
   @Test
-  void validate_when_usernamesValueTooShort_then_violation() throws JsonProcessingException {
+  void validate_when_usernamesValueTooShort_then_violation() throws Exception {
     final MapObjectDto mapObjectDto =
         MAPPER.readValue(
             "{\"idsMap\":{},\"usernamesMap\":{\"usernames-k-1\":\"short\"}}", MapObjectDto.class);
@@ -95,8 +94,7 @@ public class MapObjectValidationTest {
   }
 
   @Test
-  void validate_when_emailsValueDoesNotMatchPattern_then_violation()
-      throws JsonProcessingException {
+  void validate_when_emailsValueDoesNotMatchPattern_then_violation() throws Exception {
     final MapObjectDto mapObjectDto =
         MAPPER.readValue(
             "{\"idsMap\":{},\"usernamesMap\":null,\"emailsMap\":{\"mail-k-1\":\"wrongPattern\"}}",
@@ -112,8 +110,7 @@ public class MapObjectValidationTest {
   }
 
   @Test
-  void validate_when_phonesValueDoesNotMatchPattern_then_violation()
-      throws JsonProcessingException {
+  void validate_when_phonesValueDoesNotMatchPattern_then_violation() throws Exception {
     final MapObjectDto mapObjectDto =
         MAPPER.readValue(
             "{\"idsMap\":{},\"usernamesMap\":null,\"phonesMap\":{\"mail-k-1\":\"wrongPattern\"}}",

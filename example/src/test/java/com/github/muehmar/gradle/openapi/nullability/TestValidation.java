@@ -6,18 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Collections;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 class TestValidation {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void validate_when_minimalValidDto_then_noViolations() throws JsonProcessingException {
+  void validate_when_minimalValidDto_then_noViolations() throws Exception {
     final UserDto dto = MAPPER.readValue("{\"id\":\"123abc\",\"username\":null}", UserDto.class);
 
     final Set<ConstraintViolation<UserDto>> violations = validate(dto);
@@ -27,7 +27,7 @@ class TestValidation {
   }
 
   @Test
-  void validate_when_fullValidDto_then_noViolations() throws JsonProcessingException {
+  void validate_when_fullValidDto_then_noViolations() throws Exception {
     final UserDto dto =
         MAPPER.readValue(
             "{\"id\":\"123abc\",\"username\":\"Dexter\",\"email\":\"hello@github.com\",\"phone\":\"+419998877\"}",
@@ -40,7 +40,7 @@ class TestValidation {
   }
 
   @Test
-  void validate_when_idNotPresent_then_singleViolation() throws JsonProcessingException {
+  void validate_when_idNotPresent_then_singleViolation() throws Exception {
     final UserDto dto = MAPPER.readValue("{\"username\":null}", UserDto.class);
 
     final Set<ConstraintViolation<UserDto>> violations = validate(dto);
@@ -53,7 +53,7 @@ class TestValidation {
   }
 
   @Test
-  void validate_when_idTooShort_then_singleViolation() throws JsonProcessingException {
+  void validate_when_idTooShort_then_singleViolation() throws Exception {
     final UserDto dto = MAPPER.readValue("{\"id\":\"1a\",\"username\":null}", UserDto.class);
 
     final Set<ConstraintViolation<UserDto>> violations = validate(dto);
@@ -66,7 +66,7 @@ class TestValidation {
   }
 
   @Test
-  void validate_when_usernameNotPresent_then_singleViolation() throws JsonProcessingException {
+  void validate_when_usernameNotPresent_then_singleViolation() throws Exception {
     final UserDto dto = MAPPER.readValue("{\"id\":\"123abc\"}", UserDto.class);
 
     final Set<ConstraintViolation<UserDto>> violations = validate(dto);
@@ -79,7 +79,7 @@ class TestValidation {
   }
 
   @Test
-  void validate_when_usernameTooLong_then_singleViolation() throws JsonProcessingException {
+  void validate_when_usernameTooLong_then_singleViolation() throws Exception {
     final UserDto dto =
         MAPPER.readValue(
             "{\"id\":\"123abc\",\"username\":\"usernameusernameusername\"}", UserDto.class);
@@ -94,8 +94,7 @@ class TestValidation {
   }
 
   @Test
-  void validate_when_emailDoesNotMatchPattern_then_singleViolation()
-      throws JsonProcessingException {
+  void validate_when_emailDoesNotMatchPattern_then_singleViolation() throws Exception {
     final UserDto dto =
         MAPPER.readValue(
             "{\"id\":\"123abc\",\"username\":null,\"email\":\"invalid\"}", UserDto.class);
@@ -110,7 +109,7 @@ class TestValidation {
   }
 
   @Test
-  void validate_when_emailIsNull_then_singleViolation() throws JsonProcessingException {
+  void validate_when_emailIsNull_then_singleViolation() throws Exception {
     final UserDto dto =
         MAPPER.readValue("{\"id\":\"123abc\",\"username\":null,\"email\":null}", UserDto.class);
 
@@ -124,8 +123,7 @@ class TestValidation {
   }
 
   @Test
-  void validate_when_phoneDoesNotMatchPattern_then_singleViolation()
-      throws JsonProcessingException {
+  void validate_when_phoneDoesNotMatchPattern_then_singleViolation() throws Exception {
     final UserDto dto =
         MAPPER.readValue(
             "{\"id\":\"123abc\",\"username\":null,\"phone\":\"+4112\"}", UserDto.class);
@@ -140,7 +138,7 @@ class TestValidation {
   }
 
   @Test
-  void validate_when_phoneIsNull_then_noViolation() throws JsonProcessingException {
+  void validate_when_phoneIsNull_then_noViolation() throws Exception {
     final UserDto dto =
         MAPPER.readValue("{\"id\":\"123abc\",\"username\":null,\"phone\":null}", UserDto.class);
 

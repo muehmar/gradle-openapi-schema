@@ -7,8 +7,7 @@ import static com.github.muehmar.gradle.openapi.util.ViolationFormatter.formatVi
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
@@ -18,7 +17,7 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 public class Issue248Test {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
   void fullPersonDtoBuilder_when_used_then_firstNameIsTristate() {
@@ -33,8 +32,7 @@ public class Issue248Test {
   }
 
   @Test
-  void serialize_when_studentDto_then_teacherAndSubjectAreNullable()
-      throws JsonProcessingException {
+  void serialize_when_studentDto_then_teacherAndSubjectAreNullable() throws Exception {
     final StudentDto studentDto =
         studentDtoBuilder()
             .setTeacher(Optional.empty())
@@ -49,8 +47,7 @@ public class Issue248Test {
   }
 
   @Test
-  void deserialize_when_studentDto_then_nullForTeacherAndSubjectIsValid()
-      throws JsonProcessingException {
+  void deserialize_when_studentDto_then_nullForTeacherAndSubjectIsValid() throws Exception {
     final String json = "{\"grade\":6,\"teacher\":null,\"subject\":null}";
 
     final StudentDto studentDto = MAPPER.readValue(json, StudentDto.class);
@@ -64,7 +61,7 @@ public class Issue248Test {
   }
 
   @Test
-  void serialize_when_universityDto_then_subjectsIsNullable() throws JsonProcessingException {
+  void serialize_when_universityDto_then_subjectsIsNullable() throws Exception {
     final UniversityDto universityDto =
         universityDtoBuilder().setName("University").setSubjects(Optional.empty()).build();
 
@@ -74,8 +71,7 @@ public class Issue248Test {
   }
 
   @Test
-  void deserialize_when_universityDto_then_nullForTeacherAndSubjectIsValid()
-      throws JsonProcessingException {
+  void deserialize_when_universityDto_then_nullForTeacherAndSubjectIsValid() throws Exception {
     final String json = "{\"name\":\"University\",\"subjects\":null}";
 
     final UniversityDto universityDto = MAPPER.readValue(json, UniversityDto.class);

@@ -5,14 +5,12 @@ import static com.github.muehmar.gradle.openapi.xml.BookProp1Dto.fullBookProp1Dt
 import static com.github.muehmar.gradle.openapi.xml.BookProp2Dto.fullBookProp2DtoBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.junit.jupiter.api.BeforeAll;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
+import com.github.muehmar.gradle.openapi.util.XmlMapper;
 import org.junit.jupiter.api.Test;
 
 public class SerialisationTest {
-  private static final XmlMapper XML_MAPPER = new XmlMapper();
+  private static final XmlMapper XML_MAPPER = MapperFactory.xmlMapper();
 
   private static final BookDto BOOK_DTO =
       fullBookDtoBuilder()
@@ -44,44 +42,38 @@ public class SerialisationTest {
   private static final String BOOK_PROP2_XML =
       "<BookProp2><author>Douglas Adams</author><id>123456</id><xml-title>The Hitchhiker's Guide to the Galaxy</xml-title></BookProp2>";
 
-  @BeforeAll
-  static void setupMapper() {
-    XML_MAPPER.setConfig(
-        XML_MAPPER.getSerializationConfig().with(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY));
-  }
-
   @Test
-  void serialize_when_bookDto_then_correctXml() throws JsonProcessingException {
+  void serialize_when_bookDto_then_correctXml() throws Exception {
     final String xml = XML_MAPPER.writeValueAsString(BOOK_DTO);
     assertEquals(BOOK_XML, xml);
   }
 
   @Test
-  void deserialize_when_bookXml_then_correctBookDto() throws JsonProcessingException {
+  void deserialize_when_bookXml_then_correctBookDto() throws Exception {
     final BookDto bookDto = XML_MAPPER.readValue(BOOK_XML, BookDto.class);
     assertEquals(BOOK_DTO, bookDto);
   }
 
   @Test
-  void serialize_when_bookProp1Dto_then_correctXml() throws JsonProcessingException {
+  void serialize_when_bookProp1Dto_then_correctXml() throws Exception {
     final String xml = XML_MAPPER.writeValueAsString(BOOK_PROP1_DTO);
     assertEquals(BOOK_PROP1_XML, xml);
   }
 
   @Test
-  void deserialize_when_bookProp1Xml_then_correctBookPropDto() throws JsonProcessingException {
+  void deserialize_when_bookProp1Xml_then_correctBookPropDto() throws Exception {
     final BookProp1Dto bookPropDto = XML_MAPPER.readValue(BOOK_PROP1_XML, BookProp1Dto.class);
     assertEquals(BOOK_PROP1_DTO, bookPropDto);
   }
 
   @Test
-  void serialize_when_bookProp2Dto_then_correctXml() throws JsonProcessingException {
+  void serialize_when_bookProp2Dto_then_correctXml() throws Exception {
     final String xml = XML_MAPPER.writeValueAsString(BOOK_PROP2_DTO);
     assertEquals(BOOK_PROP2_XML, xml);
   }
 
   @Test
-  void deserialize_when_bookProp2Xml_then_correctBookPropDto() throws JsonProcessingException {
+  void deserialize_when_bookProp2Xml_then_correctBookPropDto() throws Exception {
     final BookProp2Dto bookPropDto = XML_MAPPER.readValue(BOOK_PROP2_XML, BookProp2Dto.class);
     assertEquals(BOOK_PROP2_DTO, bookPropDto);
   }

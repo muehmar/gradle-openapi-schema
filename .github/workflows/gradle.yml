@@ -32,11 +32,17 @@ jobs:
           java-version: 17
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Run Jackson 2.08 example tests
+        run: ./gradlew :example:jackson208Test
+      - name: Run Jackson 2.19 example tests
+        run: ./gradlew :example:jackson219Test
       - name: Run example tests
         run: ./gradlew :example:test
       - name: Run jakarta 3 example tests
         run: ./gradlew :example-jakarta-3:test
-      - name: Run spring2 integration tests
-        run: ./gradlew :spring2-example:integrationTest
-      - name: Run spring3 integration tests
-        run: ./gradlew :spring3-example:integrationTest
+      - name: Run springboot2 integration tests
+        run: ./gradlew :springboot2-example:integrationTest
+      - name: Run springboot3 integration tests
+        run: ./gradlew :springboot3-example:integrationTest
+      - name: Run springboot4 integration tests
+        run: ./gradlew :springboot4-example:integrationTest

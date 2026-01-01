@@ -2,25 +2,17 @@ package com.github.muehmar.gradle.openapi.nullability;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class WitherTest {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
-
-  @BeforeAll
-  static void setupMapper() {
-    MAPPER.setConfig(
-        MAPPER.getSerializationConfig().with(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY));
-  }
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void withId_when_called_then_newDtoContainsNewId() throws JsonProcessingException {
+  void withId_when_called_then_newDtoContainsNewId() throws Exception {
     final UserDto initialDto = UserDto.builder().setId("id").setUsername("username").build();
 
     final UserDto newDto = initialDto.withId("newId");
@@ -30,8 +22,7 @@ class WitherTest {
   }
 
   @Test
-  void withUsername_when_calledWithValue_then_newDtoContainsNewUsername()
-      throws JsonProcessingException {
+  void withUsername_when_calledWithValue_then_newDtoContainsNewUsername() throws Exception {
     final UserDto initialDto = UserDto.builder().setId("id").setUsername("username").build();
 
     final UserDto newDto = initialDto.withUsername("newUsername");
@@ -41,8 +32,7 @@ class WitherTest {
   }
 
   @Test
-  void withUsername_when_calledWithNoValue_then_newDtoContainsNullUsername()
-      throws JsonProcessingException {
+  void withUsername_when_calledWithNoValue_then_newDtoContainsNullUsername() throws Exception {
     final UserDto initialDto = UserDto.builder().setId("id").setUsername("username").build();
 
     final UserDto newDto = initialDto.withUsername(Optional.empty());
@@ -52,7 +42,7 @@ class WitherTest {
   }
 
   @Test
-  void withEmail_when_calledWithValue_then_newDtoContainsNewEmail() throws JsonProcessingException {
+  void withEmail_when_calledWithValue_then_newDtoContainsNewEmail() throws Exception {
     final UserDto initialDto =
         UserDto.builder()
             .setId("id")
@@ -70,8 +60,7 @@ class WitherTest {
   }
 
   @Test
-  void withEmail_when_calledWithNoValue_then_newDtoContainsNoEmail()
-      throws JsonProcessingException {
+  void withEmail_when_calledWithNoValue_then_newDtoContainsNoEmail() throws Exception {
     final UserDto initialDto =
         UserDto.builder()
             .setId("id")
@@ -87,7 +76,7 @@ class WitherTest {
   }
 
   @Test
-  void withPhone_when_calledWithValue_then_newDtoContainsNewPhone() throws JsonProcessingException {
+  void withPhone_when_calledWithValue_then_newDtoContainsNewPhone() throws Exception {
     final UserDto initialDto =
         UserDto.builder()
             .setId("id")
@@ -105,7 +94,7 @@ class WitherTest {
   }
 
   @Test
-  void withPhone_when_calledWithAbsent_then_newDtoContainsNoPhone() throws JsonProcessingException {
+  void withPhone_when_calledWithAbsent_then_newDtoContainsNoPhone() throws Exception {
     final UserDto initialDto =
         UserDto.builder()
             .setId("id")
@@ -121,7 +110,7 @@ class WitherTest {
   }
 
   @Test
-  void withPhone_when_calledWithNull_then_newDtoContainsNullPhone() throws JsonProcessingException {
+  void withPhone_when_calledWithNull_then_newDtoContainsNullPhone() throws Exception {
     final UserDto initialDto =
         UserDto.builder()
             .setId("id")

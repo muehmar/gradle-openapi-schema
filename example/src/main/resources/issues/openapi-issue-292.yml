@@ -1,0 +1,71 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+
+    # Object with required nullable map
+    RequiredNullableMapObject:
+      type: object
+      required:
+        - data
+        - metadata
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+        metadata:
+          type: string
+
+    # Object with optional nullable map
+    OptionalNullableMapObject:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+        data:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+
+    # Object with nested objects in map values (nullable)
+    NestedObjectMapObject:
+      type: object
+      required:
+        - nestedMap
+      properties:
+        nestedMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NestedValue'
+            nullable: true
+
+    NestedValue:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+        description:
+          type: string
+          nullable: true
+
+    # Object with integer values in map
+    IntegerMapObject:
+      type: object
+      required:
+        - counters
+      properties:
+        counters:
+          type: object
+          additionalProperties:
+            type: integer
+            nullable: true

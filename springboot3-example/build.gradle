@@ -1,0 +1,86 @@
+plugins {
+    alias(pluginLibs.plugins.openApiSchema)
+    alias(pluginLibs.plugins.openapiGenerator)
+    id "com.diffplug.spotless"
+    id 'openapischema.java17'
+    id 'idea'
+
+    alias(pluginLibs.plugins.integrationTest)
+
+    alias(pluginLibs.plugins.springboot3)
+    alias(pluginLibs.plugins.springDependencyManagement)
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation sampleLibs.swagger.annotations
+
+    testImplementation testLibs.junit
+    testImplementation testLibs.junit.params
+
+    integrationImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    testLogging {
+        events = ["passed", "failed", "skipped"]
+        exceptionFormat = "full"
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "$buildDir/generated/openapi-server/src/main/java"
+        }
+    }
+}
+
+def modelPackageName = "${project.group.replaceAll("-", "")}.${project.name.replaceAll("-", "")}.api.v1.model"
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
+    outputDir = "$buildDir/generated/openapi-server"
+    apiPackage = "com.github.muehmar.openapischema.spring"
+    modelPackage = modelPackageName
+    ignoreFileOverride = "$projectDir/.openapi-ignore"
+    modelNameSuffix = "Dto"
+    configOptions = [
+            delegatePattern: 'true',
+            useSpringBoot3 : 'true',
+            useTags        : 'true'
+    ]
+}
+
+compileJava.dependsOn(tasks.openApiGenerate)
+
+openApiGenerator {
+    validation {
+        validationMethods {
+            getterSuffix = "Raw"
+            modifier = "public"
+            deprecatedAnnotation = true
+        }
+    }
+
+    schemas {
+        apiV1 {
+            sourceSet = 'main'
+            inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
+            outputDir = project.layout.buildDirectory.dir("generated/openapi-model")
+            packageName = modelPackageName
+            jsonSupport = "jackson-2"
+            suffix = "Dto"
+            builderMethodPrefix = "set"
+
+            validation {
+                enabled = true
+                validationApi = "jakarta-3"
+            }
+        }
+    }
+}

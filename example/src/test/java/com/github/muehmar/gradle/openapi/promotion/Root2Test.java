@@ -3,8 +3,7 @@ package com.github.muehmar.gradle.openapi.promotion;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.lang.reflect.Method;
@@ -19,10 +18,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class Root2Test {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void writeValueAsString_when_root2DtoSample_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_root2DtoSample_then_correctJson() throws Exception {
     final Root2Leaf1BDto root2Lead1BDto =
         Root2Leaf1BDto.root2Leaf1BDtoBuilder()
             .setLeaf1BLeaf2ADto(Leaf1BLeaf2ADto.leaf1BLeaf2ADtoBuilder().setProp3("prop3").build())
@@ -43,7 +42,7 @@ class Root2Test {
   }
 
   @Test
-  void readValue_when_root2DtoSample_then_correctDto() throws JsonProcessingException {
+  void readValue_when_root2DtoSample_then_correctDto() throws Exception {
     final String JSON = "{\"prop1\":1,\"prop2\":2,\"prop3\":\"prop3\",\"prop4\":\"prop4\"}";
     final Root2Dto root2Dto = MAPPER.readValue(JSON, Root2Dto.class);
 

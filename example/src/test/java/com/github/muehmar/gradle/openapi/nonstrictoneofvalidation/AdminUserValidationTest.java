@@ -6,8 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,10 +15,10 @@ import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 class AdminUserValidationTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void validate_when_matchesUserSchema_then_noViolation() throws JsonProcessingException {
+  void validate_when_matchesUserSchema_then_noViolation() throws Exception {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"user-id\",\"type\":\"type\",\"username\":\"user-name\",\"age\":25,\"email\":null}",
@@ -32,8 +31,7 @@ class AdminUserValidationTest {
   }
 
   @Test
-  void validate_when_matchesUserSchemaButInvalidAge_then_violation()
-      throws JsonProcessingException {
+  void validate_when_matchesUserSchemaButInvalidAge_then_violation() throws Exception {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"user-id\",\"type\":\"type\",\"username\":\"user-name\",\"age\":200,\"email\":null}",
@@ -52,7 +50,7 @@ class AdminUserValidationTest {
   }
 
   @Test
-  void validate_when_matchesNoSchema_then_violation() throws JsonProcessingException {
+  void validate_when_matchesNoSchema_then_violation() throws Exception {
     final AdminOrUserDto adminOrUserDto = MAPPER.readValue("{}", AdminOrUserDto.class);
 
     final Set<ConstraintViolation<AdminOrUserDto>> violations = validate(adminOrUserDto);
@@ -71,7 +69,7 @@ class AdminUserValidationTest {
   }
 
   @Test
-  void validate_when_doesMatchBothSchemas_then_violation() throws JsonProcessingException {
+  void validate_when_doesMatchBothSchemas_then_violation() throws Exception {
     final AdminOrUserDto adminOrUserDto =
         MAPPER.readValue(
             "{\"id\":\"id-123\",\"type\":\"type\",\"username\":\"user-name\",\"adminname\":\"admin-name\",\"age\":25,\"email\":null}",

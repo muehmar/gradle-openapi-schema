@@ -6,18 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
+import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import org.junit.jupiter.api.Test;
 
 class FullObjectValidationTest {
-  private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
-  void validate_when_allOk_then_noViolations() throws JsonProcessingException {
+  void validate_when_allOk_then_noViolations() throws Exception {
     final FullObjectDto dto =
         MAPPER.readValue(
             "{\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",
@@ -30,8 +30,7 @@ class FullObjectValidationTest {
   }
 
   @Test
-  void getPropertyCount_when_called_then_correctPropertyCountReturned()
-      throws JsonProcessingException {
+  void getPropertyCount_when_called_then_correctPropertyCountReturned() throws Exception {
     final FullObjectDto dto =
         MAPPER.readValue(
             "{\"route\":\"route\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",
@@ -41,8 +40,7 @@ class FullObjectValidationTest {
   }
 
   @Test
-  void validate_when_invalidAdditionalPropertiesTypeForAdminDto_then_violation()
-      throws JsonProcessingException {
+  void validate_when_invalidAdditionalPropertiesTypeForAdminDto_then_violation() throws Exception {
     final FullObjectDto dto =
         MAPPER.readValue(
             "{\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"Admin\",\"adminname\":\"adminname\",\"message\":\"message\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",
@@ -60,7 +58,7 @@ class FullObjectValidationTest {
   }
 
   @Test
-  void validate_when_tooMuchProperties_then_violation() throws JsonProcessingException {
+  void validate_when_tooMuchProperties_then_violation() throws Exception {
     final FullObjectDto dto =
         MAPPER.readValue(
             "{\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"admin-prop\":\"value\",\"hello\":\"world!\",\"too-much\":\"properties\"}",
@@ -78,7 +76,7 @@ class FullObjectValidationTest {
   }
 
   @Test
-  void validate_when_wrongDiscriminator_then_violation() throws JsonProcessingException {
+  void validate_when_wrongDiscriminator_then_violation() throws Exception {
     final FullObjectDto dto =
         MAPPER.readValue(
             "{\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"Admin\",\"username\":\"username\",\"message\":\"message\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",
@@ -96,7 +94,7 @@ class FullObjectValidationTest {
   }
 
   @Test
-  void validate_when_requiredAllOfMemberMissing_then_violation() throws JsonProcessingException {
+  void validate_when_requiredAllOfMemberMissing_then_violation() throws Exception {
     final FullObjectDto dto =
         MAPPER.readValue(
             "{\"route\":\"route\",\"schema\":\"schema\",\"type\":\"Admin\",\"adminname\":\"adminname\",\"message\":\"message\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",
@@ -110,7 +108,7 @@ class FullObjectValidationTest {
   }
 
   @Test
-  void validate_when_propertyTooLong_then_violation() throws JsonProcessingException {
+  void validate_when_propertyTooLong_then_violation() throws Exception {
     final FullObjectDto dto =
         MAPPER.readValue(
             "{\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message-too-long\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",
@@ -126,7 +124,7 @@ class FullObjectValidationTest {
   }
 
   @Test
-  void validate_when_anyOfPropertyTooLong_then_violation() throws JsonProcessingException {
+  void validate_when_anyOfPropertyTooLong_then_violation() throws Exception {
     final FullObjectDto dto =
         MAPPER.readValue(
             "{\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"User\",\"username\":\"username-too-long\",\"message\":\"message\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",

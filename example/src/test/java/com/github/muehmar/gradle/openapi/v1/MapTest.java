@@ -2,14 +2,13 @@ package com.github.muehmar.gradle.openapi.v1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import java.util.HashMap;
 import org.junit.jupiter.api.Test;
 
 class MapTest {
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   private static final String ROOT_MAP_JSON =
       "{\"prop2\":{\"description\":\"description2\",\"name\":\"name2\"},\"prop1\":{\"name\":\"name1\"}}";
@@ -45,22 +44,22 @@ class MapTest {
   }
 
   @Test
-  void writeValueAsString_when_rootMap_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_rootMap_then_correctJson() throws Exception {
     assertEquals(ROOT_MAP_JSON, MAPPER.writeValueAsString(ROOT_MAP_DTO));
   }
 
   @Test
-  void readValue_when_rootMap_then_correctDto() throws JsonProcessingException {
+  void readValue_when_rootMap_then_correctDto() throws Exception {
     assertEquals(ROOT_MAP_DTO, MAPPER.readValue(ROOT_MAP_JSON, RootMapSchemaDto.class));
   }
 
   @Test
-  void writeValueAsString_when_inlineMap_then_correctJson() throws JsonProcessingException {
+  void writeValueAsString_when_inlineMap_then_correctJson() throws Exception {
     assertEquals(INLINE_MAP_JSON, MAPPER.writeValueAsString(INLINE_MAP_DTO));
   }
 
   @Test
-  void readValue_when_inlineMap_then_correctDto() throws JsonProcessingException {
+  void readValue_when_inlineMap_then_correctDto() throws Exception {
     assertEquals(INLINE_MAP_DTO, MAPPER.readValue(INLINE_MAP_JSON, InlinedMapSchemaDto.class));
   }
 }

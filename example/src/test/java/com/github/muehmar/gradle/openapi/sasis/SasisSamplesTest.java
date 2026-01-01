@@ -2,8 +2,7 @@ package com.github.muehmar.gradle.openapi.sasis;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
@@ -14,12 +13,12 @@ import org.junit.jupiter.api.Test;
 
 class SasisSamplesTest {
 
-  private static final ObjectMapper MAPPER = MapperFactory.mapper();
+  private static final JsonMapper MAPPER = MapperFactory.jsonMapper();
 
   @Test
   @Disabled(
       "The sasis API has currently for all object schemas additionalProperties=false which makes it impossible to send data for the allOf compositions")
-  void test() throws JsonProcessingException {
+  void test() throws Exception {
     final String json =
         "  {\n"
             + "            \"careProvider\": {\n"
