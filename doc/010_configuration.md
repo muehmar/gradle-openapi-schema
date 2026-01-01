@@ -19,10 +19,15 @@ openApiGenerator {
     sourceSet = "main"
     outputDir = project.layout.buildDirectory.dir("generated/openapi")
     suffix = "Dto"
-    jsonSupport = "jackson"
-    xmlSupport = "jackson"
-    enableValidation = true
+    jsonSupport = "jackson-3"
+    xmlSupport = "jackson-3"
     allowNullableForEnums = true
+
+    validation {
+        enabled = true
+
+        // further global validation config goes here
+    }
 
     schemas {
 
@@ -30,11 +35,21 @@ openApiGenerator {
         apiV1 {
             inputSpec = "$projectDir/src/main/resources/openapi-v1.yml"
             packageName = "${project.group}.${project.name}.api.v1.model"
-            validationApi = "jakarta-3.0"
             builderMethodPrefix = "set"
 
             warnings {
                 failOnWarnings = true
+            }
+
+            // Override validation settings for this schema
+            validation {
+                validationApi = "jakarta-3.0"
+
+                validationMethods {
+                    getterSuffix = "Raw"
+                    modifier = "public"
+                    deprecatedAnnotation = true
+                }
             }
 
             // This would overwrite any global configuration
@@ -86,12 +101,6 @@ openApiGenerator {
                 optionalSuffix = "Opt"
                 optionalNullableSuffix = "Tristate"
             }
-
-            validationMethods {
-                getterSuffix = "Raw"
-                modifier = "public"
-                deprecatedAnnotation = true
-            }
         }
 
         // Custom name for this schema
@@ -140,10 +149,6 @@ openApiGenerator {
         // global config goes here
     }
 
-    validationMethods {
-        // global config goes here
-    }
-
     stagedBuilder {
         enabled = true
     }
@@ -165,12 +170,9 @@ specification if necessary.
 | resolveInputSpecs         | &cross;               | boolean                      | true                                                   | Input specifications are resolved for task input calculation for gradle. This requires parsing the specification to identify remote specifications. This can be disabled if needed, see [Incremental build and remote specifications](#incremental-build-and-remote-specifications). |
 | packageName               | &cross;               | String                       | \${project.group}.\${project.name}.api.model           | Name of the package for the generated classes.                                                                                                                                                                                                                                       |
 | suffix                    | &check;               | String                       |                                                        | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided.                                                                                                                                                                              |
-| jsonSupport               | &check;               | String                       | jackson                                                | Used json support library. Possible values are `jackson` or `none`.                                                                                                                                                                                                                  |
-| xmlSupport                | &check;               | String                       | none                                                   | Used xml support library. Possible values are `jackson` or `none`. If set to `jackson`, json support for `jackson` will be enabled automatically, since it uses the same annotations for serialisation.                                                                              |
-| enableValidation          | &check;               | Boolean                      | false                                                  | Enables the generation of annotations for bean validation. Select with `validationApi` the used packages.                                                                                                                                                                            |
-| nonStrictOneOfValidation  | &check;               | Boolean                      | false                                                  | If enabled, a DTO with oneOf composition with discriminator does not validate if the data is valid against exactly one schema. It will only validate if the data is valid against the schema described by the discriminator.                                                         |
+| jsonSupport               | &check;               | String                       | none                                                   | Used json support library. Possible values are `jackson-2`, `jackson-3` or `none`.                                                                                                                                                                                                   |
+| xmlSupport                | &check;               | String                       | none                                                   | Used xml support library. Possible values are `jackson-2`, `jackson-3` or `none`. If set to `jackson-X`, json support for `jackson-X` will be enabled automatically, since it uses the same annotations for serialisation.                                                           |
 | allowNullableForEnums     | &check;               | Boolean                      | false                                                  | Allow `nullable: true` for enums for OpenApi specifications v3.0.x. According to the specification, the nullable property should be ignored for enums, but settings this option to true, the generator does not ignore the nullable property and generates nullable enums.           |
-| validationApi             | &check;               | String                       | jakarta-2                                              | Defines the used annotations (either from `javax.*` or `jakarta.*` package). Possible values are `jakarta-2` and `jakarta-3`. Use for Java Bean validation 2.0 or Jakarta Bean validation `jakarata-2` and for Jakarta Bean validation 3.0 `jakarta-3`.                              |
 | builderMethodPrefix       | &check;               | String                       |                                                        | Prefix for the setter method-name of builders. The default empty string leads to setter method-names equally to the corresponding fieldname.                                                                                                                                         |
 | excludeSchemas            | &cross;               | List[String]                 | []                                                     | Excludes the given schemas from generation. This can be used in case unsupported features are used, e.g. URL-references or unsupported compositions.                                                                                                                                 |
 | stagedBuilder             | &check;               | DSL                          | -                                                      | See [Staged Builder](#staged-builder)                                                                                                                                                                                                                                                |
@@ -180,7 +182,7 @@ specification if necessary.
 | constantSchemaNameMapping | &check;               | DSL                          | -                                                      | See [Schema Name Mappings](#schema-name-mappings)                                                                                                                                                                                                                                    |
 | enumDescriptionExtraction | &check;               | DSL                          | -                                                      | See [Enum description extraction](#enum-description-extraction)                                                                                                                                                                                                                      |
 | getterSuffixes            | &check;               | DSL                          | -                                                      | See [Getter suffixes](#getter-suffixes)                                                                                                                                                                                                                                              |
-| validationMethods         | &check;               | DSL                          | -                                                      | See [Validation Methods](#validation-methods)                                                                                                                                                                                                                                        |
+| validation                | &check;               | DSL                          | -                                                      | See [Validation](#validation-methods)                                                                                                                                                                                                                                                |
 | warnings                  | &check;               | DSL                          | -                                                      | See [Warnings](#warnings)                                                                                                                                                                                                                                                            |
 
 The plugin creates for each schema a task named `generate{NAME}Model` where `{NAME}` is replaced by the used name for
@@ -189,7 +191,7 @@ tasks are automatically registered as dependency of the corresponding java-compi
 
 ### Staged Builder
 
-The plugin generates a staged builder for each DTO, see [Staged Builder](doc/060_staged_builder.md) for more
+The plugin generates a staged builder for each DTO, see [Staged Builder](060_staged_builder.md) for more
 information. The staged builder can be configured globally and / or for each schema separately.
 
 Currently, the only option is to enable or disable the staged builder while the staged builder is enabled by default.
@@ -199,6 +201,49 @@ stagedBuilder {
     enabled = true
 }
 ```
+
+### Validation
+
+| Key                          | Data Type | Default   | Description                                                                                                                                                                                                                                                                                                           |
+|------------------------------|-----------|:----------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| enabled                      | Boolean   | false     | Enables the generation of annotations for bean validation. Select with `validationApi` the used packages.                                                                                                                                                                                                             |
+| validationApi                | String    | jakarta-2 | Defines the used annotations (either from `javax.*` or `jakarta.*` package). Possible values are `jakarta-2` and `jakarta-3`. Use for Java Bean validation 2.0 or Jakarta Bean validation `jakarata-2` and for Jakarta Bean validation 3.0 `jakarta-3`.                                                               |
+| nonStrictOneOfValidation     | Boolean   | false     | If enabled, a DTO with oneOf composition with discriminator does not validate if the data is valid against exactly one schema. It will only validate if the data is valid against the schema described by the discriminator.                                                                                          |
+| disableUniqueItemsValidation | Boolean   | false     | Disables the validation of unique items in arrays. Since the generator uses a java.util.Set for unique items, duplicates are removed automatically but the validation might fail if the client send duplicates items. Activating this option will allow the client to send duplicate items without validation errors. |
+| validationMethods            | DSL       | -         | See [Validation Methods](#validation-methods)                                                                                                                                                                                                                                                                         |
+
+#### Validation Methods
+
+This generator creates classes where `null` is not used, either not as return value or as argument. Nullable or optional
+properties are wrapped for example with `java.util.Optional`. Frameworks for serialisation or validation require to
+operate with nullable objects. The current supported framework for serialisation (Jackson) is able to work with private
+methods which are generated by the plugin. The reference implementation for bean validation (hibernate) is also able to
+work with private methods, but other frameworks like Spring (although may using hibernate) require to have public
+methods for validation.
+
+Therefore, the generator allows to customize the generation of validation methods. It allows to change the access
+modifier of validations methods. Additionally, a deprecated annotation can be added to each validation method, to point
+out that these methods should not be used in the code manually by the programmer but automatically by frameworks. For
+getters of properties used for validation, a suffix can be configured to avoid the clash with the standard methods which
+return wrapped objects instead of nullable objects.
+
+The following is an example to configure the generator to generate public validation methods and marked as deprecated
+which can be used together with the validation in Spring.
+
+```groovy
+validationMethods {
+    modifier = "public"
+    deprecatedAnnotation = true
+}
+```
+
+| Key                  | Data Type | Default | Description                                                                                          |
+|----------------------|-----------|:--------|:-----------------------------------------------------------------------------------------------------|
+| getterSuffix         | String    | Raw     | Suffix which is added to properties of getters which are only used for validation                    |
+| modifier             | String    | private | Modifier for validation methods. Can be one of `public`, `protected`, `package-private` or `private` |
+| deprecatedAnnotation | boolean   | false   | Determines if the validation methods should be annotated with deprecated.                            |
+
+See the Spring-Example ([build.gradle](spring-example/build.gradle)) which makes use of this configuration.
 
 ### Class Mappings
 
@@ -367,39 +412,6 @@ getterSuffixes {
 | requiredNullableSuffix | String    | Opt      | Suffix added to the getter methods for required and nullable properties |
 | optionalSuffix         | String    | Opt      | Suffix added to the getter methods for optional properties              |
 | optionalNullableSuffix | String    | Tristate | Suffix added to the getter methods for optional and nullable properties |
-
-### Validation Methods
-
-This generator creates classes where `null` is not used, either not as return value or as argument. Nullable or optional
-properties are wrapped for example with `java.util.Optional`. Frameworks for serialisation or validation require to
-operate with nullable objects. The current supported framework for serialisation (Jackson) is able to work with private
-methods which are generated by the plugin. The reference implementation for bean validation (hibernate) is also able to
-work with private methods, but other frameworks like Spring (although may using hibernate) require to have public
-methods for validation.
-
-Therefore, the generator allows to customize the generation of validation methods. It allows to change the access
-modifier of validations methods. Additionally, a deprecated annotation can be added to each validation method, to point
-out that these methods should not be used in the code manually by the programmer but automatically by frameworks. For
-getters of properties used for validation, a suffix can be configured to avoid the clash with the standard methods which
-return wrapped objects instead of nullable objects.
-
-The following is an example to configure the generator to generate public validation methods and marked as deprecated
-which can be used together with the validation in Spring.
-
-```groovy
-validationMethods {
-    modifier = "public"
-    deprecatedAnnotation = true
-}
-```
-
-| Key                  | Data Type | Default | Description                                                                                          |
-|----------------------|-----------|:--------|:-----------------------------------------------------------------------------------------------------|
-| getterSuffix         | String    | Raw     | Suffix which is added to properties of getters which are only used for validation                    |
-| modifier             | String    | private | Modifier for validation methods. Can be one of `public`, `protected`, `package-private` or `private` |
-| deprecatedAnnotation | boolean   | false   | Determines if the validation methods should be annotated with deprecated.                            |
-
-See the Spring-Example ([build.gradle](spring-example/build.gradle)) which makes use of this configuration.
 
 ### Warnings
 

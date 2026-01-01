@@ -20,8 +20,8 @@ The main features are:
 
 * Immutable Java classes
 * Staged builder pattern for compile-time-safe creation of instances
-* JSON deserializing and serializing support with jackson
-* Basic XML deserializing and serializing support with jackson
+* JSON deserializing and serializing support with Jackson 2.x and 3.x
+* Basic XML deserializing and serializing support with Jackson 2.x and 3.x
 * Customization of the code generation
 * Support for Java Bean Validation 2.x and Jakarta Bean Validation 2.x / 3.x
 * Additional validation of object level constraints
@@ -41,7 +41,7 @@ Add the plugin section in your `build.gradle`:
 
 ```groovy
 plugins {
-    id 'com.github.muehmar.openapischema' version '3.8.0'
+    id 'com.github.muehmar.openapischema' version '4.0.0'
 }
 ```
 
@@ -60,6 +60,7 @@ openApiGenerator {
 ## Documentation
 
 1. [Configuration](doc/010_configuration.md)
+2. [Compatibility](doc/015_compatibility.md)
 2. [Supported OpenAPI versions](doc/020_openapi_support.md)
 3. [Warnings](doc/030_warnings.md)
 4. [Compositions](doc/040_compositions.md)
@@ -67,8 +68,7 @@ openApiGenerator {
 6. [Staged Builder](doc/060_staged_builder.md)
 7. [Validation](doc/070_validation.md)
 8. [Extraction of enum-description](doc/080_extraction_of_enum_description.md)
-9. [Parameters](doc/090_parameters.md)
-10. [XML Support](doc/091_xml_support.md)
+9. [XML Support](doc/091_xml_support.md)
 10. [Integration with OpenAPI Generator](doc/095_official_openapi_generator_integration.md)
 11. [Incremental Build](doc/100_incremental_build.md)
 12. [Limitations](doc/110_limitations.md)

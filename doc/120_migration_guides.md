@@ -1,3 +1,63 @@
+## Migrating from v3.x to 4.x
+
+### Breaking Changes
+
+* The parameters generation was deprecated in v3.3.0 and is now removed in v4.x. You either have to hardcode themselves
+  or use the official OpenAPI Generator to generate the API as well. There is a section in the documentation describing
+  how to integrate the official OpenAPI Generator with this
+  plugin: [Integration with official OpenAPI generator](095_official_openapi_generator_integration.md).
+* Version 4.x of the plugin requires Java 11 as minimum JDK version.
+* 'partial-time' is removed as supported format for string types and replaced by 'time' from RFC 3339.
+* Since the string format 'date-time' is based on RFC 3339, the timezone is mandatory and is represented as
+  ZonedDateTime in Java instead of LocalDateTime. If you don't care about the timezone, you can still use LocalDateTime
+  with a class mapping:
+    ```groovy
+    classMapping {
+        fromClass = "ZonedDateTime"
+        toClass = "java.time.LocalDateTime"
+    }
+    ```
+* Map structures as additional properties of objects will now result in a separate DTO class instead of a Map<String,
+  Object>.
+* The DSL concerning the configuration of the validation is restructured. Some options are moved into a new `validation`
+  block:
+    ```groovy
+    openApiGenerator {
+        enableValidation = true
+        validationApi = "jakarta-3.0"
+        nonStrictOneOfValidation = false
+        validationMethods {
+            getterSuffix = "Raw"
+            modifier = "private"
+            deprecatedAnnotation = false
+        }
+    }
+    ```
+  becomes
+    ```groovy
+    openApiGenerator {
+        validation {
+            enabled = true
+            validationApi = "jakarta-3.0"
+            nonStrictOneOfValidation = false
+
+            validationMethods {
+                getterSuffix = "Raw"
+                modifier = "private"
+                deprecatedAnnotation = false
+            }
+        }
+    }
+    ```
+  The structure of the `validation` is the same if globally configured or configured per specification.
+* Since Jackson 3 is supported now, `jsonSupport = "jackson"` as well as `xmlSupport = "jackson"` is removed from
+  the options. The properties have the following options now (as you can see in the following table):
+
+  | Property     | Options                     | 
+    |:-------------|:----------------------------|
+  | jsonSupport  | jackson-2, jackson-3, none  |
+  | xmlSupport   | jackson-2, jackson-3, none  |
+
 ## Migrating from v2.x to 3.x
 
 ### Breaking Changes
