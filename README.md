@@ -20,8 +20,8 @@ The main features are:
 
 * Immutable Java classes
 * Staged builder pattern for compile-time-safe creation of instances
-* JSON deserializing and serializing support with jackson
-* Basic XML deserializing and serializing support with jackson
+* JSON deserializing and serializing support with Jackson 2.x and 3.x
+* Basic XML deserializing and serializing support with Jackson 2.x and 3.x
 * Customization of the code generation
 * Support for Java Bean Validation 2.x and Jakarta Bean Validation 2.x / 3.x
 * Additional validation of object level constraints
