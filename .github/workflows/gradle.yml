@@ -32,6 +32,10 @@ jobs:
           java-version: 17
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Run Jackson 2.08 example tests
+        run: ./gradlew :example:jackson208Test
+      - name: Run Jackson 2.19 example tests
+        run: ./gradlew :example:jackson219Test
       - name: Run example tests
         run: ./gradlew :example:test
       - name: Run jakarta 3 example tests
