@@ -1,0 +1,27 @@
+openapi: "3.0.0"
+info:
+  title: Warning Test API - Unsupported Validation
+  version: "1.0.0"
+  description: |
+    This API spec is used to test the UNSUPPORTED_VALIDATION warning.
+
+paths: { }
+
+components:
+  schemas:
+    Contact:
+      type: object
+      required:
+        - email
+        - name
+      properties:
+        email:
+          type: string
+          format: email-address
+          description: Email address with validation constraints
+          pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+        name:
+          type: string
+          description: Contact name
+          minLength: 1
+          maxLength: 50

@@ -1,0 +1,49 @@
+plugins {
+    alias(pluginLibs.plugins.openApiSchema)
+    id 'openapischema.java17'
+    id 'java'
+}
+
+sourceSets {
+    unsupportedValidation {
+        java {
+            srcDirs = [
+                    "src/unsupportedValidation/java"
+            ]
+        }
+    }
+}
+
+dependencies {
+    unsupportedValidationImplementation sampleLibs.javax2.validation.api
+}
+
+openApiGenerator {
+    sourceSet = 'unsupportedValidation'
+    outputDir = project.layout.buildDirectory.dir("generated/openapi-warning-test")
+    jsonSupport = "none"
+    suffix = "Dto"
+
+    validation {
+        enabled = true
+    }
+
+    warnings {
+        disableWarnings = false
+        failOnWarnings = false
+        failOnUnsupportedValidation = true
+    }
+
+    schemas {
+        unsupportedValidation {
+            inputSpec = "$projectDir/src/unsupportedValidation/resources/openapi.yml"
+            packageName = "com.github.muehmar.gradle.openapi.warningtest"
+
+            formatTypeMapping {
+                formatType = "email-address"
+                classType = "com.github.muehmar.gradle.openapi.warningtest.EmailAddress"
+                disableMissingConversionWarning = true
+            }
+        }
+    }
+}
