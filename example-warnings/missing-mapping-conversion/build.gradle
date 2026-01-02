@@ -1,0 +1,48 @@
+plugins {
+    alias(pluginLibs.plugins.openApiSchema)
+    id 'openapischema.java17'
+    id 'java'
+}
+
+sourceSets {
+    missingMappingConversion {
+        java {
+            srcDirs = [
+                    "src/missingMappingConversion/java"
+            ]
+        }
+    }
+}
+
+dependencies {
+}
+
+openApiGenerator {
+    sourceSet = 'missingMappingConversion'
+    outputDir = project.layout.buildDirectory.dir("generated/openapi-warning-test")
+    jsonSupport = "none"
+    suffix = "Dto"
+
+    validation {
+        enabled = false
+    }
+
+    warnings {
+        disableWarnings = false
+        failOnWarnings = false
+        failOnMissingMappingConversion = true
+    }
+
+    schemas {
+        missingConversion {
+            inputSpec = "$projectDir/src/warningTest/resources/openapi.yml"
+            packageName = "com.github.muehmar.gradle.openapi.warningtest"
+
+            formatTypeMapping {
+                formatType = "custom-id"
+                classType = "com.github.muehmar.gradle.openapi.warningtest.CustomId"
+                // NOTE: No conversion specified - this will trigger the warning!
+            }
+        }
+    }
+}

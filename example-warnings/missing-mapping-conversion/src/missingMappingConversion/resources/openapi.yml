@@ -1,0 +1,47 @@
+openapi: "3.0.0"
+info:
+  title: Warning Test API - Missing Mapping Conversion
+  version: "1.0.0"
+  description: |
+    This API spec is used to test the MISSING_MAPPING_CONVERSION warning.
+    It contains a custom format type that has a mapping without conversion.
+
+paths: {}
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: custom-id
+          description: Custom ID type that requires mapping
+        name:
+          type: string
+          description: User's name
+        email:
+          type: string
+          format: email
+          description: User's email address
+
+    Product:
+      type: object
+      required:
+        - productId
+        - title
+      properties:
+        productId:
+          type: string
+          format: custom-id
+          description: Product ID with custom format
+        title:
+          type: string
+          description: Product title
+        price:
+          type: number
+          format: double
+          description: Product price

@@ -16,6 +16,7 @@ include 'springboot2-example'
 include 'springboot3-example'
 include 'springboot4-example'
 include 'java-snapshot'
+include 'example-warnings:missing-mapping-conversion'
 
 dependencyResolutionManagement {
     versionCatalogs {
