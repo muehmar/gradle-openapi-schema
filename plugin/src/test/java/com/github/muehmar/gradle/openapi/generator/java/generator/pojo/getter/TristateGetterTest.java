@@ -19,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.stream.Stream;
@@ -40,7 +41,8 @@ class TristateGetterTest {
     final Writer writer =
         generator.generate(
             optionalNullableString(
-                TypeMappings.ofClassTypeMappings(STRING_MAPPING_WITH_CONVERSION)),
+                TypeMappings.ofClassTypeMappings(
+                    TaskIdentifier.fromString("test"), STRING_MAPPING_WITH_CONVERSION)),
             defaultTestSettings(),
             javaWriter());
 

@@ -23,6 +23,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.stream.Stream;
@@ -49,7 +50,9 @@ class ContainerOptionalOrGetterTest {
   private static Stream<Arguments> containerMembers() {
     final TypeMappings fullTypeMappings =
         TypeMappings.ofClassTypeMappings(
-            STRING_MAPPING_WITH_CONVERSION, LIST_MAPPING_WITH_CONVERSION);
+            TaskIdentifier.fromString("test"),
+            STRING_MAPPING_WITH_CONVERSION,
+            LIST_MAPPING_WITH_CONVERSION);
     return Stream.of(
             requiredNullableStringList(),
             requiredNullableListWithNullableItems(),

@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
@@ -43,7 +44,9 @@ class JavaMapTypeTest {
     final MapType mapType = MapType.ofKeyAndValueType(StringType.noFormat(), StringType.noFormat());
     final JavaMapType javaType =
         JavaMapType.wrap(
-            mapType, TypeMappings.ofSingleClassTypeMapping(STRING_MAPPING_WITH_CONVERSION));
+            mapType,
+            TypeMappings.ofSingleClassTypeMapping(
+                STRING_MAPPING_WITH_CONVERSION, TaskIdentifier.fromString("test")));
 
     assertEquals(Optional.empty(), javaType.getApiType());
 
@@ -59,7 +62,8 @@ class JavaMapTypeTest {
         JavaMapType.wrap(
             mapType,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("Map", "com.custom.CustomMap", Optional.empty())));
+                new ClassTypeMapping("Map", "com.custom.CustomMap", Optional.empty()),
+                TaskIdentifier.fromString("test")));
 
     assertEquals(Optional.empty(), javaType.getApiType());
 
@@ -81,7 +85,10 @@ class JavaMapTypeTest {
     final ClassTypeMapping classTypeMapping =
         new ClassTypeMapping("Map", "com.custom.CustomMap", Optional.of(typeConversion));
     final JavaMapType javaType =
-        JavaMapType.wrap(mapType, TypeMappings.ofSingleClassTypeMapping(classTypeMapping));
+        JavaMapType.wrap(
+            mapType,
+            TypeMappings.ofSingleClassTypeMapping(
+                classTypeMapping, TaskIdentifier.fromString("test")));
 
     final QualifiedClassName className =
         QualifiedClassName.ofQualifiedClassName("com.custom.CustomMap");

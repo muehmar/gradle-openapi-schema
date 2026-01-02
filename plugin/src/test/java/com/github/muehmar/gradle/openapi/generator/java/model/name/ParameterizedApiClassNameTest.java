@@ -12,6 +12,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,8 @@ class ParameterizedApiClassNameTest {
         JavaType.wrap(
             StringType.noFormat(),
             TypeMappings.ofSingleClassTypeMapping(
-                ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION));
+                ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
+                TaskIdentifier.fromString("test")));
     final JavaMapType javaMapType =
         JavaMapType.ofKeyAndValueType(JavaTypes.stringType(), mappedStringType);
 
@@ -43,7 +45,8 @@ class ParameterizedApiClassNameTest {
         JavaType.wrap(
                 StringType.noFormat(),
                 TypeMappings.ofSingleClassTypeMapping(
-                    ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION))
+                    ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
+                    TaskIdentifier.fromString("test")))
             .withNullability(NULLABLE);
     final JavaMapType javaMapType =
         JavaMapType.ofKeyAndValueType(JavaTypes.stringType(), mappedStringType);
@@ -65,7 +68,8 @@ class ParameterizedApiClassNameTest {
         JavaArrayType.wrap(
             arrayType,
             TypeMappings.ofSingleClassTypeMapping(
-                ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION));
+                ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
+                TaskIdentifier.fromString("test")));
 
     final Optional<ParameterizedApiClassName> parameterizedApiClassName =
         ParameterizedApiClassName.fromJavaType(javaArrayType);
@@ -84,7 +88,8 @@ class ParameterizedApiClassNameTest {
         JavaArrayType.wrap(
             arrayType,
             TypeMappings.ofSingleClassTypeMapping(
-                ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION));
+                ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
+                TaskIdentifier.fromString("test")));
 
     final Optional<ParameterizedApiClassName> parameterizedApiClassName =
         ParameterizedApiClassName.fromJavaType(javaArrayType);
@@ -103,6 +108,7 @@ class ParameterizedApiClassNameTest {
         JavaArrayType.wrap(
             arrayType,
             TypeMappings.ofClassTypeMappings(
+                TaskIdentifier.fromString("test"),
                 ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
                 ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION));
 
@@ -120,7 +126,8 @@ class ParameterizedApiClassNameTest {
         JavaType.wrap(
             StringType.noFormat(),
             TypeMappings.ofSingleClassTypeMapping(
-                ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION));
+                ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
+                TaskIdentifier.fromString("test")));
 
     final Optional<ParameterizedApiClassName> parameterizedApiClassName =
         ParameterizedApiClassName.fromJavaType(mappedStringType);

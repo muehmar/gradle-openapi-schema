@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +26,7 @@ class MapAssignmentWriterTest {
           PojoMembers.optionalMap(),
           invoiceName(),
           TypeMappings.ofClassTypeMappings(
+              TaskIdentifier.fromString("test"),
               ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION,
               ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION));
 
@@ -33,6 +35,7 @@ class MapAssignmentWriterTest {
           PojoMembers.optionalNullableMapWithNullableValues(),
           invoiceName(),
           TypeMappings.ofClassTypeMappings(
+              TaskIdentifier.fromString("test"),
               ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION,
               ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION));
 

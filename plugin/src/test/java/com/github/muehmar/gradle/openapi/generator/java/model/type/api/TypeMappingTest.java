@@ -11,9 +11,13 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClas
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
+import com.github.muehmar.gradle.openapi.generator.settings.DtoMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -42,7 +46,11 @@ class TypeMappingTest {
   void fromClassMappings_when_wrongMapping_then_noApiTypeAndCorrectClassName() {
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            QualifiedClassNames.LONG, Optional.empty(), PList.of(STRING_MAPPING_WITH_CONVERSION));
+            QualifiedClassNames.LONG,
+            Optional.empty(),
+            PList.of(STRING_MAPPING_WITH_CONVERSION),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
     assertEquals(QualifiedClassNames.LONG, typeMapping.getClassName());
@@ -54,7 +62,9 @@ class TypeMappingTest {
         TypeMapping.fromClassMappings(
             QualifiedClassNames.STRING,
             Optional.empty(),
-            PList.of(STRING_MAPPING_WITHOUT_CONVERSION));
+            PList.of(STRING_MAPPING_WITHOUT_CONVERSION),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
     assertEquals(
@@ -66,7 +76,11 @@ class TypeMappingTest {
   void fromClassMappings_when_mappingWithConversion_then_correctApiTypeAndClassName() {
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            QualifiedClassNames.STRING, Optional.empty(), PList.of(STRING_MAPPING_WITH_CONVERSION));
+            QualifiedClassNames.STRING,
+            Optional.empty(),
+            PList.of(STRING_MAPPING_WITH_CONVERSION),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     final ApiType expectedApiType =
         ApiType.ofUserDefinedType(
@@ -85,7 +99,8 @@ class TypeMappingTest {
             QualifiedClassNames.STRING,
             Optional.empty(),
             PList.of(STRING_MAPPING_WITH_CONVERSION),
-            PList.of(JavaTypes.integerType()));
+            PList.of(JavaTypes.integerType()),
+            TaskIdentifier.fromString("test"));
     final ApiType expectedApiType =
         ApiType.ofUserDefinedType(
             UserDefinedApiType.fromConversion(
@@ -106,7 +121,11 @@ class TypeMappingTest {
 
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            QualifiedClassNames.LIST, Optional.of(pluginApiType), PList.of(classTypeMapping));
+            QualifiedClassNames.LIST,
+            Optional.of(pluginApiType),
+            PList.of(classTypeMapping),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
     assertEquals(
@@ -123,7 +142,11 @@ class TypeMappingTest {
 
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            QualifiedClassNames.LIST, Optional.of(pluginApiType), PList.of(classTypeMapping));
+            QualifiedClassNames.LIST,
+            Optional.of(pluginApiType),
+            PList.of(classTypeMapping),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     assertEquals(Optional.of(ApiType.ofPluginType(pluginApiType)), typeMapping.getApiType());
     assertEquals(QualifiedClassNames.LIST, typeMapping.getClassName());
@@ -140,7 +163,11 @@ class TypeMappingTest {
 
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            QualifiedClassNames.LIST, Optional.of(pluginApiType), PList.of(classTypeMapping));
+            QualifiedClassNames.LIST,
+            Optional.of(pluginApiType),
+            PList.of(classTypeMapping),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     final UserDefinedApiType expectedUserDefinedType =
         UserDefinedApiType.fromConversion(
@@ -160,7 +187,9 @@ class TypeMappingTest {
             QualifiedClassNames.STRING,
             Optional.empty(),
             "key",
-            PList.of(STRING_FORMAT_MAPPING_WITHOUT_CONVERSION));
+            PList.of(STRING_FORMAT_MAPPING_WITHOUT_CONVERSION),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
     assertEquals(QualifiedClassNames.STRING, typeMapping.getClassName());
@@ -173,7 +202,9 @@ class TypeMappingTest {
             QualifiedClassNames.STRING,
             Optional.empty(),
             "id",
-            PList.of(STRING_FORMAT_MAPPING_WITHOUT_CONVERSION));
+            PList.of(STRING_FORMAT_MAPPING_WITHOUT_CONVERSION),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
     assertEquals(
@@ -187,7 +218,9 @@ class TypeMappingTest {
             QualifiedClassNames.STRING,
             Optional.empty(),
             "id",
-            PList.of(STRING_FORMAT_MAPPING_WITH_CONVERSION));
+            PList.of(STRING_FORMAT_MAPPING_WITH_CONVERSION),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     final ApiType expectedApiType =
         ApiType.ofUserDefinedType(
@@ -208,7 +241,8 @@ class TypeMappingTest {
             Optional.empty(),
             "id",
             PList.of(STRING_FORMAT_MAPPING_WITH_CONVERSION),
-            PList.of(JavaTypes.integerType()));
+            PList.of(JavaTypes.integerType()),
+            TaskIdentifier.fromString("test"));
 
     final ApiType expectedApiType =
         ApiType.ofUserDefinedType(
@@ -232,7 +266,9 @@ class TypeMappingTest {
             QualifiedClassNames.STRING,
             Optional.of(pluginApiType),
             "id",
-            PList.of(formatTypeMapping));
+            PList.of(formatTypeMapping),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
 
@@ -253,7 +289,9 @@ class TypeMappingTest {
             QualifiedClassNames.STRING,
             Optional.of(pluginApiType),
             "id",
-            PList.of(formatTypeMapping));
+            PList.of(formatTypeMapping),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     final UserDefinedApiType expectedUserDefinedType =
         UserDefinedApiType.fromConversion(
@@ -277,7 +315,9 @@ class TypeMappingTest {
             QualifiedClassNames.STRING,
             Optional.of(pluginApiType),
             "id",
-            PList.of(formatTypeMapping));
+            PList.of(formatTypeMapping),
+            PList.empty(),
+            TaskIdentifier.fromString("test"));
 
     assertEquals(Optional.of(ApiType.ofPluginType(pluginApiType)), typeMapping.getApiType());
     assertEquals(QualifiedClassNames.STRING, typeMapping.getClassName());
@@ -287,7 +327,10 @@ class TypeMappingTest {
   void fromDtoMappings_when_wrongMapping_then_noApiTypeAndCorrectClassName() {
     final QualifiedClassName adminDtoClassName = QualifiedClassName.ofName("AdminDto");
     final TypeMapping typeMapping =
-        TypeMapping.fromDtoMappings(adminDtoClassName, PList.of(DTO_MAPPING_WITH_CONVERSION));
+        TypeMapping.fromDtoMappings(
+            adminDtoClassName,
+            PList.of(DTO_MAPPING_WITH_CONVERSION),
+            TaskIdentifier.fromString("test"));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
     assertEquals(adminDtoClassName, typeMapping.getClassName());
@@ -297,7 +340,10 @@ class TypeMappingTest {
   void fromDtoMappings_when_mappingWithoutConversion_then_noApiTypeAndCorrectClassName() {
     final QualifiedClassName userDtoClassName = QualifiedClassName.ofName("UserDto");
     final TypeMapping typeMapping =
-        TypeMapping.fromDtoMappings(userDtoClassName, PList.of(DTO_MAPPING_WITHOUT_CONVERSION));
+        TypeMapping.fromDtoMappings(
+            userDtoClassName,
+            PList.of(DTO_MAPPING_WITHOUT_CONVERSION),
+            TaskIdentifier.fromString("test"));
 
     assertEquals(Optional.empty(), typeMapping.getApiType());
     assertEquals(
@@ -309,7 +355,10 @@ class TypeMappingTest {
   void fromDtoMappings_when_mappingWithConversion_then_correctApiTypeAndClassName() {
     final QualifiedClassName userDtoClassName = QualifiedClassName.ofName("UserDto");
     final TypeMapping typeMapping =
-        TypeMapping.fromDtoMappings(userDtoClassName, PList.of(DTO_MAPPING_WITH_CONVERSION));
+        TypeMapping.fromDtoMappings(
+            userDtoClassName,
+            PList.of(DTO_MAPPING_WITH_CONVERSION),
+            TaskIdentifier.fromString("test"));
 
     final ApiType expectedApiType =
         ApiType.ofUserDefinedType(
@@ -360,5 +409,194 @@ class TypeMappingTest {
             longMapping, stringMappingApiType, QualifiedClassNames.STRING, stringMappingApiType),
         arguments(
             longMapping, stringMappingApiType, QualifiedClassNames.LONG, stringMappingApiType));
+  }
+
+  @Test
+  void fromClassMappings_when_mappingMatches_then_recordUsageInContext() {
+    final TaskIdentifier taskId = TaskIdentifier.fromString(UUID.randomUUID().toString());
+
+    TypeMapping.fromClassMappings(
+        QualifiedClassNames.STRING,
+        Optional.empty(),
+        PList.of(STRING_MAPPING_WITH_CONVERSION),
+        PList.empty(),
+        taskId);
+
+    final Set<ClassTypeMapping> usedMappings = UsedMappingsContext.getUsedClassMappings(taskId);
+
+    assertEquals(Set.of(STRING_MAPPING_WITH_CONVERSION), usedMappings);
+  }
+
+  @Test
+  void fromClassMappings_when_mappingDoesNotMatch_then_doNotRecordUsage() {
+    final TaskIdentifier taskId = TaskIdentifier.fromString(UUID.randomUUID().toString());
+
+    TypeMapping.fromClassMappings(
+        QualifiedClassNames.LONG,
+        Optional.empty(),
+        PList.of(STRING_MAPPING_WITH_CONVERSION),
+        PList.empty(),
+        taskId);
+
+    final Set<ClassTypeMapping> usedMappings = UsedMappingsContext.getUsedClassMappings(taskId);
+
+    assertEquals(Set.of(), usedMappings);
+  }
+
+  @Test
+  void fromClassMappings_when_mappingWithoutConversion_then_stillRecorded() {
+    final TaskIdentifier taskId = TaskIdentifier.fromString(UUID.randomUUID().toString());
+
+    TypeMapping.fromClassMappings(
+        QualifiedClassNames.STRING,
+        Optional.empty(),
+        PList.of(STRING_MAPPING_WITHOUT_CONVERSION),
+        PList.empty(),
+        taskId);
+
+    final Set<ClassTypeMapping> usedMappings = UsedMappingsContext.getUsedClassMappings(taskId);
+
+    assertEquals(Set.of(STRING_MAPPING_WITHOUT_CONVERSION), usedMappings);
+  }
+
+  @Test
+  void fromFormatMappings_when_formatMatches_then_recordUsageInContext() {
+    final TaskIdentifier taskId = TaskIdentifier.fromString(UUID.randomUUID().toString());
+
+    TypeMapping.fromFormatMappings(
+        QualifiedClassNames.STRING,
+        Optional.empty(),
+        "id",
+        PList.of(STRING_FORMAT_MAPPING_WITH_CONVERSION),
+        PList.empty(),
+        taskId);
+
+    final Set<FormatTypeMapping> usedMappings = UsedMappingsContext.getUsedFormatMappings(taskId);
+
+    assertEquals(Set.of(STRING_FORMAT_MAPPING_WITH_CONVERSION), usedMappings);
+  }
+
+  @Test
+  void fromFormatMappings_when_formatDoesNotMatch_then_doNotRecordUsage() {
+    final TaskIdentifier taskId = TaskIdentifier.fromString(UUID.randomUUID().toString());
+
+    TypeMapping.fromFormatMappings(
+        QualifiedClassNames.STRING,
+        Optional.empty(),
+        "uuid",
+        PList.of(STRING_FORMAT_MAPPING_WITH_CONVERSION),
+        PList.empty(),
+        taskId);
+
+    final Set<FormatTypeMapping> usedMappings = UsedMappingsContext.getUsedFormatMappings(taskId);
+
+    assertEquals(Set.of(), usedMappings);
+  }
+
+  @Test
+  void fromDtoMappings_when_dtoMatches_then_recordUsageInContext() {
+    final TaskIdentifier taskId = TaskIdentifier.fromString(UUID.randomUUID().toString());
+    final QualifiedClassName userDtoClassName = QualifiedClassName.ofName("UserDto");
+
+    TypeMapping.fromDtoMappings(userDtoClassName, PList.of(DTO_MAPPING_WITH_CONVERSION), taskId);
+
+    final Set<DtoMapping> usedMappings = UsedMappingsContext.getUsedDtoMappings(taskId);
+
+    assertEquals(Set.of(DTO_MAPPING_WITH_CONVERSION), usedMappings);
+  }
+
+  @Test
+  void fromDtoMappings_when_dtoDoesNotMatch_then_doNotRecordUsage() {
+    final TaskIdentifier taskId = TaskIdentifier.fromString(UUID.randomUUID().toString());
+    final QualifiedClassName adminDtoClassName = QualifiedClassName.ofName("AdminDto");
+
+    TypeMapping.fromDtoMappings(adminDtoClassName, PList.of(DTO_MAPPING_WITH_CONVERSION), taskId);
+
+    final Set<DtoMapping> usedMappings = UsedMappingsContext.getUsedDtoMappings(taskId);
+
+    assertEquals(Set.of(), usedMappings);
+  }
+
+  @Test
+  void multipleMappings_when_sameTask_then_allRecordedSeparately() {
+    final TaskIdentifier taskId = TaskIdentifier.fromString(UUID.randomUUID().toString());
+
+    TypeMapping.fromClassMappings(
+        QualifiedClassNames.STRING,
+        Optional.empty(),
+        PList.of(STRING_MAPPING_WITH_CONVERSION),
+        PList.empty(),
+        taskId);
+
+    TypeMapping.fromFormatMappings(
+        QualifiedClassNames.STRING,
+        Optional.empty(),
+        "id",
+        PList.of(STRING_FORMAT_MAPPING_WITH_CONVERSION),
+        PList.empty(),
+        taskId);
+
+    final QualifiedClassName userDtoClassName = QualifiedClassName.ofName("UserDto");
+    TypeMapping.fromDtoMappings(userDtoClassName, PList.of(DTO_MAPPING_WITH_CONVERSION), taskId);
+
+    assertEquals(
+        Set.of(STRING_MAPPING_WITH_CONVERSION), UsedMappingsContext.getUsedClassMappings(taskId));
+    assertEquals(
+        Set.of(STRING_FORMAT_MAPPING_WITH_CONVERSION),
+        UsedMappingsContext.getUsedFormatMappings(taskId));
+    assertEquals(
+        Set.of(DTO_MAPPING_WITH_CONVERSION), UsedMappingsContext.getUsedDtoMappings(taskId));
+  }
+
+  @Test
+  void multipleTasks_when_differentTaskIdentifiers_then_mappingsIsolated() {
+    final TaskIdentifier task1 = TaskIdentifier.fromString(UUID.randomUUID().toString());
+    final TaskIdentifier task2 = TaskIdentifier.fromString(UUID.randomUUID().toString());
+
+    TypeMapping.fromClassMappings(
+        QualifiedClassNames.STRING,
+        Optional.empty(),
+        PList.of(STRING_MAPPING_WITH_CONVERSION),
+        PList.empty(),
+        task1);
+
+    TypeMapping.fromFormatMappings(
+        QualifiedClassNames.STRING,
+        Optional.empty(),
+        "id",
+        PList.of(STRING_FORMAT_MAPPING_WITH_CONVERSION),
+        PList.empty(),
+        task2);
+
+    assertEquals(
+        Set.of(STRING_MAPPING_WITH_CONVERSION), UsedMappingsContext.getUsedClassMappings(task1));
+    assertEquals(Set.of(), UsedMappingsContext.getUsedFormatMappings(task1));
+
+    assertEquals(Set.of(), UsedMappingsContext.getUsedClassMappings(task2));
+    assertEquals(
+        Set.of(STRING_FORMAT_MAPPING_WITH_CONVERSION),
+        UsedMappingsContext.getUsedFormatMappings(task2));
+  }
+
+  @Test
+  void fromClassMappings_when_pluginApiTypeAndMapping_then_recordOnlyIfMappingMatches() {
+    final TaskIdentifier taskId = TaskIdentifier.fromString(UUID.randomUUID().toString());
+    final PluginApiType pluginApiType = PluginApiType.useSetForListType(JavaTypes.stringType());
+
+    final TypeConversion typeConversion =
+        new TypeConversion("toSet", "com.custom.CustomList#fromSet");
+    final ClassTypeMapping setMapping =
+        new ClassTypeMapping("Set", "com.custom.CustomSet", Optional.of(typeConversion));
+
+    TypeMapping.fromClassMappings(
+        QualifiedClassNames.LIST,
+        Optional.of(pluginApiType),
+        PList.of(setMapping),
+        PList.empty(),
+        taskId);
+
+    final Set<ClassTypeMapping> usedMappings = UsedMappingsContext.getUsedClassMappings(taskId);
+
+    assertEquals(Set.of(setMapping), usedMappings);
   }
 }

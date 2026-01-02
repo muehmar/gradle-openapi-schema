@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
@@ -49,11 +50,17 @@ public class JavaIntegerType extends NonGenericJavaType {
             internalClassName,
             Optional.empty(),
             integerType.getFormat().asString(),
-            typeMappings.getFormatTypeMappings());
+            typeMappings.getFormatTypeMappings(),
+            PList.empty(),
+            typeMappings.getTaskIdentifier());
 
     final TypeMapping classTypeMapping =
         TypeMapping.fromClassMappings(
-            internalClassName, Optional.empty(), typeMappings.getClassTypeMappings());
+            internalClassName,
+            Optional.empty(),
+            typeMappings.getClassTypeMappings(),
+            PList.empty(),
+            typeMappings.getTaskIdentifier());
 
     return formatTypeMapping.or(classTypeMapping, internalClassName);
   }

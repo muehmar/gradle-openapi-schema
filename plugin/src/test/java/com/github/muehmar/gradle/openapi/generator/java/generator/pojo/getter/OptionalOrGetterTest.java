@@ -18,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.stream.Stream;
@@ -39,7 +40,9 @@ class OptionalOrGetterTest {
 
     final Writer writer =
         generator.generate(
-            optionalString(TypeMappings.ofClassTypeMappings(STRING_MAPPING_WITH_CONVERSION)),
+            optionalString(
+                TypeMappings.ofClassTypeMappings(
+                    TaskIdentifier.fromString("test"), STRING_MAPPING_WITH_CONVERSION)),
             defaultTestSettings(),
             javaWriter());
 

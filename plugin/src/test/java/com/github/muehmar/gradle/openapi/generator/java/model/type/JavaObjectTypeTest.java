@@ -10,6 +10,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.settings.DtoMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
@@ -58,7 +59,8 @@ class JavaObjectTypeTest {
     final JavaObjectType javaType =
         JavaObjectType.wrap(
             objectType,
-            TypeMappings.ofSingleDtoMapping(DtoMappings.DTO_MAPPING_WITHOUT_CONVERSION));
+            TypeMappings.ofSingleDtoMapping(
+                DtoMappings.DTO_MAPPING_WITHOUT_CONVERSION, TaskIdentifier.fromString("test")));
 
     assertEquals(Optional.empty(), javaType.getApiType());
 
@@ -75,7 +77,9 @@ class JavaObjectTypeTest {
     final ObjectType objectType = StandardObjectType.ofName(pojoName("User", "Dto"));
     final JavaObjectType javaType =
         JavaObjectType.wrap(
-            objectType, TypeMappings.ofSingleDtoMapping(DtoMappings.DTO_MAPPING_WITH_CONVERSION));
+            objectType,
+            TypeMappings.ofSingleDtoMapping(
+                DtoMappings.DTO_MAPPING_WITH_CONVERSION, TaskIdentifier.fromString("test")));
 
     assertTrue(javaType.getApiType().isPresent());
 

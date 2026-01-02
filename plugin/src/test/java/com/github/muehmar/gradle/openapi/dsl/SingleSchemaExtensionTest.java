@@ -180,7 +180,7 @@ class SingleSchemaExtensionTest {
         };
     extension.warnings(warningsConfigAction);
 
-    final WarningsConfig commonWarnings = new WarningsConfig();
+    final WarningsConfig commonWarnings = WarningsConfig.allUndefined();
     commonWarnings.setDisableWarnings(true);
     commonWarnings.setFailOnWarnings(true);
     commonWarnings.setFailOnUnsupportedValidation(true);

@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.settings;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.UsedMappingsContext;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import com.github.muehmar.gradle.openapi.warnings.Warning;
@@ -11,6 +12,7 @@ import io.github.muehmar.pojobuilder.annotations.FieldBuilder;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import lombok.Value;
 import lombok.With;
 
@@ -120,7 +122,8 @@ public class PojoSettings implements Serializable {
         PList.fromIter(classTypeMappings),
         PList.fromIter(formatTypeMappings),
         PList.fromIter(dtoMappings),
-        allowNullableForEnums);
+        allowNullableForEnums,
+        taskIdentifier);
   }
 
   public PojoNameMapping pojoNameMapping() {
@@ -156,6 +159,37 @@ public class PojoSettings implements Serializable {
           if (not(dtoMapping.getTypeConversion().isPresent())
               && dtoMapping.isMissingConversionWarningEnabled()) {
             final Warning warning = Warning.missingMappingConversion(dtoMapping);
+            WarningsContext.addWarningForTask(taskIdentifier, warning);
+          }
+        });
+
+    // Check for unused mappings
+    final Set<ClassTypeMapping> usedClassMappings =
+        UsedMappingsContext.getUsedClassMappings(taskIdentifier);
+    final Set<FormatTypeMapping> usedFormatMappings =
+        UsedMappingsContext.getUsedFormatMappings(taskIdentifier);
+    final Set<DtoMapping> usedDtoMappings = UsedMappingsContext.getUsedDtoMappings(taskIdentifier);
+
+    classTypeMappings.forEach(
+        classTypeMapping -> {
+          if (not(usedClassMappings.contains(classTypeMapping))) {
+            final Warning warning = Warning.unusedMapping(classTypeMapping);
+            WarningsContext.addWarningForTask(taskIdentifier, warning);
+          }
+        });
+
+    formatTypeMappings.forEach(
+        formatTypeMapping -> {
+          if (not(usedFormatMappings.contains(formatTypeMapping))) {
+            final Warning warning = Warning.unusedMapping(formatTypeMapping);
+            WarningsContext.addWarningForTask(taskIdentifier, warning);
+          }
+        });
+
+    dtoMappings.forEach(
+        dtoMapping -> {
+          if (not(usedDtoMappings.contains(dtoMapping))) {
+            final Warning warning = Warning.unusedMapping(dtoMapping);
             WarningsContext.addWarningForTask(taskIdentifier, warning);
           }
         });

@@ -46,4 +46,26 @@ public class Warning {
         String.format("DtoMapping for DTO %s has no conversion defined.", dtoMapping.getDtoName());
     return new Warning(WarningType.MISSING_MAPPING_CONVERSION, message);
   }
+
+  public static Warning unusedMapping(ClassTypeMapping classTypeMapping) {
+    final String message =
+        String.format(
+            "ClassTypeMapping for class %s is defined but never used.",
+            classTypeMapping.getFromClass());
+    return new Warning(WarningType.UNUSED_MAPPING, message);
+  }
+
+  public static Warning unusedMapping(FormatTypeMapping formatTypeMapping) {
+    final String message =
+        String.format(
+            "FormatTypeMapping for format %s is defined but never used.",
+            formatTypeMapping.getFormatType());
+    return new Warning(WarningType.UNUSED_MAPPING, message);
+  }
+
+  public static Warning unusedMapping(DtoMapping dtoMapping) {
+    final String message =
+        String.format("DtoMapping for DTO %s is defined but never used.", dtoMapping.getDtoName());
+    return new Warning(WarningType.UNUSED_MAPPING, message);
+  }
 }

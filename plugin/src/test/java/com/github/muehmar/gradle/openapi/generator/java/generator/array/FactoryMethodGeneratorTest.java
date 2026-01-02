@@ -20,6 +20,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
@@ -59,7 +60,8 @@ class FactoryMethodGeneratorTest {
             arrayPojo,
             TypeMappings.ofSingleClassTypeMapping(
                 new ClassTypeMapping(
-                    JavaRefs.JAVA_UTIL_LIST, "custom.CustomList", Optional.empty())));
+                    JavaRefs.JAVA_UTIL_LIST, "custom.CustomList", Optional.empty()),
+                TaskIdentifier.fromString("test")));
 
     final Writer writer = generator.generate(javaArrayPojo, defaultTestSettings(), javaWriter());
 
@@ -82,6 +84,7 @@ class FactoryMethodGeneratorTest {
 
     final TypeMappings typeMappings =
         TypeMappings.ofClassTypeMappings(
+            TaskIdentifier.fromString("test"),
             ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION,
             ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION);
 

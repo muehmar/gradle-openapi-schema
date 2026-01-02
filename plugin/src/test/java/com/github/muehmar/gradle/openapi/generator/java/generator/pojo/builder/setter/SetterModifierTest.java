@@ -18,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSetting
 import com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.codegenerator.java.JavaModifier;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -55,7 +56,9 @@ class SetterModifierTest {
             Optional.of(new TypeConversion("asString", "toCustomString")));
     final JavaType stringTypeWithApiType =
         JavaType.wrap(
-            StringType.noFormat(), TypeMappings.ofSingleClassTypeMapping(classTypeMapping));
+            StringType.noFormat(),
+            TypeMappings.ofSingleClassTypeMapping(
+                classTypeMapping, TaskIdentifier.fromString("test")));
     final JavaType stringType = JavaType.wrap(StringType.noFormat(), TypeMappings.empty());
 
     return Stream.of(

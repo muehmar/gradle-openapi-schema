@@ -19,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -35,14 +36,18 @@ class MapMemberMappingWriterTest {
           PojoMembers.optionalMap(),
           invoiceName(),
           TypeMappings.ofClassTypeMappings(
-              MAP_MAPPING_WITH_CONVERSION, STRING_MAPPING_WITH_CONVERSION));
+              TaskIdentifier.fromString("test"),
+              MAP_MAPPING_WITH_CONVERSION,
+              STRING_MAPPING_WITH_CONVERSION));
 
   private static final JavaPojoMember NULLABLE_MEMBER =
       JavaPojoMember.wrap(
           PojoMembers.optionalNullableMapWithNullableValues(),
           invoiceName(),
           TypeMappings.ofClassTypeMappings(
-              MAP_MAPPING_WITH_CONVERSION, STRING_MAPPING_WITH_CONVERSION));
+              TaskIdentifier.fromString("test"),
+              MAP_MAPPING_WITH_CONVERSION,
+              STRING_MAPPING_WITH_CONVERSION));
 
   private static final JavaMapType JAVA_MAP_TYPE = MEMBER.getJavaType().onMapType().get();
 
@@ -152,7 +157,9 @@ class MapMemberMappingWriterTest {
   public static Stream<Arguments> mapVariants() {
     final TypeMappings fullMapping =
         TypeMappings.ofClassTypeMappings(
-            STRING_MAPPING_WITH_CONVERSION, MAP_MAPPING_WITH_CONVERSION);
+            TaskIdentifier.fromString("test"),
+            STRING_MAPPING_WITH_CONVERSION,
+            MAP_MAPPING_WITH_CONVERSION);
     return Stream.of(
             requiredMap(),
             requiredNullableMap(),

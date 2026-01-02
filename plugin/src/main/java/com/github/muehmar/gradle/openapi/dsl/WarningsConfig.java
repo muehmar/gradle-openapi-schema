@@ -25,24 +25,29 @@ public class WarningsConfig implements Serializable {
   @Nullable private Boolean failOnWarnings;
   @Nullable private Boolean failOnUnsupportedValidation;
   @Nullable private Boolean failOnMissingMappingConversion;
-
-  public WarningsConfig() {
-    this(null, null, null, null);
-  }
+  @Nullable private Boolean failOnUnusedMapping;
 
   public WarningsConfig(
       Boolean disableWarnings,
       Boolean failOnWarnings,
       Boolean failOnUnsupportedValidation,
-      Boolean failOnMissingMappingConversion) {
+      Boolean failOnMissingMappingConversion,
+      Boolean failOnUnusedMapping) {
     this.disableWarnings = disableWarnings;
     this.failOnWarnings = failOnWarnings;
     this.failOnUnsupportedValidation = failOnUnsupportedValidation;
     this.failOnMissingMappingConversion = failOnMissingMappingConversion;
+    this.failOnUnusedMapping = failOnUnusedMapping;
   }
 
   public static WarningsConfig allUndefined() {
-    return new WarningsConfig();
+    return WarningsConfigBuilder.createFull()
+        .disableWarnings(Optional.empty())
+        .failOnWarnings(Optional.empty())
+        .failOnUnsupportedValidation(Optional.empty())
+        .failOnMissingMappingConversion(Optional.empty())
+        .failOnUnusedMapping(Optional.empty())
+        .build();
   }
 
   public WarningsConfig withCommonWarnings(WarningsConfig commonWarnings) {
@@ -63,6 +68,10 @@ public class WarningsConfig implements Serializable {
             Optionals.or(
                 Optional.ofNullable(failOnMissingMappingConversion),
                 Optional.ofNullable(commonWarnings.failOnMissingMappingConversion)))
+        .failOnUnusedMapping(
+            Optionals.or(
+                Optional.ofNullable(failOnUnusedMapping),
+                Optional.ofNullable(commonWarnings.failOnUnusedMapping)))
         .build();
   }
 
@@ -82,6 +91,10 @@ public class WarningsConfig implements Serializable {
     return Optional.ofNullable(failOnMissingMappingConversion).orElse(getFailOnWarnings());
   }
 
+  public boolean getFailOnUnusedMapping() {
+    return Optional.ofNullable(failOnUnusedMapping).orElse(getFailOnWarnings());
+  }
+
   public FailingWarningTypes getFailingWarningTypes() {
     final List<WarningType> types = new ArrayList<>();
     if (getFailOnUnsupportedValidation()) {
@@ -89,6 +102,9 @@ public class WarningsConfig implements Serializable {
     }
     if (getFailOnMissingMappingConversion()) {
       types.add(WarningType.MISSING_MAPPING_CONVERSION);
+    }
+    if (getFailOnUnusedMapping()) {
+      types.add(WarningType.UNUSED_MAPPING);
     }
     return new FailingWarningTypes(PList.fromIter(types));
   }

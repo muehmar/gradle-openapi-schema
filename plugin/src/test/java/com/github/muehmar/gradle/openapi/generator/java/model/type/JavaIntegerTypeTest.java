@@ -14,6 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
@@ -58,7 +59,8 @@ class JavaIntegerTypeTest {
         JavaIntegerType.wrap(
             integerType,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("Long", "com.custom.CustomLong", Optional.empty())));
+                new ClassTypeMapping("Long", "com.custom.CustomLong", Optional.empty()),
+                TaskIdentifier.fromString("test")));
 
     assertEquals(Optional.empty(), javaType.getApiType());
 
@@ -79,7 +81,8 @@ class JavaIntegerTypeTest {
         JavaIntegerType.wrap(
             integerType,
             TypeMappings.ofSingleFormatTypeMapping(
-                new FormatTypeMapping("int64", "com.custom.CustomLong", Optional.empty())));
+                new FormatTypeMapping("int64", "com.custom.CustomLong", Optional.empty()),
+                TaskIdentifier.fromString("test")));
 
     assertEquals(Optional.empty(), javaType.getApiType());
 
@@ -102,7 +105,9 @@ class JavaIntegerTypeTest {
         new FormatTypeMapping("int64", "com.custom.CustomLong", Optional.of(typeConversion));
     final JavaIntegerType javaType =
         JavaIntegerType.wrap(
-            integerType, TypeMappings.ofSingleFormatTypeMapping(formatTypeMapping));
+            integerType,
+            TypeMappings.ofSingleFormatTypeMapping(
+                formatTypeMapping, TaskIdentifier.fromString("test")));
 
     final QualifiedClassName className =
         QualifiedClassName.ofQualifiedClassName("com.custom.CustomLong");

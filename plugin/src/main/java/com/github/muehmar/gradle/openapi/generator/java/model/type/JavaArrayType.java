@@ -52,7 +52,8 @@ public class JavaArrayType implements JavaType {
             INTERNAL_JAVA_CLASS_NAME,
             pluginApiType,
             typeMappings.getClassTypeMappings(),
-            PList.single(itemType));
+            PList.single(itemType),
+            typeMappings.getTaskIdentifier());
     return new JavaArrayType(
         typeMapping.getClassName(),
         typeMapping.getApiType(),

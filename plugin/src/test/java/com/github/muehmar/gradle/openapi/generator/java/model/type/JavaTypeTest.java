@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -34,7 +35,8 @@ class JavaTypeTest {
   void
       getWritableParameterizedClassName_when_stringConversionInMapType_then_returnCorrectClassName() {
     final TypeMappings stringTypeMapping =
-        TypeMappings.ofClassTypeMappings(STRING_MAPPING_WITH_CONVERSION);
+        TypeMappings.ofClassTypeMappings(
+            TaskIdentifier.fromString("test"), STRING_MAPPING_WITH_CONVERSION);
 
     final MapType mapType =
         MapType.ofKeyAndValueType(IntegerType.formatInteger(), StringType.noFormat());

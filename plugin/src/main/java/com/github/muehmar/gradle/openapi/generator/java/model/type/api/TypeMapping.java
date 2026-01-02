@@ -6,6 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.DtoMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.Optional;
 import lombok.Value;
 
@@ -26,15 +27,9 @@ public class TypeMapping {
   public static TypeMapping fromClassMappings(
       QualifiedClassName internalClassName,
       Optional<PluginApiType> pluginApiType,
-      PList<ClassTypeMapping> classTypeMappings) {
-    return fromClassMappings(internalClassName, pluginApiType, classTypeMappings, PList.empty());
-  }
-
-  public static TypeMapping fromClassMappings(
-      QualifiedClassName internalClassName,
-      Optional<PluginApiType> pluginApiType,
       PList<ClassTypeMapping> classTypeMappings,
-      PList<JavaType> generics) {
+      PList<JavaType> generics,
+      TaskIdentifier taskIdentifier) {
     final QualifiedClassName standardApiType =
         pluginApiType.map(PluginApiType::getClassName).orElse(internalClassName);
     return classTypeMappings
@@ -43,8 +38,10 @@ public class TypeMapping {
                 classMapping.getFromClass().equals(standardApiType.getClassName().asString()))
         .headOption()
         .map(
-            classMapping ->
-                fromClassMapping(internalClassName, pluginApiType, classMapping, generics))
+            classMapping -> {
+              UsedMappingsContext.recordClassMappingUsage(taskIdentifier, classMapping);
+              return fromClassMapping(internalClassName, pluginApiType, classMapping, generics);
+            })
         .orElseGet(() -> fromClassNameAndPluginApiType(internalClassName, pluginApiType));
   }
 
@@ -70,23 +67,17 @@ public class TypeMapping {
       QualifiedClassName internalClassName,
       Optional<PluginApiType> pluginApiType,
       String formatString,
-      PList<FormatTypeMapping> formatTypeMappings) {
-    return fromFormatMappings(
-        internalClassName, pluginApiType, formatString, formatTypeMappings, PList.empty());
-  }
-
-  public static TypeMapping fromFormatMappings(
-      QualifiedClassName internalClassName,
-      Optional<PluginApiType> pluginApiType,
-      String formatString,
       PList<FormatTypeMapping> formatTypeMappings,
-      PList<JavaType> generics) {
+      PList<JavaType> generics,
+      TaskIdentifier taskIdentifier) {
     return formatTypeMappings
         .filter(formatMapping -> formatMapping.getFormatType().equals(formatString))
         .headOption()
         .map(
-            formatMapping ->
-                fromFormatMapping(internalClassName, pluginApiType, formatMapping, generics))
+            formatMapping -> {
+              UsedMappingsContext.recordFormatMappingUsage(taskIdentifier, formatMapping);
+              return fromFormatMapping(internalClassName, pluginApiType, formatMapping, generics);
+            })
         .orElseGet(() -> fromClassNameAndPluginApiType(internalClassName, pluginApiType));
   }
 
@@ -109,11 +100,17 @@ public class TypeMapping {
   }
 
   public static TypeMapping fromDtoMappings(
-      QualifiedClassName internalClassName, PList<DtoMapping> dtoMappings) {
+      QualifiedClassName internalClassName,
+      PList<DtoMapping> dtoMappings,
+      TaskIdentifier taskIdentifier) {
     return dtoMappings
         .filter(dtoMapping -> dtoMapping.getDtoName().equals(internalClassName.asString()))
         .headOption()
-        .map(dtoMapping -> fromDtoMapping(internalClassName, dtoMapping))
+        .map(
+            dtoMapping -> {
+              UsedMappingsContext.recordDtoMappingUsage(taskIdentifier, dtoMapping);
+              return fromDtoMapping(internalClassName, dtoMapping);
+            })
         .orElseGet(() -> fromClassName(internalClassName));
   }
 

@@ -19,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.EnumTypeBuilder;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
@@ -60,7 +61,8 @@ class JavaEnumTypeTest {
     final TypeMappings typeMappings =
         TypeMappings.ofSingleFormatTypeMapping(
             new FormatTypeMapping(
-                "Gender", "com.github.muehmar.gradle.openapi.CustomGender", Optional.empty()));
+                "Gender", "com.github.muehmar.gradle.openapi.CustomGender", Optional.empty()),
+            TaskIdentifier.fromString("test"));
 
     // method call
     final JavaType javaType = JavaEnumType.wrap(enumType, typeMappings);
@@ -97,7 +99,9 @@ class JavaEnumTypeTest {
             "Gender",
             "com.github.muehmar.gradle.openapi.CustomGender",
             Optional.of(typeConversion));
-    final TypeMappings typeMappings = TypeMappings.ofSingleFormatTypeMapping(formatTypeMapping);
+    final TypeMappings typeMappings =
+        TypeMappings.ofSingleFormatTypeMapping(
+            formatTypeMapping, TaskIdentifier.fromString("test"));
 
     // method call
     final JavaType javaType = JavaEnumType.wrap(enumType, typeMappings);
@@ -175,7 +179,12 @@ class JavaEnumTypeTest {
             .build();
 
     final TypeMappings typeMappings =
-        new TypeMappings(PList.empty(), PList.empty(), PList.empty(), allowNullableEnums);
+        new TypeMappings(
+            PList.empty(),
+            PList.empty(),
+            PList.empty(),
+            allowNullableEnums,
+            TaskIdentifier.fromString("test"));
 
     // method call
     final JavaType javaType = JavaEnumType.wrap(enumType, typeMappings);

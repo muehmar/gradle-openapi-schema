@@ -52,7 +52,8 @@ public class JavaMapType implements JavaType {
             INTERNAL_JAVA_CLASS_NAME,
             Optional.empty(),
             typeMappings.getClassTypeMappings(),
-            PList.of(key, value));
+            PList.of(key, value),
+            typeMappings.getTaskIdentifier());
     return new JavaMapType(
         typeMapping.getClassName(),
         typeMapping.getApiType(),

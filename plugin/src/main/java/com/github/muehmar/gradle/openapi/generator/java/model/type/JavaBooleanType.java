@@ -2,6 +2,7 @@ package com.github.muehmar.gradle.openapi.generator.java.model.type;
 
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.PackageNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
@@ -32,7 +33,11 @@ public class JavaBooleanType extends NonGenericJavaType {
   public static JavaBooleanType wrap(BooleanType booleanType, TypeMappings typeMappings) {
     final TypeMapping typeMapping =
         TypeMapping.fromClassMappings(
-            INTERNAL_JAVA_CLASS_NAME, Optional.empty(), typeMappings.getClassTypeMappings());
+            INTERNAL_JAVA_CLASS_NAME,
+            Optional.empty(),
+            typeMappings.getClassTypeMappings(),
+            PList.empty(),
+            typeMappings.getTaskIdentifier());
     return new JavaBooleanType(
         typeMapping.getClassName(), typeMapping.getApiType(), booleanType.getNullability());
   }

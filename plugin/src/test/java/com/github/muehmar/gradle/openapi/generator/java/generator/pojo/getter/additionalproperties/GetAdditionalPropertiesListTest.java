@@ -24,6 +24,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
@@ -155,7 +156,8 @@ class GetAdditionalPropertiesListTest {
         getAdditionalPropertiesListGenerator();
 
     final TypeMappings stringTypeMapping =
-        TypeMappings.ofClassTypeMappings(STRING_MAPPING_WITH_CONVERSION);
+        TypeMappings.ofClassTypeMappings(
+            TaskIdentifier.fromString("test"), STRING_MAPPING_WITH_CONVERSION);
     final JavaStringType stringType = JavaStringType.wrap(StringType.noFormat(), stringTypeMapping);
 
     final JavaAdditionalProperties additionalProperties =
@@ -175,7 +177,8 @@ class GetAdditionalPropertiesListTest {
         getAdditionalPropertiesListGenerator();
 
     final TypeMappings stringTypeMapping =
-        TypeMappings.ofClassTypeMappings(STRING_MAPPING_WITH_CONVERSION);
+        TypeMappings.ofClassTypeMappings(
+            TaskIdentifier.fromString("test"), STRING_MAPPING_WITH_CONVERSION);
     final JavaStringType stringType = JavaStringType.wrap(StringType.noFormat(), stringTypeMapping);
 
     final JavaAdditionalProperties additionalProperties =

@@ -51,6 +51,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -225,12 +226,14 @@ public class JavaPojos {
 
   public static JavaObjectPojo allNecessityAndNullabilityVariantsTypeMapped() {
     return allNecessityAndNullabilityVariantsTypeMapped(
-        TypeMappings.ofClassTypeMappings(ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION));
+        TypeMappings.ofClassTypeMappings(
+            TaskIdentifier.fromString("test"), ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION));
   }
 
   public static JavaObjectPojo allNecessityAndNullabilityVariantsFullyTypeMapped() {
     return allNecessityAndNullabilityVariantsTypeMapped(
         TypeMappings.ofClassTypeMappings(
+            TaskIdentifier.fromString("test"),
             ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
             ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION,
             ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION));

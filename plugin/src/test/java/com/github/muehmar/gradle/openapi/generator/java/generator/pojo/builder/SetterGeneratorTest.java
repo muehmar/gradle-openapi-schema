@@ -21,6 +21,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.XmlSupport;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
@@ -144,6 +145,7 @@ class SetterGeneratorTest {
   static Stream<Arguments> allListNecessityAndNullabilityVariantsFullyTypeMapped() {
     return JavaPojos.allNecessityAndNullabilityVariantsTypeMapped(
             TypeMappings.ofClassTypeMappings(
+                TaskIdentifier.fromString("test"),
                 ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
                 ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION))
         .getMembers()
@@ -167,7 +169,8 @@ class SetterGeneratorTest {
 
   static Stream<Arguments> allListNecessityAndNullabilityVariantsOnlyListTypeMapped() {
     return JavaPojos.allNecessityAndNullabilityVariantsTypeMapped(
-            TypeMappings.ofClassTypeMappings(ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION))
+            TypeMappings.ofClassTypeMappings(
+                TaskIdentifier.fromString("test"), ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION))
         .getMembers()
         .filter(member -> member.getJavaType().isArrayType())
         .map(Arguments::of)
@@ -190,6 +193,7 @@ class SetterGeneratorTest {
   public static Stream<Arguments> allMapNecessityAndNullabilityVariantsFullyTypeMapped() {
     final TypeMappings typeMappings =
         TypeMappings.ofClassTypeMappings(
+            TaskIdentifier.fromString("test"),
             ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION,
             ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION);
     return PList.of(
@@ -216,7 +220,8 @@ class SetterGeneratorTest {
 
   static Stream<Arguments> allMapNecessityAndNullabilityVariantsOnlyMapTypeMapped() {
     final TypeMappings typeMappings =
-        TypeMappings.ofClassTypeMappings(ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION);
+        TypeMappings.ofClassTypeMappings(
+            TaskIdentifier.fromString("test"), ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION);
     return PList.of(
             requiredMap(typeMappings),
             requiredNullableMap(typeMappings),

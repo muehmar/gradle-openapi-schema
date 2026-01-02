@@ -18,6 +18,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
@@ -48,7 +49,8 @@ class JavaArrayTypeTest {
         JavaArrayType.wrap(
             arrayType,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("List", "com.custom.CustomList", Optional.empty())));
+                new ClassTypeMapping("List", "com.custom.CustomList", Optional.empty()),
+                TaskIdentifier.fromString("test")));
 
     assertEquals(Optional.empty(), javaArrayType.getApiType());
 
@@ -70,7 +72,10 @@ class JavaArrayTypeTest {
     final ClassTypeMapping classTypeMapping =
         new ClassTypeMapping("List", "com.custom.CustomList", Optional.of(typeConversion));
     final JavaArrayType javaArrayType =
-        JavaArrayType.wrap(arrayType, TypeMappings.ofSingleClassTypeMapping(classTypeMapping));
+        JavaArrayType.wrap(
+            arrayType,
+            TypeMappings.ofSingleClassTypeMapping(
+                classTypeMapping, TaskIdentifier.fromString("test")));
 
     final QualifiedClassName className =
         QualifiedClassName.ofQualifiedClassName("com.custom.CustomList");
@@ -161,7 +166,10 @@ class JavaArrayTypeTest {
     final ClassTypeMapping classTypeMapping =
         new ClassTypeMapping("Set", "com.custom.CustomSet", Optional.of(typeConversion));
     final JavaArrayType javaArrayType =
-        JavaArrayType.wrap(arrayType, TypeMappings.ofSingleClassTypeMapping(classTypeMapping));
+        JavaArrayType.wrap(
+            arrayType,
+            TypeMappings.ofSingleClassTypeMapping(
+                classTypeMapping, TaskIdentifier.fromString("test")));
 
     assertTrue(javaArrayType.getApiType().isPresent());
     final ApiType apiType = javaArrayType.getApiType().get();
@@ -183,7 +191,10 @@ class JavaArrayTypeTest {
     final ClassTypeMapping classTypeMapping =
         new ClassTypeMapping("List", "com.custom.CustomList", Optional.of(typeConversion));
     final JavaArrayType javaArrayType =
-        JavaArrayType.wrap(arrayType, TypeMappings.ofSingleClassTypeMapping(classTypeMapping));
+        JavaArrayType.wrap(
+            arrayType,
+            TypeMappings.ofSingleClassTypeMapping(
+                classTypeMapping, TaskIdentifier.fromString("test")));
 
     assertTrue(javaArrayType.getApiType().isPresent());
     final ApiType apiType = javaArrayType.getApiType().get();
@@ -201,7 +212,10 @@ class JavaArrayTypeTest {
     final ClassTypeMapping classTypeMapping =
         new ClassTypeMapping("Set", "com.custom.CustomSet", Optional.empty());
     final JavaArrayType javaArrayType =
-        JavaArrayType.wrap(arrayType, TypeMappings.ofSingleClassTypeMapping(classTypeMapping));
+        JavaArrayType.wrap(
+            arrayType,
+            TypeMappings.ofSingleClassTypeMapping(
+                classTypeMapping, TaskIdentifier.fromString("test")));
 
     // User mapping without conversion should take precedence (no apiType created)
     assertEquals(Optional.empty(), javaArrayType.getApiType());

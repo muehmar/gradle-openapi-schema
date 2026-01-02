@@ -19,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,9 @@ class ListMemberMappingWriterTest {
           PojoMembers.optionalListWithNullableItems(),
           invoiceName(),
           TypeMappings.ofClassTypeMappings(
-              LIST_MAPPING_WITH_CONVERSION, STRING_MAPPING_WITH_CONVERSION));
+              TaskIdentifier.fromString("test"),
+              LIST_MAPPING_WITH_CONVERSION,
+              STRING_MAPPING_WITH_CONVERSION));
 
   private static final JavaArrayType JAVA_ARRAY_TYPE = MEMBER.getJavaType().onArrayType().get();
 
@@ -145,12 +148,16 @@ class ListMemberMappingWriterTest {
 
   public static Stream<Arguments> listVariants() {
     final TypeMappings stringTypeMapping =
-        TypeMappings.ofSingleClassTypeMapping(STRING_MAPPING_WITH_CONVERSION);
+        TypeMappings.ofSingleClassTypeMapping(
+            STRING_MAPPING_WITH_CONVERSION, TaskIdentifier.fromString("test"));
     final TypeMappings listTypeMapping =
-        TypeMappings.ofSingleClassTypeMapping(LIST_MAPPING_WITH_CONVERSION);
+        TypeMappings.ofSingleClassTypeMapping(
+            LIST_MAPPING_WITH_CONVERSION, TaskIdentifier.fromString("test"));
     final TypeMappings fullMapping =
         TypeMappings.ofClassTypeMappings(
-            STRING_MAPPING_WITH_CONVERSION, LIST_MAPPING_WITH_CONVERSION);
+            TaskIdentifier.fromString("test"),
+            STRING_MAPPING_WITH_CONVERSION,
+            LIST_MAPPING_WITH_CONVERSION);
     return Stream.of(
             requiredStringList(),
             requiredListWithNullableItems(),

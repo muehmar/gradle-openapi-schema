@@ -55,7 +55,8 @@ public class JavaObjectType extends NonGenericJavaType {
   public static JavaObjectType wrap(ObjectType objectType, TypeMappings typeMappings) {
     final QualifiedClassName className = QualifiedClassName.ofPojoName(objectType.getName());
     final TypeMapping typeMapping =
-        TypeMapping.fromDtoMappings(className, typeMappings.getDtoMappings());
+        TypeMapping.fromDtoMappings(
+            className, typeMappings.getDtoMappings(), typeMappings.getTaskIdentifier());
     return new JavaObjectType(
         typeMapping,
         objectType.getNullability(),

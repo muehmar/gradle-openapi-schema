@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
@@ -60,7 +61,8 @@ class JavaStringTypeTest {
         JavaStringType.wrap(
             stringType,
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("UUID", "com.custom.CustomUUID", Optional.empty())));
+                new ClassTypeMapping("UUID", "com.custom.CustomUUID", Optional.empty()),
+                TaskIdentifier.fromString("test")));
 
     assertEquals(Optional.empty(), javaType.getApiType());
 
@@ -81,7 +83,8 @@ class JavaStringTypeTest {
         JavaStringType.wrap(
             stringType,
             TypeMappings.ofSingleFormatTypeMapping(
-                new FormatTypeMapping("binary", "com.custom.CustomBinary", Optional.empty())));
+                new FormatTypeMapping("binary", "com.custom.CustomBinary", Optional.empty()),
+                TaskIdentifier.fromString("test")));
 
     assertEquals(Optional.empty(), javaType.getApiType());
 
@@ -103,7 +106,10 @@ class JavaStringTypeTest {
     final FormatTypeMapping formatTypeMapping =
         new FormatTypeMapping("binary", "com.custom.CustomBinary", Optional.of(typeConversion));
     final JavaStringType javaType =
-        JavaStringType.wrap(stringType, TypeMappings.ofSingleFormatTypeMapping(formatTypeMapping));
+        JavaStringType.wrap(
+            stringType,
+            TypeMappings.ofSingleFormatTypeMapping(
+                formatTypeMapping, TaskIdentifier.fromString("test")));
 
     final QualifiedClassName className =
         QualifiedClassName.ofQualifiedClassName("com.custom.CustomBinary");

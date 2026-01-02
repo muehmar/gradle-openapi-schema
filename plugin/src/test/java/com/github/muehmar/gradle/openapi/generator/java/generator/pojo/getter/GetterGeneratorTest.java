@@ -30,6 +30,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.stream.Stream;
@@ -55,14 +56,17 @@ class GetterGeneratorTest {
   public static Stream<Arguments> pojoMembers() {
     final TypeMappings fullConversion =
         TypeMappings.ofClassTypeMappings(
+            TaskIdentifier.fromString("test"),
             ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION,
             ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION,
             ClassTypeMappings.MAP_MAPPING_WITH_CONVERSION);
 
     final TypeMappings listConversion =
-        TypeMappings.ofClassTypeMappings(ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION);
+        TypeMappings.ofClassTypeMappings(
+            TaskIdentifier.fromString("test"), ClassTypeMappings.LIST_MAPPING_WITH_CONVERSION);
     final TypeMappings stringConversion =
-        TypeMappings.ofClassTypeMappings(ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION);
+        TypeMappings.ofClassTypeMappings(
+            TaskIdentifier.fromString("test"), ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION);
 
     final PList<JavaPojoMember> allNecessityAndNullabilityListVariants =
         PList.of(

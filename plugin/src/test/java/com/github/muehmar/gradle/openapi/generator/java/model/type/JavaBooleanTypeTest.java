@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
+import com.github.muehmar.gradle.openapi.task.TaskIdentifier;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
@@ -41,7 +42,8 @@ class JavaBooleanTypeTest {
         JavaBooleanType.wrap(
             BooleanType.create(Nullability.NOT_NULLABLE),
             TypeMappings.ofSingleClassTypeMapping(
-                new ClassTypeMapping("Boolean", "com.custom.CustomBoolean", Optional.empty())));
+                new ClassTypeMapping("Boolean", "com.custom.CustomBoolean", Optional.empty()),
+                TaskIdentifier.fromString("test")));
 
     assertEquals(Optional.empty(), javaType.getApiType());
 
@@ -64,7 +66,8 @@ class JavaBooleanTypeTest {
     final JavaBooleanType javaType =
         JavaBooleanType.wrap(
             BooleanType.create(Nullability.NOT_NULLABLE),
-            TypeMappings.ofSingleClassTypeMapping(classTypeMapping));
+            TypeMappings.ofSingleClassTypeMapping(
+                classTypeMapping, TaskIdentifier.fromString("test")));
 
     final QualifiedClassName className =
         QualifiedClassName.ofQualifiedClassName("com.custom.CustomBoolean");

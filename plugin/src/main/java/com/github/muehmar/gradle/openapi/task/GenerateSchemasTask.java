@@ -8,6 +8,7 @@ import com.github.muehmar.gradle.openapi.dsl.WarningsConfig;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.GeneratorFactory;
 import com.github.muehmar.gradle.openapi.generator.Generators;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.api.UsedMappingsContext;
 import com.github.muehmar.gradle.openapi.generator.mapper.MapResult;
 import com.github.muehmar.gradle.openapi.generator.mapper.PojoMapperFactory;
 import com.github.muehmar.gradle.openapi.generator.mapper.SpecificationMapper;
@@ -81,6 +82,7 @@ public class GenerateSchemasTask extends DefaultTask {
 
   private void runTask() {
     WarningsContext.resetWarningsForTask(pojoSettings.get().getTaskIdentifier());
+    UsedMappingsContext.clearForTask(pojoSettings.get().getTaskIdentifier());
     final MapResult mapResult = cachedMapping.get();
     final Generators generators = GeneratorFactory.create(Language.JAVA);
 
