@@ -29,7 +29,7 @@ public class ZonedDateTimeDeserializer extends ValueDeserializer<ZonedDateTime> 
 
   @Override
   public ZonedDateTime deserialize(JsonParser p, DeserializationContext ctxt) {
-    return ZonedDateTime.parse(p.getText().trim());
+    return ZonedDateTime.parse(p.getString().trim());
   }
 }
 ]
