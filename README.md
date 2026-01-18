@@ -41,7 +41,7 @@ Add the plugin section in your `build.gradle`:
 
 ```groovy
 plugins {
-    id 'com.github.muehmar.openapischema' version '4.0.0'
+    id 'com.github.muehmar.openapischema' version '4.0.1'
 }
 ```
 

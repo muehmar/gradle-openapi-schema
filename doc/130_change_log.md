@@ -1,5 +1,6 @@
 ## Change Log
 
+* 4.0.1 - Fix Jackson 3 deprecation warnings (issue `#372`)
 * 4.0.0
     * Support Jackson 3 (issue `#366`)
     * Group validation options in DSL (issue `#361`)
