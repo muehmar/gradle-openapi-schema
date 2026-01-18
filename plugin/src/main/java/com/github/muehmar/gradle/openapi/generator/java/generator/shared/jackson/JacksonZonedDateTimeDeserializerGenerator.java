@@ -76,7 +76,7 @@ public class JacksonZonedDateTimeDeserializerGenerator {
               .methodName("deserialize")
               .arguments(deserializeMethodArguments())
               .throwsExceptions(d -> exceptions)
-              .content(deserializeMethodContent())
+              .content(deserializeMethodContent(settings))
               .build();
 
       return AnnotationGenerator.<Void, PojoSettings>override()
@@ -90,8 +90,10 @@ public class JacksonZonedDateTimeDeserializerGenerator {
         PList.of(new Argument("JsonParser", "p"), new Argument("DeserializationContext", "ctxt"));
   }
 
-  private static Generator<Void, PojoSettings> deserializeMethodContent() {
-    return Generator.constant("return ZonedDateTime.parse(p.getText().trim());");
+  private static Generator<Void, PojoSettings> deserializeMethodContent(PojoSettings settings) {
+    final String extractor =
+        settings.getJsonSupport() == JsonSupport.JACKSON_2 ? "p.getText()" : "p.getString()";
+    return Generator.constant(String.format("return ZonedDateTime.parse(%s.trim());", extractor));
   }
 
   private static Generator<Void, PojoSettings> classEnd() {
