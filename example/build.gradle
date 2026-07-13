@@ -117,7 +117,8 @@ def issueNumbers = [
         '351',
         '352',
         '361',
-        '364']
+        '364',
+        '388']
 
 def jacksonMajorVersions = ['jackson2', 'jackson3']
 
