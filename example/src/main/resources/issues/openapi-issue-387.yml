@@ -1,0 +1,26 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    SchemaA:
+      type: object
+      required:
+        - foo
+      properties:
+        foo:
+          type: string
+          nullable: true
+
+    SchemaB:
+      type: object
+      properties:
+        foo:
+          type: string
+
+    AOrB:
+      oneOf:
+        - $ref: '#/components/schemas/SchemaA'
+        - $ref: '#/components/schemas/SchemaB'
