@@ -1,0 +1,37 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Address:
+      type: object
+      required:
+        - street
+      properties:
+        street:
+          type: string
+
+    Home:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        homeName:
+          type: string
+
+    Office:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        officeName:
+          type: string
+
+    Location:
+      anyOf:
+        - $ref: '#/components/schemas/Home'
+        - $ref: '#/components/schemas/Office'
