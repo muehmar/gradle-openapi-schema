@@ -185,6 +185,17 @@ openApiGenerator {
 
     schemas {
 
+        // Reproduces #385: xml-only Jackson config generates annotations without imports
+        // and the wrong ZonedDateTimeDeserializer dialect -> compileJava fails.
+        issue385XmlOnly {
+            sourceSet = 'main'
+            outputDir = project.layout.buildDirectory.dir("generated/openapi")
+            inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-385.yml"
+            packageName = "com.github.muehmar.gradle.openapi.issues.issue385"
+            jsonSupport = "none"
+            xmlSupport = "jackson-2"
+        }
+
         jacksonMajorVersions.forEach { jacksonMajorVersion ->
             def jsonSupportValue = "${jacksonMajorVersion}".replace('jackson', 'jackson-')
             def targetSourceSet = jacksonMajorVersion == 'jackson3' ? 'main' : "${jacksonMajorVersion}"
