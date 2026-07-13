@@ -1,0 +1,14 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - price
+      properties:
+        price:
+          type: number
