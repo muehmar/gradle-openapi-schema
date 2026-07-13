@@ -1,0 +1,19 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    UniqueItemsHolder:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
