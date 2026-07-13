@@ -1,0 +1,24 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    NestedConstraints:
+      type: object
+      properties:
+        numbers:
+          type: array
+          items:
+            type: integer
+            format: int32
+            multipleOf: 5
+        matrix:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+              format: int32
+            uniqueItems: true
