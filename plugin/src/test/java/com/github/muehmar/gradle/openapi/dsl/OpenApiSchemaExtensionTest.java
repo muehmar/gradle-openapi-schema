@@ -75,6 +75,25 @@ class OpenApiSchemaExtensionTest {
   }
 
   @Test
+  void getSchemaExtensions_when_commonDtoMapping_then_propagatesToSchemas() {
+    final TestExtensionSetup setup = createExtensionWithSchemas("apiV1", "apiV2");
+
+    setup.extension.dtoMapping(
+        dtoMapping -> {
+          dtoMapping.setDtoName("AddressDto");
+          dtoMapping.setCustomType("com.package.CustomAddress");
+        });
+
+    final PList<SingleSchemaExtension> schemas = setup.extension.getSchemaExtensions();
+
+    schemas.forEach(
+        schema -> {
+          assertEquals(1, schema.getDtoMappings().size());
+          assertEquals("AddressDto", schema.getDtoMappings().head().getDtoName());
+        });
+  }
+
+  @Test
   void getSchemaExtensions_when_schemaOverridesValidation_then_usesSchemaSpecific() {
     final TestExtensionSetup setup = createExtensionWithSchemas("apiV1");
 
