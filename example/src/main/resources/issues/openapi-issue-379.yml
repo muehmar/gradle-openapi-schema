@@ -1,0 +1,27 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Admin:
+      type: object
+      required:
+        - adminname
+      properties:
+        adminname:
+          type: string
+
+    User:
+      type: object
+      required:
+        - username
+      properties:
+        username:
+          type: string
+
+    AdminOrUser:
+      oneOf:
+        - $ref: '#/components/schemas/Admin'
+        - $ref: '#/components/schemas/User'

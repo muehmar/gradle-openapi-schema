@@ -117,7 +117,15 @@ def issueNumbers = [
         '351',
         '352',
         '361',
-        '364']
+        '364',
+        '374',
+        '375',
+        '376',
+        '378',
+        '379',
+        '380',
+        '381',
+        '383']
 
 def jacksonMajorVersions = ['jackson2', 'jackson3']
 
@@ -472,6 +480,40 @@ openApiGenerator {
                     toClass = "com.github.muehmar.gradle.openapi.issues.issue364.CustomString"
                     conversion.fromCustomType = "getValue"
                     conversion.toCustomType = "CustomString#create"
+                }
+            }
+
+            // Not part of issueNumbers as the spec triggers an UNSUPPORTED_VALIDATION warning
+            // which is configured to fail the build; the warning must be disabled for this
+            // schema, which is not possible for the generic noJsonSupport/noValidation variants.
+            "${jacksonMajorVersion}Issue377" {
+                sourceSet = targetSourceSet
+                outputDir = targetOutputDir
+                inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-377.yml"
+                packageName = "com.github.muehmar.gradle.openapi.issues.issue377"
+                jsonSupport = jsonSupportValue
+                warnings {
+                    failOnUnsupportedValidation = false
+                }
+            }
+
+            "${jacksonMajorVersion}Issue381" {
+                jsonSupport = jsonSupportValue
+                formatTypeMapping {
+                    formatType = "decimal"
+                    classType = "com.github.muehmar.gradle.openapi.issues.issue381.CustomDecimal"
+                    conversion.fromCustomType = "getValue"
+                    conversion.toCustomType = "CustomDecimal#fromFloat"
+                }
+            }
+
+            "${jacksonMajorVersion}Issue383" {
+                jsonSupport = jsonSupportValue
+                formatTypeMapping {
+                    formatType = "issue383kind"
+                    classType = "com.github.muehmar.gradle.openapi.issues.issue383.CustomKind"
+                    conversion.fromCustomType = "toDto"
+                    conversion.toCustomType = "CustomKind#fromDto"
                 }
             }
 

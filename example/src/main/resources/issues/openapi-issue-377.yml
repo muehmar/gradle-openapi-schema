@@ -1,0 +1,15 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    BinaryHolder:
+      type: object
+      properties:
+        data:
+          type: string
+          format: binary
+          minLength: 2
+          maxLength: 4

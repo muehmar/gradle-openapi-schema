@@ -1,0 +1,39 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Admin:
+      type: object
+      required:
+        - type
+        - adminname
+      properties:
+        type:
+          type: string
+        adminname:
+          type: string
+
+    User:
+      type: object
+      required:
+        - type
+        - username
+      properties:
+        type:
+          type: string
+        username:
+          type: string
+
+    AdminOrUser:
+      oneOf:
+        - $ref: '#/components/schemas/Admin'
+        - $ref: '#/components/schemas/User'
+      discriminator:
+        propertyName: type
+        mapping:
+          adm: '#/components/schemas/Admin'
+          administrator: '#/components/schemas/Admin'
+          usr: '#/components/schemas/User'
