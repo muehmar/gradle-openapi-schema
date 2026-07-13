@@ -117,7 +117,8 @@ def issueNumbers = [
         '351',
         '352',
         '361',
-        '364']
+        '364',
+        '383']
 
 def jacksonMajorVersions = ['jackson2', 'jackson3']
 
@@ -472,6 +473,16 @@ openApiGenerator {
                     toClass = "com.github.muehmar.gradle.openapi.issues.issue364.CustomString"
                     conversion.fromCustomType = "getValue"
                     conversion.toCustomType = "CustomString#create"
+                }
+            }
+
+            "${jacksonMajorVersion}Issue383" {
+                jsonSupport = jsonSupportValue
+                formatTypeMapping {
+                    formatType = "issue383kind"
+                    classType = "com.github.muehmar.gradle.openapi.issues.issue383.CustomKind"
+                    conversion.fromCustomType = "toDto"
+                    conversion.toCustomType = "CustomKind#fromDto"
                 }
             }
 
