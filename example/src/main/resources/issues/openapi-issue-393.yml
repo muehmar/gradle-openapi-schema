@@ -1,0 +1,14 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    DecimalMultipleOfInt:
+      type: object
+      properties:
+        intValue:
+          type: integer
+          format: int32
+          multipleOf: 2.5
