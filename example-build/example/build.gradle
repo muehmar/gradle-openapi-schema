@@ -119,6 +119,7 @@ def issueNumbers = [
         '361',
         '364',
         '374',
+        '385',
         '391',
         '394',
         '408']
@@ -445,6 +446,11 @@ openApiGenerator {
                     conversion.fromCustomType = "asSet"
                     conversion.toCustomType = "CustomSet#fromSet"
                 }
+            }
+
+            "${jacksonMajorVersion}Issue385" {
+                jsonSupport = "none"
+                xmlSupport = jsonSupportValue
             }
 
             "${jacksonMajorVersion}Issue352" {
