@@ -1,0 +1,15 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    FractionalBounds:
+      type: object
+      properties:
+        intValue:
+          type: integer
+          format: int32
+          minimum: 5.5
+          maximum: 100.5
