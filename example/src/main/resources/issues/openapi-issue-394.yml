@@ -1,0 +1,18 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    NullableTypedAp:
+      type: object
+      required:
+        - name
+        - reqAp
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+        nullable: true
