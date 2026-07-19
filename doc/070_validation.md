@@ -1,7 +1,7 @@
 ## Validation
 
-The generation of annotations for validation can be enabled by setting `enableValidation` to `true`. It requires at
-least version 2.0 of the java/jakarta validation api as dependency. It supports object graph validation via the `@Valid`
+The generation of annotations for validation can be enabled by setting `enabled` to `true` in the `validation` block
+(`validation { enabled = true }`). It requires at least version 2.0 of the java/jakarta validation api as dependency. It supports object graph validation via the `@Valid`
 annotation.
 
 | Validation API          | Supported versions |
@@ -55,12 +55,12 @@ no additional properties are allowed via `additionalProperties = false`). This m
 considered as valid but it will result in an invalid object as the required properties of two schemas are present.
 
 ### Examples
-* [OpenAPI spec](example/src/main/resources/openapi-validation.yml)
-* [Directory with Tests](example/src/test/java/com/github/muehmar/gradle/openapi/validation)
+* [OpenAPI spec](../example/src/main/resources/openapi-validation.yml)
+* [Directory with Tests](../example/src/test/java/com/github/muehmar/gradle/openapi/validation)
 
 Samples with Tests for compositions can be found here:
-* [OneOf Validation](example/src/test/java/com/github/muehmar/gradle/openapi/oneof/TestValidation.java)
-* [AnyOf Validation](example/src/test/java/com/github/muehmar/gradle/openapi/anyof/TestValidation.java)
+* [OneOf Validation](../example/src/test/java/com/github/muehmar/gradle/openapi/oneof/ValidationTest.java)
+* [AnyOf Validation](../example/src/test/java/com/github/muehmar/gradle/openapi/anyof/ValidationTest.java)
 
 ## Keywords `readOnly` and `writeOnly`
 These keywords for properties are supported. If used, three different DTO's for the same schema are generated:

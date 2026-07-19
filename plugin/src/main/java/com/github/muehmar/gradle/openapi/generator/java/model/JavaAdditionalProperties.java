@@ -38,7 +38,7 @@ public class JavaAdditionalProperties {
     if (javaType.isMapType() && javaType.hasApiTypeDeep()) {
       final String message =
           String.format(
-              "The pojo '%s' contains a Map as additional properties and a conversion is registered with mapping, which is currently not supported. This should be fixed with: https://github.com/muehmar/gradle-openapi-schema/issues/307.",
+              "The pojo '%s' has a Map as additional-property value type whose value type requires a conversion (a nested map with a mapped value type), which is currently not supported.",
               pojoName);
       throw new OpenApiGeneratorException(message);
     }

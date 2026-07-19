@@ -167,7 +167,7 @@ specification if necessary.
 | sourceSet                 | &check;               | String                       | main                                                   | Source set to which the generated classes should be added.                                                                                                                                                                                                                           |
 | inputSpec                 | &cross;               | String                       |                                                        | The OpenApi 3.x specification location.                                                                                                                                                                                                                                              |
 | outputDir                 | &check;               | String / Provider[Directory] | project.layout.buildDirectory.dir("generated/openapi") | The location in which the generated sources should be stored. Can either be set as String or as Provider[Directory], which is the result of calling `project.layout.buildDirectory.dir("directory/inside/the/build/directory")`.                                                     |
-| resolveInputSpecs         | &cross;               | boolean                      | true                                                   | Input specifications are resolved for task input calculation for gradle. This requires parsing the specification to identify remote specifications. This can be disabled if needed, see [Incremental build and remote specifications](#incremental-build-and-remote-specifications). |
+| resolveInputSpecs         | &cross;               | boolean                      | true                                                   | Input specifications are resolved for task input calculation for gradle. This requires parsing the specification to identify remote specifications. This can be disabled if needed, see [Incremental build and remote specifications](100_incremental_build.md). |
 | packageName               | &cross;               | String                       | \${project.group}.\${project.name}.api.model           | Name of the package for the generated classes.                                                                                                                                                                                                                                       |
 | suffix                    | &check;               | String                       |                                                        | Suffix which gets appended to each generated class. The classes are unchanged if no suffix is provided.                                                                                                                                                                              |
 | jsonSupport               | &check;               | String                       | none                                                   | Used json support library. Possible values are `jackson-2`, `jackson-3` or `none`.                                                                                                                                                                                                   |
@@ -182,7 +182,7 @@ specification if necessary.
 | constantSchemaNameMapping | &check;               | DSL                          | -                                                      | See [Schema Name Mappings](#schema-name-mappings)                                                                                                                                                                                                                                    |
 | enumDescriptionExtraction | &check;               | DSL                          | -                                                      | See [Enum description extraction](#enum-description-extraction)                                                                                                                                                                                                                      |
 | getterSuffixes            | &check;               | DSL                          | -                                                      | See [Getter suffixes](#getter-suffixes)                                                                                                                                                                                                                                              |
-| validation                | &check;               | DSL                          | -                                                      | See [Validation](#validation-methods)                                                                                                                                                                                                                                                |
+| validation                | &check;               | DSL                          | -                                                      | See [Validation](#validation)                                                                                                                                                                                                                                                        |
 | warnings                  | &check;               | DSL                          | -                                                      | See [Warnings](#warnings)                                                                                                                                                                                                                                                            |
 
 The plugin creates for each schema a task named `generate{NAME}Model` where `{NAME}` is replaced by the used name for
@@ -243,7 +243,7 @@ validationMethods {
 | modifier             | String    | private | Modifier for validation methods. Can be one of `public`, `protected`, `package-private` or `private` |
 | deprecatedAnnotation | boolean   | false   | Determines if the validation methods should be annotated with deprecated.                            |
 
-See the Spring-Example ([build.gradle](spring-example/build.gradle)) which makes use of this configuration.
+See the SpringBoot example ([build.gradle](../springboot3-example/build.gradle)) which makes use of this configuration.
 
 ### Class Mappings
 
@@ -388,7 +388,7 @@ enumDescriptionExtraction {
 
 ### Getter suffixes
 
-This generator differentiates between 4 different properties (see chapter [Nullability](#Nullability)):
+This generator differentiates between 4 different properties (see chapter [Nullability](050_nullability.md)):
 
 * Required
 * Required and nullable
@@ -422,7 +422,7 @@ warnings {
     disableWarnings = false
     failOnWarnings = true
     failOnUnsupportedValidation = true
-    failOnMissingConversion = true
+    failOnMissingMappingConversion = true
 }
 ```
 
@@ -431,4 +431,4 @@ warnings {
 | disableWarnings             | boolean   | false                     | Disables the generation of the warnings, i.e. emits no warnings in the gradle output                             |
 | failOnWarnings              | boolean   | false                     | Global setting to fail on warnings. Will be used as default for every warning type if not configured explicitly. |
 | failOnUnsupportedValidation | boolean   | value of `failOnWarnings` | Fail on unsupported validations. Uses `failOnWarnings` if omitted.                                               |
-| failOnMissingConversion     | boolean   | value of `failOnWarnings` | Fail on missing conversions in class mappings or format type mappings. Uses `failOnWarnings` if omitted.         |
+| failOnMissingMappingConversion | boolean | value of `failOnWarnings` | Fail on missing conversions in class mappings or format type mappings. Uses `failOnWarnings` if omitted.         |

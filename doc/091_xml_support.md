@@ -160,11 +160,11 @@ components:
 ```xml
 
 <Container>
-    <book>
+    <books>
         <books>one</books>
         <books>two</books>
         <books>three</books>
-    </book>
+    </books>
 </Container>
 ```
 
