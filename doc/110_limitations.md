@@ -8,4 +8,6 @@
   case ([Issue 133](https://github.com/muehmar/gradle-openapi-schema/issues/133)).
 * Only object types are supported with compositions (`allOf`, `anyOf`,
   `oneOf`) ([Issue 265](https://github.com/muehmar/gradle-openapi-schema/issues/265)).
-* Conversions for mappings of maps as additional property is currently not supported.
+* Conversions for mappings are not supported when the additional-property value type is itself a `Map` whose value type
+  requires a conversion (a nested map with a mapped value type). Conversions for other additional-property types are
+  supported (see [#307](https://github.com/muehmar/gradle-openapi-schema/issues/307)).

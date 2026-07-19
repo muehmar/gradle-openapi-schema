@@ -137,8 +137,8 @@ public AdminAndOrUserAnyOfContainerDto merge(AdminAndOrUserAnyOfContainerDto oth
 This can be used in the staged builder to create an instance of the DTO:
 
 ```java
-  private AdminOrUserDto createDto(UserDefinedInput input) {
-    return AdminOrUserDto.fullAdminOrUserBuilder()
+  private AdminAndOrUserDto createDto(UserDefinedInput input) {
+    return AdminAndOrUserDto.fullAdminAndOrUserDtoBuilder()
             .setAnyOfContainer(createComposition(input))
             .build();
 }
@@ -171,12 +171,14 @@ private AdminAndOrUserAnyOfContainerDto createComposition(UserDefinedInput input
 
 #### Decomposing `oneOf` or `anyOf` with discriminator
 
-Two fold-methods exists to decompose a `oneOf` DTO or an `anyof` DTO with discriminator:
+Two fold-methods exists to decompose a `oneOf` DTO or an `anyOf` DTO with discriminator. The methods are named
+`foldOneOf` for `oneOf` compositions and `foldAnyOf` for `anyOf` compositions with discriminator (shown below for a
+`oneOf` composition):
 
 ```java
-public <T> T fold(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto);
+public <T> T foldOneOf(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto);
 
-public <T> T fold(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto, Supplier<T> onInvalid);
+public <T> T foldOneOf(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto, Supplier<T> onInvalid);
 ```
 
 Both method accepts mapping functions for each schema, in the example case one function for the `AdminDto` and one
@@ -196,7 +198,7 @@ decomposition.
 There is a single fold method can be used to decompose an `anyOf` DTO:
 
 ```java
-  public <T> List<T> fold(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto);
+  public <T> List<T> foldAnyOf(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto);
 ```
 
 This method is similar to the fold method of the `oneOf` composition or `anyOf` composition with discriminator only that
