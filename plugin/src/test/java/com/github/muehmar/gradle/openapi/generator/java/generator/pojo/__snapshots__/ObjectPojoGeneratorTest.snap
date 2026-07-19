@@ -11329,7 +11329,7 @@ public class ObjectPojo1Dto {
 
   @AssertTrue(message = "listVal does not contain unique items")
   private boolean hasListValUniqueItems() {
-    return new HashSet<>(listVal).size() == listVal.size();
+    return listVal == null || new HashSet<>(listVal).size() == listVal.size();
   }
 
   @Override

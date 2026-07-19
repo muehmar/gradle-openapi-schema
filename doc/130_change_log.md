@@ -1,5 +1,8 @@
 ## Change Log
 
+* next
+    * [#374](https://github.com/muehmar/gradle-openapi-schema/issues/374) - Fix NPE in `uniqueItems` validation for
+      absent optional arrays
 * 4.0.1
     * [#372](https://github.com/muehmar/gradle-openapi-schema/issues/372) - Fix Jackson 3 deprecation warnings
 * 4.0.0
