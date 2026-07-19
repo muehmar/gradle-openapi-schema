@@ -86,7 +86,7 @@ public class PosologyDto {
 
   @AssertTrue(message = "items does not contain unique items")
   private boolean hasItemsUniqueItems() {
-    return new HashSet<>(items).size() == items.size();
+    return items == null || new HashSet<>(items).size() == items.size();
   }
 
   boolean isValid() {
