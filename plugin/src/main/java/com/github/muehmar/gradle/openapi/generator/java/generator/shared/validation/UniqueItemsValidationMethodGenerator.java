@@ -25,8 +25,8 @@ public class UniqueItemsValidationMethodGenerator {
             .content(
                 member ->
                     String.format(
-                        "return new HashSet<>(%s).size() == %s.size();",
-                        member.getName(), member.getName()))
+                        "return %s == null || new HashSet<>(%s).size() == %s.size();",
+                        member.getName(), member.getName(), member.getName()))
             .build();
     return ValidationAnnotationGenerator.<JavaPojoMember>assertTrue(
             member -> String.format("%s does not contain unique items", member.getName()))
