@@ -1,6 +1,6 @@
 ## Change Log
 
-* next
+* 4.0.2
     * [#374](https://github.com/muehmar/gradle-openapi-schema/issues/374) - Fix NPE in `uniqueItems` validation for
       absent optional arrays
 * 4.0.1
