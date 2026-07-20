@@ -148,6 +148,23 @@ class SpecificationMapperImplTest {
   }
 
   @Test
+  void map_when_remoteReferencedFilesWithoutOpenApiField_then_allPojosCorrectMapped() {
+    final PList<Pojo> pojos =
+        ResourceSchemaMappingTestUtil.mapSchema(
+            "/specifications/remote-ref-schema-only", "main.yml");
+
+    assertEquals(3, pojos.size());
+    assertEquals(
+        PList.of("AddressDto", "GroupDto", "MemberDto"),
+        pojos.map(Pojo::getName).map(ComponentName::getPojoName).map(PojoName::asString));
+
+    final ObjectPojo groupPojo = (ObjectPojo) pojos.apply(1);
+    final Optional<PojoMember> dateFrom =
+        groupPojo.getMembers().find(member -> member.getName().asString().equals("dateFrom"));
+    assertEquals(Optional.of(StringType.ofFormat(DATE)), dateFrom.map(PojoMember::getType));
+  }
+
+  @Test
   void map_when_calledWithRealOpenApiSchemas_then_allPojosCorrectMapped() {
     final PList<Pojo> pojos =
         ResourceSchemaMappingTestUtil.mapSchema("/integration/completespec", "openapi.yml");

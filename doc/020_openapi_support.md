@@ -25,3 +25,27 @@ type:
 ```
 
 Any other combination of types is currently not supported.
+
+## Referenced specifications
+
+Schemas may reference schemas in other files, the plugin will parse the referenced files transitively and generate
+classes for all their schemas too. A referenced file can either be a full OpenAPI document or a plain collection of
+schemas, i.e. the `openapi`, `info` and `components` fields are not required:
+
+```yaml
+# schemas/common.yml
+MyIsoDate:
+  type: "string"
+  format: "date"
+```
+
+referenced with
+
+```yaml
+dateFrom:
+  $ref: "./schemas/common.yml#/MyIsoDate"
+```
+
+Schemas nested under `components/schemas` (with or without the `openapi` and `info` fields) work as well. Files without
+an `openapi` field are interpreted according to the version declared in the main specification. The main specification
+itself must always be a full OpenAPI document.
