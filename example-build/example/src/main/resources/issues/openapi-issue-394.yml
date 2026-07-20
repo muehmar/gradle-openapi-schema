@@ -1,0 +1,82 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    # Plain nullable value schema
+    NullableTypedAp:
+      type: object
+      required:
+        - name
+        - reqAp
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+        nullable: true
+
+    # Constrained nullable value schema - the validator must evaluate the
+    # constraints against the unwrapped value
+    ConstrainedNullableTypedAp:
+      type: object
+      required:
+        - name
+        - reqAp
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+        nullable: true
+        minLength: 3
+        maxLength: 8
+
+    # Object-typed nullable value schema - deep validation must cascade into
+    # the nested DTO
+    ObjectNullableTypedAp:
+      type: object
+      required:
+        - name
+        - reqAp
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        nullable: true
+        allOf:
+          - $ref: "#/components/schemas/ApValue"
+
+    ApValue:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          minLength: 2
+
+    # Untyped (any-type) nullable value schema
+    AnyNullableTypedAp:
+      type: object
+      required:
+        - name
+        - reqAp
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        nullable: true
+
+    # Wraps a DTO with a required nullable additional property: the wrapper's
+    # deep validation calls the nested isValid() directly, the only path on
+    # which the generated Validator class is reached
+    NestedApWrapper:
+      type: object
+      required:
+        - nested
+      properties:
+        nested:
+          $ref: "#/components/schemas/NullableTypedAp"

@@ -113,9 +113,9 @@ class Root2Test {
         arguments(Leaf1BDto.class, "getProp4Opt", Optional.class),
         arguments(Leaf1BLeaf2ADto.class, "getProp3", String.class),
         arguments(Leaf1BLeaf2BDto.class, "getProp4", String.class),
-        arguments(Leaf2ADto.class, "getProp3", Object.class),
-        arguments(Leaf2BDto.class, "getProp4", Object.class),
-        arguments(Leaf2CDto.class, "getProp1", Object.class),
+        arguments(Leaf2ADto.class, "getProp3", Optional.class),
+        arguments(Leaf2BDto.class, "getProp4", Optional.class),
+        arguments(Leaf2CDto.class, "getProp1", Optional.class),
         arguments(Leaf2CDto.class, "getProp5Tristate", Tristate.class));
   }
 

@@ -31,8 +31,8 @@ class Root1Test {
         arguments(Root1Dto.class, "getProp3Opt", Optional.class),
         arguments(Root1Prop2RequiredDto.class, "getProp2", String.class),
         arguments(Root1Prop3RequiredDto.class, "getProp3", String.class),
-        arguments(Prop2RequiredDto.class, "getProp2", Object.class),
-        arguments(Prop3RequiredDto.class, "getProp3", Object.class));
+        arguments(Prop2RequiredDto.class, "getProp2", Optional.class),
+        arguments(Prop3RequiredDto.class, "getProp3", Optional.class));
   }
 
   @ParameterizedTest

@@ -60,7 +60,7 @@ public class Issue238Test {
             .setLevel(5)
             .build();
 
-    assertEquals(5, dto.getLevel());
+    assertEquals(Optional.of(5), dto.getLevel());
   }
 
   @Test
@@ -72,6 +72,6 @@ public class Issue238Test {
             .andAllOptionals()
             .build();
 
-    assertEquals(5, dto.getLevel());
+    assertEquals(Optional.of(5), dto.getLevel());
   }
 }
