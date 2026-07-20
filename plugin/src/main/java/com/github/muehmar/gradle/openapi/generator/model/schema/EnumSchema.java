@@ -40,7 +40,7 @@ public class EnumSchema implements OpenApiSchema {
               schema,
               enums.stream()
                   .filter(Objects::nonNull)
-                  .map(String.class::cast)
+                  .map(String::valueOf)
                   .collect(PList.collector()),
               enums.stream().anyMatch(Objects::isNull));
       return Optional.of(enumSchema);
