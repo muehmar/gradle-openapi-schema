@@ -1,0 +1,10 @@
+IsoDate:
+  type: string
+  format: date
+
+Address:
+  required:
+    - street
+  properties:
+    street:
+      type: string

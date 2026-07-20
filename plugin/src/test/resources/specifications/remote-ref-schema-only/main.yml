@@ -1,0 +1,15 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Group:
+      required:
+        - dateFrom
+      properties:
+        dateFrom:
+          $ref: 'schemas.yml#/IsoDate'
+        member:
+          $ref: 'components-only.yml#/components/schemas/Member'

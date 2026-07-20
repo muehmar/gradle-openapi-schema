@@ -1,6 +1,8 @@
 ## Change Log
 
 * next
+    * [#342](https://github.com/muehmar/gradle-openapi-schema/issues/342) - Support referenced files containing only
+      schemas, i.e. without the `openapi`, `info` and `components` fields
     * [#397](https://github.com/muehmar/gradle-openapi-schema/issues/397) - Fix stale option names, wrong samples and
       dead links in the documentation
 * 4.0.2

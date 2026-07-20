@@ -1,0 +1,8 @@
+components:
+  schemas:
+    Member:
+      required:
+        - nickname
+      properties:
+        nickname:
+          type: string
