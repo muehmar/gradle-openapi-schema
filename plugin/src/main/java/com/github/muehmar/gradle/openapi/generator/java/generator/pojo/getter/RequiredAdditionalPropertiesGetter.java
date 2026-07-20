@@ -13,6 +13,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGener
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -29,33 +30,75 @@ public class RequiredAdditionalPropertiesGetter {
 
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings> annotatedGetter() {
     return Generator.<JavaRequiredAdditionalProperty, PojoSettings>emptyGen()
-        .append(validAnnotationForType(), JavaRequiredAdditionalProperty::getJavaType)
+        .append(
+            Generator.<JavaRequiredAdditionalProperty, PojoSettings>emptyGen()
+                .append(validAnnotationForType(), JavaRequiredAdditionalProperty::getJavaType)
+                .filter(JavaRequiredAdditionalProperty::isNotNullable))
         .append(
             notNullAnnotation(JavaRequiredAdditionalProperty.class)
-                .filter(JavaRequiredAdditionalProperty::isAnyType))
+                .filter(JavaRequiredAdditionalProperty::isAnyType)
+                .filter(JavaRequiredAdditionalProperty::isNotNullable))
         .append(jsonIgnore())
         .append(getter())
         .appendSingleBlankLine()
         .append(notNullValidationGetterForSpecificType())
         .appendSingleBlankLine()
+        .append(presenceValidationGetterForNullableType())
+        .appendSingleBlankLine()
+        .append(deepValidationGetterForNullableType())
+        .appendSingleBlankLine()
         .append(correctTypeValidationGetterForSpecificType());
+  }
+
+  private static Generator<JavaRequiredAdditionalProperty, PojoSettings>
+      presenceValidationGetterForNullableType() {
+    return DeprecatedMethodGenerator
+        .<JavaRequiredAdditionalProperty>deprecatedJavaDocAndAnnotationForValidationMethod()
+        .append(assertTrue(prop -> String.format("Is required but missing: %s", prop.getName())))
+        .append(
+            MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
+                .modifiers(SettingsFunctions::validationMethodModifiers)
+                .noGenericTypes()
+                .returnType("boolean")
+                .methodName(prop -> String.format("is%sPresent", prop.getName().startUpperCase()))
+                .noArguments()
+                .doesNotThrow()
+                .content(
+                    (prop, s, w) ->
+                        w.println(
+                            "return %s.containsKey(\"%s\");",
+                            additionalPropertiesName(), prop.getName()))
+                .build())
+        .filter(JavaRequiredAdditionalProperty::isNullable)
+        .filter(Filters.isValidationEnabled());
   }
 
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings> getter() {
     return MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(prop -> prop.getJavaType().getParameterizedClassName())
+        .returnType(RequiredAdditionalPropertiesGetter::getterReturnType)
         .methodName(prop -> String.format("get%s", prop.getName().startUpperCase()))
         .noArguments()
         .doesNotThrow()
         .content(getterContent())
         .build()
-        .append(RefsGenerator.javaTypeRefs(), JavaRequiredAdditionalProperty::getJavaType);
+        .append(RefsGenerator.javaTypeRefs(), JavaRequiredAdditionalProperty::getJavaType)
+        .append(
+            RefsGenerator.<JavaRequiredAdditionalProperty, PojoSettings>optionalRef()
+                .filter(JavaRequiredAdditionalProperty::isNullable));
+  }
+
+  private static String getterReturnType(JavaRequiredAdditionalProperty prop) {
+    final String className = prop.getJavaType().getParameterizedClassName().asString();
+    return prop.isNullable() ? String.format("Optional<%s>", className) : className;
   }
 
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings> getterContent() {
-    return getterContentForAnyType().append(getterContentForSpecificType());
+    return getterContentForAnyType()
+        .append(getterContentForSpecificType())
+        .append(getterContentForNullableAnyType())
+        .append(getterContentForNullableSpecificType());
   }
 
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings> getterContentForAnyType() {
@@ -63,7 +106,8 @@ public class RequiredAdditionalPropertiesGetter {
         .append(
             (prop, s, w) ->
                 w.println("return %s.get(\"%s\");", additionalPropertiesName(), prop.getName()))
-        .filter(JavaRequiredAdditionalProperty::isAnyType);
+        .filter(JavaRequiredAdditionalProperty::isAnyType)
+        .filter(JavaRequiredAdditionalProperty::isNotNullable);
   }
 
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings>
@@ -82,7 +126,72 @@ public class RequiredAdditionalPropertiesGetter {
         .append(constant("catch (ClassCastException e) {"))
         .append(constant("return null;"), 1)
         .append(constant("}"))
-        .filter(JavaRequiredAdditionalProperty::isNotAnyType);
+        .filter(JavaRequiredAdditionalProperty::isNotAnyType)
+        .filter(JavaRequiredAdditionalProperty::isNotNullable);
+  }
+
+  private static Generator<JavaRequiredAdditionalProperty, PojoSettings>
+      getterContentForNullableAnyType() {
+    return Generator.<JavaRequiredAdditionalProperty, PojoSettings>emptyGen()
+        .append(
+            (prop, s, w) ->
+                w.println(
+                    "return Optional.ofNullable(%s.get(\"%s\"));",
+                    additionalPropertiesName(), prop.getName()))
+        .filter(JavaRequiredAdditionalProperty::isAnyType)
+        .filter(JavaRequiredAdditionalProperty::isNullable);
+  }
+
+  private static Generator<JavaRequiredAdditionalProperty, PojoSettings>
+      getterContentForNullableSpecificType() {
+    return Generator.<JavaRequiredAdditionalProperty, PojoSettings>emptyGen()
+        .append(
+            (prop, s, w) ->
+                w.println(
+                    "return Optional.ofNullable(%s.get(\"%s\"))",
+                    additionalPropertiesName(), prop.getName()))
+        .append(
+            (prop, s, w) ->
+                w.println(
+                    ".filter(%s.class::isInstance)",
+                    prop.getJavaType().getQualifiedClassName().getClassName()),
+            2)
+        .append(
+            (prop, s, w) ->
+                w.println(
+                    ".map(value -> (%s) value);", prop.getJavaType().getParameterizedClassName()),
+            2)
+        .filter(JavaRequiredAdditionalProperty::isNotAnyType)
+        .filter(JavaRequiredAdditionalProperty::isNullable);
+  }
+
+  private static Generator<JavaRequiredAdditionalProperty, PojoSettings>
+      deepValidationGetterForNullableType() {
+    return DeprecatedMethodGenerator
+        .<JavaRequiredAdditionalProperty>deprecatedJavaDocAndAnnotationForValidationMethod()
+        .append(jsonIgnore())
+        .append(validAnnotationForType(), JavaRequiredAdditionalProperty::getJavaType)
+        .append(
+            MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
+                .modifiers(SettingsFunctions::validationMethodModifiers)
+                .noGenericTypes()
+                .returnType(prop -> prop.getJavaType().getParameterizedClassName().asString())
+                .methodName(
+                    (prop, settings) ->
+                        String.format(
+                            "get%s%s",
+                            prop.getName().startUpperCase(),
+                            settings.getValidationMethods().getGetterSuffix()))
+                .noArguments()
+                .doesNotThrow()
+                .content(
+                    (prop, s, w) ->
+                        w.println("return get%s().orElse(null);", prop.getName().startUpperCase()))
+                .build())
+        .append(RefsGenerator.javaTypeRefs(), JavaRequiredAdditionalProperty::getJavaType)
+        .filter(prop -> ValidationAnnotationGenerator.shouldValidateDeep(prop.getJavaType()))
+        .filter(JavaRequiredAdditionalProperty::isNullable)
+        .filter(Filters.isValidationEnabled());
   }
 
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings>
@@ -105,6 +214,7 @@ public class RequiredAdditionalPropertiesGetter {
                 .build())
         .append(RefsGenerator.javaTypeRefs(), JavaRequiredAdditionalProperty::getJavaType)
         .filter(JavaRequiredAdditionalProperty::isNotAnyType)
+        .filter(JavaRequiredAdditionalProperty::isNotNullable)
         .filter(Filters.isValidationEnabled());
   }
 

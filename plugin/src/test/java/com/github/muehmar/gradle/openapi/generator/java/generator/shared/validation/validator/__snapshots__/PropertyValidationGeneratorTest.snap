@@ -314,7 +314,7 @@ requiredNullableStringWithoutCondition=[
 .
 .
 private boolean isStringValValid() {
-  return (stringVal != null || isStringValPresent);
+  return isStringValPresent;
 }
 ]
 

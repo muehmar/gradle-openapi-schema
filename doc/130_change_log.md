@@ -1,6 +1,8 @@
 ## Change Log
 
 * next
+    * [#394](https://github.com/muehmar/gradle-openapi-schema/issues/394) - Fix uncompilable generated code and
+      incorrect validation for required additional properties with a nullable value schema
     * [#391](https://github.com/muehmar/gradle-openapi-schema/issues/391) - Coerce non-string enum literals to strings
       for `type: string` enums in OpenAPI 3.1 specs instead of failing with a `ClassCastException`
     * [#342](https://github.com/muehmar/gradle-openapi-schema/issues/342) - Support referenced files containing only
