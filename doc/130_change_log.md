@@ -1,6 +1,8 @@
 ## Change Log
 
 * next
+    * [#391](https://github.com/muehmar/gradle-openapi-schema/issues/391) - Coerce non-string enum literals to strings
+      for `type: string` enums in OpenAPI 3.1 specs instead of failing with a `ClassCastException`
     * [#342](https://github.com/muehmar/gradle-openapi-schema/issues/342) - Support referenced files containing only
       schemas, i.e. without the `openapi`, `info` and `components` fields
     * [#397](https://github.com/muehmar/gradle-openapi-schema/issues/397) - Fix stale option names, wrong samples and

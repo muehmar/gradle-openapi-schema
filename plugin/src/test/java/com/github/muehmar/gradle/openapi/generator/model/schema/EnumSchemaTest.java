@@ -16,8 +16,11 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumTypeBuilder;
+import io.swagger.v3.oas.models.SpecVersion;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import java.util.Arrays;
+import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 class EnumSchemaTest {
@@ -58,6 +61,26 @@ class EnumSchemaTest {
     assertEquals(expectedEnumType, result.getType());
     assertEquals(Nullability.NOT_NULLABLE, result.getType().getNullability());
     assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
+  }
+
+  @Test
+  void mapToPojo_when_v31StringEnumWithNonStringLiterals_then_literalsCoercedToString() {
+    final Schema<Object> enumSchema = new Schema<>();
+    enumSchema.setSpecVersion(SpecVersion.V31);
+    enumSchema.setTypes(Collections.singleton(SchemaType.STRING.asString()));
+    enumSchema.setEnum(Arrays.asList(1, 2));
+
+    final PojoSchema pojoSchema =
+        new PojoSchema(componentName("NumberValues", "Dto"), wrap(enumSchema));
+
+    final MapContext mapContext = pojoSchema.mapToPojo();
+
+    final UnresolvedMapResult unresolvedMapResult = mapContext.getUnresolvedMapResult();
+    assertEquals(1, unresolvedMapResult.getPojos().size());
+
+    final EnumPojo expectedPojo =
+        EnumPojo.of(pojoSchema.getName(), "", Nullability.NOT_NULLABLE, PList.of("1", "2"));
+    assertEquals(expectedPojo, unresolvedMapResult.getPojos().apply(0));
   }
 
   @Test
