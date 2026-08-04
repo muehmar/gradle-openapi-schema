@@ -11,6 +11,107 @@ public Object getProp1() {
 ]
 
 
+requiredAdditionalNullableAnyTypeProperties=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+javax.validation.constraints.AssertTrue
+
+@JsonIgnore
+public Optional<Object> getProp1() {
+  return Optional.ofNullable(additionalProperties.get("prop1"));
+}
+
+@AssertTrue(message = "Is required but missing: prop1")
+private boolean isProp1Present() {
+  return additionalProperties.containsKey("prop1");
+}
+
+]
+
+
+requiredAdditionalNullableObjectProperties=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+javax.validation.Valid
+javax.validation.constraints.AssertTrue
+
+@JsonIgnore
+public Optional<UserDto> getProp1() {
+  return Optional.ofNullable(additionalProperties.get("prop1"))
+      .filter(UserDto.class::isInstance)
+      .map(value -> (UserDto) value);
+}
+
+@AssertTrue(message = "Is required but missing: prop1")
+private boolean isProp1Present() {
+  return additionalProperties.containsKey("prop1");
+}
+
+@JsonIgnore
+@Valid
+private UserDto getProp1Raw() {
+  return getProp1().orElse(null);
+}
+
+@AssertTrue(message = "Value is not an instance of UserDto")
+private boolean isProp1CorrectType() {
+  Object value = additionalProperties.get("prop1");
+  return value == null || value instanceof UserDto;
+}
+]
+
+
+requiredAdditionalNullableStringListProperties=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.List
+java.util.Optional
+javax.validation.constraints.AssertTrue
+
+@JsonIgnore
+public Optional<List<String>> getProp1() {
+  return Optional.ofNullable(additionalProperties.get("prop1"))
+      .filter(List.class::isInstance)
+      .map(value -> (List<String>) value);
+}
+
+@AssertTrue(message = "Is required but missing: prop1")
+private boolean isProp1Present() {
+  return additionalProperties.containsKey("prop1");
+}
+
+@AssertTrue(message = "Value is not an instance of List")
+private boolean isProp1CorrectType() {
+  Object value = additionalProperties.get("prop1");
+  return value == null || value instanceof List;
+}
+]
+
+
+requiredAdditionalNullableStringProperties=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+javax.validation.constraints.AssertTrue
+
+@JsonIgnore
+public Optional<String> getProp1() {
+  return Optional.ofNullable(additionalProperties.get("prop1"))
+      .filter(String.class::isInstance)
+      .map(value -> (String) value);
+}
+
+@AssertTrue(message = "Is required but missing: prop1")
+private boolean isProp1Present() {
+  return additionalProperties.containsKey("prop1");
+}
+
+@AssertTrue(message = "Value is not an instance of String")
+private boolean isProp1CorrectType() {
+  Object value = additionalProperties.get("prop1");
+  return value == null || value instanceof String;
+}
+]
+
+
 requiredAdditionalObjectProperties=[
 com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.Valid

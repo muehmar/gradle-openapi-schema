@@ -44,4 +44,12 @@ public class JavaRequiredAdditionalProperty {
   public boolean isNotAnyType() {
     return not(isAnyType());
   }
+
+  public boolean isNullable() {
+    return javaType.getNullability().isNullable();
+  }
+
+  public boolean isNotNullable() {
+    return not(isNullable());
+  }
 }

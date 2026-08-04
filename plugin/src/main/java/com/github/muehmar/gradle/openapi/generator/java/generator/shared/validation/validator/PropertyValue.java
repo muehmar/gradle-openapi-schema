@@ -29,6 +29,7 @@ public class PropertyValue {
   Nullability nullability;
   Necessity necessity;
   boolean isNested;
+  boolean isAdditionalProperty;
 
   public static PropertyValue fromJavaMember(JavaPojoMember member) {
     return fullPropertyValueBuilder()
@@ -39,6 +40,7 @@ public class PropertyValue {
         .nullability(member.getNullability())
         .necessity(member.getNecessity())
         .isNested(false)
+        .isAdditionalProperty(false)
         .build();
   }
 
@@ -49,16 +51,19 @@ public class PropertyValue {
 
   public static PropertyValue fromRequiredAdditionalProperty(
       JavaRequiredAdditionalProperty additionalProperty, JavaPojoName pojoName) {
+    final String getter =
+        String.format("%s()", additionalProperty.getName().startUpperCase().prefix("get"));
+    final String accessor = additionalProperty.isNullable() ? getter + ".orElse(null)" : getter;
     return fullPropertyValueBuilder()
         .propertyInfoName(
             PropertyInfoName.fromPojoNameAndMemberName(pojoName, additionalProperty.getName()))
         .name(additionalProperty.getName())
-        .accessor(
-            String.format("%s()", additionalProperty.getName().startUpperCase().prefix("get")))
+        .accessor(accessor)
         .type(additionalProperty.getJavaType())
-        .nullability(NOT_NULLABLE)
+        .nullability(additionalProperty.getJavaType().getNullability())
         .necessity(Necessity.REQUIRED)
         .isNested(false)
+        .isAdditionalProperty(true)
         .build();
   }
 
@@ -78,6 +83,7 @@ public class PropertyValue {
         .nullability(NOT_NULLABLE)
         .necessity(Necessity.REQUIRED)
         .isNested(false)
+        .isAdditionalProperty(false)
         .build();
   }
 
@@ -104,6 +110,7 @@ public class PropertyValue {
         .nullability(type.getNullability())
         .necessity(Necessity.OPTIONAL)
         .isNested(true)
+        .isAdditionalProperty(false)
         .build();
   }
 

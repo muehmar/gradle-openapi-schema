@@ -3,6 +3,9 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.RequiredAdditionalPropertiesSetterGenerator.requiredAdditionalPropertiesSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.nullableAnyType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.nullableStringType;
+import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringType;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
@@ -31,6 +34,62 @@ class RequiredAdditionalPropertiesSetterGeneratorTest {
     final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
         PList.single(
             JavaRequiredAdditionalProperty.fromNameAndType(Name.ofString("prop1"), anyType()));
+
+    final Writer writer =
+        generator.generate(
+            sampleObjectPojo1().withRequiredAdditionalProperties(requiredAdditionalProperties),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("pojoWithRequiredNullableSpecificTypeProperty")
+  void generate_when_pojoWithRequiredNullableSpecificTypeProperty_then_optionalSetterGenerated() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        requiredAdditionalPropertiesSetterGenerator();
+    final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
+        PList.single(
+            JavaRequiredAdditionalProperty.fromNameAndType(
+                Name.ofString("prop1"), nullableStringType()));
+
+    final Writer writer =
+        generator.generate(
+            sampleObjectPojo1().withRequiredAdditionalProperties(requiredAdditionalProperties),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("pojoWithRequiredNullableAnyTypeProperty")
+  void generate_when_pojoWithRequiredNullableAnyTypeProperty_then_optionalSetterGenerated() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        requiredAdditionalPropertiesSetterGenerator();
+    final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
+        PList.single(
+            JavaRequiredAdditionalProperty.fromNameAndType(
+                Name.ofString("prop1"), nullableAnyType()));
+
+    final Writer writer =
+        generator.generate(
+            sampleObjectPojo1().withRequiredAdditionalProperties(requiredAdditionalProperties),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("pojoWithRequiredNotNullableSpecificTypeProperty")
+  void generate_when_pojoWithRequiredNotNullableSpecificTypeProperty_then_onlyRawSetter() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        requiredAdditionalPropertiesSetterGenerator();
+    final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
+        PList.single(
+            JavaRequiredAdditionalProperty.fromNameAndType(Name.ofString("prop1"), stringType()));
 
     final Writer writer =
         generator.generate(

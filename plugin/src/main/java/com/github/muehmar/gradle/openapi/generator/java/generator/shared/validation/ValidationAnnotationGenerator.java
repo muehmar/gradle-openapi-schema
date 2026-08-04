@@ -86,7 +86,7 @@ public class ValidationAnnotationGenerator {
         .filter(ValidationAnnotationGenerator::shouldValidateDeep);
   }
 
-  private static boolean shouldValidateDeep(JavaType javaType) {
+  public static boolean shouldValidateDeep(JavaType javaType) {
     if (javaType instanceof JavaObjectType) {
       return true;
     } else if (javaType instanceof JavaArrayType) {

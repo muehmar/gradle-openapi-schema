@@ -20,12 +20,21 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.PropertyCount;
+import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
+import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil;
 import io.github.muehmar.codegenerator.Generator;
@@ -206,6 +215,85 @@ class ValidatorClassGeneratorTest {
 
     final JavaObjectPojo pojo =
         sampleObjectPojo1().withAdditionalProperties(JavaAdditionalProperties.notAllowed());
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("objectPojoWithRequiredNotNullableAdditionalProperty")
+  void generate_when_objectPojoWithRequiredNotNullableAdditionalProperty_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
+
+    final JavaObjectPojo pojo =
+        sampleObjectPojo1()
+            .withRequiredAdditionalProperties(
+                PList.single(
+                    JavaRequiredAdditionalProperty.fromNameAndType(
+                        Name.ofString("reqAp"), JavaTypes.stringType())));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("objectPojoWithRequiredNullableAdditionalProperty")
+  void generate_when_objectPojoWithRequiredNullableAdditionalProperty_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
+
+    final JavaObjectPojo pojo =
+        sampleObjectPojo1()
+            .withRequiredAdditionalProperties(
+                PList.single(
+                    JavaRequiredAdditionalProperty.fromNameAndType(
+                        Name.ofString("reqAp"), JavaTypes.nullableStringType())));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("objectPojoWithConstrainedRequiredNullableAdditionalProperty")
+  void
+      generate_when_objectPojoWithConstrainedRequiredNullableAdditionalProperty_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
+
+    final JavaObjectPojo pojo =
+        sampleObjectPojo1()
+            .withRequiredAdditionalProperties(
+                PList.single(
+                    JavaRequiredAdditionalProperty.fromNameAndType(
+                        Name.ofString("reqAp"),
+                        JavaStringType.wrap(
+                            StringType.noFormat()
+                                .withNullability(Nullability.NULLABLE)
+                                .withConstraints(Constraints.empty().withSize(Size.of(3, 8))),
+                            TypeMappings.empty()))));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("objectPojoWithObjectTypedRequiredNullableAdditionalProperty")
+  void
+      generate_when_objectPojoWithObjectTypedRequiredNullableAdditionalProperty_then_correctOutput() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = validationClassGenerator();
+
+    final JavaObjectPojo pojo =
+        sampleObjectPojo1()
+            .withRequiredAdditionalProperties(
+                PList.single(
+                    JavaRequiredAdditionalProperty.fromNameAndType(
+                        Name.ofString("reqAp"),
+                        JavaObjectType.wrap(
+                            StandardObjectType.ofName(PojoName.ofName(Name.ofString("ApValueDto")))
+                                .withNullability(Nullability.NULLABLE),
+                            TypeMappings.empty()))));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 

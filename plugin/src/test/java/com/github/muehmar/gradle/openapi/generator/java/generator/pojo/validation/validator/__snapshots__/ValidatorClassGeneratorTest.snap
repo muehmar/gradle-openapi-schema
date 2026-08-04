@@ -130,6 +130,66 @@ private class Validator {
 ]
 
 
+objectPojoWithConstrainedRequiredNullableAdditionalProperty=[
+private class Validator {
+  private boolean isStringValValid() {
+    if(stringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", stringVal);
+    }
+
+    return false;
+  }
+
+  private boolean isIntValValid() {
+    if(intVal != null) {
+      return 10L <= intVal
+          && intVal <= 50L;
+    }
+
+    return false;
+  }
+
+  private boolean isDoubleValValid() {
+    if(doubleVal != null) {
+      return 0 <= BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("12.5"))
+          && BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("50.1")) < 0;
+    }
+
+    return false;
+  }
+
+  private boolean isReqApValid() {
+    if(getReqAp().orElse(null) != null) {
+      return 3 <= getReqAp().orElse(null).length()
+          && getReqAp().orElse(null).length() <= 8;
+    }
+
+    return additionalProperties.containsKey("reqAp") && additionalProperties.get("reqAp") == null;
+  }
+
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return false;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    return true;
+  }
+
+  private boolean isValid() {
+    return isStringValValid()
+        && isIntValValid()
+        && isDoubleValValid()
+        && isReqApValid()
+        && isAdditionalPropertiesValid();
+  }
+}
+]
+
+
 objectPojoWithMaxPropertyCountConstraint=[
 private class Validator {
   private boolean isRequiredStringValValid() {
@@ -753,6 +813,175 @@ private class Validator {
         && isIntValValid()
         && isDoubleValValid()
         && isAllAdditionalPropertiesHaveCorrectType()
+        && isAdditionalPropertiesValid();
+  }
+}
+]
+
+
+objectPojoWithObjectTypedRequiredNullableAdditionalProperty=[
+private class Validator {
+  private boolean isStringValValid() {
+    if(stringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", stringVal);
+    }
+
+    return false;
+  }
+
+  private boolean isIntValValid() {
+    if(intVal != null) {
+      return 10L <= intVal
+          && intVal <= 50L;
+    }
+
+    return false;
+  }
+
+  private boolean isDoubleValValid() {
+    if(doubleVal != null) {
+      return 0 <= BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("12.5"))
+          && BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("50.1")) < 0;
+    }
+
+    return false;
+  }
+
+  private boolean isReqApValid() {
+    if(getReqAp().orElse(null) != null) {
+      return getReqAp().orElse(null).isValid();
+    }
+
+    return additionalProperties.containsKey("reqAp") && additionalProperties.get("reqAp") == null;
+  }
+
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return false;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    return true;
+  }
+
+  private boolean isValid() {
+    return isStringValValid()
+        && isIntValValid()
+        && isDoubleValValid()
+        && isReqApValid()
+        && isAdditionalPropertiesValid();
+  }
+}
+]
+
+
+objectPojoWithRequiredNotNullableAdditionalProperty=[
+private class Validator {
+  private boolean isStringValValid() {
+    if(stringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", stringVal);
+    }
+
+    return false;
+  }
+
+  private boolean isIntValValid() {
+    if(intVal != null) {
+      return 10L <= intVal
+          && intVal <= 50L;
+    }
+
+    return false;
+  }
+
+  private boolean isDoubleValValid() {
+    if(doubleVal != null) {
+      return 0 <= BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("12.5"))
+          && BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("50.1")) < 0;
+    }
+
+    return false;
+  }
+
+  private boolean isReqApValid() {
+    return getReqAp() != null;
+  }
+
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return false;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    return true;
+  }
+
+  private boolean isValid() {
+    return isStringValValid()
+        && isIntValValid()
+        && isDoubleValValid()
+        && isReqApValid()
+        && isAdditionalPropertiesValid();
+  }
+}
+]
+
+
+objectPojoWithRequiredNullableAdditionalProperty=[
+private class Validator {
+  private boolean isStringValValid() {
+    if(stringVal != null) {
+      return java.util.regex.Pattern.matches("Hello", stringVal);
+    }
+
+    return false;
+  }
+
+  private boolean isIntValValid() {
+    if(intVal != null) {
+      return 10L <= intVal
+          && intVal <= 50L;
+    }
+
+    return false;
+  }
+
+  private boolean isDoubleValValid() {
+    if(doubleVal != null) {
+      return 0 <= BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("12.5"))
+          && BigDecimal.valueOf(doubleVal).compareTo(new BigDecimal("50.1")) < 0;
+    }
+
+    return false;
+  }
+
+  private boolean isReqApValid() {
+    return additionalProperties.containsKey("reqAp") && (additionalProperties.get("reqAp") == null || getReqAp().orElse(null) != null);
+  }
+
+  private boolean isAdditionalPropertiesValid() {
+    if(getAdditionalProperties_() != null) {
+      return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+    }
+
+    return false;
+  }
+
+  private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+    return true;
+  }
+
+  private boolean isValid() {
+    return isStringValValid()
+        && isIntValValid()
+        && isDoubleValValid()
+        && isReqApValid()
         && isAdditionalPropertiesValid();
   }
 }

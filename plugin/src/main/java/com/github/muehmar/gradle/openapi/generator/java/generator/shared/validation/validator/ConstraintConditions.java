@@ -12,6 +12,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
+import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNotNullFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -274,13 +275,29 @@ class ConstraintConditions {
         return writer.print("false", propertyValue.getAccessor());
       }
     } else if (propertyValue.isRequiredAndNullable()) {
-      final JavaName isPresentFlagName =
-          IsPresentFlagName.fromName(propertyValue.getName()).getName();
-      if (hasNoOtherConditions) {
-        return writer.print("(%s != null || %s)", propertyValue.getAccessor(), isPresentFlagName);
-      } else {
-        return writer.print("%s", isPresentFlagName);
+      if (propertyValue.isAdditionalProperty()) {
+        // A required nullable additional property is valid iff present; a present but null value
+        // is spec-valid. The accessor also yields null for a value of the wrong type (the backing
+        // map is a Map<String, Object>), which must not count as valid - also when isValid() is
+        // called directly for deep validation, bypassing the correct-type bean-validation method.
+        // As the fall-through of the null-guarded conditions the accessor is known to yield null,
+        // so a null raw value decides; standalone, a non-null raw value must additionally be
+        // readable through the typed accessor.
+        final JavaName additionalPropertiesName =
+            JavaAdditionalProperties.additionalPropertiesName();
+        final String rawValueIsNull =
+            String.format(
+                "%s.get(\"%s\") == null", additionalPropertiesName, propertyValue.getName());
+        final String nullOrReadableValueCheck =
+            hasNoOtherConditions
+                ? String.format("(%s || %s != null)", rawValueIsNull, propertyValue.getAccessor())
+                : rawValueIsNull;
+        return writer.print(
+            "%s.containsKey(\"%s\") && %s",
+            additionalPropertiesName, propertyValue.getName(), nullOrReadableValueCheck);
       }
+      // A required nullable member is valid iff present; a present but null value is spec-valid.
+      return writer.print("%s", IsPresentFlagName.fromName(propertyValue.getName()).getName());
     } else if (propertyValue.isOptionalAndNotNullable()) {
       return writer.print("%s", IsNotNullFlagName.fromName(propertyValue.getName()).getName());
     } else {
