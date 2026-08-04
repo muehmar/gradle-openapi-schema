@@ -1,3 +1,12 @@
+## Migrating from v4.x to 5.x
+
+### Breaking Changes
+
+* [#394](https://github.com/muehmar/gradle-openapi-schema/issues/394) - The getter of a required additional property
+  with a nullable value schema returns `Optional<T>` instead of the raw type. Additionally, `required` means only that
+  the key is present, i.e. a present but `null` value is valid now and no `@NotNull` constraint is generated for such a
+  property.
+
 ## Migrating from v3.x to 4.x
 
 ### Breaking Changes
