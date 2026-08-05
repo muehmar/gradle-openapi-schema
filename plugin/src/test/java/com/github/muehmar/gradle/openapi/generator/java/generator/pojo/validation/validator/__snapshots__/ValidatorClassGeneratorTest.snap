@@ -159,9 +159,9 @@ private class Validator {
   }
 
   private boolean isReqApValid() {
-    if(getReqAp().orElse(null) != null) {
-      return 3 <= getReqAp().orElse(null).length()
-          && getReqAp().orElse(null).length() <= 8;
+    if(getReqApInternal() != null) {
+      return 3 <= getReqApInternal().length()
+          && getReqApInternal().length() <= 8;
     }
 
     return additionalProperties.containsKey("reqAp") && additionalProperties.get("reqAp") == null;
@@ -848,8 +848,8 @@ private class Validator {
   }
 
   private boolean isReqApValid() {
-    if(getReqAp().orElse(null) != null) {
-      return getReqAp().orElse(null).isValid();
+    if(getReqApInternal() != null) {
+      return getReqApInternal().isValid();
     }
 
     return additionalProperties.containsKey("reqAp") && additionalProperties.get("reqAp") == null;
@@ -907,7 +907,7 @@ private class Validator {
   }
 
   private boolean isReqApValid() {
-    return getReqAp() != null;
+    return getReqApInternal() != null;
   }
 
   private boolean isAdditionalPropertiesValid() {
@@ -962,7 +962,7 @@ private class Validator {
   }
 
   private boolean isReqApValid() {
-    return additionalProperties.containsKey("reqAp") && (additionalProperties.get("reqAp") == null || getReqAp().orElse(null) != null);
+    return additionalProperties.containsKey("reqAp") && (additionalProperties.get("reqAp") == null || getReqApInternal() != null);
   }
 
   private boolean isAdditionalPropertiesValid() {

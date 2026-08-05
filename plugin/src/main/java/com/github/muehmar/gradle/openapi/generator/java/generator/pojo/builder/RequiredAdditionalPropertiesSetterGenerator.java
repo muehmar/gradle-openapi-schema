@@ -7,6 +7,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -37,18 +38,27 @@ public class RequiredAdditionalPropertiesSetterGenerator {
   }
 
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings> normalSetter() {
-    return MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
-        .modifiers((p, s) -> JavaModifiers.of(s.isEnableStagedBuilder() ? PRIVATE : PUBLIC))
-        .noGenericTypes()
-        .returnType("Builder")
-        .methodName(RequiredAdditionalPropertiesSetterGenerator::createMethodName)
-        .singleArgument(rp -> argument(rp.getJavaType().getParameterizedClassName(), rp.getName()))
-        .doesNotThrow()
-        .content(
-            rp ->
-                String.format(
-                    "return addAdditionalProperty(\"%s\", %s);", rp.getName(), rp.getName()))
-        .build();
+    return Generator.<JavaRequiredAdditionalProperty, PojoSettings>emptyGen()
+        .append(
+            JacksonAnnotationGenerator.<JavaRequiredAdditionalProperty>jsonIgnore()
+                .filter(JavaRequiredAdditionalProperty::hasApiType))
+        .append(
+            MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
+                .modifiers((p, s) -> JavaModifiers.of(s.isEnableStagedBuilder() ? PRIVATE : PUBLIC))
+                .noGenericTypes()
+                .returnType("Builder")
+                .methodName(RequiredAdditionalPropertiesSetterGenerator::createMethodName)
+                .singleArgument(
+                    rp ->
+                        argument(
+                            rp.getJavaType().getWriteableParameterizedClassName(), rp.getName()))
+                .doesNotThrow()
+                .content(
+                    rp ->
+                        String.format(
+                            "return addAdditionalProperty(\"%s\", %s);",
+                            rp.getName(), rp.getName()))
+                .build());
   }
 
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings> optionalSetter() {
@@ -64,7 +74,8 @@ public class RequiredAdditionalPropertiesSetterGenerator {
                     rp ->
                         argument(
                             String.format(
-                                "Optional<%s>", rp.getJavaType().getParameterizedClassName()),
+                                "Optional<%s>",
+                                rp.getJavaType().getWriteableParameterizedClassName()),
                             rp.getName()))
                 .doesNotThrow()
                 .content(

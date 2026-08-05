@@ -13332,12 +13332,12 @@ public class ObjectPojo1Dto {
 
   @JsonIgnore
   public String getName() {
-    try {
-      return (String) additionalProperties.get("name");
-    }
-    catch (ClassCastException e) {
-      return null;
-    }
+    return getNameInternal();
+  }
+
+  @JsonIgnore
+  private String getNameInternal() {
+    return (additionalProperties.get("name") instanceof String ? (String) additionalProperties.get("name") : null);
   }
 
   @NotNull
@@ -13447,7 +13447,7 @@ public class ObjectPojo1Dto {
     }
 
     private boolean isNameValid() {
-      return getName() != null;
+      return getNameInternal() != null;
     }
 
     private boolean isAdditionalPropertiesValid() {

@@ -37,6 +37,14 @@ public class JavaRequiredAdditionalProperty {
         .build();
   }
 
+  public boolean hasApiType() {
+    return javaType.getApiType().isPresent();
+  }
+
+  public boolean hasNoApiType() {
+    return not(hasApiType());
+  }
+
   public boolean isAnyType() {
     return javaType.isAnyType();
   }

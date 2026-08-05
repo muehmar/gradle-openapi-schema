@@ -1,6 +1,8 @@
 ## Change Log
 
 * next
+    * [#408](https://github.com/muehmar/gradle-openapi-schema/issues/408) - Respect type mappings with conversion for
+      required additional properties (the staged builder generated uncompilable code)
     * [#394](https://github.com/muehmar/gradle-openapi-schema/issues/394) - Fix uncompilable generated code and
       incorrect validation for required additional properties with a nullable value schema. This changes the generated
       API for such a property, see the [migration guide](120_migration_guides.md#migrating-from-v4x-to-5x)

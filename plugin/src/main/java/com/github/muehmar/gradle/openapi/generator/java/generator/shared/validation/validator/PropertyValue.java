@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredAdditionalPropertiesGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.FrameworkAdditionalPropertiesGetter;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -51,9 +52,8 @@ public class PropertyValue {
 
   public static PropertyValue fromRequiredAdditionalProperty(
       JavaRequiredAdditionalProperty additionalProperty, JavaPojoName pojoName) {
-    final String getter =
-        String.format("%s()", additionalProperty.getName().startUpperCase().prefix("get"));
-    final String accessor = additionalProperty.isNullable() ? getter + ".orElse(null)" : getter;
+    final String accessor =
+        RequiredAdditionalPropertiesGetter.internalValueGetterCall(additionalProperty);
     return fullPropertyValueBuilder()
         .propertyInfoName(
             PropertyInfoName.fromPojoNameAndMemberName(pojoName, additionalProperty.getName()))
