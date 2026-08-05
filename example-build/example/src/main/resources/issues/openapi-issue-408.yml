@@ -1,0 +1,28 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+
+    # A required additional property whose value schema has a class mapping
+    # with a conversion: the staged-builder stage setter and the Builder
+    # setter must both use the mapped custom type (the generated code did not
+    # compile before), and the getter must return the mapped custom type.
+    Data:
+      type: object
+      required:
+        - reqAp
+      additionalProperties:
+        type: string
+
+    # Same with a nullable value schema: covers the Optional setter overload
+    # added for #394.
+    NullableData:
+      type: object
+      required:
+        - reqAp
+      additionalProperties:
+        type: string
+        nullable: true

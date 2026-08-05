@@ -120,7 +120,8 @@ def issueNumbers = [
         '364',
         '374',
         '391',
-        '394']
+        '394',
+        '408']
 
 def jacksonMajorVersions = ['jackson2', 'jackson3']
 
@@ -452,6 +453,16 @@ openApiGenerator {
             }
 
             "${jacksonMajorVersion}Issue307" {
+                jsonSupport = jsonSupportValue
+                classMapping {
+                    fromClass = "String"
+                    toClass = "com.github.muehmar.gradle.openapi.typemappingwithconversion.CustomString"
+                    conversion.fromCustomType = "getValue"
+                    conversion.toCustomType = "CustomString#fromString"
+                }
+            }
+
+            "${jacksonMajorVersion}Issue408" {
                 jsonSupport = jsonSupportValue
                 classMapping {
                     fromClass = "String"
