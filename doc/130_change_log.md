@@ -1,6 +1,10 @@
 ## Change Log
 
 * next
+    * [#385](https://github.com/muehmar/gradle-openapi-schema/issues/385) - Fix uncompilable generated code for
+      xml-only Jackson configs (`jsonSupport` 'none' combined with a Jackson `xmlSupport`)
+    * [#386](https://github.com/muehmar/gradle-openapi-schema/issues/386) - Reject mixing Jackson generations between
+      `jsonSupport` and `xmlSupport` with a clear error
     * [#408](https://github.com/muehmar/gradle-openapi-schema/issues/408) - Respect type mappings with conversion for
       required additional properties (the staged builder generated uncompilable code)
     * [#394](https://github.com/muehmar/gradle-openapi-schema/issues/394) - Fix uncompilable generated code and
