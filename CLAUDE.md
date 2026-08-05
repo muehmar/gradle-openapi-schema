@@ -81,19 +81,26 @@ fix end-to-end:
 The repo convention is to first commit a **failing** test that asserts the desired
 behavior, then fix the plugin.
 
-- Spec: `example/src/main/resources/issues/openapi-issue-NNN.yml`.
+- Spec: `example/src/main/resources/issues/openapi-issue-NNN.yml` — a **single**
+  spec per issue; cover variants with additional schemas in that spec rather than
+  a second spec file.
 - Register `'NNN'` in the `issueNumbers` list in `example/build.gradle`; DTOs are
   generated into package `com.github.muehmar.gradle.openapi.issues.issueNNN` for
   the Jackson 2 and 3 suites and the noJson/noValidation source sets.
-- Per-schema config overrides go in `"${jacksonMajorVersion}IssueNNN { }"` blocks
-  inside the loop, but those do **not** reach the noJson/noValidation variants — if
-  a spec needs an override there, wire it manually outside `issueNumbers`.
+- Per-schema config overrides go in a **single** `"${jacksonMajorVersion}IssueNNN { }"`
+  block inside the loop (mappings, warnings, etc.), but those do **not** reach the
+  noJson/noValidation variants — if a spec needs an override there, wire it manually
+  outside `issueNumbers`. Custom classes used as mapping targets live in
+  `example/src/main/java/.../issues/issueNNN/` and may reference generated DTOs of
+  the same package.
 - The example project sets `failOnWarnings = true` (incl. `UNSUPPORTED_VALIDATION`
   and `MISSING_MAPPING_CONVERSION`): any mapping needs a conversion, and
   unsupported-validation specs will fail generation.
-- Test: `example/src/test/java/.../issues/issueNNN/IssueNNNTest.java`; use
-  `ValidationUtil.validate(...)` for bean-validation assertions and
-  `MapperFactory.jsonMapper()` (Jackson-generation-agnostic) for JSON.
+- Tests: `example/src/test/java/.../issues/issueNNN/IssueNNNTest.java`; an issue
+  covering several aspects may split them into multiple `IssueNNN<Aspect>Test`
+  classes in the same `issueNNN` package. Use `ValidationUtil.validate(...)` for
+  bean-validation assertions and `MapperFactory.jsonMapper()`
+  (Jackson-generation-agnostic) for JSON.
 
 ## Architecture
 
