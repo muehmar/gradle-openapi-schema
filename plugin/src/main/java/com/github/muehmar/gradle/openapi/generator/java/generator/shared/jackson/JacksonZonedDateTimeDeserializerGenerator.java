@@ -8,7 +8,6 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.AnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JacksonRefs;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
-import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaGenerators;
@@ -39,11 +38,7 @@ public class JacksonZonedDateTimeDeserializerGenerator {
         .append(JacksonRefs.generator(JacksonRefs::jsonDeserializerRef))
         .append(JacksonRefs.generator(JacksonRefs::jsonParserRef))
         .append(JacksonRefs.generator(JacksonRefs::deserializationContextRef))
-        .append(
-            (a, s, w) ->
-                s.getJsonSupport() == JsonSupport.JACKSON_2
-                    ? w.ref(JavaRefs.JAVA_IO_IOEXCEPTION)
-                    : w)
+        .append((a, s, w) -> s.usesJackson2() ? w.ref(JavaRefs.JAVA_IO_IOEXCEPTION) : w)
         .append(w -> w.ref(JavaRefs.JAVA_TIME_ZONED_DATE_TIME))
         .append(Writer::printRefs)
         .append(w -> w.println());
@@ -51,10 +46,7 @@ public class JacksonZonedDateTimeDeserializerGenerator {
 
   private static Generator<Void, PojoSettings> classDeclaration() {
     return (data, settings, writer) -> {
-      final String baseClass =
-          settings.getJsonSupport() == JsonSupport.JACKSON_2
-              ? "JsonDeserializer"
-              : "ValueDeserializer";
+      final String baseClass = settings.usesJackson2() ? "JsonDeserializer" : "ValueDeserializer";
       return writer.println(
           "public class %s extends %s<ZonedDateTime> {",
           ZONED_DATE_TIME_DESERIALIZER_CLASSNAME, baseClass);
@@ -64,9 +56,7 @@ public class JacksonZonedDateTimeDeserializerGenerator {
   private static Generator<Void, PojoSettings> deserializeMethod() {
     return (data, settings, writer) -> {
       final PList<String> exceptions =
-          settings.getJsonSupport() == JsonSupport.JACKSON_2
-              ? PList.of("IOException")
-              : PList.empty();
+          settings.usesJackson2() ? PList.of("IOException") : PList.empty();
 
       final Generator<Void, PojoSettings> method =
           JavaGenerators.<Void, PojoSettings>methodGen()
@@ -91,8 +81,7 @@ public class JacksonZonedDateTimeDeserializerGenerator {
   }
 
   private static Generator<Void, PojoSettings> deserializeMethodContent(PojoSettings settings) {
-    final String extractor =
-        settings.getJsonSupport() == JsonSupport.JACKSON_2 ? "p.getText()" : "p.getString()";
+    final String extractor = settings.usesJackson2() ? "p.getText()" : "p.getString()";
     return Generator.constant(String.format("return ZonedDateTime.parse(%s.trim());", extractor));
   }
 

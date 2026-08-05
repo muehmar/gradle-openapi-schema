@@ -49,6 +49,22 @@ public class PojoSettings implements Serializable {
     return xmlSupport.getGroup().equals(XmlSupportGroup.JACKSON);
   }
 
+  /**
+   * True if Jackson 2 is used for json, xml or both. Mixed Jackson generations are rejected by
+   * {@link #validate()}.
+   */
+  public boolean usesJackson2() {
+    return jsonSupport.equals(JsonSupport.JACKSON_2) || xmlSupport.equals(XmlSupport.JACKSON_2);
+  }
+
+  /**
+   * True if Jackson 3 is used for json, xml or both. Mixed Jackson generations are rejected by
+   * {@link #validate()}.
+   */
+  public boolean usesJackson3() {
+    return jsonSupport.equals(JsonSupport.JACKSON_3) || xmlSupport.equals(XmlSupport.JACKSON_3);
+  }
+
   public boolean isEnableValidation() {
     return enableValidation;
   }
@@ -133,6 +149,16 @@ public class PojoSettings implements Serializable {
   }
 
   public void validate() {
+    if ((jsonSupport.equals(JsonSupport.JACKSON_2) && xmlSupport.equals(XmlSupport.JACKSON_3))
+        || (jsonSupport.equals(JsonSupport.JACKSON_3) && xmlSupport.equals(XmlSupport.JACKSON_2))) {
+      throw new IllegalArgumentException(
+          String.format(
+              "Mixing Jackson generations is not supported: jsonSupport '%s' and xmlSupport '%s' "
+                  + "would require the incompatible Jackson dialects com.fasterxml.* and tools.* "
+                  + "in the same generated sources. Use the same Jackson generation for both.",
+              jsonSupport.getValue(), xmlSupport.getValue()));
+    }
+
     classTypeMappings.forEach(
         classTypeMapping -> {
           if (not(classTypeMapping.getTypeConversion().isPresent())

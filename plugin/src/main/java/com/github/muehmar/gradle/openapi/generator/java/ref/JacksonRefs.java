@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.ref;
 
-import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.XmlSupport;
 import io.github.muehmar.codegenerator.Generator;
@@ -65,9 +64,11 @@ public class JacksonRefs {
 
   private static String jsonRefString(
       PojoSettings settings, String jackson2RefSuffix, String jackson3RefSuffix) {
-    if (settings.getJsonSupport() == JsonSupport.JACKSON_2) {
+    // These refs are used for json as well as xml (Jackson XML reuses the databind annotations),
+    // so the dialect is derived from whichever support uses Jackson.
+    if (settings.usesJackson2()) {
       return "com.fasterxml." + jackson2RefSuffix;
-    } else if (settings.getJsonSupport() == JsonSupport.JACKSON_3) {
+    } else if (settings.usesJackson3()) {
       return "tools." + jackson3RefSuffix;
     } else {
       return "";
