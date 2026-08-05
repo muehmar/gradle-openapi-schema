@@ -1,0 +1,15 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    MyGroup:
+      required:
+        - dateFrom
+      properties:
+        dateFrom:
+          $ref: './issue-342-schemas.yml#/MyIsoDate'
+        member:
+          $ref: './issue-342-components.yml#/components/schemas/GroupMember'

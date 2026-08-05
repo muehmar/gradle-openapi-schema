@@ -1,0 +1,3 @@
+MyIsoDate:
+  type: "string"
+  format: "date"
