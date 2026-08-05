@@ -19,6 +19,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
+import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
@@ -27,6 +28,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.*;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 @SnapshotTest
@@ -96,6 +98,78 @@ class RequiredAdditionalPropertiesGetterTest {
                     new JavaRequiredAdditionalProperty(
                         JavaName.fromString("prop1"),
                         JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()))));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("requiredAdditionalMappedStringProperties")
+  void generate_when_requiredAdditionalMappedStringProperties_then_apiTypedGetterWithConversion() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = requiredAdditionalPropertiesGetter();
+
+    final JavaObjectPojo pojo =
+        sampleObjectPojo1()
+            .withRequiredAdditionalProperties(
+                PList.single(
+                    new JavaRequiredAdditionalProperty(
+                        JavaName.fromString("prop1"),
+                        JavaStringType.wrap(
+                            StringType.noFormat(),
+                            TypeMappings.ofSingleClassTypeMapping(
+                                ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION)))));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("requiredAdditionalNullableMappedStringProperties")
+  void
+      generate_when_requiredAdditionalNullableMappedStringProperties_then_apiTypedGetterWithConversion() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = requiredAdditionalPropertiesGetter();
+
+    final JavaObjectPojo pojo =
+        sampleObjectPojo1()
+            .withRequiredAdditionalProperties(
+                PList.single(
+                    new JavaRequiredAdditionalProperty(
+                        JavaName.fromString("prop1"),
+                        JavaStringType.wrap(
+                                StringType.noFormat(),
+                                TypeMappings.ofSingleClassTypeMapping(
+                                    ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION))
+                            .withNullability(Nullability.NULLABLE))));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("requiredAdditionalMappedObjectProperties")
+  void
+      generate_when_requiredAdditionalMappedObjectProperties_then_validAnnotationOnInternalGetter() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = requiredAdditionalPropertiesGetter();
+
+    final DtoMapping dtoMapping =
+        new DtoMapping(
+            "AdminDto",
+            "com.custom.CustomAdmin",
+            Optional.of(
+                new TypeConversion(
+                    "com.custom.CustomAdmin#toDto", "com.custom.CustomAdmin#fromDto")));
+    final JavaObjectPojo pojo =
+        sampleObjectPojo1()
+            .withRequiredAdditionalProperties(
+                PList.single(
+                    new JavaRequiredAdditionalProperty(
+                        JavaName.fromString("prop1"),
+                        JavaObjectType.wrap(
+                            StandardObjectType.ofName(PojoName.ofName(Name.ofString("AdminDto"))),
+                            TypeMappings.ofSingleDtoMapping(dtoMapping)))));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 

@@ -2,10 +2,25 @@ package com.github.muehmar.gradle.openapi.generator.java.model.name;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 
 public class MethodNames {
   private MethodNames() {}
+
+  public static class RequiredAdditionalProperty {
+    private RequiredAdditionalProperty() {}
+
+    /**
+     * Name of the generated private getter reading the internal value of the required additional
+     * property from the properties map. The public getter converts this value to the api type,
+     * while all validation runs directly against it.
+     */
+    public static JavaName internalValueGetterName(
+        JavaRequiredAdditionalProperty additionalProperty) {
+      return additionalProperty.getName().startUpperCase().prefix("get").append("Internal");
+    }
+  }
 
   public static class Composition {
 
