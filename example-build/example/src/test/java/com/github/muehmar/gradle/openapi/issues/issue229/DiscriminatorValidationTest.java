@@ -38,9 +38,9 @@ class DiscriminatorValidationTest {
     assertEquals(
         Arrays.asList(
             "invalidOneOf[Admin].adminname -> must not be null",
-            "invalidOneOf[Admin].usertype -> must not be null",
+            "invalidOneOf[Admin].usertypeRaw -> must not be null",
             "invalidOneOf[User].username -> must not be null",
-            "invalidOneOf[User].usertype -> must not be null",
+            "invalidOneOf[User].usertypeRaw -> must not be null",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [User, Admin]",
             "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations));

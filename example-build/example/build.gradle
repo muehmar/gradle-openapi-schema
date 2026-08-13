@@ -101,6 +101,7 @@ def issueNumbers = [
         '248',
         '259',
         '263',
+        '266',
         '272',
         '275',
         '280',
@@ -451,6 +452,21 @@ openApiGenerator {
             "${jacksonMajorVersion}Issue385" {
                 jsonSupport = "none"
                 xmlSupport = jsonSupportValue
+            }
+
+            "${jacksonMajorVersion}Issue266" {
+                jsonSupport = jsonSupportValue
+                dtoMapping {
+                    dtoName = "MappedColorEnumDto"
+                    customType = "com.github.muehmar.gradle.openapi.issues.issue266.Color"
+                    conversion.fromCustomType = "toDto"
+                    conversion.toCustomType = "Color#fromDto"
+                }
+                dtoMapping {
+                    dtoName = "NoConversionColorEnumDto"
+                    customType = "com.github.muehmar.gradle.openapi.issues.issue266.ColorNoConversion"
+                    disableMissingConversionWarning = true
+                }
             }
 
             "${jacksonMajorVersion}Issue352" {

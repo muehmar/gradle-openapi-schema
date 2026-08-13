@@ -1,0 +1,126 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+
+    Order:
+      type: object
+      required:
+        - id
+        - status
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+            - pending
+            - shipped
+            - delivered
+
+    # A property referencing a standalone enum schema: the referenced enum is
+    # generated as its own DTO and must carry the same value-validation pattern
+    # constraint as an inline enum.
+    Palette:
+      type: object
+      required:
+        - color
+      properties:
+        color:
+          $ref: '#/components/schemas/ColorEnum'
+
+    ColorEnum:
+      type: string
+      enum:
+        - red
+        - green
+        - blue
+
+    # A required additional property with an enum value schema: the getter and
+    # setter must use the enum api type (with the to/from-api conversions), not
+    # the internal String representation.
+    Ticket:
+      type: object
+      required:
+        - severity
+      additionalProperties:
+        $ref: '#/components/schemas/ColorEnum'
+
+    # A dtoMapping (with conversion) on a referenced enum schema: the referenced
+    # enum is generated as its own DTO (MappedColorEnumDto) and is modelled by a
+    # top-level JavaEnumType, so the mapping must be looked up by the enum's
+    # class name (not the internal String representation).
+    MappedPalette:
+      type: object
+      required:
+        - name
+        - color
+      properties:
+        name:
+          type: string
+        color:
+          $ref: '#/components/schemas/MappedColorEnum'
+
+    MappedColorEnum:
+      type: string
+      enum:
+        - red
+        - green
+        - blue
+
+    # A dtoMapping WITHOUT conversion on a referenced enum schema: the custom
+    # type replaces the generated enum entirely, so no String-typed enum api
+    # conversions may be generated against it (compile-level coverage).
+    NoConversionPalette:
+      type: object
+      required:
+        - name
+        - color
+      properties:
+        name:
+          type: string
+        color:
+          $ref: '#/components/schemas/NoConversionColorEnum'
+
+    NoConversionColorEnum:
+      type: string
+      enum:
+        - red
+        - green
+        - blue
+
+    # An array of an inline enum: the string-backed representation extends into
+    # containers — an out-of-range item deserializes without throwing and is
+    # reported as a violation on the list element.
+    Shipment:
+      type: object
+      properties:
+        statuses:
+          type: array
+          items:
+            type: string
+            enum:
+              - created
+              - shipped
+
+    # Enum members containing regex metacharacters: the values must be escaped
+    # before they are joined into the value-validation pattern, so the pattern
+    # matches exactly the literal values (and compiles at all for members with
+    # unbalanced parentheses).
+    Release:
+      type: object
+      required:
+        - version
+      properties:
+        version:
+          type: string
+          enum:
+            - "1.5"
+            - "2.5"
+        codename:
+          type: string
+          enum:
+            - "a(b"

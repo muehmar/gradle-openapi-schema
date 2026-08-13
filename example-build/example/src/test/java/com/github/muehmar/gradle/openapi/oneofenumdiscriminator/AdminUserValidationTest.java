@@ -59,9 +59,9 @@ class AdminUserValidationTest {
     assertEquals(
         Arrays.asList(
             "invalidOneOf[Admin].adminname -> must not be null",
-            "invalidOneOf[Admin].baseUserDto.type -> must not be null",
+            "invalidOneOf[Admin].baseUserDto.typeRaw -> must not be null",
             "invalidOneOf[Admin].id -> must not be null",
-            "invalidOneOf[User].baseUserDto.type -> must not be null",
+            "invalidOneOf[User].baseUserDto.typeRaw -> must not be null",
             "invalidOneOf[User].id -> must not be null",
             "invalidOneOf[User].username -> must not be null",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",

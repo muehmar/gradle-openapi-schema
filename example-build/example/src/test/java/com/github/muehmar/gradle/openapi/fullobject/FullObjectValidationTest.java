@@ -40,7 +40,10 @@ class FullObjectValidationTest {
   }
 
   @Test
-  void validate_when_invalidAdditionalPropertiesTypeForAdminDto_then_violation() throws Exception {
+  void validate_when_enumValuedAdditionalPropertyForAdminDto_then_noViolation() throws Exception {
+    // The enum property 'color' of the BaseData is represented internally as a String. When the
+    // oneOf is matched against the Admin schema (whose additional properties are of type string)
+    // the value is therefore a valid additional property and no type violation is raised.
     final FullObjectDto dto =
         MAPPER.readValue(
             "{\"route\":\"route\",\"schema\":\"schema\",\"color\":\"red\",\"type\":\"Admin\",\"adminname\":\"adminname\",\"message\":\"message\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",
@@ -48,13 +51,8 @@ class FullObjectValidationTest {
 
     final Set<ConstraintViolation<FullObjectDto>> violations = validate(dto);
 
-    assertEquals(
-        Arrays.asList(
-            "invalidOneOf[Admin].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
-            "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
-            "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
-        formatViolations(violations));
-    assertFalse(dto.isValid());
+    assertEquals(Arrays.asList(), formatViolations(violations));
+    assertTrue(dto.isValid());
   }
 
   @Test
@@ -87,7 +85,6 @@ class FullObjectValidationTest {
     assertEquals(
         Arrays.asList(
             "invalidOneOf[Admin].adminname -> must not be null",
-            "invalidOneOf[Admin].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
             "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations));
     assertFalse(dto.isValid());

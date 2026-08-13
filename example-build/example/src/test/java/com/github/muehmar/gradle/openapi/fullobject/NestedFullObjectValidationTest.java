@@ -110,7 +110,7 @@ class NestedFullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[FullObject].baseDataDto.color -> must not be null",
+            "invalidAnyOf[FullObject].baseDataDto.colorRaw -> must not be null",
             "invalidAnyOf[Member].membername -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations),

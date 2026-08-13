@@ -44,7 +44,7 @@ public class Issue159Test {
 
     final Set<ConstraintViolation<PersonDto>> violations = ValidationUtil.validate(personDto);
     assertEquals(
-        Collections.singletonList("gender -> must not be null"), formatViolations(violations));
+        Collections.singletonList("genderRaw -> must not be null"), formatViolations(violations));
     assertFalse(personDto.isValid());
   }
 

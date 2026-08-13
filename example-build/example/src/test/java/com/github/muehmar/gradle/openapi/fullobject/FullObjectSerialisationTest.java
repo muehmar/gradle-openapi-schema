@@ -78,7 +78,7 @@ class FullObjectSerialisationTest {
 
     final HashMap<String, Object> adminAdditionalProperties = new HashMap<>(additionalProperties);
     adminAdditionalProperties.put("message", "message");
-    adminAdditionalProperties.put("color", BaseDataDto.ColorEnum.RED);
+    adminAdditionalProperties.put("color", "red");
 
     final UserDto expectedUser =
         userDtoBuilder()
