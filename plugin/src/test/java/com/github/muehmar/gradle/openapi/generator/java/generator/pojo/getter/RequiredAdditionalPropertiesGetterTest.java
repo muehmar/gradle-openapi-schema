@@ -17,11 +17,13 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.*;
@@ -98,6 +100,49 @@ class RequiredAdditionalPropertiesGetterTest {
                     new JavaRequiredAdditionalProperty(
                         JavaName.fromString("prop1"),
                         JavaStringType.wrap(StringType.noFormat(), TypeMappings.empty()))));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("requiredAdditionalEnumProperties")
+  void generate_when_requiredAdditionalEnumProperties_then_enumTypedGetterWithConversion() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = requiredAdditionalPropertiesGetter();
+
+    final JavaObjectPojo pojo =
+        sampleObjectPojo1()
+            .withRequiredAdditionalProperties(
+                PList.single(
+                    new JavaRequiredAdditionalProperty(
+                        JavaName.fromString("prop1"),
+                        JavaEnumType.wrap(
+                            EnumType.ofNameAndMembers(
+                                Name.ofString("Color"), PList.of("red", "green")),
+                            TypeMappings.empty()))));
+
+    final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("requiredAdditionalNullableEnumProperties")
+  void generate_when_requiredAdditionalNullableEnumProperties_then_enumTypedGetterWithConversion() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = requiredAdditionalPropertiesGetter();
+
+    final JavaObjectPojo pojo =
+        sampleObjectPojo1()
+            .withRequiredAdditionalProperties(
+                PList.single(
+                    new JavaRequiredAdditionalProperty(
+                        JavaName.fromString("prop1"),
+                        JavaEnumType.wrap(
+                                EnumType.ofNameAndMembers(
+                                    Name.ofString("Color"), PList.of("red", "green")),
+                                TypeMappings.empty())
+                            .withNullability(Nullability.NULLABLE))));
 
     final Writer writer = generator.generate(pojo, defaultTestSettings(), javaWriter());
 

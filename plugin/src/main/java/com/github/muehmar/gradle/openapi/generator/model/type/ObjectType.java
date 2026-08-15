@@ -4,6 +4,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import java.util.Optional;
+import java.util.function.Function;
 
 public interface ObjectType extends Type {
 
@@ -17,4 +18,8 @@ public interface ObjectType extends Type {
       PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
     return this;
   }
+
+  <T> T fold(
+      Function<StandardObjectType, T> onStandardObjectType,
+      Function<EnumObjectType, T> onEnumObjectType);
 }

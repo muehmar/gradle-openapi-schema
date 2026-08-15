@@ -90,6 +90,10 @@ public class QualifiedClassName {
     return pkg;
   }
 
+  public boolean usedForImport() {
+    return pkg.isPresent() && !isJavaLangPackage();
+  }
+
   public boolean isJavaLangPackage() {
     return pkg.equals(Optional.of(PackageNames.JAVA_LANG));
   }

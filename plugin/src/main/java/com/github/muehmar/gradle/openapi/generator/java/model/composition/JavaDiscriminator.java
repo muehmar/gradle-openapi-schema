@@ -38,11 +38,6 @@ public class JavaDiscriminator {
     return propertyName;
   }
 
-  public String discriminatorPropertyToStringValue() {
-    final String messageFormat = type.fold(stringType -> "%s", enumType -> "%s.getValue()");
-    return String.format(messageFormat, propertyName);
-  }
-
   public String getStringValueForSchemaName(Name schemaName) {
     return mapping.orElse(Collections.emptyMap()).entrySet().stream()
         .filter(e -> e.getValue().equals(schemaName))

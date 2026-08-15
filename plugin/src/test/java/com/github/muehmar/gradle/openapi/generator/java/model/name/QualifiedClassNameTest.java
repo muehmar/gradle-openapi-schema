@@ -10,6 +10,8 @@ import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class QualifiedClassNameTest {
 
@@ -105,5 +107,20 @@ class QualifiedClassNameTest {
     final QualifiedClassName innerClassName =
         className.asInnerClassOf(JavaName.fromString("AdminDto"));
     assertEquals("AdminDto.Enum", innerClassName.getClassName().asString());
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      value = {
+        "String,false",
+        "java.lang.String,false",
+        "java.util.List,true",
+        "com.custom.CustomClass,true",
+        "ClassWithoutPackage,false"
+      })
+  void isUsedForImport_when_variousClasses_then_matchExpected(
+      String qualifiedName, boolean expected) {
+    final QualifiedClassName className = QualifiedClassName.ofQualifiedClassName(qualifiedName);
+    assertEquals(expected, className.usedForImport());
   }
 }

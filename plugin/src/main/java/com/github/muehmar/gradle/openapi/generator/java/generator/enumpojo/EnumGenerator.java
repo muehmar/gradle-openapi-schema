@@ -9,6 +9,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Package
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.model.EnumMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -123,7 +124,7 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType("String")
-        .methodName("getValue")
+        .methodName(MethodNames.Enum.getValue().asString())
         .noArguments()
         .doesNotThrow()
         .content("return value;")
@@ -176,7 +177,7 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
         .modifiers(PUBLIC, STATIC)
         .noGenericTypes()
         .returnType(javaEnumPojo -> javaEnumPojo.getClassName().asString())
-        .methodName("fromValue")
+        .methodName(MethodNames.Enum.fromValue().asString())
         .singleArgument(javaEnumPojo -> new MethodGen.Argument("String", "value"))
         .doesNotThrow()
         .content(this::fromValueContent)
@@ -197,7 +198,8 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
         .println("final String possibleValues =")
         .tab(1)
         .println(
-            "Stream.of(values()).map(%s::getValue).collect(Collectors.joining(\", \"));", enumName)
+            "Stream.of(values()).map(%s::%s).collect(Collectors.joining(\", \"));",
+            enumName, MethodNames.Enum.getValue())
         .println("throw new IllegalArgumentException(")
         .tab(1)
         .println("\"Unexpected value '\"")

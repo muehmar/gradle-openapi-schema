@@ -15,9 +15,11 @@ import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -39,6 +41,28 @@ class RequiredAdditionalPropertiesSetterGeneratorTest {
     final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
         PList.single(
             JavaRequiredAdditionalProperty.fromNameAndType(Name.ofString("prop1"), anyType()));
+
+    final Writer writer =
+        generator.generate(
+            sampleObjectPojo1().withRequiredAdditionalProperties(requiredAdditionalProperties),
+            defaultTestSettings(),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("pojoWithRequiredEnumProperty")
+  void generate_when_pojoWithRequiredEnumProperty_then_enumTypedSetter() {
+    final Generator<JavaObjectPojo, PojoSettings> generator =
+        requiredAdditionalPropertiesSetterGenerator();
+    final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
+        PList.single(
+            JavaRequiredAdditionalProperty.fromNameAndType(
+                Name.ofString("prop1"),
+                JavaEnumType.wrap(
+                    EnumType.ofNameAndMembers(Name.ofString("Color"), PList.of("red", "green")),
+                    TypeMappings.empty())));
 
     final Writer writer =
         generator.generate(

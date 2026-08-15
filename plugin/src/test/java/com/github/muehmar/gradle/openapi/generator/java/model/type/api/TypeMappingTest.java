@@ -11,6 +11,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClas
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMapping;
+import com.github.muehmar.gradle.openapi.generator.settings.DtoMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeConversion;
 import java.util.Optional;
@@ -321,6 +322,31 @@ class TypeMappingTest {
 
     assertEquals(Optional.of(expectedApiType), typeMapping.getApiType());
     assertEquals(userDtoClassName, typeMapping.getClassName());
+  }
+
+  @Test
+  void
+      fromDtoMappings_when_mappingWithoutConversionAndPluginApiType_then_useDtoMappingWithoutPluginApiType() {
+    // Red test for BUG 3: the no-conversion branch of fromDtoMapping keeps the plugin api type
+    // although the internal class is replaced by the custom type, yielding type-mismatched
+    // conversions (e.g. the String-typed enum fromValue/getValue against the custom class). The
+    // sibling branches fromClassMapping and fromFormatMapping correctly drop the plugin api type.
+    final QualifiedClassName enumClassName = QualifiedClassName.ofName("GenderDto");
+    final PluginApiType pluginApiType = PluginApiType.useEnumAsApiType(enumClassName);
+    final DtoMapping dtoMapping =
+        new DtoMapping("GenderDto", "com.custom.CustomGender", Optional.empty());
+
+    final TypeMapping typeMapping =
+        TypeMapping.fromDtoMappings(
+            enumClassName,
+            QualifiedClassNames.STRING,
+            Optional.of(pluginApiType),
+            PList.of(dtoMapping));
+
+    assertEquals(Optional.empty(), typeMapping.getApiType());
+    assertEquals(
+        QualifiedClassName.ofQualifiedClassName("com.custom.CustomGender"),
+        typeMapping.getClassName());
   }
 
   @ParameterizedTest

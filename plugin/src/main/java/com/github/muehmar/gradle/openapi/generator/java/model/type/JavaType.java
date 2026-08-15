@@ -24,7 +24,10 @@ public interface JavaType {
         stringType -> JavaStringType.wrap(stringType, typeMappings),
         arrayType -> JavaArrayType.wrap(arrayType, typeMappings),
         booleanType -> JavaBooleanType.wrap(booleanType, typeMappings),
-        javaObjectType -> JavaObjectType.wrap(javaObjectType, typeMappings),
+        objectType ->
+            objectType.fold(
+                standardObjectType -> JavaObjectType.wrap(standardObjectType, typeMappings),
+                enumObjectType -> JavaEnumType.wrapAsObjectType(enumObjectType, typeMappings)),
         enumType -> JavaEnumType.wrap(enumType, typeMappings),
         mapType -> JavaMapType.wrap(mapType, typeMappings),
         JavaAnyType::javaAnyType);
@@ -66,6 +69,23 @@ public interface JavaType {
    */
   default boolean hasNoApiTypeDeep() {
     return not(hasApiTypeDeep());
+  }
+
+  /**
+   * Applies {@code mapEnum} to this type as well as to all enums nested within possible container
+   * types (recursively), leaving all other types untouched.
+   */
+  default JavaType mapEnumsDeep(Function<JavaEnumType, JavaType> mapEnum) {
+    return fold(
+        arrayType -> arrayType.withItemType(arrayType.getItemType().mapEnumsDeep(mapEnum)),
+        booleanType -> booleanType,
+        mapEnum::apply,
+        mapType -> mapType.withValue(mapType.getValue().mapEnumsDeep(mapEnum)),
+        anyType -> anyType,
+        numericType -> numericType,
+        integerType -> integerType,
+        objectType -> objectType,
+        stringType -> stringType);
   }
 
   /**
@@ -214,9 +234,7 @@ public interface JavaType {
   }
 
   default PList<QualifiedClassName> getImports() {
-    return getAllQualifiedClassNames()
-        .filter(qualifiedClassName -> qualifiedClassName.getPackageName().isPresent())
-        .filter(qualifiedClassName -> not(qualifiedClassName.isJavaLangPackage()));
+    return getAllQualifiedClassNames().filter(QualifiedClassName::usedForImport);
   }
 
   default PList<String> getImportsAsString() {

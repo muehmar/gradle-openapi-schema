@@ -116,11 +116,7 @@ public class InvalidCompositionDtoGetterGenerator {
             (l, s, w) ->
                 w.println("if(%s != null) {", l.head().getDiscriminator().getPropertyName()))
         .append(
-            (l, s, w) ->
-                w.tab(1)
-                    .println(
-                        "switch(%s) {",
-                        l.head().discriminator.discriminatorPropertyToStringValue()))
+            (l, s, w) -> w.tab(1).println("switch(%s) {", l.head().discriminator.getPropertyName()))
         .appendList(singleCaseStatement, Function.identity())
         .append(constant("}"), 1)
         .append(constant("}"));

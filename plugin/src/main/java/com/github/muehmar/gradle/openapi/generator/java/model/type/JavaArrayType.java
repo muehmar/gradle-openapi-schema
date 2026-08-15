@@ -107,6 +107,10 @@ public class JavaArrayType implements JavaType {
     return itemType;
   }
 
+  public JavaArrayType withItemType(JavaType newItemType) {
+    return new JavaArrayType(className, apiType, newItemType, nullability, constraints);
+  }
+
   @Override
   public <T> T fold(
       Function<JavaArrayType, T> onArrayType,

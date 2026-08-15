@@ -36,6 +36,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMem
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.MultiPojoContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.SinglePojoContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PojoPromotionResult;
@@ -98,6 +99,51 @@ public class JavaObjectPojo implements JavaPojo {
     this.constraints = constraints;
     assertPropertiesHaveNotSameNameAndDifferentAttributes(
         name, members, allOfComposition, oneOfComposition, anyOfComposition);
+    assertDiscriminatorPropertiesAreNotMappedWithoutConversion(
+        name, oneOfComposition, anyOfComposition);
+  }
+
+  /**
+   * A discriminator property is used as a plain {@code String} in the generated code (the fixed
+   * value of a subschema is rendered into the builder, the value is switched over for the
+   * validation and the fold). A mapping without conversion replaces the property with a custom type
+   * without providing any way to convert the value of the specification into it, hence such a
+   * configuration cannot be supported.
+   */
+  private static void assertDiscriminatorPropertiesAreNotMappedWithoutConversion(
+      JavaPojoName name,
+      Optional<JavaOneOfComposition> oneOfComposition,
+      Optional<JavaAnyOfComposition> anyOfComposition) {
+    PList.fromOptional(oneOfComposition.map(comp -> (DiscriminatableJavaComposition) comp))
+        .concat(PList.fromOptional(anyOfComposition.map(comp -> comp)))
+        .flatMapOptional(
+            comp ->
+                comp.getDiscriminator()
+                    .flatMap(
+                        discriminator ->
+                            comp.getPojos()
+                                .toPList()
+                                .flatMap(pojo -> pojo.getAllMembers())
+                                .find(
+                                    member ->
+                                        member.getName().equals(discriminator.getPropertyName()))
+                                .filter(JavaObjectPojo::isMappedWithoutConversion)
+                                .map(member -> discriminator)))
+        .headOption()
+        .ifPresent(
+            discriminator -> {
+              throw new OpenApiGeneratorException(
+                  String.format(
+                      "Cannot create DTO %s: The property '%s' is used as discriminator and is mapped to another type "
+                          + "without a conversion. As there is no way to convert the value defined in the specification "
+                          + "into the mapped type, either define a conversion for the mapping or remove the mapping.",
+                      name, discriminator.getPropertyName()));
+            });
+  }
+
+  private static boolean isMappedWithoutConversion(JavaPojoMember member) {
+    return not(member.getJavaType().getApiType().isPresent())
+        && not(member.getJavaType().getQualifiedClassName().equals(QualifiedClassNames.STRING));
   }
 
   private static void assertPropertiesHaveNotSameNameAndDifferentAttributes(

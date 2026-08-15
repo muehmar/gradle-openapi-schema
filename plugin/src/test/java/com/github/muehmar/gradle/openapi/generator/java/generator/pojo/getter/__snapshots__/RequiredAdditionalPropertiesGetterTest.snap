@@ -16,6 +16,35 @@ private Object getProp1Internal() {
 ]
 
 
+requiredAdditionalEnumProperties=[
+com.fasterxml.jackson.annotation.JsonIgnore
+javax.validation.constraints.AssertTrue
+javax.validation.constraints.NotNull
+
+@JsonIgnore
+public Color getProp1() {
+  final String value = getProp1Internal();
+  return value != null ? Color.fromValue(value) : null;
+}
+
+@JsonIgnore
+private String getProp1Internal() {
+  return (additionalProperties.get("prop1") instanceof String ? (String) additionalProperties.get("prop1") : null);
+}
+
+@NotNull
+private Object getProp1AsObject() {
+  return additionalProperties.get("prop1");
+}
+
+@AssertTrue(message = "Value is not an instance of String")
+private boolean isProp1CorrectType() {
+  Object value = additionalProperties.get("prop1");
+  return value == null || value instanceof String;
+}
+]
+
+
 requiredAdditionalMappedObjectProperties=[
 com.custom.CustomAdmin
 com.fasterxml.jackson.annotation.JsonIgnore
@@ -103,6 +132,35 @@ private boolean isProp1Present() {
   return additionalProperties.containsKey("prop1");
 }
 
+]
+
+
+requiredAdditionalNullableEnumProperties=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+javax.validation.constraints.AssertTrue
+
+@JsonIgnore
+public Optional<Color> getProp1() {
+  return Optional.ofNullable(getProp1Internal())
+      .map(value -> Color.fromValue(value));
+}
+
+@JsonIgnore
+private String getProp1Internal() {
+  return (additionalProperties.get("prop1") instanceof String ? (String) additionalProperties.get("prop1") : null);
+}
+
+@AssertTrue(message = "Is required but missing: prop1")
+private boolean isProp1Present() {
+  return additionalProperties.containsKey("prop1");
+}
+
+@AssertTrue(message = "Value is not an instance of String")
+private boolean isProp1CorrectType() {
+  Object value = additionalProperties.get("prop1");
+  return value == null || value instanceof String;
+}
 ]
 
 

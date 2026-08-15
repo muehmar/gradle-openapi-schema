@@ -1,3 +1,13 @@
+pojoWithRequiredEnumProperty=[
+com.fasterxml.jackson.annotation.JsonIgnore
+
+@JsonIgnore
+private Builder setProp1(Color prop1) {
+  return addAdditionalProperty("prop1", prop1);
+}
+]
+
+
 pojoWithRequiredMappedStringProperty=[
 com.fasterxml.jackson.annotation.JsonIgnore
 

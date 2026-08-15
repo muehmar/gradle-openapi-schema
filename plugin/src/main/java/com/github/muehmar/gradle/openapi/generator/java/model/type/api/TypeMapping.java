@@ -110,15 +110,31 @@ public class TypeMapping {
 
   public static TypeMapping fromDtoMappings(
       QualifiedClassName internalClassName, PList<DtoMapping> dtoMappings) {
+    return fromDtoMappings(internalClassName, internalClassName, Optional.empty(), dtoMappings);
+  }
+
+  /**
+   * Looks up a {@code dtoMapping} by {@code dtoClassName} (the name the dto-mapping is keyed by),
+   * but uses {@code internalClassName} as the (internal) class name when no mapping matches. These
+   * differ e.g. for enums, which are keyed by the enum DTO name but represented internally as a
+   * {@code String}.
+   */
+  public static TypeMapping fromDtoMappings(
+      QualifiedClassName dtoClassName,
+      QualifiedClassName internalClassName,
+      Optional<PluginApiType> pluginApiType,
+      PList<DtoMapping> dtoMappings) {
     return dtoMappings
-        .filter(dtoMapping -> dtoMapping.getDtoName().equals(internalClassName.asString()))
+        .filter(dtoMapping -> dtoMapping.getDtoName().equals(dtoClassName.asString()))
         .headOption()
-        .map(dtoMapping -> fromDtoMapping(internalClassName, dtoMapping))
-        .orElseGet(() -> fromClassName(internalClassName));
+        .map(dtoMapping -> fromDtoMapping(internalClassName, pluginApiType, dtoMapping))
+        .orElseGet(() -> fromClassNameAndPluginApiType(internalClassName, pluginApiType));
   }
 
   private static TypeMapping fromDtoMapping(
-      QualifiedClassName internalClassName, DtoMapping dtoMapping) {
+      QualifiedClassName internalClassName,
+      Optional<PluginApiType> pluginApiType,
+      DtoMapping dtoMapping) {
     final QualifiedClassName mappedClassName =
         QualifiedClassName.ofQualifiedClassName(dtoMapping.getCustomType());
 
@@ -127,9 +143,11 @@ public class TypeMapping {
         .map(
             conversion ->
                 UserDefinedApiType.fromConversion(mappedClassName, conversion, PList.empty()))
-        .map(ApiType::ofUserDefinedType)
-        .map(apiType -> new TypeMapping(internalClassName, Optional.of(apiType)))
-        .orElseGet(() -> fromClassName(mappedClassName));
+        .map(
+            userDefinedApiType ->
+                new TypeMapping(
+                    internalClassName, Optional.of(ApiType.of(userDefinedApiType, pluginApiType))))
+        .orElseGet(() -> fromClassNameAndPluginApiType(mappedClassName, Optional.empty()));
   }
 
   public TypeMapping or(TypeMapping other, QualifiedClassName originalClassName) {

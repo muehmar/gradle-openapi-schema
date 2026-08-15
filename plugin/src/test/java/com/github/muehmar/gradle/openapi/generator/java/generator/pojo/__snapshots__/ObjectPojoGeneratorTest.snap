@@ -3479,14 +3479,14 @@ import java.util.stream.Stream;
 public class UserDto {
   private final Long id;
   private final String name;
-  private final LanguageEnum language;
+  private final String language;
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
       String name,
-      LanguageEnum language,
+      String language,
       boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
     ) {
@@ -3562,7 +3562,7 @@ public class UserDto {
    * Preferred language of this user
    */
   public Optional<LanguageEnum> getLanguage() {
-    return Optional.ofNullable(language);
+    return Optional.ofNullable(language).map(value -> LanguageEnum.fromValue(value));
   }
 
   /**
@@ -3571,10 +3571,10 @@ public class UserDto {
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue
-        : this.language;
+        : LanguageEnum.fromValue(this.language);
   }
 
-  private LanguageEnum getLanguageRaw() {
+  private String getLanguageRaw() {
     return language;
   }
 
@@ -3650,7 +3650,7 @@ public class UserDto {
       new UserDto(
         id,
         name,
-        language,
+        language.getValue(),
         true,
         additionalProperties
       );
@@ -3664,7 +3664,7 @@ public class UserDto {
       new UserDto(
         id,
         name,
-        language.orElse(null),
+        language.map(val -> val.getValue()).orElse(null),
         true,
         additionalProperties
       );
@@ -3684,6 +3684,10 @@ public class UserDto {
     }
 
     private boolean isLanguageValid() {
+      if(language != null) {
+        return java.util.regex.Pattern.matches("GERMAN|ENGLISH", language);
+      }
+
       return isLanguageNotNull;
     }
 
@@ -3737,7 +3741,7 @@ public class UserDto {
     return "UserDto{" +
       "id=" + id + ", " +
       "name=" + "'" + name + "'" + ", " +
-      "language=" + language + ", " +
+      "language=" + "'" + language + "'" + ", " +
       "isLanguageNotNull=" + isLanguageNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -3750,7 +3754,7 @@ public class UserDto {
 
     private Long id;
     private String name;
-    private LanguageEnum language;
+    private String language;
     private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -3774,7 +3778,7 @@ public class UserDto {
      * Preferred language of this user
      */
     public Builder setLanguage(LanguageEnum language) {
-      this.language = language;
+      this.language = language != null ? language.getValue() : null;
       this.isLanguageNotNull = language != null;
       return this;
     }
@@ -3783,7 +3787,7 @@ public class UserDto {
      * Preferred language of this user
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
-      this.language = language.orElse(null);
+      this.language = language.map(val -> val.getValue()).orElse(null);
       this.isLanguageNotNull = true;
       return this;
     }
@@ -4596,6 +4600,7 @@ import java.util.stream.Stream;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -4657,14 +4662,14 @@ public class ObjectPojo1Dto {
     }
   }
 
-  public static ObjectPojo1Dto fromProperties(Map<String, ColorEnum> properties) {
+  public static ObjectPojo1Dto fromProperties(Map<String, String> properties) {
     return new ObjectPojo1Dto(new HashMap<>(properties));
   }
 
   @Valid
   @JsonAnyGetter
-  private Map<String, @NotNull ColorEnum> getAdditionalProperties_() {
-    final Map<String, ColorEnum> props = new HashMap<>();
+  private Map<String, @NotNull @Pattern(regexp="green|yellow|red") String> getAdditionalProperties_() {
+    final Map<String, String> props = new HashMap<>();
     additionalProperties.forEach(
         (key, value) -> {
           if (value == null) {
@@ -4682,6 +4687,7 @@ public class ObjectPojo1Dto {
         .flatMap(
             entry -> 
                 castAdditionalProperty(entry.getValue())
+                    .map(val -> ColorEnum.fromValue(val))
                     .map(val -> new AdditionalProperty<>(entry.getKey(), val))
                     .map(Stream::of)
                     .orElseGet(Stream::empty))
@@ -4694,15 +4700,15 @@ public class ObjectPojo1Dto {
    */
   public Optional<ColorEnum> getAdditionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key))
-        .flatMap(this::castAdditionalProperty);
+        .flatMap(this::castAdditionalProperty).map(val -> ColorEnum.fromValue(val));
   }
 
-  private Optional<ColorEnum> castAdditionalProperty(Object property) {
+  private Optional<String> castAdditionalProperty(Object property) {
     if (property == null) {
       return Optional.empty();
     }
     try {
-      return Optional.of((ColorEnum) property);
+      return Optional.of((String) property);
     } catch (ClassCastException e) {
       return Optional.empty();
     }
@@ -4731,8 +4737,12 @@ public class ObjectPojo1Dto {
       return false;
     }
 
-    private boolean isAdditionalPropertiesValueValid(ColorEnum additionalPropertiesValue) {
-      return additionalPropertiesValue != null;
+    private boolean isAdditionalPropertiesValueValid(String additionalPropertiesValue) {
+      if(additionalPropertiesValue != null) {
+        return java.util.regex.Pattern.matches("green|yellow|red", additionalPropertiesValue);
+      }
+
+      return false;
     }
 
     private boolean isValid() {
@@ -4742,7 +4752,7 @@ public class ObjectPojo1Dto {
   }
 
   @JsonIgnore
-  @AssertTrue(message = "Not all additional properties are instances of ColorEnum")
+  @AssertTrue(message = "Not all additional properties are instances of String")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
     return additionalProperties.values()
         .stream()
@@ -4780,19 +4790,25 @@ public class ObjectPojo1Dto {
 
     private Map<String, Object> additionalProperties = new HashMap<>();
 
-    @JsonAnySetter
     public Builder addAdditionalProperty(String key, ColorEnum value) {
+      this.additionalProperties.put(key, value != null ? value.getValue() : null);
+      return this;
+    }
+
+    @JsonAnySetter
+    private Builder addAdditionalProperty(String key, String value) {
       this.additionalProperties.put(key, value);
       return this;
     }
 
     public Builder addAdditionalProperty(String key, Optional<ColorEnum> value) {
-      value.ifPresent(val -> this.additionalProperties.put(key, val));
+      value.ifPresent(val -> this.additionalProperties.put(key, val.getValue()));
       return this;
     }
 
     public Builder setAdditionalProperties(Map<String, ColorEnum> additionalProperties) {
-      this.additionalProperties = new HashMap<>(additionalProperties);
+      this.additionalProperties = new HashMap<>();
+      additionalProperties.forEach((key, val) -> this.additionalProperties.put(key, val != null ? val.getValue() : null));
       return this;
     }
 
@@ -5189,14 +5205,14 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
 public class UserDto {
   private final Long id;
   private final String name;
-  private final LanguageEnum language;
+  private final String language;
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
       String name,
-      LanguageEnum language,
+      String language,
       boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
     ) {
@@ -5277,7 +5293,7 @@ public class UserDto {
    */
   @JsonIgnore
   public Optional<LanguageEnum> getLanguage() {
-    return Optional.ofNullable(language);
+    return Optional.ofNullable(language).map(value -> LanguageEnum.fromValue(value));
   }
 
   /**
@@ -5287,17 +5303,17 @@ public class UserDto {
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue
-        : this.language;
+        : LanguageEnum.fromValue(this.language);
   }
 
   @JsonProperty("language")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LanguageEnum getLanguageJson() {
+  private String getLanguageJson() {
     return language;
   }
 
   @JsonIgnore
-  private LanguageEnum getLanguageRaw() {
+  private String getLanguageRaw() {
     return language;
   }
 
@@ -5376,7 +5392,7 @@ public class UserDto {
       new UserDto(
         id,
         name,
-        language,
+        language.getValue(),
         true,
         additionalProperties
       );
@@ -5390,7 +5406,7 @@ public class UserDto {
       new UserDto(
         id,
         name,
-        language.orElse(null),
+        language.map(val -> val.getValue()).orElse(null),
         true,
         additionalProperties
       );
@@ -5410,6 +5426,10 @@ public class UserDto {
     }
 
     private boolean isLanguageValid() {
+      if(language != null) {
+        return java.util.regex.Pattern.matches("GERMAN|ENGLISH", language);
+      }
+
       return isLanguageNotNull;
     }
 
@@ -5463,7 +5483,7 @@ public class UserDto {
     return "UserDto{" +
       "id=" + id + ", " +
       "name=" + "'" + name + "'" + ", " +
-      "language=" + language + ", " +
+      "language=" + "'" + language + "'" + ", " +
       "isLanguageNotNull=" + isLanguageNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -5478,7 +5498,7 @@ public class UserDto {
 
     private Long id;
     private String name;
-    private LanguageEnum language;
+    private String language;
     private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -5513,7 +5533,7 @@ public class UserDto {
     }
 
     @JsonProperty("language")
-    private Builder setLanguageJson(LanguageEnum language) {
+    private Builder setLanguageJson(String language) {
       this.language = language;
       this.isLanguageNotNull = language != null;
       return this;
@@ -5524,7 +5544,7 @@ public class UserDto {
      */
     @JsonIgnore
     public Builder setLanguage(LanguageEnum language) {
-      this.language = language;
+      this.language = language != null ? language.getValue() : null;
       this.isLanguageNotNull = language != null;
       return this;
     }
@@ -5534,7 +5554,7 @@ public class UserDto {
      */
     @JsonIgnore
     public Builder setLanguage(Optional<LanguageEnum> language) {
-      this.language = language.orElse(null);
+      this.language = language.map(val -> val.getValue()).orElse(null);
       this.isLanguageNotNull = true;
       return this;
     }
@@ -5592,14 +5612,14 @@ import java.util.stream.Stream;
 public class UserDto {
   private final Long id;
   private final String name;
-  private final LanguageEnum language;
+  private final String language;
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
       String name,
-      LanguageEnum language,
+      String language,
       boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
     ) {
@@ -5675,7 +5695,7 @@ public class UserDto {
    * Preferred language of this user
    */
   public Optional<LanguageEnum> getLanguage() {
-    return Optional.ofNullable(language);
+    return Optional.ofNullable(language).map(value -> LanguageEnum.fromValue(value));
   }
 
   /**
@@ -5684,10 +5704,10 @@ public class UserDto {
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue
-        : this.language;
+        : LanguageEnum.fromValue(this.language);
   }
 
-  private LanguageEnum getLanguageRaw() {
+  private String getLanguageRaw() {
     return language;
   }
 
@@ -5763,7 +5783,7 @@ public class UserDto {
       new UserDto(
         id,
         name,
-        language,
+        language.getValue(),
         true,
         additionalProperties
       );
@@ -5777,7 +5797,7 @@ public class UserDto {
       new UserDto(
         id,
         name,
-        language.orElse(null),
+        language.map(val -> val.getValue()).orElse(null),
         true,
         additionalProperties
       );
@@ -5797,6 +5817,10 @@ public class UserDto {
     }
 
     private boolean isLanguageValid() {
+      if(language != null) {
+        return java.util.regex.Pattern.matches("GERMAN|ENGLISH", language);
+      }
+
       return isLanguageNotNull;
     }
 
@@ -5850,7 +5874,7 @@ public class UserDto {
     return "UserDto{" +
       "id=" + id + ", " +
       "name=" + "'" + name + "'" + ", " +
-      "language=" + language + ", " +
+      "language=" + "'" + language + "'" + ", " +
       "isLanguageNotNull=" + isLanguageNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -5864,7 +5888,7 @@ public class UserDto {
 
     private Long id;
     private String name;
-    private LanguageEnum language;
+    private String language;
     private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -5888,7 +5912,7 @@ public class UserDto {
      * Preferred language of this user
      */
     public Builder setLanguage(LanguageEnum language) {
-      this.language = language;
+      this.language = language != null ? language.getValue() : null;
       this.isLanguageNotNull = language != null;
       return this;
     }
@@ -5897,7 +5921,7 @@ public class UserDto {
      * Preferred language of this user
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
-      this.language = language.orElse(null);
+      this.language = language.map(val -> val.getValue()).orElse(null);
       this.isLanguageNotNull = true;
       return this;
     }
@@ -12631,17 +12655,18 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Pattern;
 
 /**
  * User of the Application
  */
 public class UserDto {
-  private final LanguageEnum language;
+  private final String language;
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
-      LanguageEnum language,
+      String language,
       boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
     ) {
@@ -12707,7 +12732,7 @@ public class UserDto {
    * * `ENGLISH`: English language
    */
   public Optional<LanguageEnum> getLanguage() {
-    return Optional.ofNullable(language);
+    return Optional.ofNullable(language).map(value -> LanguageEnum.fromValue(value));
   }
 
   /**
@@ -12718,10 +12743,11 @@ public class UserDto {
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue
-        : this.language;
+        : LanguageEnum.fromValue(this.language);
   }
 
-  private LanguageEnum getLanguageRaw() {
+  @Pattern(regexp="GERMAN|ENGLISH")
+  private String getLanguageRaw() {
     return language;
   }
 
@@ -12773,7 +12799,7 @@ public class UserDto {
   public UserDto withLanguage(LanguageEnum language) {
     return
       new UserDto(
-        language,
+        language.getValue(),
         true,
         additionalProperties
       );
@@ -12787,7 +12813,7 @@ public class UserDto {
   public UserDto withLanguage(Optional<LanguageEnum> language) {
     return
       new UserDto(
-        language.orElse(null),
+        language.map(val -> val.getValue()).orElse(null),
         true,
         additionalProperties
       );
@@ -12799,6 +12825,10 @@ public class UserDto {
 
   private class Validator {
     private boolean isLanguageValid() {
+      if(language != null) {
+        return java.util.regex.Pattern.matches("GERMAN|ENGLISH", language);
+      }
+
       return isLanguageNotNull;
     }
 
@@ -12842,7 +12872,7 @@ public class UserDto {
   @Override
   public String toString() {
     return "UserDto{" +
-      "language=" + language + ", " +
+      "language=" + "'" + language + "'" + ", " +
       "isLanguageNotNull=" + isLanguageNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -12854,7 +12884,7 @@ public class UserDto {
 
   public static final class Builder {
 
-    private LanguageEnum language;
+    private String language;
     private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -12864,7 +12894,7 @@ public class UserDto {
      * * `ENGLISH`: English language
      */
     public Builder setLanguage(LanguageEnum language) {
-      this.language = language;
+      this.language = language != null ? language.getValue() : null;
       this.isLanguageNotNull = language != null;
       return this;
     }
@@ -12875,7 +12905,7 @@ public class UserDto {
      * * `ENGLISH`: English language
      */
     public Builder setLanguage(Optional<LanguageEnum> language) {
-      this.language = language.orElse(null);
+      this.language = language.map(val -> val.getValue()).orElse(null);
       this.isLanguageNotNull = true;
       return this;
     }
@@ -12931,6 +12961,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Pattern;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
@@ -12939,12 +12970,12 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
  */
 @JsonDeserialize(builder = UserDto.Builder.class)
 public class UserDto {
-  private final LanguageEnum language;
+  private final String language;
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
-      LanguageEnum language,
+      String language,
       boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
     ) {
@@ -13014,7 +13045,7 @@ public class UserDto {
    */
   @JsonIgnore
   public Optional<LanguageEnum> getLanguage() {
-    return Optional.ofNullable(language);
+    return Optional.ofNullable(language).map(value -> LanguageEnum.fromValue(value));
   }
 
   /**
@@ -13026,17 +13057,18 @@ public class UserDto {
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue
-        : this.language;
+        : LanguageEnum.fromValue(this.language);
   }
 
   @JsonProperty("language")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LanguageEnum getLanguageJson() {
+  private String getLanguageJson() {
     return language;
   }
 
   @JsonIgnore
-  private LanguageEnum getLanguageRaw() {
+  @Pattern(regexp="GERMAN|ENGLISH")
+  private String getLanguageRaw() {
     return language;
   }
 
@@ -13092,7 +13124,7 @@ public class UserDto {
   public UserDto withLanguage(LanguageEnum language) {
     return
       new UserDto(
-        language,
+        language.getValue(),
         true,
         additionalProperties
       );
@@ -13106,7 +13138,7 @@ public class UserDto {
   public UserDto withLanguage(Optional<LanguageEnum> language) {
     return
       new UserDto(
-        language.orElse(null),
+        language.map(val -> val.getValue()).orElse(null),
         true,
         additionalProperties
       );
@@ -13118,6 +13150,10 @@ public class UserDto {
 
   private class Validator {
     private boolean isLanguageValid() {
+      if(language != null) {
+        return java.util.regex.Pattern.matches("GERMAN|ENGLISH", language);
+      }
+
       return isLanguageNotNull;
     }
 
@@ -13161,7 +13197,7 @@ public class UserDto {
   @Override
   public String toString() {
     return "UserDto{" +
-      "language=" + language + ", " +
+      "language=" + "'" + language + "'" + ", " +
       "isLanguageNotNull=" + isLanguageNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -13174,12 +13210,12 @@ public class UserDto {
   @JsonPOJOBuilder(withPrefix = "set")
   public static final class Builder {
 
-    private LanguageEnum language;
+    private String language;
     private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonProperty("language")
-    private Builder setLanguageJson(LanguageEnum language) {
+    private Builder setLanguageJson(String language) {
       this.language = language;
       this.isLanguageNotNull = language != null;
       return this;
@@ -13192,7 +13228,7 @@ public class UserDto {
      */
     @JsonIgnore
     public Builder setLanguage(LanguageEnum language) {
-      this.language = language;
+      this.language = language != null ? language.getValue() : null;
       this.isLanguageNotNull = language != null;
       return this;
     }
@@ -13204,7 +13240,7 @@ public class UserDto {
      */
     @JsonIgnore
     public Builder setLanguage(Optional<LanguageEnum> language) {
-      this.language = language.orElse(null);
+      this.language = language.map(val -> val.getValue()).orElse(null);
       this.isLanguageNotNull = true;
       return this;
     }
@@ -13839,14 +13875,14 @@ import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 public class UserDto {
   private final Long id;
   private final String name;
-  private final LanguageEnum language;
+  private final String language;
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
   public UserDto(
       Long id,
       String name,
-      LanguageEnum language,
+      String language,
       boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
     ) {
@@ -13927,7 +13963,7 @@ public class UserDto {
    */
   @JsonIgnore
   public Optional<LanguageEnum> getLanguage() {
-    return Optional.ofNullable(language);
+    return Optional.ofNullable(language).map(value -> LanguageEnum.fromValue(value));
   }
 
   /**
@@ -13937,17 +13973,17 @@ public class UserDto {
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue
-        : this.language;
+        : LanguageEnum.fromValue(this.language);
   }
 
   @JsonProperty("language")
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LanguageEnum getLanguageJson() {
+  private String getLanguageJson() {
     return language;
   }
 
   @JsonIgnore
-  private LanguageEnum getLanguageRaw() {
+  private String getLanguageRaw() {
     return language;
   }
 
@@ -14026,7 +14062,7 @@ public class UserDto {
       new UserDto(
         id,
         name,
-        language,
+        language.getValue(),
         true,
         additionalProperties
       );
@@ -14040,7 +14076,7 @@ public class UserDto {
       new UserDto(
         id,
         name,
-        language.orElse(null),
+        language.map(val -> val.getValue()).orElse(null),
         true,
         additionalProperties
       );
@@ -14060,6 +14096,10 @@ public class UserDto {
     }
 
     private boolean isLanguageValid() {
+      if(language != null) {
+        return java.util.regex.Pattern.matches("GERMAN|ENGLISH", language);
+      }
+
       return isLanguageNotNull;
     }
 
@@ -14113,7 +14153,7 @@ public class UserDto {
     return "UserDto{" +
       "id=" + id + ", " +
       "name=" + "'" + name + "'" + ", " +
-      "language=" + language + ", " +
+      "language=" + "'" + language + "'" + ", " +
       "isLanguageNotNull=" + isLanguageNotNull + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -14128,7 +14168,7 @@ public class UserDto {
 
     private Long id;
     private String name;
-    private LanguageEnum language;
+    private String language;
     private boolean isLanguageNotNull = true;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -14163,7 +14203,7 @@ public class UserDto {
     }
 
     @JsonProperty("language")
-    private Builder setLanguageJson(LanguageEnum language) {
+    private Builder setLanguageJson(String language) {
       this.language = language;
       this.isLanguageNotNull = language != null;
       return this;
@@ -14174,7 +14214,7 @@ public class UserDto {
      */
     @JsonIgnore
     public Builder setLanguage(LanguageEnum language) {
-      this.language = language;
+      this.language = language != null ? language.getValue() : null;
       this.isLanguageNotNull = language != null;
       return this;
     }
@@ -14184,7 +14224,7 @@ public class UserDto {
      */
     @JsonIgnore
     public Builder setLanguage(Optional<LanguageEnum> language) {
-      this.language = language.orElse(null);
+      this.language = language.map(val -> val.getValue()).orElse(null);
       this.isLanguageNotNull = true;
       return this;
     }

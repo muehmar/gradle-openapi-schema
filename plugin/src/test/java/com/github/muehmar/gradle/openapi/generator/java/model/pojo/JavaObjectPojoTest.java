@@ -29,6 +29,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAl
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfCompositions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
@@ -39,19 +40,28 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.Mul
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.auxiliary.SinglePojoContainer;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PojoPromotionResult;
 import com.github.muehmar.gradle.openapi.generator.java.model.promotion.PromotableMembers;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMember;
 import com.github.muehmar.gradle.openapi.generator.model.PojoMembers;
 import com.github.muehmar.gradle.openapi.generator.model.PojoXml;
 import com.github.muehmar.gradle.openapi.generator.model.PropertyScope;
+import com.github.muehmar.gradle.openapi.generator.model.composition.DiscriminatorType;
 import com.github.muehmar.gradle.openapi.generator.model.composition.UntypedDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojoBuilder;
+import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
+import com.github.muehmar.gradle.openapi.generator.model.type.EnumTypeBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.FormatTypeMapping;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import org.junit.jupiter.api.Test;
@@ -78,6 +88,98 @@ class JavaObjectPojoTest {
             .anyOfComposition(JavaAnyOfComposition.fromPojos(NonEmptyList.of(pojo1, pojo2)));
 
     assertThrows(OpenApiGeneratorException.class, builder::build);
+  }
+
+  @Test
+  void create_when_pojosHaveMembersWithSameNameButInlineEnumsInArray_then_throwsException() {
+    // Two subschemas both defining the same property as an array of an inline enum results in two
+    // distinct nested enum classes (SubOneDto.ColorEnum and SubTwoDto.ColorEnum), hence the
+    // property can not be pulled up into the parent DTO and the composition gets rejected.
+    final JavaPojoMember member =
+        TestJavaPojoMembers.requiredColorEnum()
+            .withJavaType(
+                JavaType.wrap(
+                    ArrayType.ofItemType(
+                        EnumType.ofNameAndMembers(
+                            Name.ofString("Color"), PList.of("yellow", "red")),
+                        NOT_NULLABLE),
+                    TypeMappings.empty()));
+
+    final JavaObjectPojo pojo1 =
+        JavaPojos.objectPojo(PList.single(member))
+            .withName(fromNameAndSuffix("SubOne", "Dto"))
+            .withMembers(JavaPojoMembers.fromMembers(PList.single(member)));
+    final JavaObjectPojo pojo2 =
+        JavaPojos.objectPojo(PList.single(member))
+            .withName(fromNameAndSuffix("SubTwo", "Dto"))
+            .withMembers(JavaPojoMembers.fromMembers(PList.single(member)));
+
+    final JavaObjectPojoBuilder.Builder builder =
+        JavaObjectPojoBuilder.create()
+            .name(fromNameAndSuffix("Object", "Dto"))
+            .schemaName(SchemaName.ofString("Object"))
+            .description("")
+            .members(JavaPojoMembers.fromMembers(PList.empty()))
+            .type(PojoType.DEFAULT)
+            .requiredAdditionalProperties(PList.empty())
+            .additionalProperties(JavaAdditionalProperties.anyTypeAllowed())
+            .pojoXml(JavaPojoXml.noXmlDefinition())
+            .constraints(Constraints.empty())
+            .andOptionals()
+            .oneOfComposition(JavaOneOfComposition.fromPojos(NonEmptyList.of(pojo1, pojo2)));
+
+    final OpenApiGeneratorException exception =
+        assertThrows(OpenApiGeneratorException.class, builder::build);
+    assertTrue(exception.getMessage().contains("color"));
+  }
+
+  @Test
+  void create_when_discriminatorPropertyMappedWithoutConversion_then_throwsException() {
+    // A mapping without conversion replaces the enum entirely by the custom type, but there is no
+    // way to convert the discriminator value of the specification into that type.
+    final TypeMappings typeMappings =
+        TypeMappings.ofSingleFormatTypeMapping(
+            new FormatTypeMapping(
+                "color", "com.github.muehmar.gradle.openapi.CustomColor", Optional.empty()));
+    final JavaPojoMember mappedDiscriminator =
+        TestJavaPojoMembers.requiredColorEnum()
+            .withJavaType(
+                JavaType.wrap(
+                    EnumTypeBuilder.createFull()
+                        .name(Name.ofString("Color"))
+                        .members(PList.of("yellow", "orange"))
+                        .nullability(NOT_NULLABLE)
+                        .legacyNullability(NOT_NULLABLE)
+                        .format("color")
+                        .build(),
+                    typeMappings));
+
+    final Map<String, Name> mapping = new HashMap<>();
+    mapping.put("yellow", Name.ofString("Yellow"));
+    final UntypedDiscriminator untypedDiscriminator =
+        UntypedDiscriminator.fromPropertyName(mappedDiscriminator.getName().getOriginalName())
+            .withMapping(Optional.of(mapping));
+
+    final JavaObjectPojo subPojo =
+        objectPojo(PList.single(mappedDiscriminator))
+            .withSchemaName(SchemaName.ofString("Yellow"))
+            .withName(fromNameAndSuffix("Yellow", "Dto"))
+            .withMembers(JavaPojoMembers.fromMembers(PList.single(mappedDiscriminator)));
+
+    final JavaOneOfComposition composition =
+        JavaOneOfCompositions.fromPojosAndDiscriminator(
+            NonEmptyList.single(subPojo),
+            untypedDiscriminator,
+            DiscriminatorType.fromEnumType(
+                EnumType.ofNameAndMembers(Name.ofString("Color"), PList.of("yellow", "orange"))));
+
+    final OpenApiGeneratorException exception =
+        assertThrows(
+            OpenApiGeneratorException.class,
+            () -> JavaPojos.oneOfPojo(composition).withName(fromNameAndSuffix("OneOf", "Dto")));
+
+    assertTrue(exception.getMessage().contains("color"));
+    assertTrue(exception.getMessage().contains("conversion"));
   }
 
   @Test
@@ -188,7 +290,7 @@ class JavaObjectPojoTest {
   }
 
   @Test
-  void getAllMembers_when_nestedComposedPojo_then_correctOuterClassUsed() {
+  void getAllMembers_when_nestedComposedPojo_then_correctOuterClassUsedForEnumClassName() {
     final JavaObjectPojo oneOfPojoWithEnum =
         oneOfPojo(
             objectPojo(TestJavaPojoMembers.requiredColorEnum())
@@ -205,7 +307,13 @@ class JavaObjectPojoTest {
     assertEquals(2, members.size());
     assertEquals(
         PList.of("Direction", "ColorPojoDto.Color"),
-        members.map(m -> m.getJavaType().getParameterizedClassName().asString()));
+        members.map(m -> enumClassNameOrElseQualifiedClassName(m.getJavaType())));
+  }
+
+  private static String enumClassNameOrElseQualifiedClassName(JavaType javaType) {
+    return javaType instanceof JavaEnumType
+        ? ((JavaEnumType) javaType).getEnumClassName().asString()
+        : javaType.getQualifiedClassName().asString();
   }
 
   @Test

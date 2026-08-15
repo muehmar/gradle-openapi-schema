@@ -27,4 +27,16 @@ class ArrayPojoGeneratorTest {
 
     expect.toMatchSnapshot(writer.asString());
   }
+
+  @Test
+  @SnapshotName("arrayPojoWithEnumItem")
+  void generate_when_arrayPojoWithEnumItem_then_correctOutput() {
+    final ArrayPojoGenerator arrayPojoGenerator = new ArrayPojoGenerator();
+
+    final Writer writer =
+        arrayPojoGenerator.generate(
+            JavaPojos.arrayPojoWithEnumItem(), defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
 }

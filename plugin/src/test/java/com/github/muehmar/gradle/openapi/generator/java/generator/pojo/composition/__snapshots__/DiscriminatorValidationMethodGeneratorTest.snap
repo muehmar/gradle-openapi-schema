@@ -73,7 +73,7 @@ private boolean isValidAgainstTheCorrectOneOfSchema() {
   if (color == null) {
     return false;
   }
-  switch(color.getValue()) {
+  switch(color) {
     case "yellow": return isValidAgainstYellowDto();
     case "orange": return isValidAgainstOrangeDto();
   }

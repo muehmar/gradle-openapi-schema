@@ -134,4 +134,28 @@ class TypeConversionTest {
 
     expect.scenario(mode.name()).toMatchSnapshot(writerSnapshot(writer));
   }
+
+  @ParameterizedTest
+  @EnumSource(ConversionGenerationMode.class)
+  @SnapshotName("nonImportableClassesUsed")
+  void typeConversion_when_nonImportableClassesUsed_then_correctOutputAndRefs(
+      ConversionGenerationMode mode) {
+    final Generator<PList<ConversionMethod>, Void> generator =
+        TypeConversion.typeConversion("value", mode);
+
+    final PList<ConversionMethod> methods =
+        PList.of(
+            ConversionMethod.ofFactoryMethod(
+                new FactoryMethodConversion(
+                    QualifiedClassName.ofQualifiedClassName("java.lang.String"),
+                    Name.ofString("fromOtherString"))),
+            ConversionMethod.ofFactoryMethod(
+                new FactoryMethodConversion(
+                    QualifiedClassName.ofQualifiedClassName("SomeEnum"),
+                    Name.ofString("fromString"))));
+
+    final Writer writer = generator.generate(methods, noSettings(), javaWriter());
+
+    expect.scenario(mode.name()).toMatchSnapshot(writerSnapshot(writer));
+  }
 }

@@ -1,6 +1,10 @@
 ## Change Log
 
 * next
+    * [#266](https://github.com/muehmar/gradle-openapi-schema/issues/266) - Improve deserialisation of enums: an
+      out-of-range enum value no longer throws during deserialisation, it is reported as a constraint violation when
+      the DTO is validated. This changes the runtime behaviour, see the
+      [migration guide](120_migration_guides.md#changes-in-runtime-behaviour)
     * [#385](https://github.com/muehmar/gradle-openapi-schema/issues/385) - Fix uncompilable generated code for
       xml-only Jackson configs (`jsonSupport` 'none' combined with a Jackson `xmlSupport`)
     * [#386](https://github.com/muehmar/gradle-openapi-schema/issues/386) - Reject mixing Jackson generations between
