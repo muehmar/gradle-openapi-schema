@@ -31,18 +31,17 @@ private Map<String, @NotNull Object> getAdditionalProperties_() {
 ]
 
 
-notNullableListType=[
+notNullableContainerValuePojoType=[
 com.fasterxml.jackson.annotation.JsonAnyGetter
 java.util.HashMap
-java.util.List
 java.util.Map
 javax.validation.Valid
 javax.validation.constraints.NotNull
 
 @Valid
 @JsonAnyGetter
-private Map<String, @NotNull List<String>> getAdditionalProperties_() {
-  final Map<String, List<String>> props = new HashMap<>();
+private Map<String, @NotNull @Valid UserPropertyDto> getAdditionalProperties_() {
+  final Map<String, UserPropertyDto> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) -> {
         if (value == null) {
@@ -143,17 +142,16 @@ private Map<String, Object> getAdditionalProperties_() {
 ]
 
 
-nullableListType=[
+nullableContainerValuePojoType=[
 com.fasterxml.jackson.annotation.JsonAnyGetter
 java.util.HashMap
-java.util.List
 java.util.Map
 javax.validation.Valid
 
 @Valid
 @JsonAnyGetter
-private Map<String, List<String>> getAdditionalProperties_() {
-  final Map<String, List<String>> props = new HashMap<>();
+private Map<String, @Valid UserPropertyDto> getAdditionalProperties_() {
+  final Map<String, UserPropertyDto> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) ->
           castAdditionalProperty(value)

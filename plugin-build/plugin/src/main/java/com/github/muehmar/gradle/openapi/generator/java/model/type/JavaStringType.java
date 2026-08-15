@@ -94,7 +94,7 @@ public class JavaStringType extends NonGenericJavaType {
   }
 
   @Override
-  public JavaType withNullability(Nullability nullability) {
+  public JavaStringType withNullability(Nullability nullability) {
     return new JavaStringType(className, apiType, nullability, constraints);
   }
 

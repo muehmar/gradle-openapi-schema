@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
@@ -15,6 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Pattern;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Size;
@@ -72,13 +72,13 @@ class AdditionalPropertiesGetterTest {
   }
 
   @Test
-  @SnapshotName("additionalPropertiesTypeIsList")
-  void generate_when_additionalPropertiesTypeIsList_then_correctOutputAndRefs() {
+  @SnapshotName("additionalPropertiesTypeIsContainerValuePojo")
+  void generate_when_additionalPropertiesTypeIsContainerValuePojo_then_correctOutputAndRefs() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         AdditionalPropertiesGetter.additionalPropertiesGetterGenerator();
 
     final JavaAdditionalProperties additionalProperties =
-        JavaAdditionalProperties.allowedFor(stringListType());
+        JavaAdditionalProperties.allowedFor(JavaTypes.containerValuePojoType());
     final JavaObjectPojo pojo = JavaPojos.objectPojo(PList.empty(), additionalProperties);
 
     final Writer writer =

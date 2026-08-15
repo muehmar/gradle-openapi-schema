@@ -11,7 +11,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class BooleanType implements Type {
+public class BooleanType implements AdditionalPropertiesValueType {
   private final Nullability nullability;
 
   private BooleanType(Nullability nullability) {
@@ -58,6 +58,18 @@ public class BooleanType implements Type {
       Function<ObjectType, T> onObjectType,
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
+      Function<AnyType, T> onAnyType) {
+    return onBooleanType.apply(this);
+  }
+
+  @Override
+  public <T> T foldAdditionalPropertiesValueType(
+      Function<NumericType, T> onNumericType,
+      Function<IntegerType, T> onIntegerType,
+      Function<StringType, T> onStringType,
+      Function<BooleanType, T> onBooleanType,
+      Function<ObjectType, T> onObjectType,
+      Function<EnumType, T> onEnumType,
       Function<AnyType, T> onAnyType) {
     return onBooleanType.apply(this);
   }

@@ -1,4 +1,4 @@
-additionalPropertiesTypeIsList=[
+additionalPropertiesTypeIsContainerValuePojo=[
 com.fasterxml.jackson.annotation.JsonAnyGetter
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.AdditionalProperty
@@ -13,8 +13,8 @@ javax.validation.constraints.NotNull
 
 @Valid
 @JsonAnyGetter
-private Map<String, @NotNull List<String>> getAdditionalProperties_() {
-  final Map<String, List<String>> props = new HashMap<>();
+private Map<String, @NotNull @Valid UserPropertyDto> getAdditionalProperties_() {
+  final Map<String, UserPropertyDto> props = new HashMap<>();
   additionalProperties.forEach(
       (key, value) -> {
         if (value == null) {
@@ -27,7 +27,7 @@ private Map<String, @NotNull List<String>> getAdditionalProperties_() {
 }
 
 @JsonIgnore
-public List<AdditionalProperty<List<String>>> getAdditionalProperties() {
+public List<AdditionalProperty<UserPropertyDto>> getAdditionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 
@@ -42,17 +42,17 @@ public List<AdditionalProperty<List<String>>> getAdditionalProperties() {
  * Returns the additional property with {@code key} wrapped in an {@link Optional}
  * if present, {@link Optional#empty()} otherwise
  */
-public Optional<List<String>> getAdditionalProperty(String key) {
+public Optional<UserPropertyDto> getAdditionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key))
       .flatMap(this::castAdditionalProperty);
 }
 
-private Optional<List<String>> castAdditionalProperty(Object property) {
+private Optional<UserPropertyDto> castAdditionalProperty(Object property) {
   if (property == null) {
     return Optional.empty();
   }
   try {
-    return Optional.of((List<String>) property);
+    return Optional.of((UserPropertyDto) property);
   } catch (ClassCastException e) {
     return Optional.empty();
   }

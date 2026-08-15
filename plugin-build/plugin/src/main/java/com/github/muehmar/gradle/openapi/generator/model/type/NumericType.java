@@ -13,7 +13,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class NumericType implements Type {
+public class NumericType implements AdditionalPropertiesValueType {
 
   private final Format format;
   private final Nullability nullability;
@@ -102,5 +102,17 @@ public class NumericType implements Type {
     public static Optional<Format> parseString(String value) {
       return PList.fromArray(values()).find(f -> f.value.equals(value));
     }
+  }
+
+  @Override
+  public <T> T foldAdditionalPropertiesValueType(
+      Function<NumericType, T> onNumericType,
+      Function<IntegerType, T> onIntegerType,
+      Function<StringType, T> onStringType,
+      Function<BooleanType, T> onBooleanType,
+      Function<ObjectType, T> onObjectType,
+      Function<EnumType, T> onEnumType,
+      Function<AnyType, T> onAnyType) {
+    return onNumericType.apply(this);
   }
 }

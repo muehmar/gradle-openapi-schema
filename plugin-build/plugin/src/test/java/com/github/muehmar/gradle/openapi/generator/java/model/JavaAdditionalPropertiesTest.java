@@ -1,25 +1,20 @@
 package com.github.muehmar.gradle.openapi.generator.java.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.NonGenericJavaType;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
-import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
+import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
-import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
-import com.github.muehmar.gradle.openapi.generator.model.type.StringType;
+import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -44,7 +39,7 @@ class JavaAdditionalPropertiesTest {
   void asEnumContent_when_typeIsEnum_then_returnsEnumContentWithCorrectProperties() {
     final EnumType enumType =
         EnumType.ofNameAndMembers(Name.ofString("PropertyEnum"), PList.of("RED", "GREEN", "BLUE"));
-    final JavaType javaEnumType = JavaType.wrap(enumType, TypeMappings.empty());
+    final NonGenericJavaType javaEnumType = JavaType.wrap(enumType, TypeMappings.empty());
     final JavaAdditionalProperties javaAdditionalProperties =
         JavaAdditionalProperties.allowedFor(javaEnumType);
 
@@ -59,42 +54,27 @@ class JavaAdditionalPropertiesTest {
         enumContent.get().getMembers().map(EnumConstantName::getOriginalConstant));
   }
 
+  /**
+   * A container as additional-property value type is mapped to a dedicated pojo and referenced as
+   * object type (see {@code AdditionalPropertiesSchema#mapAdditionalPropertiesSchema}), hence the
+   * value type is never a container. This is ensured by the type {@link
+   * com.github.muehmar.gradle.openapi.generator.model.type.AdditionalPropertiesValueType}: passing
+   * an {@code ArrayType} or {@code MapType} to {@link AdditionalProperties#allowed} does not
+   * compile, therefore no test for a container value type exists here.
+   */
   @Test
-  void wrap_when_mapOfEnumsValueType_then_throwsAsConversionInContainerIsNotSupported() {
-    final EnumType enumType =
-        EnumType.ofNameAndMembers(Name.ofString("Color"), PList.of("red", "green"));
+  void wrap_when_objectValueType_then_objectTypeKept() {
     final AdditionalProperties additionalProperties =
-        AdditionalProperties.allowed(MapType.ofKeyAndValueType(StringType.noFormat(), enumType));
-
-    // An enum is represented internally as a String and uses the enum as api type, i.e. it needs a
-    // conversion, which is not supported for values nested within a container. See issue #421.
-    assertThrows(
-        OpenApiGeneratorException.class,
-        () ->
-            JavaAdditionalProperties.wrap(
-                JavaPojoNames.invoiceName(), additionalProperties, TypeMappings.empty()));
-  }
-
-  @Test
-  void wrap_when_arrayOfEnumsValueType_then_enumKeptAsEnum() {
-    final EnumType enumType =
-        EnumType.ofNameAndMembers(Name.ofString("Color"), PList.of("red", "green"));
-    final AdditionalProperties additionalProperties =
-        AdditionalProperties.allowed(ArrayType.ofItemType(enumType, Nullability.NOT_NULLABLE));
+        AdditionalProperties.allowed(
+            StandardObjectType.ofName(PojoName.ofName(Name.ofString("InvoicePropertyDto"))));
 
     final JavaAdditionalProperties javaAdditionalProperties =
-        JavaAdditionalProperties.wrap(
-            JavaPojoNames.invoiceName(), additionalProperties, TypeMappings.empty());
+        JavaAdditionalProperties.wrap(additionalProperties, TypeMappings.empty());
 
-    // The enum is kept as enum, although the conversion of the items is not generated yet and the
-    // generated code therefore does not compile. See issue #421.
-    final JavaType itemType =
-        javaAdditionalProperties
-            .getType()
-            .onArrayType()
-            .orElseThrow(IllegalStateException::new)
-            .getItemType();
-    assertTrue(itemType instanceof JavaEnumType);
+    assertEquals(
+        "InvoicePropertyDto",
+        javaAdditionalProperties.getType().getQualifiedClassName().getClassName().asString());
+    assertEquals(Optional.empty(), javaAdditionalProperties.asEnumContent());
   }
 
   @Test
@@ -104,8 +84,7 @@ class JavaAdditionalPropertiesTest {
     final AdditionalProperties additionalProperties = AdditionalProperties.allowed(enumType);
 
     final JavaAdditionalProperties javaAdditionalProperties =
-        JavaAdditionalProperties.wrap(
-            JavaPojoNames.invoiceName(), additionalProperties, TypeMappings.empty());
+        JavaAdditionalProperties.wrap(additionalProperties, TypeMappings.empty());
 
     assertTrue(javaAdditionalProperties.asEnumContent().isPresent());
   }

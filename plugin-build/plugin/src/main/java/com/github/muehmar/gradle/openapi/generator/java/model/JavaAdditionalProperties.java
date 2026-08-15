@@ -4,14 +4,13 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaAn
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
-import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.NonGenericJavaType;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
@@ -22,30 +21,19 @@ import lombok.Value;
 public class JavaAdditionalProperties {
   private static final JavaName MAP_PROPERTY_NAME = JavaName.fromString("additionalProperties");
   boolean allowed;
-  JavaType type;
+  NonGenericJavaType type;
 
   public static JavaAdditionalProperties wrap(
-      JavaPojoName pojoName, AdditionalProperties additionalProperties, TypeMappings typeMappings) {
-    final JavaType javaType = JavaType.wrap(additionalProperties.getType(), typeMappings);
-    ensureNoMapTypeWithConversion(pojoName, javaType);
+      AdditionalProperties additionalProperties, TypeMappings typeMappings) {
+    final NonGenericJavaType javaType = JavaType.wrap(additionalProperties.getType(), typeMappings);
     return new JavaAdditionalProperties(additionalProperties.isAllowed(), javaType);
-  }
-
-  private static void ensureNoMapTypeWithConversion(JavaPojoName pojoName, JavaType javaType) {
-    if (javaType.isMapType() && javaType.hasApiTypeDeep()) {
-      final String message =
-          String.format(
-              "The pojo '%s' has a Map as additional-property value type whose value type requires a conversion (a nested map with a mapped value type), which is currently not supported.",
-              pojoName);
-      throw new OpenApiGeneratorException(message);
-    }
   }
 
   public static JavaAdditionalProperties anyTypeAllowed() {
     return new JavaAdditionalProperties(true, javaAnyType(AnyType.create(NULLABLE)));
   }
 
-  public static JavaAdditionalProperties allowedFor(JavaType type) {
+  public static JavaAdditionalProperties allowedFor(NonGenericJavaType type) {
     return new JavaAdditionalProperties(true, type);
   }
 
@@ -78,12 +66,16 @@ public class JavaAdditionalProperties {
     return TechnicalPojoMember.additionalProperties(type);
   }
 
+  /**
+   * Returns the content of the nested enum class in case the value type is an enum. As the value
+   * type is never a container (see {@link
+   * com.github.muehmar.gradle.openapi.generator.model.type.AdditionalPropertiesValueType}), no enum
+   * nested within a container has to be considered.
+   */
   public Optional<EnumGenerator.EnumContent> asEnumContent() {
-    return type.fold(
-        ignore -> Optional.empty(),
+    return type.foldNonGenericJavaType(
         ignore -> Optional.empty(),
         enumType -> enumType.getNestedEnumContent("Additional property enum"),
-        ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),

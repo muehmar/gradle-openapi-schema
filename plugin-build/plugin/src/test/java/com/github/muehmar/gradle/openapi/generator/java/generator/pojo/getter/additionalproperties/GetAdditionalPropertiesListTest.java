@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.GetAdditionalPropertiesList.getAdditionalPropertiesListGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
@@ -117,13 +116,14 @@ class GetAdditionalPropertiesListTest {
   }
 
   @Test
-  @SnapshotName("notNullableListType")
-  void generate_when_notNullableListType_then_matchSnapshot() {
+  @SnapshotName("notNullableContainerValuePojoType")
+  void generate_when_notNullableContainerValuePojoType_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         getAdditionalPropertiesListGenerator();
 
     final JavaAdditionalProperties additionalProperties =
-        JavaAdditionalProperties.allowedFor(stringListType().withNullability(NOT_NULLABLE));
+        JavaAdditionalProperties.allowedFor(
+            JavaTypes.containerValuePojoType().withNullability(NOT_NULLABLE));
     final JavaObjectPojo pojo =
         JavaPojos.objectPojo().withAdditionalProperties(additionalProperties);
 
@@ -133,13 +133,14 @@ class GetAdditionalPropertiesListTest {
   }
 
   @Test
-  @SnapshotName("nullableListType")
-  void generate_when_nullableListType_then_matchSnapshot() {
+  @SnapshotName("nullableContainerValuePojoType")
+  void generate_when_nullableContainerValuePojoType_then_matchSnapshot() {
     final Generator<JavaObjectPojo, PojoSettings> generator =
         getAdditionalPropertiesListGenerator();
 
     final JavaAdditionalProperties additionalProperties =
-        JavaAdditionalProperties.allowedFor(stringListType().withNullability(NULLABLE));
+        JavaAdditionalProperties.allowedFor(
+            JavaTypes.containerValuePojoType().withNullability(NULLABLE));
     final JavaObjectPojo pojo =
         JavaPojos.objectPojo().withAdditionalProperties(additionalProperties);
 

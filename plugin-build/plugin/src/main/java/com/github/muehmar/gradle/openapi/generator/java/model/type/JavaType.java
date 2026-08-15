@@ -11,11 +11,30 @@ import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
+import com.github.muehmar.gradle.openapi.generator.model.type.AdditionalPropertiesValueType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import java.util.function.Function;
 
 public interface JavaType {
+
+  /**
+   * Wraps an {@link AdditionalPropertiesValueType} and keeps the narrowed type: none of its cases
+   * maps to a generic java type, hence the result is always a {@link NonGenericJavaType}.
+   */
+  static NonGenericJavaType wrap(AdditionalPropertiesValueType type, TypeMappings typeMappings) {
+    return type.foldAdditionalPropertiesValueType(
+        numericType -> JavaNumericType.wrap(numericType, typeMappings),
+        integerType -> JavaIntegerType.wrap(integerType, typeMappings),
+        stringType -> JavaStringType.wrap(stringType, typeMappings),
+        booleanType -> JavaBooleanType.wrap(booleanType, typeMappings),
+        objectType ->
+            objectType.fold(
+                standardObjectType -> JavaObjectType.wrap(standardObjectType, typeMappings),
+                enumObjectType -> JavaEnumType.wrapAsObjectType(enumObjectType, typeMappings)),
+        enumType -> JavaEnumType.wrap(enumType, typeMappings),
+        JavaAnyType::javaAnyType);
+  }
 
   static JavaType wrap(Type type, TypeMappings typeMappings) {
     return type.fold(

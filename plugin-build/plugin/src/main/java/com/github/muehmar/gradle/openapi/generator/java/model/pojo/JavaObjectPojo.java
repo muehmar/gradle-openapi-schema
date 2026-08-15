@@ -221,7 +221,7 @@ public class JavaObjectPojo implements JavaPojo {
             .filter(member -> type.includesPropertyScope(member.getPropertyScope()))
             .map(member -> JavaPojoMember.wrap(member, pojoName, typeMappings));
     final JavaAdditionalProperties javaAdditionalProperties =
-        JavaAdditionalProperties.wrap(pojoName, objectPojo.getAdditionalProperties(), typeMappings);
+        JavaAdditionalProperties.wrap(objectPojo.getAdditionalProperties(), typeMappings);
     final PList<JavaRequiredAdditionalProperty> requiredAdditionalProperties =
         objectPojo
             .getRequiredAdditionalProperties()

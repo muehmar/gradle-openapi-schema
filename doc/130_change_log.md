@@ -1,6 +1,9 @@
 ## Change Log
 
 * next
+    * [#421](https://github.com/muehmar/gradle-openapi-schema/issues/421) - Ensure by the type system that the value
+      type of additional properties is never a container: such a value type is mapped to a dedicated DTO and
+      referenced as object type, hence no conversion nested within a container has to be supported
     * [#266](https://github.com/muehmar/gradle-openapi-schema/issues/266) - Improve deserialisation of enums: an
       out-of-range enum value no longer throws during deserialisation, it is reported as a constraint violation when
       the DTO is validated. This changes the runtime behaviour, see the

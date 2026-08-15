@@ -5,7 +5,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPo
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo1;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.sampleObjectPojo2;
 import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.anyType;
-import static com.github.muehmar.gradle.openapi.generator.java.model.type.JavaTypes.stringListType;
 import static com.github.muehmar.gradle.openapi.generator.settings.StagedBuilderSettingsBuilder.fullStagedBuilderSettingsBuilder;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
@@ -54,13 +53,14 @@ class NormalBuilderGeneratorTest {
   }
 
   @Test
-  void generate_when_additionalPropertyTypeIsList_then_containsListInRefs() {
+  void generate_when_additionalPropertyTypeIsContainerValuePojo_then_containsPojoInRefs() {
     final Generator<JavaObjectPojo, PojoSettings> generator = normalBuilderGenerator();
 
     final Writer writer =
         generator.generate(
             JavaPojos.objectPojo(
-                PList.empty(), JavaAdditionalProperties.allowedFor(stringListType())),
+                PList.empty(),
+                JavaAdditionalProperties.allowedFor(JavaTypes.containerValuePojoType())),
             defaultTestSettings(),
             javaWriter());
 

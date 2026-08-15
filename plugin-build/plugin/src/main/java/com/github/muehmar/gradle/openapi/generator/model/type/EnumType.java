@@ -14,7 +14,7 @@ import lombok.Value;
 
 @Value
 @PojoBuilder
-public class EnumType implements Type {
+public class EnumType implements AdditionalPropertiesValueType {
   Name name;
   PList<String> members;
   Optional<String> format;
@@ -67,6 +67,18 @@ public class EnumType implements Type {
       Function<ObjectType, T> onObjectType,
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
+      Function<AnyType, T> onAnyType) {
+    return onEnumType.apply(this);
+  }
+
+  @Override
+  public <T> T foldAdditionalPropertiesValueType(
+      Function<NumericType, T> onNumericType,
+      Function<IntegerType, T> onIntegerType,
+      Function<StringType, T> onStringType,
+      Function<BooleanType, T> onBooleanType,
+      Function<ObjectType, T> onObjectType,
+      Function<EnumType, T> onEnumType,
       Function<AnyType, T> onAnyType) {
     return onEnumType.apply(this);
   }

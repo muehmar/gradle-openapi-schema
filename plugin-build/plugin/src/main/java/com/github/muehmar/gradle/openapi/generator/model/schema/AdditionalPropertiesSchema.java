@@ -5,10 +5,10 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULL
 import com.github.muehmar.gradle.openapi.generator.mapper.MemberSchemaMapResult;
 import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
+import com.github.muehmar.gradle.openapi.generator.model.type.AdditionalPropertiesValueType;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ObjectType;
 import com.github.muehmar.gradle.openapi.generator.model.type.StandardObjectType;
@@ -45,8 +45,8 @@ class AdditionalPropertiesSchema {
     return allowed;
   }
 
-  public Type getAdditionalPropertiesType(ComponentName name) {
-    return getAdditionalPropertiesMapResult(name).getType();
+  public AdditionalPropertiesValueType getAdditionalPropertiesType(ComponentName name) {
+    return getAdditionalPropertiesMapResult(name).getAdditionalPropertiesValueType();
   }
 
   public MemberSchemaMapResult getAdditionalPropertiesMapResult(
@@ -60,21 +60,38 @@ class AdditionalPropertiesSchema {
     return getAdditionalPropertiesMapResult(name, Name.ofString("Property"));
   }
 
+  /**
+   * Maps the schema of the additional properties to its value type. A container value type is
+   * mapped to a dedicated pojo which is referenced as {@link ObjectType}, i.e. the resulting value
+   * type is never a container (see {@link AdditionalPropertiesValueType}).
+   */
   private static MemberSchemaMapResult mapAdditionalPropertiesSchema(
       OpenApiSchema schema, ComponentName name, Name memberName) {
     final MemberSchemaMapResult result = schema.mapToMemberType(name, memberName);
-    if (result.getType().isArrayType()) {
-      final ComponentName arrayComponentName = name.deriveMemberSchemaName(memberName);
-      final ObjectType type = StandardObjectType.ofName(arrayComponentName.getPojoName());
-      final PojoSchema arrayPojoSchema = new PojoSchema(arrayComponentName, schema);
-      return MemberSchemaMapResult.ofTypeAndPojoSchema(type, arrayPojoSchema);
-    } else if (result.getType().isMapType()) {
-      final ComponentName mapComponentName = name.deriveMemberSchemaName(memberName);
-      final ObjectType type = StandardObjectType.ofName(mapComponentName.getPojoName());
-      final PojoSchema mapPojoSchema = new PojoSchema(mapComponentName, schema);
-      return MemberSchemaMapResult.ofTypeAndPojoSchema(type, mapPojoSchema);
-    }
-    return result;
+    return result
+        .getType()
+        .fold(
+            numericType -> result,
+            integerType -> result,
+            stringType -> result,
+            arrayType -> asOwnPojo(schema, name, memberName),
+            booleanType -> result,
+            objectType -> result,
+            enumType -> result,
+            mapType -> asOwnPojo(schema, name, memberName),
+            anyType -> result);
+  }
+
+  /**
+   * Creates a dedicated pojo for the given schema and references it as {@link ObjectType}. Used for
+   * container value types, which are not supported as value type directly.
+   */
+  private static MemberSchemaMapResult asOwnPojo(
+      OpenApiSchema schema, ComponentName name, Name memberName) {
+    final ComponentName componentName = name.deriveMemberSchemaName(memberName);
+    final ObjectType type = StandardObjectType.ofName(componentName.getPojoName());
+    final PojoSchema pojoSchema = new PojoSchema(componentName, schema);
+    return MemberSchemaMapResult.ofTypeAndPojoSchema(type, pojoSchema);
   }
 
   public AdditionalProperties asAdditionalProperties(ComponentName name) {
