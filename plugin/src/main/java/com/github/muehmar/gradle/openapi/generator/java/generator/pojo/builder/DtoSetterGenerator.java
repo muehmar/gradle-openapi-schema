@@ -6,9 +6,13 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
+import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversionRenderer;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -18,6 +22,7 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.MethodGen.Argument;
 import io.github.muehmar.codegenerator.java.MethodGenBuilder;
+import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.Optional;
 import lombok.Value;
 
@@ -89,11 +94,14 @@ public class DtoSetterGenerator {
   private static Generator<PojosAndMember, PojoSettings> setSingleDiscriminatorMember() {
     return Generator.<PojosAndMember, PojoSettings>emptyGen()
         .append(
-            (member, s, w) ->
-                w.println(
-                    "%s(%s);",
-                    member.prefixedMethodName(s.getBuilderMethodPrefix()),
-                    member.getDiscriminatorValue()))
+            (member, s, w) -> {
+              final Writer discriminatorValue = member.getDiscriminatorValue();
+              return w.println(
+                      "%s(%s);",
+                      member.prefixedMethodName(s.getBuilderMethodPrefix()),
+                      discriminatorValue.asString())
+                  .refs(discriminatorValue.getRefs());
+            })
         .filter(PojosAndMember::isDiscriminatorMember);
   }
 
@@ -190,20 +198,41 @@ public class DtoSetterGenerator {
       return member.getGetterNameWithSuffix(settings);
     }
 
-    String getDiscriminatorValue() {
+    /**
+     * The expression for the fixed discriminator value of the composed pojo. Returned as {@link
+     * Writer} as the conversion of an api-typed member registers the refs of the classes used by
+     * the conversion, which are needed for the imports of the generated dto.
+     */
+    Writer getDiscriminatorValue() {
       final Name schemaName = composedPojo.getSchemaName().getOriginalName();
       return discriminator
           .map(
               d ->
                   d.getValueForSchemaName(
                       schemaName,
-                      strValue -> String.format("\"%s\"", strValue),
-                      enumName ->
-                          String.format(
-                              "%s.%s",
-                              member.getJavaType().getQualifiedClassName().getClassName(),
-                              enumName)))
-          .orElse("");
+                      strValue -> javaWriter().print("\"%s\"", strValue),
+                      enumName -> enumDiscriminatorValue(d, schemaName)))
+          .orElseGet(Writer::javaWriter);
+    }
+
+    private Writer enumDiscriminatorValue(JavaDiscriminator d, Name schemaName) {
+      final String stringValue = String.format("\"%s\"", d.getStringValueForSchemaName(schemaName));
+      // An enum property always has an api type (the enum itself or a mapped custom type with a
+      // conversion), as a mapping without conversion for a discriminator property is rejected when
+      // the pojo is created.
+      return member
+          .getJavaType()
+          .getApiType()
+          .map(
+              apiType ->
+                  ToApiTypeConversionRenderer.toApiTypeConversion(
+                      apiType, stringValue, ConversionGenerationMode.NO_NULL_CHECK))
+          .orElseThrow(
+              () ->
+                  new OpenApiGeneratorException(
+                      String.format(
+                          "Unable to determine the discriminator value for the property '%s' of schema '%s'.",
+                          member.getName(), schemaName)));
     }
 
     String setterCondition() {

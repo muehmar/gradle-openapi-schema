@@ -263,7 +263,7 @@ oneOfPojoWithEnumDiscriminator=[
 .
 private Builder setYellowDto(YellowDto dto) {
   setStringVal(dto.getStringVal());
-  setColor(BaseDto.Color.YELLOW);
+  setColor(BaseDto.Color.fromValue("yellow"));
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
@@ -271,7 +271,49 @@ private Builder setYellowDto(YellowDto dto) {
 
 private Builder setOrangeDto(OrangeDto dto) {
   setBirthdate(dto.getBirthdate());
-  setColor(BaseDto.Color.ORANGE);
+  setColor(BaseDto.Color.fromValue("orange"));
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+]
+
+
+oneOfPojoWithEnumDiscriminatorMappedToCustomType=[
+com.custom.CustomColor
+
+private Builder setYellowDto(YellowDto dto) {
+  setStringVal(dto.getStringVal());
+  setColor(CustomColor.fromColor(BaseDto.Color.fromValue("yellow")));
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+
+private Builder setOrangeDto(OrangeDto dto) {
+  setBirthdate(dto.getBirthdate());
+  setColor(CustomColor.fromColor(BaseDto.Color.fromValue("orange")));
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+]
+
+
+oneOfPojoWithEnumDiscriminatorMappedToCustomTypeWithSeparateConversionClass=[
+com.custom.ColorConverters
+
+private Builder setYellowDto(YellowDto dto) {
+  setStringVal(dto.getStringVal());
+  setColor(ColorConverters.fromColor(BaseDto.Color.fromValue("yellow")));
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+
+private Builder setOrangeDto(OrangeDto dto) {
+  setBirthdate(dto.getBirthdate());
+  setColor(ColorConverters.fromColor(BaseDto.Color.fromValue("orange")));
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;

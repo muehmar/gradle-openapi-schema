@@ -41,7 +41,12 @@ public class JavaObjectType extends NonGenericJavaType {
   }
 
   public static JavaObjectType fromClassName(QualifiedClassName className) {
-    return new JavaObjectType(className, NOT_NULLABLE, Constraints.empty(), TypeOrigin.CUSTOM);
+    return fromClassNameAndNullability(className, NOT_NULLABLE);
+  }
+
+  public static JavaObjectType fromClassNameAndNullability(
+      QualifiedClassName className, Nullability nullability) {
+    return new JavaObjectType(className, nullability, Constraints.empty(), TypeOrigin.CUSTOM);
   }
 
   public static JavaObjectType fromObjectPojo(JavaObjectPojo javaObjectPojo) {

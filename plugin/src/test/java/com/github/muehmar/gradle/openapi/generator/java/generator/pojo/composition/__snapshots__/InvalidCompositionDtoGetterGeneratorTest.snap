@@ -136,7 +136,7 @@ private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getOneOfValidCount() == 0 || !isValidAgainstTheCorrectOneOfSchema()) {
     if(color != null) {
-      switch(color.getValue()) {
+      switch(color) {
         case "yellow":
           dtos.put("Yellow", asYellowDto());
           return dtos;
@@ -165,7 +165,7 @@ private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getOneOfValidCount() != 1 || !isValidAgainstTheCorrectOneOfSchema()) {
     if(color != null) {
-      switch(color.getValue()) {
+      switch(color) {
         case "yellow":
           dtos.put("Yellow", asYellowDto());
           return dtos;

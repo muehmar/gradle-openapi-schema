@@ -1,7 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.member;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder.fullEnumContentBuilder;
-
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator.EnumContent;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNotNullFlagName;
@@ -10,7 +8,6 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlag
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.PropertyInfoName;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
@@ -21,7 +18,6 @@ import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
-import java.util.function.Function;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.With;
@@ -270,32 +266,15 @@ public class JavaPojoMember {
    * types are {@link EnumType}'s.
    */
   public Optional<EnumContent> asEnumContent() {
-    final Function<JavaEnumType, Optional<EnumContent>> enumContentMapping =
-        enumType ->
-            Optional.of(
-                fullEnumContentBuilder()
-                    .className(JavaName.fromName(enumType.getQualifiedClassName().getClassName()))
-                    .description(getDescription())
-                    .members(enumType.getMembers())
-                    .build());
-    return asEnumContent(javaType, enumContentMapping);
+    return asEnumContent(javaType, getDescription());
   }
 
-  private static Optional<EnumContent> asEnumContent(
-      JavaType javaType, Function<JavaEnumType, Optional<EnumContent>> enumContentMapping) {
-    Function<JavaEnumType, Optional<EnumContent>> nestedEnumContentMapping =
-        enumType ->
-            Optional.of(
-                fullEnumContentBuilder()
-                    .className(JavaName.fromName(enumType.getQualifiedClassName().getClassName()))
-                    .description("")
-                    .members(enumType.getMembers())
-                    .build());
+  private static Optional<EnumContent> asEnumContent(JavaType javaType, String description) {
     return javaType.fold(
-        arrayType -> asEnumContent(arrayType.getItemType(), nestedEnumContentMapping),
+        arrayType -> asEnumContent(arrayType.getItemType(), ""),
         ignore -> Optional.empty(),
-        enumContentMapping,
-        mapType -> asEnumContent(mapType.getValue(), nestedEnumContentMapping),
+        enumType -> enumType.getNestedEnumContent(description),
+        mapType -> asEnumContent(mapType.getValue(), ""),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
@@ -309,16 +288,7 @@ public class JavaPojoMember {
    */
   public JavaPojoMember asInnerEnumOf(JavaName javaPojoName) {
     final JavaType newType =
-        javaType.fold(
-            arrayType -> arrayType,
-            booleanType -> booleanType,
-            enumType -> enumType.asInnerClassOf(javaPojoName),
-            mapType -> mapType,
-            noType -> noType,
-            numericType -> numericType,
-            integerType -> integerType,
-            objectType -> objectType,
-            stringType -> stringType);
+        javaType.mapEnumsDeep(enumType -> enumType.asInnerClassOf(javaPojoName));
     return new JavaPojoMember(pojoName, name, description, newType, necessity, type, memberXml);
   }
 

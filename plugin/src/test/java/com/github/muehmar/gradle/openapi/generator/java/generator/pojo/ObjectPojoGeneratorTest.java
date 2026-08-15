@@ -30,9 +30,9 @@ import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPoj
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojoXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaIntegerType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaObjectType;
+import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.*;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.model.composition.AnyOfComposition;
@@ -477,9 +477,10 @@ class ObjectPojoGeneratorTest {
         JavaPojos.objectPojo(
             PList.empty(),
             JavaAdditionalProperties.allowedFor(
-                JavaEnumType.wrapForDiscriminator(
+                JavaType.wrap(
                     EnumType.ofNameAndMembers(
-                        Name.ofString("ColorEnum"), PList.of("green", "yellow", "red")))));
+                        Name.ofString("ColorEnum"), PList.of("green", "yellow", "red")),
+                    TypeMappings.empty())));
     final String content =
         generator.generate(objectPojo, defaultTestSettings(), javaWriter()).asString();
 

@@ -73,4 +73,11 @@ public class StandardObjectType implements ObjectType {
       Function<AnyType, T> onAnyType) {
     return onObjectType.apply(this);
   }
+
+  @Override
+  public <T> T fold(
+      Function<StandardObjectType, T> onStandardObjectType,
+      Function<EnumObjectType, T> onEnumObjectType) {
+    return onStandardObjectType.apply(this);
+  }
 }

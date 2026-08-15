@@ -118,6 +118,10 @@ public class JavaMapType implements JavaType {
     return value;
   }
 
+  public JavaMapType withValue(JavaType newValue) {
+    return new JavaMapType(className, apiType, key, newValue, nullability, constraints);
+  }
+
   @Override
   public <T> T fold(
       Function<JavaArrayType, T> onArrayType,

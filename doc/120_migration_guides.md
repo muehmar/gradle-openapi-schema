@@ -7,6 +7,31 @@
   the key is present, i.e. a present but `null` value is valid now and no `@NotNull` constraint is generated for such a
   property.
 
+### Changes in Runtime Behaviour
+
+* [#266](https://github.com/muehmar/gradle-openapi-schema/issues/266) - Enum properties are represented internally as
+  strings. The generated api (getters, setters, withers) still uses the generated enum or a mapped custom type, but the
+  runtime behaviour changes in the following ways:
+    * An enum value outside the range of the defined constants no longer throws an exception during deserialisation.
+      The value is accepted and reported as a constraint violation when the DTO is validated.
+    * Constraint violations for enum properties reference the string-typed validation getter. For a required property,
+      the property path of a violation gains the configured validation-method getter suffix (default `Raw`): a
+      violation for the required property `status` is now reported for the path `statusRaw`. For an optional or
+      nullable property, the validation getter keeps the plain property name (the api getter is suffixed instead), so
+      the violation path is unchanged.
+    * If validation is disabled or the DTO is not validated, an out-of-range value surfaces as an
+      `IllegalArgumentException` when the enum-typed getter is accessed, instead of failing already at
+      deserialisation. Validate DTOs before accessing enum-typed getters.
+    * In oneOf/anyOf compositions, the additional-properties type check now runs against the JSON-level string value
+      of enum properties. Documents that were previously rejected with "Not all additional properties are instances of
+      String" — although valid per the specification — now validate successfully.
+    * Two subschemas of a composition defining the same property as a container (array or map) of an inline enum are
+      now rejected with an error, as each subschema defines its own nested enum class. This was already the case for a
+      property defined as a plain inline enum; define the enum once as a root schema and reference it instead.
+    * A property used as discriminator which is mapped to another type *without* a conversion is now rejected with an
+      error, as there is no way to convert the discriminator value defined in the specification into the mapped type
+      (this generated uncompilable code before). Either define a conversion for the mapping or remove the mapping.
+
 ## Migrating from v3.x to 4.x
 
 ### Breaking Changes

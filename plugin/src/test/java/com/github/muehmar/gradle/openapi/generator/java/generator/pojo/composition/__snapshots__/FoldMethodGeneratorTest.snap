@@ -403,10 +403,10 @@ java.util.function.Supplier
  * schema described by the discriminator and its value is returned.
  */
 public <T> T foldOneOf(Function<YellowDto, T> onYellowDto, Function<OrangeDto, T> onOrangeDto, Supplier<T> onInvalid) {
-  if ("yellow".equals(color.getValue()) && isValidAgainstYellowDto()) {
+  if ("yellow".equals(color) && isValidAgainstYellowDto()) {
     return onYellowDto.apply(asYellowDto());
   }
-  else if ("orange".equals(color.getValue()) && isValidAgainstOrangeDto()) {
+  else if ("orange".equals(color) && isValidAgainstOrangeDto()) {
     return onOrangeDto.apply(asOrangeDto());
   }
   else {

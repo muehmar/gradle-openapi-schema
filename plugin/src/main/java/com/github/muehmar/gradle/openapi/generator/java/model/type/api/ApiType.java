@@ -32,6 +32,10 @@ public class ApiType {
     return new ApiType(OneOrBoth.ofBothOptional(pluginApiType, userDefinedApiType));
   }
 
+  public static ApiType of(UserDefinedApiType userDefinedApiType, PluginApiType pluginApiType) {
+    return new ApiType(OneOrBoth.ofBoth(pluginApiType, userDefinedApiType));
+  }
+
   public QualifiedClassName getClassName() {
     return fold(
         PluginApiType::getClassName,

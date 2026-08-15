@@ -8,6 +8,26 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 public class MethodNames {
   private MethodNames() {}
 
+  /**
+   * Names of the generated enum methods which are referenced both when generating the enum itself
+   * ({@code EnumGenerator}) and when converting between the internal {@code String} representation
+   * of an enum and the enum api type ({@code PluginApiType#useEnumAsApiType}). Both sides must use
+   * these constants.
+   */
+  public static class Enum {
+    private Enum() {}
+
+    /** Converts a {@code String} value to the enum constant, throwing for unknown values. */
+    public static Name fromValue() {
+      return Name.ofString("fromValue");
+    }
+
+    /** Returns the string value of the enum constant. */
+    public static Name getValue() {
+      return Name.ofString("getValue");
+    }
+  }
+
   public static class RequiredAdditionalProperty {
     private RequiredAdditionalProperty() {}
 

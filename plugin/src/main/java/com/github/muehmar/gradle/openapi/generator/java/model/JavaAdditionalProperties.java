@@ -5,12 +5,10 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULL
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
-import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumContentBuilder;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
-import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaStringType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
@@ -18,7 +16,6 @@ import com.github.muehmar.gradle.openapi.generator.model.AdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
-import java.util.function.Function;
 import lombok.Value;
 
 @Value
@@ -82,18 +79,10 @@ public class JavaAdditionalProperties {
   }
 
   public Optional<EnumGenerator.EnumContent> asEnumContent() {
-    final Function<JavaEnumType, Optional<EnumGenerator.EnumContent>> createEnumContent =
-        enumType ->
-            Optional.of(
-                EnumContentBuilder.create()
-                    .className(JavaName.fromName(type.getQualifiedClassName().getClassName()))
-                    .description("Additional property enum")
-                    .members(enumType.getMembers())
-                    .build());
     return type.fold(
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
-        createEnumContent,
+        enumType -> enumType.getNestedEnumContent("Additional property enum"),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
         ignore -> Optional.empty(),
