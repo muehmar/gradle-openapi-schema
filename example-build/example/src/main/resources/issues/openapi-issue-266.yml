@@ -124,3 +124,106 @@ components:
           type: string
           enum:
             - "a(b"
+
+    # A map property (an object with additionalProperties) whose value schema is
+    # an enum: the string-backed representation has to be converted per map value
+    # in both directions, and the value validation applies to every entry.
+    Inventory:
+      type: object
+      properties:
+        stock:
+          type: object
+          additionalProperties:
+            type: string
+            enum:
+              - available
+              - sold-out
+
+    # An array whose items are a referenced ($ref) enum: in contrast to an
+    # inline enum the referenced enum is generated as its own DTO (no nested
+    # enum class), so a different wrap path builds the item type of the array.
+    Catalog:
+      type: object
+      properties:
+        colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColorEnum'
+
+    # A referenced ($ref) enum whose members contain regex metacharacters: the
+    # pattern constraint of a referenced enum is built by another code path than
+    # the one of an inline enum, so the escaping has to apply there as well.
+    Matcher:
+      type: object
+      required:
+        - pattern
+      properties:
+        pattern:
+          $ref: '#/components/schemas/PatternEnum'
+
+    PatternEnum:
+      type: string
+      enum:
+        - "a.b"
+        - "c(d"
+        - "e|f"
+
+    # An INLINE enum mapped to a custom type with a conversion (via its format).
+    # In contrast to the dtoMapping of a referenced enum, the enum stays inline
+    # and is generated as nested class, so the api type of the member combines
+    # the user conversion with the plugin conversion of the (re-nested) enum.
+    Palette2:
+      type: object
+      required:
+        - color
+      properties:
+        color:
+          type: string
+          format: issue266color
+          enum:
+            - red
+            - green
+            - blue
+
+    # A oneOf whose discriminator property is a referenced enum mapped to a
+    # custom type with a conversion: the fixed discriminator value of a subschema
+    # is rendered into the builder of the parent dto, so it has to be converted
+    # to the mapped api type. The conversion is defined on a separate class to
+    # verify that its import is added to the generated dto as well.
+    MappedDiscriminatorKind:
+      type: string
+      enum:
+        - book
+        - movie
+
+    MappedBook:
+      type: object
+      required:
+        - kind
+        - title
+      properties:
+        kind:
+          $ref: '#/components/schemas/MappedDiscriminatorKind'
+        title:
+          type: string
+
+    MappedMovie:
+      type: object
+      required:
+        - kind
+        - duration
+      properties:
+        kind:
+          $ref: '#/components/schemas/MappedDiscriminatorKind'
+        duration:
+          type: integer
+
+    MappedMedia:
+      oneOf:
+        - $ref: '#/components/schemas/MappedBook'
+        - $ref: '#/components/schemas/MappedMovie'
+      discriminator:
+        propertyName: kind
+        mapping:
+          book: '#/components/schemas/MappedBook'
+          movie: '#/components/schemas/MappedMovie'

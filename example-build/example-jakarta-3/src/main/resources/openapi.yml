@@ -25,6 +25,12 @@ components:
           nullable: true
           minimum: 18
           maximum: 99
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+            - other
 
 
 

@@ -467,6 +467,23 @@ openApiGenerator {
                     customType = "com.github.muehmar.gradle.openapi.issues.issue266.ColorNoConversion"
                     disableMissingConversionWarning = true
                 }
+                // Maps an INLINE enum (which cannot be addressed by a dtoMapping) to a custom
+                // type with a conversion.
+                formatTypeMapping {
+                    formatType = "issue266color"
+                    classType = "com.github.muehmar.gradle.openapi.issues.issue266.InlineColor"
+                    conversion.fromCustomType = "toEnum"
+                    conversion.toCustomType = "InlineColor#fromEnum"
+                }
+                // The enum used as discriminator of the MappedMedia oneOf. The conversion towards
+                // the mapped type is defined on a separate class, so the generated dto needs an
+                // import for a class which appears nowhere else in it.
+                dtoMapping {
+                    dtoName = "MappedDiscriminatorKindDto"
+                    customType = "com.github.muehmar.gradle.openapi.issues.issue266.MediaKind"
+                    conversion.fromCustomType = "toDto"
+                    conversion.toCustomType = "com.github.muehmar.gradle.openapi.issues.issue266.MediaKindConversions#fromDto"
+                }
             }
 
             "${jacksonMajorVersion}Issue352" {

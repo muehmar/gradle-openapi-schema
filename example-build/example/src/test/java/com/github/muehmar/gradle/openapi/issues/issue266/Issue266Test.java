@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.muehmar.gradle.openapi.util.JsonMapper;
 import com.github.muehmar.gradle.openapi.util.MapperFactory;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -187,5 +188,52 @@ class Issue266Test {
 
     assertEquals(0, violations.size());
     assertTrue(assertDoesNotThrow(dto::isValid));
+  }
+
+  @Test
+  void validate_when_referencedEnumMembersContainRegexMetacharacters_then_onlyLiteralValuesValid()
+      throws Exception {
+    // The pattern constraint of a referenced ($ref) enum is built by another code path than the
+    // one of an inline enum, so the escaping has to apply there as well. Note the member "e|f":
+    // without escaping its pipe would split the alternation and make "e" and "f" valid values.
+    final MatcherDto validDto = MAPPER.readValue("{\"pattern\":\"e|f\"}", MatcherDto.class);
+
+    assertEquals(0, assertDoesNotThrow(() -> validate(validDto)).size());
+    assertTrue(validDto.isValid());
+
+    final MatcherDto invalidDto = MAPPER.readValue("{\"pattern\":\"e\"}", MatcherDto.class);
+
+    assertEquals(
+        Collections.singletonList("patternRaw -> must match \"a\\.b|c\\(d|e\\|f\""),
+        formatViolations(validate(invalidDto)));
+    assertFalse(invalidDto.isValid());
+  }
+
+  @Test
+  void deserialize_when_arrayOfReferencedEnum_then_enumTypedItemsAndValueValidation()
+      throws Exception {
+    // In contrast to an array of an inline enum, the referenced enum is generated as its own DTO
+    // (no nested enum class), so a different wrap path builds the item type of the array.
+    final CatalogDto dto = MAPPER.readValue("{\"colors\":[\"red\",\"blue\"]}", CatalogDto.class);
+
+    assertEquals(0, validate(dto).size());
+    assertTrue(dto.isValid());
+    assertEquals(
+        Arrays.asList(ColorEnumDto.RED, ColorEnumDto.BLUE),
+        dto.getColorsOpt().orElse(Collections.emptyList()));
+  }
+
+  @Test
+  void deserialize_when_arrayOfReferencedEnumItemOutOfRange_then_violationOnListElement()
+      throws Exception {
+    final CatalogDto dto =
+        assertDoesNotThrow(
+            () -> MAPPER.readValue("{\"colors\":[\"red\",\"purple\"]}", CatalogDto.class));
+
+    assertEquals(
+        Collections.singletonList("colors[1].<list element> -> must match \"red|green|blue\""),
+        formatViolations(validate(dto)));
+    assertFalse(dto.isValid());
+    assertThrows(IllegalArgumentException.class, dto::getColorsOpt);
   }
 }
