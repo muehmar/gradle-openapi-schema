@@ -1,0 +1,72 @@
+openapi: "3.0.0"
+
+info: { }
+
+paths: { }
+
+# A container as additional-property value type is mapped to a dedicated pojo which is referenced as
+# object type, i.e. the value type itself is never a container. This spec covers the container value
+# types in combination with an enum, whose string-backed representation needs a conversion.
+components:
+  schemas:
+    ColorEnum:
+      type: string
+      enum:
+        - red
+        - green
+        - blue
+
+    # Array of a referenced enum as value type
+    Palette:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/ColorEnum'
+
+    # Array of an inline enum as value type, the enum is generated as nested class of the dedicated pojo
+    InlinePalette:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          enum:
+            - north
+            - south
+
+    # Map of an enum as value type
+    Inventory:
+      type: object
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: string
+          enum:
+            - available
+            - sold-out
+
+    # Nullable container as value type
+    NullablePalette:
+      type: object
+      additionalProperties:
+        type: array
+        nullable: true
+        items:
+          $ref: '#/components/schemas/ColorEnum'
+
+    # Required additional property with a container value type
+    Ticket:
+      type: object
+      required:
+        - colors
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/ColorEnum'
+
+    # Enum as value type directly, i.e. no container involved
+    Flags:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/ColorEnum'
