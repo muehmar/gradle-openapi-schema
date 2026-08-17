@@ -65,11 +65,11 @@ public class MapType implements Type {
 
   @Override
   public Type replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType) {
     return value
         .asObjectType()
         .filter(objectType -> objectType.getName().equals(objectTypeName))
-        .map(ignore -> new MapType(key, newObjectType, nullability, constraints))
+        .map(ignore -> new MapType(key, newType, nullability, constraints))
         .orElse(this);
   }
 

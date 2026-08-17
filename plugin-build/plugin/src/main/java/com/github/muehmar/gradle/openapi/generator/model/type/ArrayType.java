@@ -51,11 +51,11 @@ public class ArrayType implements Type {
 
   @Override
   public Type replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType) {
     return itemType
         .asObjectType()
         .filter(objectType -> objectType.getName().equals(objectTypeName))
-        .map(ignore -> new ArrayType(constraints, newObjectType, nullability))
+        .map(ignore -> new ArrayType(constraints, newType, nullability))
         .orElse(this);
   }
 

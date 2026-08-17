@@ -11,7 +11,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class AnyType implements AdditionalPropertiesValueType {
+public class AnyType implements AdditionalPropertiesValueType, InlinableType {
   private final Nullability nullability;
 
   private AnyType(Nullability nullability) {
@@ -33,13 +33,13 @@ public class AnyType implements AdditionalPropertiesValueType {
   }
 
   @Override
-  public Type makeNullable() {
+  public AnyType makeNullable() {
     return new AnyType(Nullability.NULLABLE);
   }
 
   @Override
   public Type replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType) {
     return this;
   }
 
@@ -58,6 +58,18 @@ public class AnyType implements AdditionalPropertiesValueType {
       Function<ObjectType, T> onObjectType,
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
+      Function<AnyType, T> onAnyType) {
+    return onAnyType.apply(this);
+  }
+
+  @Override
+  public <T> T foldInlinableType(
+      Function<NumericType, T> onNumericType,
+      Function<IntegerType, T> onIntegerType,
+      Function<StringType, T> onStringType,
+      Function<BooleanType, T> onBooleanType,
+      Function<ObjectType, T> onObjectType,
+      Function<EnumType, T> onEnumType,
       Function<AnyType, T> onAnyType) {
     return onAnyType.apply(this);
   }

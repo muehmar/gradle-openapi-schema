@@ -5,6 +5,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.EnumPojo;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.model.type.InlinableType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.Optional;
 import java.util.function.Function;
@@ -15,7 +16,7 @@ public interface Pojo {
   String getDescription();
 
   Pojo replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType);
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType);
 
   Pojo adjustNullablePojo(PojoName nullablePojo);
 

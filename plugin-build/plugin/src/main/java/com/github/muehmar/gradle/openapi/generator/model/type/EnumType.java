@@ -14,7 +14,7 @@ import lombok.Value;
 
 @Value
 @PojoBuilder
-public class EnumType implements AdditionalPropertiesValueType {
+public class EnumType implements AdditionalPropertiesValueType, InlinableType {
   Name name;
   PList<String> members;
   Optional<String> format;
@@ -47,13 +47,13 @@ public class EnumType implements AdditionalPropertiesValueType {
   }
 
   @Override
-  public Type makeNullable() {
+  public EnumType makeNullable() {
     return new EnumType(name, members, format, Nullability.NULLABLE, Nullability.NOT_NULLABLE);
   }
 
   @Override
   public Type replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType) {
     return this;
   }
 
@@ -67,6 +67,18 @@ public class EnumType implements AdditionalPropertiesValueType {
       Function<ObjectType, T> onObjectType,
       Function<EnumType, T> onEnumType,
       Function<MapType, T> onMapType,
+      Function<AnyType, T> onAnyType) {
+    return onEnumType.apply(this);
+  }
+
+  @Override
+  public <T> T foldInlinableType(
+      Function<NumericType, T> onNumericType,
+      Function<IntegerType, T> onIntegerType,
+      Function<StringType, T> onStringType,
+      Function<BooleanType, T> onBooleanType,
+      Function<ObjectType, T> onObjectType,
+      Function<EnumType, T> onEnumType,
       Function<AnyType, T> onAnyType) {
     return onEnumType.apply(this);
   }

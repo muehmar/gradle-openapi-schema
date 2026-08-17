@@ -13,7 +13,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class IntegerType implements AdditionalPropertiesValueType {
+public class IntegerType implements AdditionalPropertiesValueType, InlinableType {
   private final Format format;
   private final Nullability nullability;
   private final Constraints constraints;
@@ -51,13 +51,13 @@ public class IntegerType implements AdditionalPropertiesValueType {
   }
 
   @Override
-  public Type makeNullable() {
+  public IntegerType makeNullable() {
     return new IntegerType(format, Nullability.NULLABLE, constraints);
   }
 
   @Override
   public Type replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType) {
     return this;
   }
 
@@ -101,6 +101,18 @@ public class IntegerType implements AdditionalPropertiesValueType {
     public static Optional<Format> parseString(String value) {
       return PList.fromArray(values()).find(f -> f.value.equals(value));
     }
+  }
+
+  @Override
+  public <T> T foldInlinableType(
+      Function<NumericType, T> onNumericType,
+      Function<IntegerType, T> onIntegerType,
+      Function<StringType, T> onStringType,
+      Function<BooleanType, T> onBooleanType,
+      Function<ObjectType, T> onObjectType,
+      Function<EnumType, T> onEnumType,
+      Function<AnyType, T> onAnyType) {
+    return onIntegerType.apply(this);
   }
 
   @Override

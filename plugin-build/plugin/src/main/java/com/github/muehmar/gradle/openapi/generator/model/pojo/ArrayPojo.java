@@ -6,6 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.type.InlinableType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.function.Function;
@@ -34,11 +35,11 @@ public class ArrayPojo implements Pojo {
 
   @Override
   public ArrayPojo replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType) {
     return itemType
         .asObjectType()
         .filter(objType -> objType.getName().equals(objectTypeName))
-        .map(ignore -> new ArrayPojo(name, description, nullability, newObjectType, constraints))
+        .map(ignore -> new ArrayPojo(name, description, nullability, newType, constraints))
         .orElse(this);
   }
 

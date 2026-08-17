@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULL
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.AdditionalPropertiesValueType;
 import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
+import com.github.muehmar.gradle.openapi.generator.model.type.InlinableType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import lombok.Value;
 
@@ -27,27 +28,17 @@ public class AdditionalProperties {
 
   /**
    * Replaces the value type in case it is an {@link
-   * com.github.muehmar.gradle.openapi.generator.model.type.ObjectType} with the given name. The
-   * {@code newObjectType} must be supported as value type, i.e. must not be a container type: such
-   * a type is mapped to a dedicated pojo and never inlined here.
+   * com.github.muehmar.gradle.openapi.generator.model.type.ObjectType} with the given name. An
+   * {@link InlinableType} excludes the container types in the same way as the value type does,
+   * hence it is always supported as replacement.
    */
-  public AdditionalProperties replaceObjectType(PojoName objectTypeName, Type newObjectType) {
-    final AdditionalPropertiesValueType newType =
+  public AdditionalProperties replaceObjectType(PojoName objectTypeName, InlinableType newType) {
+    final AdditionalPropertiesValueType newValueType =
         type.asObjectType()
             .filter(objectType -> objectType.getName().equals(objectTypeName))
-            .map(ignore -> asValueType(newObjectType))
+            .map(ignore -> newType.asAdditionalPropertiesValueType())
             .orElse(type);
-    return new AdditionalProperties(allowed, newType);
-  }
-
-  private static AdditionalPropertiesValueType asValueType(Type type) {
-    if (type instanceof AdditionalPropertiesValueType) {
-      return (AdditionalPropertiesValueType) type;
-    }
-    throw new IllegalStateException(
-        String.format(
-            "The type '%s' is not supported as additional-property value type. A container value type must have been replaced by a dedicated pojo before.",
-            type));
+    return new AdditionalProperties(allowed, newValueType);
   }
 
   public AdditionalProperties adjustNullablePojo(PojoName nullablePojo) {

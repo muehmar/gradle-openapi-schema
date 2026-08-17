@@ -6,6 +6,7 @@ import com.github.muehmar.gradle.openapi.generator.model.type.AnyType;
 import com.github.muehmar.gradle.openapi.generator.model.type.ArrayType;
 import com.github.muehmar.gradle.openapi.generator.model.type.BooleanType;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
+import com.github.muehmar.gradle.openapi.generator.model.type.InlinableType;
 import com.github.muehmar.gradle.openapi.generator.model.type.IntegerType;
 import com.github.muehmar.gradle.openapi.generator.model.type.MapType;
 import com.github.muehmar.gradle.openapi.generator.model.type.NumericType;
@@ -26,7 +27,7 @@ public interface Type {
   Type makeNullable();
 
   Type replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType);
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType);
 
   default Type adjustNullablePojo(PojoName nullablePojo) {
     return asObjectType()

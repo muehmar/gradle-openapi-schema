@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.model.type;
 
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
@@ -36,7 +35,7 @@ public class StandardObjectType implements ObjectType {
   }
 
   @Override
-  public Type makeNullable() {
+  public StandardObjectType makeNullable() {
     return withNullability(Nullability.NULLABLE);
   }
 
