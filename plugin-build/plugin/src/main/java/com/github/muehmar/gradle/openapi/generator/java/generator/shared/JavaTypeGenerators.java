@@ -46,7 +46,7 @@ public class JavaTypeGenerators {
         new PropertyType(propertyType.getPropertyInfoName(), valueType);
     final Writer annotationWriter =
         validationAnnotationsForPropertyType().generate(valuePropertyType, settings, javaWriter());
-    imports.set(annotationWriter.getRefs());
+    imports.updateAndGet(refs -> refs.concat(annotationWriter.getRefs()));
     return annotationWriter.asString().replaceAll("\\s+", " ").trim();
   }
 }

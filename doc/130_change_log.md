@@ -23,6 +23,9 @@
       schemas, i.e. without the `openapi`, `info` and `components` fields
     * [#397](https://github.com/muehmar/gradle-openapi-schema/issues/397) - Fix stale option names, wrong samples and
       dead links in the documentation
+    * [#375](https://github.com/muehmar/gradle-openapi-schema/issues/375) - Render bean-validation annotations for all
+      nesting levels of nested containers (e.g. an array of arrays), which were silently dropped beyond the first
+      generic level
 * 4.0.2
     * [#374](https://github.com/muehmar/gradle-openapi-schema/issues/374) - Fix NPE in `uniqueItems` validation for
       absent optional arrays
