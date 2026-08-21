@@ -45,12 +45,11 @@ class JacksonZonedDateTimeDeserializerGeneratorTest {
     expect.toMatchSnapshot(writer.asString());
   }
 
-  // Bug: the generator picks the Jackson dialect via getJsonSupport() alone. For the
-  // supported xml-only config (jsonSupport=NONE, xmlSupport=JACKSON_2) it therefore
-  // falls back to the Jackson-3 code shape (ValueDeserializer, p.getString()) and,
-  // because JacksonRefs#jsonRefString returns "" for jsonSupport=NONE, emits no
-  // Jackson imports at all. Desired: the Jackson-2 shape as in the
-  // zonedDateTimeDeserializerJackson2 snapshot.
+  // For the xml-only config (jsonSupport=NONE, xmlSupport=JACKSON_2) the dialect
+  // is taken from the xml support, so the generator emits the Jackson-2 shape
+  // (JsonDeserializer, p.getText()) as in the zonedDateTimeDeserializerJackson2
+  // snapshot -- not the Jackson-3 one that keying on getJsonSupport() alone would
+  // produce.
   @Test
   void zonedDateTimeDeserializer_when_jsonSupportNoneAndXmlSupportJackson2_then_jackson2Shape() {
     final Generator<Void, PojoSettings> generator =

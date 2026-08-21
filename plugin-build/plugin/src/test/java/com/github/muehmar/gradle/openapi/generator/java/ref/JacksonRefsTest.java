@@ -58,15 +58,13 @@ class JacksonRefsTest {
   }
 
   // ---------------------------------------------------------------------
-  // Red cases: xml-only Jackson configs must still produce the json refs.
+  // xml-only Jackson configs must still produce the json refs.
   //
-  // Bug: JacksonRefs#jsonRefString keys on getJsonSupport() alone and
-  // returns "" for jsonSupport=NONE, even though
   // PojoSettings#isJacksonJson() deliberately returns true when only
-  // xmlSupport is Jackson (Jackson XML uses the databind annotations).
-  // As a result, xml-only configs emit Jackson annotations WITHOUT the
-  // corresponding imports. The json refs must fall back to the xml
-  // support's Jackson generation.
+  // xmlSupport is Jackson, because Jackson XML uses the databind
+  // annotations. The json refs therefore fall back to the xml support's
+  // Jackson generation instead of keying on getJsonSupport() alone, which
+  // would emit Jackson annotations without the corresponding imports.
   // ---------------------------------------------------------------------
 
   @Test

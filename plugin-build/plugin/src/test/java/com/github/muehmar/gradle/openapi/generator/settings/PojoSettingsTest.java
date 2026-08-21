@@ -31,12 +31,10 @@ class PojoSettingsTest {
     assertEquals("PersonDto", mappedPojoName.asString());
   }
 
-  // Bug: validate() accepts mixed Jackson generations. jsonSupport=JACKSON_2 combined
-  // with xmlSupport=JACKSON_3 (and vice versa) would require conflicting Jackson
-  // dialects (com.fasterxml.* vs tools.*) in the same generated sources and must be
-  // rejected. Note: validate() currently only registers warnings and never throws;
-  // IllegalArgumentException is asserted here since that is how other fatal config
-  // errors are raised (e.g. unsupported values in SingleSchemaExtension).
+  // Mixing Jackson generations would require the conflicting dialects
+  // com.fasterxml.* and tools.* in the same generated sources, so validate()
+  // rejects it with an IllegalArgumentException -- the same way other fatal
+  // config errors are raised (e.g. unsupported values in SingleSchemaExtension).
   @Test
   void validate_when_jsonSupportJackson2AndXmlSupportJackson3_then_throws() {
     final PojoSettings settings =
@@ -47,7 +45,7 @@ class PojoSettingsTest {
     assertThrows(IllegalArgumentException.class, settings::validate);
   }
 
-  // Bug: same as above, opposite direction (jsonSupport=JACKSON_3, xmlSupport=JACKSON_2).
+  // Same as above, opposite direction (jsonSupport=JACKSON_3, xmlSupport=JACKSON_2).
   @Test
   void validate_when_jsonSupportJackson3AndXmlSupportJackson2_then_throws() {
     final PojoSettings settings =
