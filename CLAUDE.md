@@ -84,6 +84,20 @@ change up directly — no publishing step and no version bump:
 This is what makes it possible to add a spec, its tests and the plugin fix in the
 same commit.
 
+To check the examples against a **published** plugin instead — verifying a release
+actually works — pass the version:
+
+```
+./gradlew -p example-build :example:test -PopenApiSchemaVersion=5.0.0
+```
+
+That skips the `includeBuild` (the substitution matches on group and name, so it
+would otherwise win over the requested version). A `-SNAPSHOT` version also adds
+`mavenLocal()`, so a build published with
+`./gradlew -p plugin-build :plugin:publishToMavenLocal` can be checked the same
+way. Note the examples on `master` track unreleased behaviour, so they only pass
+against a version that includes it.
+
 ## Adding an issue-reproduction test
 
 The repo convention is to first commit a **failing** test that asserts the desired

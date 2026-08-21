@@ -1,14 +1,39 @@
 pluginManagement {
+    // By default the examples build the plugin from source (the `includeBuild`
+    // below), so a spec and its tests can be added in the same commit as the
+    // plugin change they exercise.
+    //
+    // Pass `-PopenApiSchemaVersion=<version>` to resolve a published plugin
+    // instead, which is how a release is verified against the examples:
+    //
+    //   ./gradlew -p example-build :example:test -PopenApiSchemaVersion=5.0.0
+    //
+    // A `-SNAPSHOT` version additionally resolves from mavenLocal(), so a build
+    // published with `./gradlew -p plugin-build :plugin:publishToMavenLocal` can
+    // be checked the same way.
+    def publishedPluginVersion = settings.providers.gradleProperty('openApiSchemaVersion').orNull
+
     repositories {
+        if (publishedPluginVersion?.endsWith('-SNAPSHOT')) {
+            mavenLocal()
+        }
         gradlePluginPortal()
     }
 
     includeBuild('../build-logic')
 
-    // Build the plugin from source instead of resolving a released version from
-    // the plugin portal, so a spec and its tests can be added in the same
-    // commit as the plugin change they exercise.
-    includeBuild('../plugin-build')
+    if (publishedPluginVersion == null) {
+        // Substitutes the local plugin project for the plugin marker. It has to be
+        // skipped entirely for a published version, because the substitution
+        // matches on group and name and would otherwise win over the requested
+        // version.
+        includeBuild('../plugin-build')
+    } else {
+        // Supplies the version for the versionless `id` in the example projects.
+        plugins {
+            id 'com.github.muehmar.openapischema' version publishedPluginVersion
+        }
+    }
 }
 
 rootProject.name = 'example-build'
