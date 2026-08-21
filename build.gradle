@@ -3,8 +3,29 @@ plugins {
     id "com.github.ben-manes.versions" version "0.53.0"
 }
 
+// This build owns no projects; aggregate the included builds so `build` still
+// covers everything and the release plugin has the task it expects.
+def pluginBuildProjects = [':plugin', ':java-snapshot']
+def exampleBuildProjects = [':example', ':example-jakarta-3', ':springboot2-example',
+                            ':springboot3-example', ':springboot4-example',
+                            ':mapper:api', ':mapper:jackson2', ':mapper:jackson3']
+
 task build {
-    // Make the release plugin happy
+    pluginBuildProjects.each {
+        dependsOn gradle.includedBuild('plugin-build').task("${it}:build")
+    }
+    exampleBuildProjects.each {
+        dependsOn gradle.includedBuild('example-build').task("${it}:build")
+    }
+}
+
+task clean {
+    pluginBuildProjects.each {
+        dependsOn gradle.includedBuild('plugin-build').task("${it}:clean")
+    }
+    exampleBuildProjects.each {
+        dependsOn gradle.includedBuild('example-build').task("${it}:clean")
+    }
 }
 
 release {

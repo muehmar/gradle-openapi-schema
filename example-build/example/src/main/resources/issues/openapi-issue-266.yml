@@ -1,0 +1,229 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+
+    Order:
+      type: object
+      required:
+        - id
+        - status
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+            - pending
+            - shipped
+            - delivered
+
+    # A property referencing a standalone enum schema: the referenced enum is
+    # generated as its own DTO and must carry the same value-validation pattern
+    # constraint as an inline enum.
+    Palette:
+      type: object
+      required:
+        - color
+      properties:
+        color:
+          $ref: '#/components/schemas/ColorEnum'
+
+    ColorEnum:
+      type: string
+      enum:
+        - red
+        - green
+        - blue
+
+    # A required additional property with an enum value schema: the getter and
+    # setter must use the enum api type (with the to/from-api conversions), not
+    # the internal String representation.
+    Ticket:
+      type: object
+      required:
+        - severity
+      additionalProperties:
+        $ref: '#/components/schemas/ColorEnum'
+
+    # A dtoMapping (with conversion) on a referenced enum schema: the referenced
+    # enum is generated as its own DTO (MappedColorEnumDto) and is modelled by a
+    # top-level JavaEnumType, so the mapping must be looked up by the enum's
+    # class name (not the internal String representation).
+    MappedPalette:
+      type: object
+      required:
+        - name
+        - color
+      properties:
+        name:
+          type: string
+        color:
+          $ref: '#/components/schemas/MappedColorEnum'
+
+    MappedColorEnum:
+      type: string
+      enum:
+        - red
+        - green
+        - blue
+
+    # A dtoMapping WITHOUT conversion on a referenced enum schema: the custom
+    # type replaces the generated enum entirely, so no String-typed enum api
+    # conversions may be generated against it (compile-level coverage).
+    NoConversionPalette:
+      type: object
+      required:
+        - name
+        - color
+      properties:
+        name:
+          type: string
+        color:
+          $ref: '#/components/schemas/NoConversionColorEnum'
+
+    NoConversionColorEnum:
+      type: string
+      enum:
+        - red
+        - green
+        - blue
+
+    # An array of an inline enum: the string-backed representation extends into
+    # containers — an out-of-range item deserializes without throwing and is
+    # reported as a violation on the list element.
+    Shipment:
+      type: object
+      properties:
+        statuses:
+          type: array
+          items:
+            type: string
+            enum:
+              - created
+              - shipped
+
+    # Enum members containing regex metacharacters: the values must be escaped
+    # before they are joined into the value-validation pattern, so the pattern
+    # matches exactly the literal values (and compiles at all for members with
+    # unbalanced parentheses).
+    Release:
+      type: object
+      required:
+        - version
+      properties:
+        version:
+          type: string
+          enum:
+            - "1.5"
+            - "2.5"
+        codename:
+          type: string
+          enum:
+            - "a(b"
+
+    # A map property (an object with additionalProperties) whose value schema is
+    # an enum: the string-backed representation has to be converted per map value
+    # in both directions, and the value validation applies to every entry.
+    Inventory:
+      type: object
+      properties:
+        stock:
+          type: object
+          additionalProperties:
+            type: string
+            enum:
+              - available
+              - sold-out
+
+    # An array whose items are a referenced ($ref) enum: in contrast to an
+    # inline enum the referenced enum is generated as its own DTO (no nested
+    # enum class), so a different wrap path builds the item type of the array.
+    Catalog:
+      type: object
+      properties:
+        colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColorEnum'
+
+    # A referenced ($ref) enum whose members contain regex metacharacters: the
+    # pattern constraint of a referenced enum is built by another code path than
+    # the one of an inline enum, so the escaping has to apply there as well.
+    Matcher:
+      type: object
+      required:
+        - pattern
+      properties:
+        pattern:
+          $ref: '#/components/schemas/PatternEnum'
+
+    PatternEnum:
+      type: string
+      enum:
+        - "a.b"
+        - "c(d"
+        - "e|f"
+
+    # An INLINE enum mapped to a custom type with a conversion (via its format).
+    # In contrast to the dtoMapping of a referenced enum, the enum stays inline
+    # and is generated as nested class, so the api type of the member combines
+    # the user conversion with the plugin conversion of the (re-nested) enum.
+    Palette2:
+      type: object
+      required:
+        - color
+      properties:
+        color:
+          type: string
+          format: issue266color
+          enum:
+            - red
+            - green
+            - blue
+
+    # A oneOf whose discriminator property is a referenced enum mapped to a
+    # custom type with a conversion: the fixed discriminator value of a subschema
+    # is rendered into the builder of the parent dto, so it has to be converted
+    # to the mapped api type. The conversion is defined on a separate class to
+    # verify that its import is added to the generated dto as well.
+    MappedDiscriminatorKind:
+      type: string
+      enum:
+        - book
+        - movie
+
+    MappedBook:
+      type: object
+      required:
+        - kind
+        - title
+      properties:
+        kind:
+          $ref: '#/components/schemas/MappedDiscriminatorKind'
+        title:
+          type: string
+
+    MappedMovie:
+      type: object
+      required:
+        - kind
+        - duration
+      properties:
+        kind:
+          $ref: '#/components/schemas/MappedDiscriminatorKind'
+        duration:
+          type: integer
+
+    MappedMedia:
+      oneOf:
+        - $ref: '#/components/schemas/MappedBook'
+        - $ref: '#/components/schemas/MappedMovie'
+      discriminator:
+        propertyName: kind
+        mapping:
+          book: '#/components/schemas/MappedBook'
+          movie: '#/components/schemas/MappedMovie'

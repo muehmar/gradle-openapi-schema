@@ -19,7 +19,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradlew :plugin:build
+        run: ./gradlew -p plugin-build :plugin:build
 
   test-examples:
     runs-on: ubuntu-latest
@@ -33,16 +33,16 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Run Jackson 2.08 example tests
-        run: ./gradlew :example:jackson208Test
+        run: ./gradlew -p example-build :example:jackson208Test
       - name: Run Jackson 2.19 example tests
-        run: ./gradlew :example:jackson219Test
+        run: ./gradlew -p example-build :example:jackson219Test
       - name: Run example tests
-        run: ./gradlew :example:test
+        run: ./gradlew -p example-build :example:test
       - name: Run jakarta 3 example tests
-        run: ./gradlew :example-jakarta-3:test
+        run: ./gradlew -p example-build :example-jakarta-3:test
       - name: Run springboot2 integration tests
-        run: ./gradlew :springboot2-example:integrationTest
+        run: ./gradlew -p example-build :springboot2-example:integrationTest
       - name: Run springboot3 integration tests
-        run: ./gradlew :springboot3-example:integrationTest
+        run: ./gradlew -p example-build :springboot3-example:integrationTest
       - name: Run springboot4 integration tests
-        run: ./gradlew :springboot4-example:integrationTest
+        run: ./gradlew -p example-build :springboot4-example:integrationTest

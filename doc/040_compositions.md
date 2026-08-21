@@ -102,8 +102,8 @@ properties:
 ```
 
 An enum must be defined in a parent schema (see
-[parent enum definition](../example/src/main/resources/openapi-oneof-enum-discriminator.yml)) or as root schema and
-referenced in each subschema (see [root enum definition](../example/src/main/resources/issues/openapi-issue-229.yml)).
+[parent enum definition](../example-build/example/src/main/resources/openapi-oneof-enum-discriminator.yml)) or as root schema and
+referenced in each subschema (see [root enum definition](../example-build/example/src/main/resources/issues/openapi-issue-229.yml)).
 Inline definitions (i.e. the enum is defined in each subschema) are not yet supported.
 
 #### Construction
@@ -209,21 +209,21 @@ simply return an empty list.
 
 #### AnyOf
 
-* [OpenAPI spec](../example/src/main/resources/openapi-anyof.yml)
-* [Object creation and serialisation](../example/src/test/java/com/github/muehmar/gradle/openapi/anyof/SerialisationTest.java)
-* [Deserialisation and decomposition](../example/src/test/java/com/github/muehmar/gradle/openapi/anyof/DeserialisationTest.java)
-* [Validation](../example/src/test/java/com/github/muehmar/gradle/openapi/anyof/ValidationTest.java)
-* [Object creation and serialisation with discriminator](../example/src/test/java/com/github/muehmar/gradle/openapi/anyof/DiscriminatorSerialisationTest.java)
-* [Deserialisation and decomposition with discriminator](../example/src/test/java/com/github/muehmar/gradle/openapi/anyof/DiscriminatorDeserialisationTest.java)
+* [OpenAPI spec](../example-build/example/src/main/resources/openapi-anyof.yml)
+* [Object creation and serialisation](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/anyof/SerialisationTest.java)
+* [Deserialisation and decomposition](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/anyof/DeserialisationTest.java)
+* [Validation](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/anyof/ValidationTest.java)
+* [Object creation and serialisation with discriminator](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/anyof/DiscriminatorSerialisationTest.java)
+* [Deserialisation and decomposition with discriminator](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/anyof/DiscriminatorDeserialisationTest.java)
 
 #### OneOf
 
-* [OpenAPI spec](../example/src/main/resources/openapi-oneof.yml)
-* [Object creation and serialisation](../example/src/test/java/com/github/muehmar/gradle/openapi/oneof/SerialisationTest.java)
-* [Deserialisation and decomposition](../example/src/test/java/com/github/muehmar/gradle/openapi/oneof/DeserialisationTest.java)
-* [Validation](../example/src/test/java/com/github/muehmar/gradle/openapi/oneof/ValidationTest.java)
-* [Object creation and serialisation with discriminator](../example/src/test/java/com/github/muehmar/gradle/openapi/oneof/DiscriminatorSerialisationTest.java)
-* [Deserialisation and decomposition with discriminator](../example/src/test/java/com/github/muehmar/gradle/openapi/oneof/DiscriminatorDeserialisationTest.java)
+* [OpenAPI spec](../example-build/example/src/main/resources/openapi-oneof.yml)
+* [Object creation and serialisation](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/oneof/SerialisationTest.java)
+* [Deserialisation and decomposition](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/oneof/DeserialisationTest.java)
+* [Validation](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/oneof/ValidationTest.java)
+* [Object creation and serialisation with discriminator](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/oneof/DiscriminatorSerialisationTest.java)
+* [Deserialisation and decomposition with discriminator](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/oneof/DiscriminatorDeserialisationTest.java)
 
 ### Supported non-object type compositions
 

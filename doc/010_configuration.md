@@ -243,7 +243,7 @@ validationMethods {
 | modifier             | String    | private | Modifier for validation methods. Can be one of `public`, `protected`, `package-private` or `private` |
 | deprecatedAnnotation | boolean   | false   | Determines if the validation methods should be annotated with deprecated.                            |
 
-See the SpringBoot example ([build.gradle](../springboot3-example/build.gradle)) which makes use of this configuration.
+See the SpringBoot example ([build.gradle](../example-build/springboot3-example/build.gradle)) which makes use of this configuration.
 
 ### Class Mappings
 

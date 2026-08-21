@@ -1,0 +1,13 @@
+plugins {
+    id 'groovy-gradle-plugin'
+}
+
+repositories {
+    gradlePluginPortal()
+}
+
+group = 'com.github.muehmar.openapischema.buildlogic'
+
+dependencies {
+    implementation group: 'com.diffplug.spotless', name: 'spotless-plugin-gradle', version: '6.1.2'
+}
