@@ -1,0 +1,99 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+
+    # Exact schema from the issue: optional map with non-nullable string values
+    InlinedMapSchema:
+      type: object
+      properties:
+        map:
+          type: object
+          additionalProperties:
+            type: string
+
+    # Required map with non-nullable string values
+    RequiredMapSchema:
+      type: object
+      required:
+        - map
+      properties:
+        map:
+          type: object
+          additionalProperties:
+            type: string
+
+    # Nullable map (the map itself) with non-nullable values
+    NullableMapSchema:
+      type: object
+      required:
+        - map
+      properties:
+        map:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: string
+
+    # Map with non-nullable object values
+    ObjectMapSchema:
+      type: object
+      required:
+        - map
+      properties:
+        map:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Value'
+
+    Value:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+
+    # Map with non-nullable integer values
+    IntegerMapSchema:
+      type: object
+      required:
+        - map
+      properties:
+        map:
+          type: object
+          additionalProperties:
+            type: integer
+
+    # Map with non-nullable values inherited through allOf
+    AllOfMapSchema:
+      allOf:
+        - $ref: '#/components/schemas/RequiredMapSchema'
+        - type: object
+          required:
+            - other
+          properties:
+            other:
+              type: string
+
+    # Map with non-nullable values in a oneOf branch
+    OneOfMapSchema:
+      oneOf:
+        - $ref: '#/components/schemas/RequiredMapSchema'
+        - $ref: '#/components/schemas/Value'
+
+    # Nested container: map of arrays of non-nullable strings
+    NestedContainerMapSchema:
+      type: object
+      required:
+        - map
+      properties:
+        map:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
