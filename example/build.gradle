@@ -51,7 +51,7 @@ dependencies {
     commonTestImplementation sampleLibs.hibernate6.validator
     commonTestImplementation sampleLibs.glassfish.javax.el3
     commonTestImplementation testLibs.reflections
-    commonTestImplementation testFixtures(project(":java-snapshot"))
+    commonTestImplementation testLibs.javaSnapshot
 }
 
 def specifications =
@@ -611,6 +611,9 @@ testing {
                 java {
                     srcDirs = ['src/test/java']
                 }
+                resources {
+                    srcDirs = ['src/test/resources']
+                }
             }
 
             dependencies {
@@ -630,6 +633,9 @@ testing {
             sources {
                 java {
                     srcDirs = ['src/test/java']
+                }
+                resources {
+                    srcDirs = ['src/test/resources']
                 }
             }
 
