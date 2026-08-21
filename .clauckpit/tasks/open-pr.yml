@@ -1,0 +1,3 @@
+id: pr
+type: claude
+prompt_file: .clauckpit/prompts/open-pr.md

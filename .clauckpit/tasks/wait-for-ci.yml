@@ -1,0 +1,3 @@
+id: wait
+type: bash
+run_file: .clauckpit/scripts/wait-for-ci.sh

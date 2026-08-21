@@ -1,26 +1,26 @@
 version: 1
-name: Simple bug
-description: fix a simple bug → test → review → push → wait for CI → open PR
+name: Simple task
+description: implement a simple task → test → review → push → wait for CI → open PR
 
 defaults:
   permission_mode: auto
   model: opus
 
 stages:
-  - id: fix
-    title: Fix the bug
-    prompt_header_file: .clauckpit/prompts/fix-header.md
-    prompt_header_revision_file: .clauckpit/prompts/fix-header-revision.md
+  - id: implement
+    title: Implement the task
+    prompt_header_file: .clauckpit/prompts/implement-header.md
+    prompt_header_revision_file: .clauckpit/prompts/implement-header-revision.md
     tasks:
-      - id: fix
+      - id: implement
         type: claude
-        prompt_file: .clauckpit/prompts/fix.md
+        prompt_file: .clauckpit/prompts/implement.md
         permission_mode: acceptEdits
 
   - id: test
     title: Tests
     parallel: true
-    on_fail: { goto: fix, max: 3 }
+    on_fail: { goto: implement, max: 3 }
     tasks:
       - use: .clauckpit/tasks/test-plugin.yml
       - use: .clauckpit/tasks/test-example.yml
@@ -29,13 +29,13 @@ stages:
       - use: .clauckpit/tasks/test-springboot.yml
 
   - id: review
-    title: Review the fix
-    on_fail: { goto: fix, max: 3 }
+    title: Review the task
+    on_fail: { goto: implement, max: 3 }
     prompt_footer_file: .clauckpit/prompts/review-footer.md
     tasks:
-      - id: bugfix
+      - id: task
         type: claude
-        prompt_file: .clauckpit/prompts/review-bugfix.md
+        prompt_file: .clauckpit/prompts/review-task.md
 
   - id: push
     title: Push branch
@@ -44,7 +44,7 @@ stages:
 
   - id: ci
     title: Wait for GitHub CI
-    on_fail: { goto: fix, max: 2 }
+    on_fail: { goto: implement, max: 2 }
     tasks:
       - use: .clauckpit/tasks/wait-for-ci.yml
 

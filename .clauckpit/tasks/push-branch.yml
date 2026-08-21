@@ -1,0 +1,3 @@
+id: push
+type: bash
+run_file: .clauckpit/scripts/push-branch.sh

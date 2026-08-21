@@ -1,0 +1,3 @@
+id: springboot
+type: bash
+run: ./gradlew -p example-build :springboot2-example:integrationTest :springboot3-example:integrationTest :springboot4-example:integrationTest
