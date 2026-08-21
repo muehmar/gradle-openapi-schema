@@ -1,0 +1,57 @@
+version: 1
+name: Simple bug
+description: fix a simple bug → test → review → push → wait for CI → open PR
+
+defaults:
+  permission_mode: auto
+  model: opus
+
+stages:
+  - id: fix
+    title: Fix the bug
+    prompt_header_file: .clauckpit/prompts/fix-header.md
+    prompt_header_revision_file: .clauckpit/prompts/fix-header-revision.md
+    tasks:
+      - id: fix
+        type: claude
+        prompt_file: .clauckpit/prompts/fix.md
+        permission_mode: acceptEdits
+
+  - id: test
+    title: Tests
+    parallel: true
+    on_fail: { goto: fix, max: 3 }
+    tasks:
+      - { id: plugin, type: bash, run: ./gradlew -p plugin-build :plugin:build }
+      - { id: example, type: bash, run: ./gradlew -p example-build :example:test }
+      - { id: example-jackson2, type: bash, run: ./gradlew -p example-build :example:jackson208Test :example:jackson219Test }
+      - { id: example-jakarta-3, type: bash, run: ./gradlew -p example-build :example-jakarta-3:test }
+      - { id: springboot, type: bash, run: ./gradlew -p example-build :springboot2-example:integrationTest :springboot3-example:integrationTest :springboot4-example:integrationTest }
+
+  - id: review
+    title: Review the fix
+    on_fail: { goto: fix, max: 3 }
+    prompt_footer_file: .clauckpit/prompts/review-footer.md
+    tasks:
+      - id: bugfix
+        type: claude
+        prompt_file: .clauckpit/prompts/review-bugfix.md
+
+  - id: push
+    title: Push branch
+    tasks:
+      - { id: push, type: bash, run_file: .clauckpit/scripts/push-branch.sh }
+
+  - id: ci
+    title: Wait for GitHub CI
+    on_fail: { goto: fix, max: 2 }
+    tasks:
+      - { id: wait, type: bash, run_file: .clauckpit/scripts/wait-for-ci.sh }
+
+  - id: pr
+    title: Open pull request
+    approval: manual
+    tasks:
+      - id: pr
+        type: claude
+        prompt_file: .clauckpit/prompts/open-pr.md
