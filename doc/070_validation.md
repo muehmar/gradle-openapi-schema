@@ -55,12 +55,12 @@ no additional properties are allowed via `additionalProperties = false`). This m
 considered as valid but it will result in an invalid object as the required properties of two schemas are present.
 
 ### Examples
-* [OpenAPI spec](../example/src/main/resources/openapi-validation.yml)
-* [Directory with Tests](../example/src/test/java/com/github/muehmar/gradle/openapi/validation)
+* [OpenAPI spec](../example-build/example/src/main/resources/openapi-validation.yml)
+* [Directory with Tests](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/validation)
 
 Samples with Tests for compositions can be found here:
-* [OneOf Validation](../example/src/test/java/com/github/muehmar/gradle/openapi/oneof/ValidationTest.java)
-* [AnyOf Validation](../example/src/test/java/com/github/muehmar/gradle/openapi/anyof/ValidationTest.java)
+* [OneOf Validation](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/oneof/ValidationTest.java)
+* [AnyOf Validation](../example-build/example/src/test/java/com/github/muehmar/gradle/openapi/anyof/ValidationTest.java)
 
 ## Keywords `readOnly` and `writeOnly`
 These keywords for properties are supported. If used, three different DTO's for the same schema are generated:

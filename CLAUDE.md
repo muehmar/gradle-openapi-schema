@@ -153,8 +153,9 @@ DSL (openApiGenerator{schemas{...}})
    a Java view (`generator/java/model/`), applying configured type mappings.
    `JavaPojoGenerator` dispatches to `ObjectPojoGenerator` / `EnumGenerator` /
    `ArrayPojoGenerator`, each composed from many small sub-generators under
-   `generator/java/generator/pojo/**` and cross-cutting `generator/shared/**`
-   (jackson, validation, builders, getters, wither, etc.).
+   `generator/java/generator/pojo/**` and cross-cutting
+   `generator/java/generator/shared/**` (jackson, validation, builders, getters,
+   wither, etc.).
 
 5. **Writing** — generators return `writer/GeneratedFile(Path, content)`, written by
    `writer/BaseDirFileWriter`.
