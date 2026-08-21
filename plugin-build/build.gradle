@@ -1,0 +1,9 @@
+// The version lives in the root build's gradle.properties, which the release
+// plugin owns. Read it here so this build carries the same version whether it
+// is run standalone or as part of the composite.
+def rootProperties = new Properties()
+file("${rootDir}/../gradle.properties").withInputStream { rootProperties.load(it) }
+
+allprojects {
+    version = rootProperties.getProperty('version')
+}

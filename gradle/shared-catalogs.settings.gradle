@@ -1,0 +1,99 @@
+// Version catalogs shared by every build in this composite (root,
+// plugin-build, example-build). Applied from each settings.gradle.
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            // Plugin dependencies
+            version('swaggerParser', '2.1.19')
+            library('swaggerParser', 'io.swagger.parser.v3', 'swagger-parser-v3').versionRef('swaggerParser')
+
+            version('pojo-builder', '2.0.0')
+            library('pojoBuilder-annotations', 'io.github.muehmar', 'pojo-builder-annotations').versionRef('pojo-builder')
+            library('pojoBuilder', 'io.github.muehmar', 'pojo-builder').versionRef('pojo-builder')
+
+            version('code-generator', '0.24.0')
+            library('codeGenerator', 'io.github.muehmar', 'code-generator').versionRef('code-generator')
+
+            version('lombok', '1.18.42')
+            library('lombok', 'org.projectlombok', 'lombok').versionRef('lombok')
+
+        }
+
+        sampleLibs {
+            version('hibernate8', '8.0.1.Final')
+            library('hibernate8-validator', 'org.hibernate', 'hibernate-validator').versionRef('hibernate8')
+
+            version('hibernate6', '6.2.0.Final')
+            library('hibernate6-validator', 'org.hibernate', 'hibernate-validator').versionRef('hibernate6')
+
+            version('glassfishJakartaEl4', '4.0.2')
+            library('glassfish-jakarta-el4', 'org.glassfish', 'jakarta.el').versionRef('glassfishJakartaEl4')
+
+            version('glassfishJavaxEl3', '3.0.0')
+            library('glassfish-javax-el3', 'org.glassfish', 'javax.el').versionRef('glassfishJavaxEl3')
+
+            version('jakarta3Validation', '3.1.1')
+            library('jakarta3-validation-api', 'jakarta.validation', 'jakarta.validation-api').versionRef('jakarta3Validation')
+
+            version('javax2Validation', '2.0.1.Final')
+            library('javax2-validation-api', 'javax.validation', 'validation-api').versionRef('javax2Validation')
+
+            version('swaggerAnnotations', '2.2.39')
+            library('swagger-annotations', 'io.swagger.core.v3', 'swagger-annotations').versionRef('swaggerAnnotations')
+
+            version('jackson-v219', '2.19.2')
+            library('jackson-v219-core', 'com.fasterxml.jackson.core', 'jackson-core').versionRef('jackson-v219')
+            library('jackson-v219-databind', 'com.fasterxml.jackson.core', 'jackson-databind').versionRef('jackson-v219')
+            library('jackson-v219-annotations', 'com.fasterxml.jackson.core', 'jackson-annotations').versionRef('jackson-v219')
+            library('jackson-v219-datatype', 'com.fasterxml.jackson.datatype', 'jackson-datatype-jsr310').versionRef('jackson-v219')
+            library('jackson-v219-dataformat-xml', 'com.fasterxml.jackson.dataformat', 'jackson-dataformat-xml').versionRef('jackson-v219')
+            bundle('jackson-v219', ['jackson-v219-core', 'jackson-v219-databind', 'jackson-v219-annotations', 'jackson-v219-datatype', 'jackson-v219-dataformat-xml'])
+
+            version('jackson-latest', '3.0.3')
+            version('jackson-latest-annotations', '2.20')
+            library('jackson-latest-core', 'tools.jackson.core', 'jackson-core').versionRef('jackson-latest')
+            library('jackson-latest-databind', 'tools.jackson.core', 'jackson-databind').versionRef('jackson-latest')
+            library('jackson-latest-annotations', 'com.fasterxml.jackson.core', 'jackson-annotations').versionRef('jackson-latest-annotations')
+            library('jackson-latest-dataformat-xml', 'tools.jackson.dataformat', 'jackson-dataformat-xml').versionRef('jackson-latest')
+            bundle('jackson-latest', ['jackson-latest-core', 'jackson-latest-databind', 'jackson-latest-annotations', 'jackson-latest-dataformat-xml'])
+
+            version('jackson-v208', '2.8.11')
+            library('jackson-v208-core', 'com.fasterxml.jackson.core', 'jackson-core').versionRef('jackson-v208')
+            library('jackson-v208-databind', 'com.fasterxml.jackson.core', 'jackson-databind').versionRef('jackson-v208')
+            library('jackson-v208-annotations', 'com.fasterxml.jackson.core', 'jackson-annotations').versionRef('jackson-v208')
+            library('jackson-v208-datatype', 'com.fasterxml.jackson.datatype', 'jackson-datatype-jsr310').versionRef('jackson-v208')
+            library('jackson-v208-dataformat-xml', 'com.fasterxml.jackson.dataformat', 'jackson-dataformat-xml').versionRef('jackson-v208')
+            bundle('jackson-v208', ['jackson-v208-core', 'jackson-v208-databind', 'jackson-v208-annotations', 'jackson-v208-datatype', 'jackson-v208-dataformat-xml'])
+
+        }
+
+        testLibs {
+            version('mockito', '5.2.0')
+            library('mockito-core', 'org.mockito', 'mockito-core').versionRef('mockito')
+            library('mockito-junit-jupiter', 'org.mockito', 'mockito-junit-jupiter').versionRef('mockito')
+            library('mockito-inline', 'org.mockito', 'mockito-inline').versionRef('mockito')
+            bundle('mockito', ['mockito-core', 'mockito-junit-jupiter', 'mockito-inline'])
+
+            version('javaSnapshot', '4.0.8')
+            library('javaSnapshot', 'io.github.origin-energy', 'java-snapshot-testing-junit5').versionRef('javaSnapshot')
+
+            version('junit', '5.10.1')
+            library('junit', 'org.junit.jupiter', 'junit-jupiter').versionRef('junit')
+            library('junit-api', 'org.junit.jupiter', 'junit-jupiter-api').versionRef('junit')
+            library('junit-params', 'org.junit.jupiter', 'junit-jupiter-params').versionRef('junit')
+            bundle('junit', ['junit', 'junit-api', 'junit-params'])
+
+            version('reflections', '0.10.2')
+            library('reflections', 'org.reflections', 'reflections').versionRef('reflections')
+        }
+
+        pluginLibs {
+            plugin('openapiGenerator', 'org.openapi.generator').version('6.6.0')
+            plugin('springboot2', 'org.springframework.boot').version('2.7.9')
+            plugin('springboot3', 'org.springframework.boot').version('3.3.13')
+            plugin('springboot4', 'org.springframework.boot').version('4.0.1')
+            plugin('springDependencyManagement', 'io.spring.dependency-management').version('1.1.7')
+            plugin('integrationTest', 'com.coditory.integration-test').version('1.4.5')
+        }
+    }
+}

@@ -1,0 +1,15 @@
+// The version lives in the root build's gradle.properties, which the release
+// plugin owns. Read it here so this build carries the same version whether it
+// is run standalone or as part of the composite.
+def rootProperties = new Properties()
+file("${rootDir}/../gradle.properties").withInputStream { rootProperties.load(it) }
+
+allprojects {
+    version = rootProperties.getProperty('version')
+
+    // Generated package names are derived from `project.group` (see the
+    // `packageName` settings below). Gradle would otherwise default it to the
+    // parent project's name, which changed when these projects moved into their
+    // own build, so pin it explicitly.
+    group = 'openapischema'
+}

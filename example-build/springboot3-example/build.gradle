@@ -1,7 +1,6 @@
 plugins {
-    alias(pluginLibs.plugins.openApiSchema)
+    id 'com.github.muehmar.openapischema'
     alias(pluginLibs.plugins.openapiGenerator)
-    id "com.diffplug.spotless"
     id 'openapischema.java17'
     id 'idea'
 

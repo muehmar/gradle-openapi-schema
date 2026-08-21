@@ -14,11 +14,18 @@ object-level constraints.
 
 Build via the Gradle wrapper (`./gradlew`). Requires JDK 17.
 
-- **Build the plugin:** `./gradlew :plugin:build`
-- **Plugin unit/snapshot tests:** `./gradlew :plugin:test`
-- **A single test class:** `./gradlew :plugin:test --tests "*ObjectPojoGeneratorTest"`
+This repository is a Gradle **composite build**: the root build owns no projects
+and aggregates three included builds — `build-logic` (convention plugins),
+`plugin-build` (`plugin`, `java-snapshot`) and `example-build` (the example
+projects and the `mapper` test helpers). Task paths are therefore prefixed with
+`-p plugin-build` or `-p example-build`; `./gradlew build` at the root still
+builds everything.
+
+- **Build the plugin:** `./gradlew -p plugin-build :plugin:build`
+- **Plugin unit/snapshot tests:** `./gradlew -p plugin-build :plugin:test`
+- **A single test class:** `./gradlew -p plugin-build :plugin:test --tests "*ObjectPojoGeneratorTest"`
 - **Update snapshots** after an intended generator-output change:
-  `./gradlew :plugin:test -PupdateSnapshot=<ClassName>` (or `-PupdateSnapshot=all`).
+  `./gradlew -p plugin-build :plugin:test -PupdateSnapshot=<ClassName>` (or `-PupdateSnapshot=all`).
   Prefer this over hand-editing `*.snap` files, though hand-editing works for a
   known one-line change.
 - **Formatting:** Spotless with `googleJavaFormat`. `spotlessApply` runs
@@ -27,76 +34,77 @@ Build via the Gradle wrapper (`./gradlew`). Requires JDK 17.
 
 The example/consumer modules mirror CI (see `.github/workflows/gradle.yml`):
 
-- `./gradlew :example:test` — end-to-end tests (Jackson 3)
-- `./gradlew :example:jackson208Test` / `:example:jackson219Test` — same test
-  sources against pinned Jackson 2.x versions
-- `./gradlew :example-jakarta-3:test`
-- `./gradlew :springboot{2,3,4}-example:integrationTest`
+- `./gradlew -p example-build :example:test` — end-to-end tests (Jackson 3)
+- `./gradlew -p example-build :example:jackson208Test` / `:example:jackson219Test` —
+  same test sources against pinned Jackson 2.x versions
+- `./gradlew -p example-build :example-jakarta-3:test`
+- `./gradlew -p example-build :springboot{2,3,4}-example:integrationTest`
 
 ## Testing
 
 Testing has two layers with different purposes:
 
-- **Plugin tests (`plugin/src/test`)** — fast, run against local source, and are the
+- **Plugin tests (`plugin-build/plugin/src/test`)** — fast, run against local source, and are the
   primary way to verify generator changes. Most are **snapshot tests**: a generator
   is invoked against a hand-built model and its rendered output is compared to a
   committed `*.snap` file under a sibling `__snapshots__/` directory
   (java-snapshot-testing). Marked with the shared `@SnapshotTest` fixture (defined in
-  the `java-snapshot` module) and asserted via `expect.toMatchSnapshot(...)`. When a
+  the `java-snapshot` module in `plugin-build`) and asserted via `expect.toMatchSnapshot(...)`. When a
   change intentionally alters generated output, regenerate with
   `-PupdateSnapshot=<ClassName>` and review the `*.snap` diff as part of the change —
   the snapshot *is* the assertion. Test models are built with helpers like
   `TestJavaPojoMembers`, `JavaPojos`, and `TestPojoSettings`.
-- **Example/consumer tests (`example/`, `example-jakarta-3/`, `springboot*-example/`)**
+- **Example/consumer tests (all under `example-build/`: `example/`,
+  `example-jakarta-3/`, `springboot*-example/`)**
   — end-to-end: they apply the plugin, generate code from real OpenAPI specs, and
   then compile and exercise it. This is the only layer that catches
-  compilation/runtime problems in the generated code. Note it runs against the
-  **released** plugin, not local source (see the trap below). The same example test
+  compilation/runtime problems in the generated code. It runs against the plugin
+  built from local source (see below). The same example test
   sources run across multiple Jackson versions via `jvm-test-suite` (`test` =
   Jackson 3, `jackson208Test`, `jackson219Test`), so tests must stay
   Jackson-generation-agnostic (use `MapperFactory.jsonMapper()` and
   `ValidationUtil.validate(...)`).
 
 A bug fix typically touches both layers: update/extend the relevant snapshot
-test(s) in `plugin/`, and add an example issue-reproduction test (below) that proves
-the generated code behaves correctly at runtime.
+test(s) in `plugin-build/plugin/`, and add an example issue-reproduction test
+(below) that proves the generated code behaves correctly at runtime.
 
 ### Running example tests against local plugin changes
 
-**Trap:** the example modules apply the **released** plugin (version pinned in
-`settings.gradle` under `pluginLibs`; `pluginManagement.repositories` lists only
-`gradlePluginPortal()`), so `:example:test` ignores local `plugin/` edits. To test a
-fix end-to-end:
+The example modules build the plugin **from source**: `example-build/settings.gradle`
+declares `includeBuild('../plugin-build')` inside `pluginManagement`, so Gradle
+substitutes the local `plugin` project for the `com.github.muehmar.openapischema`
+plugin marker. Editing `plugin-build/plugin/` and running an example test picks the
+change up directly — no publishing step and no version bump:
 
-1. `./gradlew :plugin:publishToMavenLocal` — publishes the `-SNAPSHOT` from `gradle.properties`.
-2. In `settings.gradle` **(temporary)**: add `mavenLocal()` to
-   `pluginManagement.repositories` (before `gradlePluginPortal()`) and set the
-   `openApiSchema` alias to that `-SNAPSHOT` version.
-3. `./gradlew :example:clean :example:test --tests "*IssueNNNTest"` — `clean` is
-   required (generated sources are cached).
-4. `git checkout settings.gradle` to revert step 2.
+```
+./gradlew -p example-build :example:test --tests "*IssueNNNTest"
+```
+
+This is what makes it possible to add a spec, its tests and the plugin fix in the
+same commit.
 
 ## Adding an issue-reproduction test
 
 The repo convention is to first commit a **failing** test that asserts the desired
 behavior, then fix the plugin.
 
-- Spec: `example/src/main/resources/issues/openapi-issue-NNN.yml` — a **single**
+- Spec: `example-build/example/src/main/resources/issues/openapi-issue-NNN.yml` — a **single**
   spec per issue; cover variants with additional schemas in that spec rather than
   a second spec file.
-- Register `'NNN'` in the `issueNumbers` list in `example/build.gradle`; DTOs are
+- Register `'NNN'` in the `issueNumbers` list in `example-build/example/build.gradle`; DTOs are
   generated into package `com.github.muehmar.gradle.openapi.issues.issueNNN` for
   the Jackson 2 and 3 suites and the noJson/noValidation source sets.
 - Per-schema config overrides go in a **single** `"${jacksonMajorVersion}IssueNNN { }"`
   block inside the loop (mappings, warnings, etc.), but those do **not** reach the
   noJson/noValidation variants — if a spec needs an override there, wire it manually
   outside `issueNumbers`. Custom classes used as mapping targets live in
-  `example/src/main/java/.../issues/issueNNN/` and may reference generated DTOs of
+  `example-build/example/src/main/java/.../issues/issueNNN/` and may reference generated DTOs of
   the same package.
 - The example project sets `failOnWarnings = true` (incl. `UNSUPPORTED_VALIDATION`
   and `MISSING_MAPPING_CONVERSION`): any mapping needs a conversion, and
   unsupported-validation specs will fail generation.
-- Tests: `example/src/test/java/.../issues/issueNNN/IssueNNNTest.java`; an issue
+- Tests: `example-build/example/src/test/java/.../issues/issueNNN/IssueNNNTest.java`; an issue
   covering several aspects may split them into multiple `IssueNNN<Aspect>Test`
   classes in the same `issueNNN` package. Use `ValidationUtil.validate(...)` for
   bean-validation assertions and `MapperFactory.jsonMapper()`
@@ -105,7 +113,7 @@ behavior, then fix the plugin.
 ## Architecture
 
 All plugin paths below are relative to
-`plugin/src/main/java/com/github/muehmar/gradle/openapi/`.
+`plugin-build/plugin/src/main/java/com/github/muehmar/gradle/openapi/`.
 
 The pipeline turns an OpenAPI spec into `.java` files in five stages:
 
@@ -177,7 +185,7 @@ uniqueItems constraint.
   `Generator`/`MethodGen` that plugs into an existing `append`-chain, and gate it
   with `.filter(...)` rather than conditionals scattered in the caller.
 - **Snapshots are the contract for generated output.** Any change to rendered code
-  will shift one or more `*.snap` files; search `plugin/src/test` for the old
+  will shift one or more `*.snap` files; search `plugin-build/plugin/src/test` for the old
   rendered fragment (not just the obviously-named test) and regenerate all matches.
 
 ## Changelog

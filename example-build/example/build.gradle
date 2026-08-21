@@ -1,6 +1,5 @@
 plugins {
-    alias(pluginLibs.plugins.openApiSchema)
-    id "com.diffplug.spotless"
+    id 'com.github.muehmar.openapischema'
     id 'openapischema.java17'
     id 'java-test-fixtures'
     id 'jvm-test-suite'

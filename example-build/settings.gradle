@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+
+    includeBuild('../build-logic')
+
+    // Build the plugin from source instead of resolving a released version from
+    // the plugin portal, so a spec and its tests can be added in the same
+    // commit as the plugin change they exercise.
+    includeBuild('../plugin-build')
+}
+
+rootProject.name = 'example-build'
+
+include 'mapper:api'
+include 'mapper:jackson2'
+include 'mapper:jackson3'
+include 'example'
+include 'example-jakarta-3'
+include 'springboot2-example'
+include 'springboot3-example'
+include 'springboot4-example'
+
+apply from: '../gradle/shared-catalogs.settings.gradle'

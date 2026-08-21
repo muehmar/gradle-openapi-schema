@@ -1,0 +1,14 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+
+    includeBuild('../build-logic')
+}
+
+rootProject.name = 'plugin-build'
+
+include 'plugin'
+include 'java-snapshot'
+
+apply from: '../gradle/shared-catalogs.settings.gradle'
