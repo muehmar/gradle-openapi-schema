@@ -11,15 +11,14 @@ public Optional<Object> getAdditionalProperty(String key) {
 ]
 
 
-notNullableListType=[
-java.util.List
+notNullableContainerValuePojoType=[
 java.util.Optional
 
 /**
  * Returns the additional property with {@code key} wrapped in an {@link Optional}
  * if present, {@link Optional#empty()} otherwise
  */
-public Optional<List<String>> getAdditionalProperty(String key) {
+public Optional<UserPropertyDto> getAdditionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key))
       .flatMap(this::castAdditionalProperty);
 }
@@ -76,16 +75,15 @@ public Tristate<Object> getAdditionalProperty(String key) {
 ]
 
 
-nullableListType=[
+nullableContainerValuePojoType=[
 com.github.muehmar.openapi.util.Tristate
-java.util.List
 
 /**
  * Returns the additional property with {@code key} where the {@link Tristate}
  * class represents the possible three states of the property: present and
  * non-null, present and null, absent.
  */
-public Tristate<List<String>> getAdditionalProperty(String key) {
+public Tristate<UserPropertyDto> getAdditionalProperty(String key) {
   if (additionalProperties.containsKey(key)) {
     return castAdditionalProperty(additionalProperties.get(key));
   } else {

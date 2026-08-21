@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.type.InlinableType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
@@ -37,16 +38,16 @@ public class PojoMember {
   }
 
   public PojoMember replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType) {
     final PojoMember mappedMember =
         type.asObjectType()
             .filter(objType -> objType.getName().equals(objectTypeName))
-            .map(ignore -> withDescription(newObjectTypeDescription).withType(newObjectType))
+            .map(ignore -> withDescription(newObjectTypeDescription).withType(newType))
             .orElse(this);
     return mappedMember.withType(
         mappedMember
             .getType()
-            .replaceObjectType(objectTypeName, newObjectTypeDescription, newObjectType));
+            .replaceObjectType(objectTypeName, newObjectTypeDescription, newType));
   }
 
   public PojoMember applyMapping(PojoNameMapping pojoNameMapping) {

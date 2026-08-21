@@ -14,6 +14,7 @@ import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.type.InlinableType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Optional;
@@ -44,28 +45,24 @@ public class ObjectPojo implements Pojo {
 
   @Override
   public ObjectPojo replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType) {
     final PList<PojoMember> mappedMembers =
         members.map(
-            member ->
-                member.replaceObjectType(objectTypeName, newObjectTypeDescription, newObjectType));
+            member -> member.replaceObjectType(objectTypeName, newObjectTypeDescription, newType));
     final Optional<AllOfComposition> mappedAllOfComposition =
         allOfComposition.map(
             composition ->
-                composition.replaceObjectType(
-                    objectTypeName, newObjectTypeDescription, newObjectType));
+                composition.replaceObjectType(objectTypeName, newObjectTypeDescription, newType));
     final Optional<OneOfComposition> mappedOneOfComposition =
         oneOfComposition.map(
             composition ->
-                composition.replaceObjectType(
-                    objectTypeName, newObjectTypeDescription, newObjectType));
+                composition.replaceObjectType(objectTypeName, newObjectTypeDescription, newType));
     final Optional<AnyOfComposition> mappedAnyOfComposition =
         anyOfComposition.map(
             composition ->
-                composition.replaceObjectType(
-                    objectTypeName, newObjectTypeDescription, newObjectType));
+                composition.replaceObjectType(objectTypeName, newObjectTypeDescription, newType));
     final AdditionalProperties mappedAdditionalProperties =
-        additionalProperties.replaceObjectType(objectTypeName, newObjectType);
+        additionalProperties.replaceObjectType(objectTypeName, newType);
     return fullObjectPojoBuilder()
         .name(name)
         .description(description)

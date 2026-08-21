@@ -3,9 +3,9 @@ package com.github.muehmar.gradle.openapi.generator.model.pojo;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.type.InlinableType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import java.util.function.Function;
 import lombok.Value;
@@ -32,7 +32,7 @@ public class EnumPojo implements Pojo {
 
   @Override
   public Pojo replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType) {
     return this;
   }
 

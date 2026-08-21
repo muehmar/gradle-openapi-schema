@@ -2,8 +2,8 @@ package com.github.muehmar.gradle.openapi.generator.model.composition;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.model.Pojo;
-import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
+import com.github.muehmar.gradle.openapi.generator.model.type.InlinableType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -26,11 +26,10 @@ public class AllOfComposition {
   }
 
   public AllOfComposition replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType) {
     final NonEmptyList<Pojo> mappedPojos =
         pojos.map(
-            pojo ->
-                pojo.replaceObjectType(objectTypeName, newObjectTypeDescription, newObjectType));
+            pojo -> pojo.replaceObjectType(objectTypeName, newObjectTypeDescription, newType));
     return new AllOfComposition(mappedPojos);
   }
 

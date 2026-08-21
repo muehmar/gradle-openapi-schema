@@ -13,7 +13,7 @@ public List<AdditionalProperty<Object>> getAdditionalProperties() {
 ]
 
 
-notNullableListType=[
+notNullableContainerValuePojoType=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.AdditionalProperty
 java.util.List
@@ -21,7 +21,7 @@ java.util.stream.Collectors
 java.util.stream.Stream
 
 @JsonIgnore
-public List<AdditionalProperty<List<String>>> getAdditionalProperties() {
+public List<AdditionalProperty<UserPropertyDto>> getAdditionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 
@@ -92,7 +92,7 @@ public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
 ]
 
 
-nullableListType=[
+nullableContainerValuePojoType=[
 com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.NullableAdditionalProperty
 java.util.List
@@ -100,7 +100,7 @@ java.util.stream.Collectors
 java.util.stream.Stream
 
 @JsonIgnore
-public List<NullableAdditionalProperty<List<String>>> getAdditionalProperties() {
+public List<NullableAdditionalProperty<UserPropertyDto>> getAdditionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 

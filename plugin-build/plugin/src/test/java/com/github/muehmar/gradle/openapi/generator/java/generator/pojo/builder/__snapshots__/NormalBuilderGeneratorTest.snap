@@ -1980,10 +1980,9 @@ public static final class Builder {
 ]
 
 
-com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGeneratorTest.generate_when_additionalPropertyTypeIsList_then_containsListInRefs=[
+com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGeneratorTest.generate_when_additionalPropertyTypeIsContainerValuePojo_then_containsPojoInRefs=[
 com.fasterxml.jackson.annotation.JsonAnySetter
 java.util.HashMap
-java.util.List
 java.util.Map
 java.util.Optional
 tools.jackson.databind.annotation.JsonPOJOBuilder
@@ -1997,17 +1996,17 @@ public static final class Builder {
   private Map<String, Object> additionalProperties = new HashMap<>();
 
   @JsonAnySetter
-  public Builder addAdditionalProperty(String key, List<String> value) {
+  public Builder addAdditionalProperty(String key, UserPropertyDto value) {
     this.additionalProperties.put(key, value);
     return this;
   }
 
-  public Builder addAdditionalProperty(String key, Optional<List<String>> value) {
+  public Builder addAdditionalProperty(String key, Optional<UserPropertyDto> value) {
     value.ifPresent(val -> this.additionalProperties.put(key, val));
     return this;
   }
 
-  public Builder setAdditionalProperties(Map<String, List<String>> additionalProperties) {
+  public Builder setAdditionalProperties(Map<String, UserPropertyDto> additionalProperties) {
     this.additionalProperties = new HashMap<>(additionalProperties);
     return this;
   }

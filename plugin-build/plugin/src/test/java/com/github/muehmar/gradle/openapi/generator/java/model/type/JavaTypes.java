@@ -40,11 +40,6 @@ public class JavaTypes {
         TypeMappings.empty());
   }
 
-  public static JavaArrayType stringListType() {
-    return JavaArrayType.wrap(
-        ArrayType.ofItemType(StringType.noFormat(), NOT_NULLABLE), TypeMappings.empty());
-  }
-
   public static JavaArrayType nullableStringListType() {
     return JavaArrayType.wrap(
         ArrayType.ofItemType(StringType.noFormat(), NULLABLE), TypeMappings.empty());
@@ -79,6 +74,16 @@ public class JavaTypes {
     return JavaObjectType.wrap(
         StandardObjectType.ofName(PojoName.ofName(Name.ofString("UserDto")))
             .withNullability(NULLABLE),
+        TypeMappings.empty());
+  }
+
+  /**
+   * The type referencing the dedicated pojo which is created for a container as additional-property
+   * value type, i.e. the type such a value type is actually mapped to.
+   */
+  public static JavaObjectType containerValuePojoType() {
+    return JavaObjectType.wrap(
+        StandardObjectType.ofName(PojoName.ofName(Name.ofString("UserPropertyDto"))),
         TypeMappings.empty());
   }
 

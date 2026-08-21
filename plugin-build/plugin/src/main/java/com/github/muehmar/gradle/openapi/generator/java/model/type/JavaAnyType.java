@@ -38,7 +38,7 @@ public class JavaAnyType extends NonGenericJavaType {
   }
 
   @Override
-  public JavaType withNullability(Nullability nullability) {
+  public JavaAnyType withNullability(Nullability nullability) {
     return new JavaAnyType(nullability);
   }
 

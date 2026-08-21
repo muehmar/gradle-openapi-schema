@@ -87,7 +87,7 @@ public class JavaEnumType extends NonGenericJavaType {
         TypeLevel.INLINE);
   }
 
-  public static JavaType wrap(EnumType enumType, TypeMappings typeMappings) {
+  public static NonGenericJavaType wrap(EnumType enumType, TypeMappings typeMappings) {
     final QualifiedClassName enumClassName = QualifiedClassName.ofName(enumType.getName());
     final Optional<PluginApiType> pluginApiType =
         Optional.of(PluginApiType.useEnumAsApiType(enumClassName));
@@ -125,7 +125,7 @@ public class JavaEnumType extends NonGenericJavaType {
    * the member-value pattern constraint nor a nested enum class apply to the replacing custom type,
    * even if the enum is mapped to a {@code String} as well.
    */
-  private static JavaType fromResolvedTypeMapping(
+  private static NonGenericJavaType fromResolvedTypeMapping(
       QualifiedClassName enumClassName,
       PList<String> memberValues,
       Nullability nullability,
@@ -159,7 +159,7 @@ public class JavaEnumType extends NonGenericJavaType {
    * {@link TypeLevel#TOP_LEVEL}) and a configured {@code dtoMapping} (keyed by the enum's class
    * name) may redirect it to a custom type.
    */
-  public static JavaType wrapAsObjectType(
+  public static NonGenericJavaType wrapAsObjectType(
       EnumObjectType enumObjectType, TypeMappings typeMappings) {
     final QualifiedClassName enumClassName =
         QualifiedClassName.ofPojoName(enumObjectType.getName());
@@ -225,7 +225,7 @@ public class JavaEnumType extends NonGenericJavaType {
   }
 
   @Override
-  public JavaType withNullability(Nullability nullability) {
+  public JavaEnumType withNullability(Nullability nullability) {
     return new JavaEnumType(
         className, apiType, enumClassName, members, nullability, constraints, level);
   }

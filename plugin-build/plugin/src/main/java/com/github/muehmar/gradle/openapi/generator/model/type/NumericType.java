@@ -13,7 +13,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class NumericType implements Type {
+public class NumericType implements AdditionalPropertiesValueType, InlinableType {
 
   private final Format format;
   private final Nullability nullability;
@@ -56,13 +56,13 @@ public class NumericType implements Type {
   }
 
   @Override
-  public Type makeNullable() {
+  public NumericType makeNullable() {
     return new NumericType(format, Nullability.NULLABLE, constraints);
   }
 
   @Override
   public Type replaceObjectType(
-      PojoName objectTypeName, String newObjectTypeDescription, Type newObjectType) {
+      PojoName objectTypeName, String newObjectTypeDescription, InlinableType newType) {
     return this;
   }
 
@@ -102,5 +102,29 @@ public class NumericType implements Type {
     public static Optional<Format> parseString(String value) {
       return PList.fromArray(values()).find(f -> f.value.equals(value));
     }
+  }
+
+  @Override
+  public <T> T foldInlinableType(
+      Function<NumericType, T> onNumericType,
+      Function<IntegerType, T> onIntegerType,
+      Function<StringType, T> onStringType,
+      Function<BooleanType, T> onBooleanType,
+      Function<ObjectType, T> onObjectType,
+      Function<EnumType, T> onEnumType,
+      Function<AnyType, T> onAnyType) {
+    return onNumericType.apply(this);
+  }
+
+  @Override
+  public <T> T foldAdditionalPropertiesValueType(
+      Function<NumericType, T> onNumericType,
+      Function<IntegerType, T> onIntegerType,
+      Function<StringType, T> onStringType,
+      Function<BooleanType, T> onBooleanType,
+      Function<ObjectType, T> onObjectType,
+      Function<EnumType, T> onEnumType,
+      Function<AnyType, T> onAnyType) {
+    return onNumericType.apply(this);
   }
 }

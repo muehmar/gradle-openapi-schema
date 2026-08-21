@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.mapper;
 import com.github.muehmar.gradle.openapi.generator.model.PojoSchema;
 import com.github.muehmar.gradle.openapi.generator.model.Type;
 import com.github.muehmar.gradle.openapi.generator.model.specification.OpenApiSpec;
+import com.github.muehmar.gradle.openapi.generator.model.type.AdditionalPropertiesValueType;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 import lombok.EqualsAndHashCode;
@@ -38,6 +39,21 @@ public class MemberSchemaMapResult {
 
   public MemberSchemaMapResult mapType(UnaryOperator<Type> mapType) {
     return new MemberSchemaMapResult(mapType.apply(type), unmappedItems);
+  }
+
+  /**
+   * Returns the {@link Type} as {@link AdditionalPropertiesValueType}. Only supported for a result
+   * of mapping the additional-properties schema, where a container type has been replaced by a
+   * dedicated pojo (see {@code AdditionalPropertiesSchema#mapAdditionalPropertiesSchema}).
+   */
+  public AdditionalPropertiesValueType getAdditionalPropertiesValueType() {
+    if (type instanceof AdditionalPropertiesValueType) {
+      return (AdditionalPropertiesValueType) type;
+    }
+    throw new IllegalStateException(
+        String.format(
+            "The type '%s' is not supported as additional-property value type. A container value type must have been replaced by a dedicated pojo before.",
+            type));
   }
 
   public MemberSchemaMapResult addOpenApiSpec(Optional<OpenApiSpec> spec) {
