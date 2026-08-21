@@ -1,0 +1,3 @@
+id: example
+type: bash
+run: ./gradlew -p example-build :example:test

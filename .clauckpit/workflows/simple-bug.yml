@@ -1,0 +1,55 @@
+version: 1
+name: Simple bug
+description: fix a simple bug → test → review → push → wait for CI → open PR
+
+defaults:
+  permission_mode: auto
+  model: opus
+
+stages:
+  - id: fix
+    title: Fix the bug
+    prompt_header_file: .clauckpit/prompts/fix-header.md
+    prompt_header_revision_file: .clauckpit/prompts/fix-header-revision.md
+    tasks:
+      - id: fix
+        type: claude
+        prompt_file: .clauckpit/prompts/fix.md
+        permission_mode: acceptEdits
+
+  - id: test
+    title: Tests
+    parallel: true
+    on_fail: { goto: fix, max: 3 }
+    tasks:
+      - use: .clauckpit/tasks/test-plugin.yml
+      - use: .clauckpit/tasks/test-example.yml
+      - use: .clauckpit/tasks/test-example-jackson2.yml
+      - use: .clauckpit/tasks/test-example-jakarta-3.yml
+      - use: .clauckpit/tasks/test-springboot.yml
+
+  - id: review
+    title: Review the fix
+    on_fail: { goto: fix, max: 3 }
+    prompt_footer_file: .clauckpit/prompts/review-footer.md
+    tasks:
+      - id: bugfix
+        type: claude
+        prompt_file: .clauckpit/prompts/review-bugfix.md
+
+  - id: push
+    title: Push branch
+    tasks:
+      - use: .clauckpit/tasks/push-branch.yml
+
+  - id: ci
+    title: Wait for GitHub CI
+    on_fail: { goto: fix, max: 2 }
+    tasks:
+      - use: .clauckpit/tasks/wait-for-ci.yml
+
+  - id: pr
+    title: Open pull request
+    approval: manual
+    tasks:
+      - use: .clauckpit/tasks/open-pr.yml

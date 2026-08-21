@@ -1,0 +1,3 @@
+id: example-jakarta-3
+type: bash
+run: ./gradlew -p example-build :example-jakarta-3:test
