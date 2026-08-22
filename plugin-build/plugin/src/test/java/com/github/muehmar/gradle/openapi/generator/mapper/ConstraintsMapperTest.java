@@ -164,6 +164,170 @@ class ConstraintsMapperTest {
   }
 
   @Test
+  void getMinimumAndMaximum_when_fractionalMinimum_then_minRoundedUp() {
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(new Schema<>().minimum(new BigDecimal("5.5")));
+
+    assertEquals(Constraints.ofMin(new Min(6)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_fractionalMaximum_then_maxRoundedDown() {
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(new Schema<>().maximum(new BigDecimal("100.5")));
+
+    assertEquals(Constraints.ofMax(new Max(100)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_negativeFractionalMinimum_then_minRoundedUp() {
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(new Schema<>().minimum(new BigDecimal("-5.5")));
+
+    assertEquals(Constraints.ofMin(new Min(-5)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_negativeFractionalMaximum_then_maxRoundedDown() {
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(new Schema<>().maximum(new BigDecimal("-5.5")));
+
+    assertEquals(Constraints.ofMax(new Max(-6)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_fractionalExclusiveMinimumV30_then_minRoundedUp() {
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>().minimum(new BigDecimal("5.5")).exclusiveMinimum(true));
+
+    assertEquals(Constraints.ofMin(new Min(6)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_fractionalExclusiveMaximumV30_then_maxRoundedDown() {
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>().maximum(new BigDecimal("100.5")).exclusiveMaximum(true));
+
+    assertEquals(Constraints.ofMax(new Max(100)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_v31AndFractionalExclusiveMinimum_then_minRoundedUp() {
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>()
+                .specVersion(SpecVersion.V31)
+                .exclusiveMinimumValue(new BigDecimal("5.5")));
+
+    assertEquals(Constraints.ofMin(new Min(6)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_v31AndFractionalExclusiveMaximum_then_maxRoundedDown() {
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>()
+                .specVersion(SpecVersion.V31)
+                .exclusiveMaximumValue(new BigDecimal("100.5")));
+
+    assertEquals(Constraints.ofMax(new Max(100)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_v31AndFractionalMinimumAndMaximum_then_roundedTowardsValidRange() {
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>()
+                .specVersion(SpecVersion.V31)
+                .minimum(new BigDecimal("5.5"))
+                .maximum(new BigDecimal("100.5")));
+
+    assertEquals(Constraints.ofMinAndMax(new Min(6), new Max(100)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_smallFractionMinimum_then_minRoundedUpNotToNearest() {
+    // 5.1 must round up to 6, not to the nearest integer 5
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(new Schema<>().minimum(new BigDecimal("5.1")));
+
+    assertEquals(Constraints.ofMin(new Min(6)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_largeFractionMaximum_then_maxRoundedDownNotToNearest() {
+    // 100.9 must round down to 100, not to the nearest integer 101
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(new Schema<>().maximum(new BigDecimal("100.9")));
+
+    assertEquals(Constraints.ofMax(new Max(100)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_integralBoundWithDecimalScale_then_valueUnchanged() {
+    // 5.0 / 100.0 are integral despite the scale, so the bounds stay as-is
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>().minimum(new BigDecimal("5.0")).maximum(new BigDecimal("100.0")));
+
+    assertEquals(Constraints.ofMinAndMax(new Min(5), new Max(100)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_exclusiveIntegralBoundWithDecimalScale_then_valueExcluded() {
+    // 5.0 exclusive still has to exclude 5 itself
+    final Constraints constraints =
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>().minimum(new BigDecimal("5.0")).exclusiveMinimum(true));
+
+    assertEquals(Constraints.ofMin(new Min(6)), constraints);
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_negativeSmallFractionBounds_then_roundedTowardsValidRange() {
+    // -5.1 as a minimum rounds up to -5; -100.9 as a maximum rounds down to -101
+    assertEquals(
+        Constraints.ofMin(new Min(-5)),
+        ConstraintsMapper.getMinimumAndMaximum(new Schema<>().minimum(new BigDecimal("-5.1"))));
+    assertEquals(
+        Constraints.ofMax(new Max(-101)),
+        ConstraintsMapper.getMinimumAndMaximum(new Schema<>().maximum(new BigDecimal("-100.9"))));
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_v31FractionalExclusiveBoundsJustOffInteger_then_roundedInwards() {
+    assertEquals(
+        Constraints.ofMin(new Min(6)),
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>()
+                .specVersion(SpecVersion.V31)
+                .exclusiveMinimumValue(new BigDecimal("5.1"))));
+    assertEquals(
+        Constraints.ofMax(new Max(100)),
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>()
+                .specVersion(SpecVersion.V31)
+                .exclusiveMaximumValue(new BigDecimal("100.9"))));
+  }
+
+  @Test
+  void getMinimumAndMaximum_when_v31IntegralExclusiveBounds_then_valuesExcluded() {
+    // the 3.1 numeric form must still exclude an integral bound itself
+    assertEquals(
+        Constraints.ofMin(new Min(6)),
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>().specVersion(SpecVersion.V31).exclusiveMinimumValue(new BigDecimal(5))));
+    assertEquals(
+        Constraints.ofMax(new Max(99)),
+        ConstraintsMapper.getMinimumAndMaximum(
+            new Schema<>()
+                .specVersion(SpecVersion.V31)
+                .exclusiveMaximumValue(new BigDecimal(100))));
+  }
+
+  @Test
   void getDecimalMinimumAndMaximum_when_nothing_then_emptyConstraint() {
     final Constraints minAndMaxItems =
         ConstraintsMapper.getDecimalMinimumAndMaximum(new Schema<>());

@@ -1,6 +1,10 @@
 ## Change Log
 
 * next
+    * [#376](https://github.com/muehmar/gradle-openapi-schema/issues/376) - Round fractional `minimum`/`maximum` of
+      integer properties towards the valid range instead of truncating towards zero: `minimum: 5.5` now yields
+      `@Min(6)` and `maximum: 100.5` yields `@Max(100)`, in the bean-validation annotations as well as in the
+      generated `isValid()` conditions
     * [#421](https://github.com/muehmar/gradle-openapi-schema/issues/421) - Ensure by the type system that the value
       type of additional properties is never a container: such a value type is mapped to a dedicated DTO and
       referenced as object type, hence no conversion nested within a container has to be supported
