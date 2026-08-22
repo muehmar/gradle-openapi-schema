@@ -1,6 +1,10 @@
 ## Change Log
 
 * next
+    * [#396](https://github.com/muehmar/gradle-openapi-schema/issues/396) - Map a `type: number` property which
+      declares no format (or an unknown one) to `Double` instead of `Float`: JSON numbers are double-precision, hence
+      a round-trip of such a property silently lost precision. See the
+      [migration guide](120_migration_guides.md#breaking-changes)
     * [#381](https://github.com/muehmar/gradle-openapi-schema/issues/381) - Match a `formatTypeMapping` for numeric
       properties against the format declared in the specification instead of the normalized format `int32`/`float`: a
       mapping for a custom format such as `decimal` is applied now, while a mapping for `int32`/`float` is no longer

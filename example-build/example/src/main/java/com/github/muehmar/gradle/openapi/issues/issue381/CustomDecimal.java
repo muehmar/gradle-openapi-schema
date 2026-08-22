@@ -4,17 +4,17 @@ import java.util.Objects;
 
 /** Custom type for properties with {@code type: number, format: decimal}. */
 public class CustomDecimal {
-  private final Float value;
+  private final Double value;
 
-  private CustomDecimal(Float value) {
+  private CustomDecimal(Double value) {
     this.value = value;
   }
 
-  public static CustomDecimal fromFloat(Float value) {
+  public static CustomDecimal fromDouble(Double value) {
     return new CustomDecimal(value);
   }
 
-  public Float getValue() {
+  public Double getValue() {
     return value;
   }
 

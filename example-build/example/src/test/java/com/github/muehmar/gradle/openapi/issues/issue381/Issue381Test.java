@@ -32,7 +32,7 @@ class Issue381Test {
 
   @Test
   void getQuantity_when_noFormatDeclared_then_noNumericMappingIsApplied() throws Exception {
-    assertEquals(Float.class, returnTypeOf("getQuantity"));
+    assertEquals(Double.class, returnTypeOf("getQuantity"));
   }
 
   @Test
@@ -54,9 +54,9 @@ class Issue381Test {
             PaymentDto.class);
 
     assertEquals(
-        CustomDecimal.fromFloat(12.5f), PaymentDto.class.getMethod("getAmount").invoke(dto));
+        CustomDecimal.fromDouble(12.5d), PaymentDto.class.getMethod("getAmount").invoke(dto));
     assertEquals(CustomFloat.fromFloat(0.25f), PaymentDto.class.getMethod("getRate").invoke(dto));
-    assertEquals(Float.valueOf(3.5f), PaymentDto.class.getMethod("getQuantity").invoke(dto));
+    assertEquals(Double.valueOf(3.5d), PaymentDto.class.getMethod("getQuantity").invoke(dto));
     assertEquals(
         CustomTimestamp.fromInteger(42), PaymentDto.class.getMethod("getCount").invoke(dto));
     assertEquals(Integer.valueOf(7), PaymentDto.class.getMethod("getSequence").invoke(dto));

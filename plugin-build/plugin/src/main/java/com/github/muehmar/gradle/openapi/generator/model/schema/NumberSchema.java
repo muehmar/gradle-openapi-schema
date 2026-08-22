@@ -68,10 +68,10 @@ public class NumberSchema implements OpenApiSchema {
         .map(
             formatValue ->
                 NumericType.ofFormatAndValue(
-                    NumericType.Format.parseString(formatValue).orElse(NumericType.Format.FLOAT),
+                    NumericType.Format.parseString(formatValue).orElse(NumericType.Format.DOUBLE),
                     formatValue,
                     nullability))
-        .orElseGet(() -> NumericType.noFormat(NumericType.Format.FLOAT, nullability))
+        .orElseGet(() -> NumericType.noFormat(NumericType.Format.DOUBLE, nullability))
         .withConstraints(constraints);
   }
 }

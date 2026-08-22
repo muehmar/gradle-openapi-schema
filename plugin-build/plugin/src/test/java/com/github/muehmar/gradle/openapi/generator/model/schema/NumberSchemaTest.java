@@ -124,7 +124,7 @@ class NumberSchemaTest {
     final MemberSchemaMapResult mappedSchema = mapToMemberType(schema);
 
     final Type expectedType =
-        NumericType.ofFormatAndValue(NumericType.Format.FLOAT, "decimal", NOT_NULLABLE);
+        NumericType.ofFormatAndValue(NumericType.Format.DOUBLE, "decimal", NOT_NULLABLE);
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
@@ -135,7 +135,7 @@ class NumberSchemaTest {
     final Schema<?> schema = new NumberSchema();
     final MemberSchemaMapResult mappedSchema = mapToMemberType(schema);
 
-    final Type expectedType = NumericType.noFormat(NumericType.Format.FLOAT, NOT_NULLABLE);
+    final Type expectedType = NumericType.noFormat(NumericType.Format.DOUBLE, NOT_NULLABLE);
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
@@ -160,7 +160,7 @@ class NumberSchemaTest {
         new PojoMemberReference(
             pojoSchema.getPojoName(),
             "",
-            NumericType.noFormat(NumericType.Format.FLOAT, NOT_NULLABLE)),
+            NumericType.noFormat(NumericType.Format.DOUBLE, NOT_NULLABLE)),
         memberReference);
   }
 
