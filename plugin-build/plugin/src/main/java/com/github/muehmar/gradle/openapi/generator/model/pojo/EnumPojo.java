@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.ComponentName;
 import com.github.muehmar.gradle.openapi.generator.model.name.PojoName;
 import com.github.muehmar.gradle.openapi.generator.model.type.InlinableType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoNameMapping;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.Value;
 
@@ -17,17 +18,37 @@ public class EnumPojo implements Pojo {
   Nullability nullability;
   PList<String> members;
 
+  /**
+   * The format declared for the enum schema. Kept so that a {@code formatTypeMapping} applies to a
+   * referenced ({@code $ref}) enum exactly as it does to the identical inline enum.
+   */
+  Optional<String> format;
+
   private EnumPojo(
-      ComponentName name, String description, Nullability nullability, PList<String> members) {
+      ComponentName name,
+      String description,
+      Nullability nullability,
+      PList<String> members,
+      Optional<String> format) {
     this.name = name;
     this.description = description;
     this.nullability = nullability;
     this.members = members;
+    this.format = format;
   }
 
   public static EnumPojo of(
       ComponentName name, String description, Nullability nullability, PList<String> members) {
-    return new EnumPojo(name, description, nullability, members);
+    return of(name, description, nullability, members, Optional.empty());
+  }
+
+  public static EnumPojo of(
+      ComponentName name,
+      String description,
+      Nullability nullability,
+      PList<String> members,
+      Optional<String> format) {
+    return new EnumPojo(name, description, nullability, members, format);
   }
 
   @Override
@@ -44,12 +65,12 @@ public class EnumPojo implements Pojo {
   @Override
   public EnumPojo applyMapping(PojoNameMapping pojoNameMapping) {
     final ComponentName mappedName = name.applyPojoMapping(pojoNameMapping);
-    return new EnumPojo(mappedName, description, nullability, members);
+    return new EnumPojo(mappedName, description, nullability, members, format);
   }
 
   @Override
   public Pojo replaceName(ComponentName name) {
-    return new EnumPojo(name, description, nullability, members);
+    return new EnumPojo(name, description, nullability, members, format);
   }
 
   @Override

@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 class EnumSchemaTest {
@@ -106,5 +107,27 @@ class EnumSchemaTest {
             PList.fromIter(enumSchema.getEnum()));
     assertEquals(expectedPojo, unresolvedMapResult.getPojos().apply(0));
     assertEquals(UnmappedItems.empty(), mapContext.getUnmappedItems());
+  }
+
+  @Test
+  void mapToPojo_when_enumSchemaWithFormat_then_formatKeptOnPojo() {
+    // The format must be kept for a component-level enum so that a formatTypeMapping applies to a
+    // $ref onto it, exactly as it does for the identical inline enum.
+    final StringSchema enumSchema = new StringSchema();
+    enumSchema.setEnum(Arrays.asList("male", "female"));
+    enumSchema.setFormat("gender");
+
+    final PojoSchema pojoSchema = new PojoSchema(componentName("Gender", "Dto"), wrap(enumSchema));
+
+    final MapContext mapContext = pojoSchema.mapToPojo();
+
+    final EnumPojo expectedPojo =
+        EnumPojo.of(
+            pojoSchema.getName(),
+            "",
+            Nullability.NOT_NULLABLE,
+            PList.of("male", "female"),
+            Optional.of("gender"));
+    assertEquals(expectedPojo, mapContext.getUnresolvedMapResult().getPojos().apply(0));
   }
 }

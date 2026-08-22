@@ -17,16 +17,26 @@ public class EnumObjectType implements ObjectType {
   private final PojoName name;
   private final PList<String> members;
   private final Nullability nullability;
+  private final Optional<String> format;
 
   public EnumObjectType(PojoName name, PList<String> members, Nullability nullability) {
+    this(name, members, nullability, Optional.empty());
+  }
+
+  public EnumObjectType(
+      PojoName name, PList<String> members, Nullability nullability, Optional<String> format) {
     this.name = name;
     this.members = members;
     this.nullability = nullability;
+    this.format = format;
   }
 
   public static EnumObjectType ofEnumPojo(EnumPojo enumPojo) {
     return new EnumObjectType(
-        enumPojo.getName().getPojoName(), enumPojo.getMembers(), enumPojo.getNullability());
+        enumPojo.getName().getPojoName(),
+        enumPojo.getMembers(),
+        enumPojo.getNullability(),
+        enumPojo.getFormat());
   }
 
   public PojoName getName() {
@@ -37,9 +47,17 @@ public class EnumObjectType implements ObjectType {
     return members;
   }
 
+  /**
+   * The format declared for the referenced enum schema, used to look up a {@code
+   * formatTypeMapping}.
+   */
+  public Optional<String> getFormat() {
+    return format;
+  }
+
   @Override
   public EnumObjectType withNullability(Nullability nullability) {
-    return new EnumObjectType(name, members, nullability);
+    return new EnumObjectType(name, members, nullability, format);
   }
 
   @Override
@@ -59,7 +77,7 @@ public class EnumObjectType implements ObjectType {
 
   @Override
   public EnumObjectType applyMapping(PojoNameMapping pojoNameMapping) {
-    return new EnumObjectType(pojoNameMapping.map(name), members, nullability);
+    return new EnumObjectType(pojoNameMapping.map(name), members, nullability, format);
   }
 
   @Override
