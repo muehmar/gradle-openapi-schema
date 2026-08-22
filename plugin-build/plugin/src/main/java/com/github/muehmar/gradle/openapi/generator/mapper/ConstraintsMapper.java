@@ -83,30 +83,24 @@ public class ConstraintsMapper {
   }
 
   private static Optional<Max> getMax(Schema<?> schema) {
-    final Optional<Long> maximum =
-        Optional.ofNullable(schema.getMaximum()).map(BigDecimal::longValue);
+    final Optional<BigDecimal> maximum = Optional.ofNullable(schema.getMaximum());
     if (SpecVersion.V30.equals(schema.getSpecVersion())) {
-      return maximum.map(val -> isInclusiveMax(schema) ? val : val - 1).map(Max::new);
+      return maximum.map(isInclusiveMax(schema) ? Max::inclusive : Max::exclusive);
     } else {
-      Optional<Long> exclusiveMaximum =
-          Optional.ofNullable(schema.getExclusiveMaximumValue())
-              .map(BigDecimal::longValue)
-              .map(val -> val - 1);
-      return Optionals.or(exclusiveMaximum, maximum).map(Max::new);
+      final Optional<Max> exclusiveMaximum =
+          Optional.ofNullable(schema.getExclusiveMaximumValue()).map(Max::exclusive);
+      return Optionals.or(exclusiveMaximum, maximum.map(Max::inclusive));
     }
   }
 
   private static Optional<Min> getMin(Schema<?> schema) {
-    final Optional<Long> minimum =
-        Optional.ofNullable(schema.getMinimum()).map(BigDecimal::longValue);
+    final Optional<BigDecimal> minimum = Optional.ofNullable(schema.getMinimum());
     if (SpecVersion.V30.equals(schema.getSpecVersion())) {
-      return minimum.map(val -> isInclusiveMin(schema) ? val : val + 1).map(Min::new);
+      return minimum.map(isInclusiveMin(schema) ? Min::inclusive : Min::exclusive);
     } else {
-      Optional<Long> exclusiveMinimum =
-          Optional.ofNullable(schema.getExclusiveMinimumValue())
-              .map(BigDecimal::longValue)
-              .map(val -> val + 1);
-      return Optionals.or(exclusiveMinimum, minimum).map(Min::new);
+      final Optional<Min> exclusiveMinimum =
+          Optional.ofNullable(schema.getExclusiveMinimumValue()).map(Min::exclusive);
+      return Optionals.or(exclusiveMinimum, minimum.map(Min::inclusive));
     }
   }
 

@@ -1,0 +1,62 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    FractionalBounds:
+      type: object
+      properties:
+        intValue:
+          type: integer
+          format: int32
+          minimum: 5.5
+          maximum: 100.5
+
+    FractionalExclusiveBounds:
+      type: object
+      properties:
+        intValue:
+          type: integer
+          format: int32
+          minimum: 5.5
+          exclusiveMinimum: true
+          maximum: 100.5
+          exclusiveMaximum: true
+
+    NegativeFractionalBounds:
+      type: object
+      properties:
+        intValue:
+          type: integer
+          format: int32
+          minimum: -100.5
+          maximum: -5.5
+
+    IntegralBounds:
+      type: object
+      properties:
+        inclusiveValue:
+          type: integer
+          format: int32
+          minimum: 5
+          maximum: 100
+        exclusiveValue:
+          type: integer
+          format: int32
+          minimum: 5
+          exclusiveMinimum: true
+          maximum: 100
+          exclusiveMaximum: true
+
+    # Fractional parts just above/below the integer, to pin down that rounding
+    # goes towards the valid range rather than to the nearest integer.
+    SmallFractionBounds:
+      type: object
+      properties:
+        intValue:
+          type: integer
+          format: int32
+          minimum: 5.1
+          maximum: 100.9

@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.model.constraints;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 /** Minimum constraint of a property */
@@ -8,6 +10,23 @@ public class Min {
 
   public Min(long value) {
     this.value = value;
+  }
+
+  /**
+   * The smallest integer which satisfies an inclusive lower bound of {@code minimum}, i.e. a
+   * fractional bound is rounded up towards the valid range ({@code 5.5} yields {@code 6}).
+   */
+  public static Min inclusive(BigDecimal minimum) {
+    return new Min(minimum.setScale(0, RoundingMode.CEILING).longValue());
+  }
+
+  /**
+   * The smallest integer which satisfies an exclusive lower bound of {@code minimum}. For a
+   * fractional bound this is the same as the inclusive one ({@code 5.5} yields {@code 6}), for an
+   * integral bound the value itself gets excluded ({@code 5} yields {@code 6}).
+   */
+  public static Min exclusive(BigDecimal minimum) {
+    return new Min(minimum.setScale(0, RoundingMode.FLOOR).longValue() + 1);
   }
 
   public long getValue() {
