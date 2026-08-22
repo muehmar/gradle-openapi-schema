@@ -125,6 +125,7 @@ def issueNumbers = [
         '376',
         '377',
         '381',
+        '383',
         '385',
         '391',
         '394',
@@ -491,6 +492,18 @@ openApiGenerator {
                     customType = "com.github.muehmar.gradle.openapi.issues.issue266.MediaKind"
                     conversion.fromCustomType = "toDto"
                     conversion.toCustomType = "com.github.muehmar.gradle.openapi.issues.issue266.MediaKindConversions#fromDto"
+                }
+            }
+
+            "${jacksonMajorVersion}Issue383" {
+                jsonSupport = jsonSupportValue
+                // The format of a component-level (i.e. $ref'd) enum schema must be kept so the
+                // formatTypeMapping applies, exactly as it does for the identical inline enum.
+                formatTypeMapping {
+                    formatType = "issue383kind"
+                    classType = "com.github.muehmar.gradle.openapi.issues.issue383.CustomKind"
+                    conversion.fromCustomType = "toDto"
+                    conversion.toCustomType = "CustomKind#fromDto"
                 }
             }
 
