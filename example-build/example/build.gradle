@@ -124,6 +124,7 @@ def issueNumbers = [
         '375',
         '376',
         '377',
+        '381',
         '385',
         '391',
         '394',
@@ -488,6 +489,36 @@ openApiGenerator {
                     customType = "com.github.muehmar.gradle.openapi.issues.issue266.MediaKind"
                     conversion.fromCustomType = "toDto"
                     conversion.toCustomType = "com.github.muehmar.gradle.openapi.issues.issue266.MediaKindConversions#fromDto"
+                }
+            }
+
+            "${jacksonMajorVersion}Issue381" {
+                jsonSupport = jsonSupportValue
+                // Mappings must be matched against the format declared in the spec, not against
+                // the normalized format the parser falls back to.
+                formatTypeMapping {
+                    formatType = "decimal"
+                    classType = "com.github.muehmar.gradle.openapi.issues.issue381.CustomDecimal"
+                    conversion.fromCustomType = "getValue"
+                    conversion.toCustomType = "CustomDecimal#fromFloat"
+                }
+                formatTypeMapping {
+                    formatType = "float"
+                    classType = "com.github.muehmar.gradle.openapi.issues.issue381.CustomFloat"
+                    conversion.fromCustomType = "getValue"
+                    conversion.toCustomType = "CustomFloat#fromFloat"
+                }
+                formatTypeMapping {
+                    formatType = "timestamp"
+                    classType = "com.github.muehmar.gradle.openapi.issues.issue381.CustomTimestamp"
+                    conversion.fromCustomType = "getValue"
+                    conversion.toCustomType = "CustomTimestamp#fromInteger"
+                }
+                formatTypeMapping {
+                    formatType = "int32"
+                    classType = "com.github.muehmar.gradle.openapi.issues.issue381.CustomInt32"
+                    conversion.fromCustomType = "getValue"
+                    conversion.toCustomType = "CustomInt32#fromInteger"
                 }
             }
 

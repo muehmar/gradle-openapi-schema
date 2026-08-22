@@ -92,6 +92,44 @@ class JavaNumericTypeTest {
   }
 
   @Test
+  void wrap_when_customFormatMappedByDeclaredFormat_then_correctTypeMapped() {
+    final NumericType numericType =
+        NumericType.ofFormatAndValue(NumericType.Format.FLOAT, "decimal", NOT_NULLABLE);
+    final JavaNumericType javaType =
+        JavaNumericType.wrap(
+            numericType,
+            TypeMappings.ofSingleFormatTypeMapping(
+                new FormatTypeMapping("decimal", "com.custom.CustomDecimal", Optional.empty())));
+
+    assertEquals("CustomDecimal", javaType.getParameterizedClassName().asString());
+  }
+
+  @Test
+  void wrap_when_customFormatAndMappingForNormalizedFormat_then_mappingNotApplied() {
+    final NumericType numericType =
+        NumericType.ofFormatAndValue(NumericType.Format.FLOAT, "decimal", NOT_NULLABLE);
+    final JavaNumericType javaType =
+        JavaNumericType.wrap(
+            numericType,
+            TypeMappings.ofSingleFormatTypeMapping(
+                new FormatTypeMapping("float", "com.custom.CustomFloat", Optional.empty())));
+
+    assertEquals("Float", javaType.getParameterizedClassName().asString());
+  }
+
+  @Test
+  void wrap_when_noFormatDeclaredAndMappingForNormalizedFormat_then_mappingNotApplied() {
+    final NumericType numericType = NumericType.noFormat(NumericType.Format.FLOAT, NOT_NULLABLE);
+    final JavaNumericType javaType =
+        JavaNumericType.wrap(
+            numericType,
+            TypeMappings.ofSingleFormatTypeMapping(
+                new FormatTypeMapping("float", "com.custom.CustomFloat", Optional.empty())));
+
+    assertEquals("Float", javaType.getParameterizedClassName().asString());
+  }
+
+  @Test
   void wrap_when_numericTypeWrappedWithFormatMappingConversion_then_correctTypeMapped() {
     final NumericType numericType = NumericType.ofFormat(NumericType.Format.DOUBLE, NOT_NULLABLE);
     final TypeConversion typeConversion =

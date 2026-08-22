@@ -45,11 +45,16 @@ public class JavaIntegerType extends NonGenericJavaType {
       IntegerType integerType, TypeMappings typeMappings, QualifiedClassName internalClassName) {
 
     final TypeMapping formatTypeMapping =
-        TypeMapping.fromFormatMappings(
-            internalClassName,
-            Optional.empty(),
-            integerType.getFormat().asString(),
-            typeMappings.getFormatTypeMappings());
+        integerType
+            .getFormatString()
+            .map(
+                formatString ->
+                    TypeMapping.fromFormatMappings(
+                        internalClassName,
+                        Optional.empty(),
+                        formatString,
+                        typeMappings.getFormatTypeMappings()))
+            .orElseGet(() -> TypeMapping.fromClassName(internalClassName));
 
     final TypeMapping classTypeMapping =
         TypeMapping.fromClassMappings(

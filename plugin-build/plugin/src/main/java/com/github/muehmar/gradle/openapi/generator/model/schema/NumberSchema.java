@@ -62,10 +62,16 @@ public class NumberSchema implements OpenApiSchema {
     final Constraints constraints =
         ConstraintsMapper.getDecimalMinimumAndMaximum(delegate)
             .and(ConstraintsMapper.getMultipleOf(delegate));
-    final NumericType.Format numberFormat =
-        format.flatMap(NumericType.Format::parseString).orElse(NumericType.Format.FLOAT);
+    final Nullability nullability = Nullability.fromBoolean(isNullable());
 
-    return NumericType.ofFormat(numberFormat, Nullability.fromBoolean(isNullable()))
+    return format
+        .map(
+            formatValue ->
+                NumericType.ofFormatAndValue(
+                    NumericType.Format.parseString(formatValue).orElse(NumericType.Format.FLOAT),
+                    formatValue,
+                    nullability))
+        .orElseGet(() -> NumericType.noFormat(NumericType.Format.FLOAT, nullability))
         .withConstraints(constraints);
   }
 }

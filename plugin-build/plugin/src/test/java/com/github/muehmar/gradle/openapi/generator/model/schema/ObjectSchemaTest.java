@@ -197,7 +197,7 @@ class ObjectSchemaTest {
             new PojoMember(
                 Name.ofString("numVal"),
                 null,
-                NumericType.ofFormat(FLOAT, NULLABLE),
+                NumericType.noFormat(FLOAT, NULLABLE),
                 PropertyScope.DEFAULT,
                 Necessity.REQUIRED,
                 PojoMemberXml.noDefinition()),
@@ -251,7 +251,7 @@ class ObjectSchemaTest {
             new PojoMember(
                 Name.ofString("numVal"),
                 null,
-                NumericType.formatFloat(),
+                NumericType.noFormat(FLOAT, NOT_NULLABLE),
                 PropertyScope.DEFAULT,
                 Necessity.OPTIONAL,
                 PojoMemberXml.noDefinition()),

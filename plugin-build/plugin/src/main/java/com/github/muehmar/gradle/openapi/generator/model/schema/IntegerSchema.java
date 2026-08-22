@@ -62,10 +62,16 @@ public class IntegerSchema implements OpenApiSchema {
     final Constraints constraints =
         ConstraintsMapper.getMinimumAndMaximum(delegate)
             .and(ConstraintsMapper.getMultipleOf(delegate));
-    final IntegerType.Format integerFormat =
-        format.flatMap(IntegerType.Format::parseString).orElse(IntegerType.Format.INTEGER);
+    final Nullability nullability = Nullability.fromBoolean(isNullable());
 
-    return IntegerType.ofFormat(integerFormat, Nullability.fromBoolean(isNullable()))
+    return format
+        .map(
+            formatValue ->
+                IntegerType.ofFormatAndValue(
+                    IntegerType.Format.parseString(formatValue).orElse(IntegerType.Format.INTEGER),
+                    formatValue,
+                    nullability))
+        .orElseGet(() -> IntegerType.noFormat(IntegerType.Format.INTEGER, nullability))
         .withConstraints(constraints);
   }
 }
