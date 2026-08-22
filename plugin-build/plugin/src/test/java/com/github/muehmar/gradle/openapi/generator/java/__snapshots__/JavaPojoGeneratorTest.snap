@@ -19,7 +19,7 @@ public class PosologyDto {
   private final List<Double> items;
 
   @JsonCreator
-  public PosologyDto(
+  PosologyDto(
       List<Double> items
     ) {
     this.items = items;
@@ -241,7 +241,7 @@ public class SampleObjectPojo1Dto {
   private final Double doubleVal;
   private final Map<String, Object> additionalProperties;
 
-  public SampleObjectPojo1Dto(
+  SampleObjectPojo1Dto(
       String stringVal,
       Integer intVal,
       Double doubleVal,

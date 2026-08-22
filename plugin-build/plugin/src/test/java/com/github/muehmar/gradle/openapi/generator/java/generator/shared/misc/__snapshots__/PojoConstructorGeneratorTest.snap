@@ -1,6 +1,6 @@
 arrayPojo=[
 @JsonCreator
-public PosologyDto(
+PosologyDto(
     List<Double> items
   ) {
   this.items = items;
@@ -9,7 +9,7 @@ public PosologyDto(
 
 
 illegalIdentifierPojo=[
-public Illegal_IdentifierDto(
+Illegal_IdentifierDto(
     String switch_,
     boolean isSwitchNull,
     String point_,
@@ -26,7 +26,7 @@ public Illegal_IdentifierDto(
 
 
 necessityAndNullabilityObjectPojo=[
-public NecessityAndNullabilityDto(
+NecessityAndNullabilityDto(
     String requiredStringVal,
     String requiredNullableStringVal,
     boolean isRequiredNullableStringValPresent,
@@ -91,7 +91,7 @@ public NecessityAndNullabilityDto(
 
 
 objectPojo=[
-public NecessityAndNullabilityDto(
+NecessityAndNullabilityDto(
     String requiredStringVal,
     String requiredNullableStringVal,
     boolean isRequiredNullableStringValPresent,

@@ -1,6 +1,11 @@
 ## Change Log
 
 * next
+    * [#412](https://github.com/muehmar/gradle-openapi-schema/issues/412) - Generate the all-args constructor of a DTO
+      package-private instead of `public`: it takes the companion flags of required-nullable and optional-not-nullable
+      properties as positional `boolean` arguments and hence allowed constructing DTOs in a state no intended
+      construction path can reach, which yields inconsistent validation results. Use the (staged) builder instead. See
+      the [migration guide](120_migration_guides.md#breaking-changes)
     * [#396](https://github.com/muehmar/gradle-openapi-schema/issues/396) - Map a `type: number` property which
       declares no format (or an unknown one) to `Double` instead of `Float`: JSON numbers are double-precision, hence
       a round-trip of such a property silently lost precision. See the

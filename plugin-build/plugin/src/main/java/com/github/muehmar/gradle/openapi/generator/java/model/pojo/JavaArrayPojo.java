@@ -7,7 +7,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringContentBuilder.fullToStringContentBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberBuilder.javaPojoMemberBuilder;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
-import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberContentBuilder;
@@ -160,7 +159,7 @@ public class JavaArrayPojo implements JavaPojo {
         .isArray(true)
         .className(getClassName())
         .members(getArrayPojoMember().getTechnicalMembers())
-        .modifier(PUBLIC)
+        .modifier(Optional.empty())
         .additionalProperties(Optional.empty())
         .build();
   }
