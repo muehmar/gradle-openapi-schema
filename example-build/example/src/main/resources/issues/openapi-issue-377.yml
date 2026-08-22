@@ -1,0 +1,42 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    BinaryHolder:
+      type: object
+      properties:
+        data:
+          type: string
+          format: binary
+          minLength: 2
+          maxLength: 4
+
+    MinLengthOnlyBinaryHolder:
+      type: object
+      properties:
+        data:
+          type: string
+          format: binary
+          minLength: 2
+
+    MaxLengthOnlyBinaryHolder:
+      type: object
+      properties:
+        data:
+          type: string
+          format: binary
+          maxLength: 4
+
+    RequiredBinaryHolder:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: string
+          format: binary
+          minLength: 2
+          maxLength: 4

@@ -115,11 +115,12 @@ class ConstraintConditions {
   public static Optional<String> sizeAccessorForProperty(
       PropertyValue propertyValue, PojoSettings settings) {
     final JavaType propertyValueType = propertyValue.getType();
-    if (propertyValueType.isJavaArray()) {
-      return Optional.of("length");
-    }
 
     if (isSupportedConstraint(propertyValue, SIZE, settings)) {
+
+      if (propertyValueType.isJavaArray()) {
+        return Optional.of("length");
+      }
 
       if (propertyValueType.getQualifiedClassName().equals(QualifiedClassNames.STRING)) {
         return Optional.of("length()");
