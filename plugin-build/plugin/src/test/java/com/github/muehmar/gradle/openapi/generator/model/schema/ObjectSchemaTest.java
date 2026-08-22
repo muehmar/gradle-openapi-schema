@@ -9,7 +9,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.p
 import static com.github.muehmar.gradle.openapi.generator.model.schema.MapToMemberTypeTestUtil.mapToMemberType;
 import static com.github.muehmar.gradle.openapi.generator.model.schema.SchemaWrappers.wrap;
 import static com.github.muehmar.gradle.openapi.generator.model.type.IntegerType.Format.INTEGER;
-import static com.github.muehmar.gradle.openapi.generator.model.type.NumericType.Format.FLOAT;
+import static com.github.muehmar.gradle.openapi.generator.model.type.NumericType.Format.DOUBLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -197,7 +197,7 @@ class ObjectSchemaTest {
             new PojoMember(
                 Name.ofString("numVal"),
                 null,
-                NumericType.noFormat(FLOAT, NULLABLE),
+                NumericType.noFormat(DOUBLE, NULLABLE),
                 PropertyScope.DEFAULT,
                 Necessity.REQUIRED,
                 PojoMemberXml.noDefinition()),
@@ -251,7 +251,7 @@ class ObjectSchemaTest {
             new PojoMember(
                 Name.ofString("numVal"),
                 null,
-                NumericType.noFormat(FLOAT, NOT_NULLABLE),
+                NumericType.noFormat(DOUBLE, NOT_NULLABLE),
                 PropertyScope.DEFAULT,
                 Necessity.OPTIONAL,
                 PojoMemberXml.noDefinition()),

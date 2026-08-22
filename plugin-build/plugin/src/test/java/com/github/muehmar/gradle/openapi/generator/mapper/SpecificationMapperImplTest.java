@@ -260,7 +260,7 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("height"),
                         "",
-                        NumericType.noFormat(NumericType.Format.FLOAT, NOT_NULLABLE)
+                        NumericType.noFormat(NumericType.Format.DOUBLE, NOT_NULLABLE)
                             .withConstraints(
                                 Constraints.ofDecimalMinAndMax(
                                     new DecimalMin("120", false), new DecimalMax("199", true))),
@@ -803,7 +803,7 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("height"),
                         "User height",
-                        NumericType.noFormat(NumericType.Format.FLOAT, NOT_NULLABLE),
+                        NumericType.noFormat(NumericType.Format.DOUBLE, NOT_NULLABLE),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         PojoMemberXml.noDefinition())))

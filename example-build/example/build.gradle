@@ -128,6 +128,7 @@ def issueNumbers = [
         '385',
         '391',
         '394',
+        '396',
         '408',
         '421']
 
@@ -500,7 +501,7 @@ openApiGenerator {
                     formatType = "decimal"
                     classType = "com.github.muehmar.gradle.openapi.issues.issue381.CustomDecimal"
                     conversion.fromCustomType = "getValue"
-                    conversion.toCustomType = "CustomDecimal#fromFloat"
+                    conversion.toCustomType = "CustomDecimal#fromDouble"
                 }
                 formatTypeMapping {
                     formatType = "float"

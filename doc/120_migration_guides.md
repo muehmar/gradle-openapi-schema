@@ -2,6 +2,11 @@
 
 ### Breaking Changes
 
+* [#396](https://github.com/muehmar/gradle-openapi-schema/issues/396) - A `type: number` property which declares no
+  format, or a format which is not one of `float`/`double`, is mapped to `Double` instead of `Float`. JSON numbers are
+  double-precision, hence a round-trip of such a property silently lost precision. Declare `format: float` explicitly
+  to keep `Float`. This also changes the underlying type a `formatTypeMapping` for such a format has to convert from.
+
 * [#394](https://github.com/muehmar/gradle-openapi-schema/issues/394) - The getter of a required additional property
   with a nullable value schema returns `Optional<T>` instead of the raw type. Additionally, `required` means only that
   the key is present, i.e. a present but `null` value is valid now and no `@NotNull` constraint is generated for such a

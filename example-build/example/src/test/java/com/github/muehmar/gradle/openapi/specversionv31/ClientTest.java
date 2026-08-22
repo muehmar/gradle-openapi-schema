@@ -25,8 +25,8 @@ class ClientTest {
   }
 
   @ParameterizedTest
-  @ValueSource(floats = {120.6f, 180f, 200f})
-  void validate_when_heightInRange_then_noViolations(float height) {
+  @ValueSource(doubles = {120.6d, 180d, 200d})
+  void validate_when_heightInRange_then_noViolations(double height) {
     final ClientDto dto =
         ClientDto.builder().setId("id").setName("name").andOptionals().setHeight(height).build();
 
@@ -37,8 +37,8 @@ class ClientTest {
   }
 
   @ParameterizedTest
-  @ValueSource(floats = {50f, 120.5f, 200.1f, 300})
-  void validate_when_heightExceedsRange_then_violations(float height) {
+  @ValueSource(doubles = {50d, 120.5d, 200.1d, 300d})
+  void validate_when_heightExceedsRange_then_violations(double height) {
     final ClientDto dto =
         ClientDto.builder().setId("id").setName("name").andOptionals().setHeight(height).build();
 

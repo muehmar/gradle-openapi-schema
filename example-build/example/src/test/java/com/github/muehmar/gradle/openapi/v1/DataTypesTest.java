@@ -36,7 +36,7 @@ class DataTypesTest {
           .setDefaultInt(24)
           .setInt32(26)
           .setInt64(64L)
-          .setDefaultNumber(25.75f)
+          .setDefaultNumber(25.75)
           .setFloat(87.25f)
           .setDouble(125.5)
           .setBool(true)
