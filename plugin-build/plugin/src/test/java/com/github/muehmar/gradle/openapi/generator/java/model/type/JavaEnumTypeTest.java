@@ -456,4 +456,75 @@ class JavaEnumTypeTest {
     // do not exist on the custom class.
     assertEquals(Optional.empty(), javaType.getApiType());
   }
+
+  @Test
+  void wrapAsObjectType_when_formatTypeMappingWithConversion_then_customTypeAsApiType() {
+    // A formatTypeMapping must apply to a referenced ($ref) enum exactly as it does to the
+    // identical inline enum, see wrap(EnumType, TypeMappings).
+    final EnumObjectType enumObjectType =
+        new EnumObjectType(
+            pojoName("Gender", "Dto"),
+            PList.of("male", "female"),
+            NOT_NULLABLE,
+            Optional.of("gender"));
+    final TypeMappings typeMappings =
+        TypeMappings.ofSingleFormatTypeMapping(
+            new FormatTypeMapping(
+                "gender",
+                "com.github.muehmar.gradle.openapi.CustomGender",
+                Optional.of(new TypeConversion("toDto", "CustomGender#fromDto"))));
+
+    final JavaType javaType = JavaEnumType.wrapAsObjectType(enumObjectType, typeMappings);
+
+    // The enum stays String-backed internally, the custom type becomes the api type.
+    assertEquals("String", javaType.getQualifiedClassName().getClassName().asString());
+    assertEquals(
+        "com.github.muehmar.gradle.openapi.CustomGender",
+        javaType.getApiType().orElseThrow().getClassName().asName().asString());
+  }
+
+  @Test
+  void wrapAsObjectType_when_formatTypeMappingButNoFormat_then_noMappingApplied() {
+    final EnumObjectType enumObjectType =
+        new EnumObjectType(pojoName("Gender", "Dto"), PList.of("male", "female"), NOT_NULLABLE);
+    final TypeMappings typeMappings =
+        TypeMappings.ofSingleFormatTypeMapping(
+            new FormatTypeMapping(
+                "gender", "com.github.muehmar.gradle.openapi.CustomGender", Optional.empty()));
+
+    final JavaType javaType = JavaEnumType.wrapAsObjectType(enumObjectType, typeMappings);
+
+    // Without a format on the enum schema nothing matches, the enum itself stays the api type.
+    assertEquals("String", javaType.getQualifiedClassName().getClassName().asString());
+    assertEquals(
+        "GenderDto", javaType.getApiType().orElseThrow().getClassName().getClassName().asString());
+  }
+
+  @Test
+  void wrapAsObjectType_when_dtoMappingAndFormatTypeMappingMatch_then_dtoMappingWins() {
+    // A dtoMapping addresses this very enum by name, a formatTypeMapping only matches the format
+    // the enum may share with other schemas, so the dtoMapping is the more specific configuration.
+    final EnumObjectType enumObjectType =
+        new EnumObjectType(
+            pojoName("Gender", "Dto"),
+            PList.of("male", "female"),
+            NOT_NULLABLE,
+            Optional.of("gender"));
+    final TypeMappings typeMappings =
+        new TypeMappings(
+            PList.empty(),
+            PList.single(
+                new FormatTypeMapping(
+                    "gender", "com.github.muehmar.gradle.openapi.FormatGender", Optional.empty())),
+            PList.single(
+                new DtoMapping(
+                    "GenderDto", "com.github.muehmar.gradle.openapi.DtoGender", Optional.empty())),
+            false);
+
+    final JavaType javaType = JavaEnumType.wrapAsObjectType(enumObjectType, typeMappings);
+
+    assertEquals(
+        "com.github.muehmar.gradle.openapi.DtoGender",
+        javaType.getQualifiedClassName().asName().asString());
+  }
 }

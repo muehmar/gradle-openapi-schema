@@ -163,12 +163,31 @@ public class JavaEnumType extends NonGenericJavaType {
       EnumObjectType enumObjectType, TypeMappings typeMappings) {
     final QualifiedClassName enumClassName =
         QualifiedClassName.ofPojoName(enumObjectType.getName());
+    final Optional<PluginApiType> pluginApiType =
+        Optional.of(PluginApiType.useEnumAsApiType(enumClassName));
+    // A dtoMapping addresses this very enum by its dto name and therefore wins over a
+    // formatTypeMapping, which merely matches the format the enum may share with other schemas.
     final TypeMapping typeMapping =
-        TypeMapping.fromDtoMappings(
-            enumClassName,
-            QualifiedClassNames.STRING,
-            Optional.of(PluginApiType.useEnumAsApiType(enumClassName)),
-            typeMappings.getDtoMappings());
+        TypeMapping.findDtoMapping(
+                enumClassName,
+                QualifiedClassNames.STRING,
+                pluginApiType,
+                typeMappings.getDtoMappings())
+            .orElseGet(
+                () ->
+                    enumObjectType
+                        .getFormat()
+                        .map(
+                            format ->
+                                TypeMapping.fromFormatMappings(
+                                    QualifiedClassNames.STRING,
+                                    pluginApiType,
+                                    format,
+                                    typeMappings.getFormatTypeMappings()))
+                        .orElseGet(
+                            () ->
+                                TypeMapping.fromClassNameAndPluginApiType(
+                                    QualifiedClassNames.STRING, pluginApiType)));
 
     return fromResolvedTypeMapping(
         enumClassName,

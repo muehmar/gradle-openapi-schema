@@ -1,0 +1,21 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Kind:
+      type: string
+      format: issue383kind
+      enum:
+        - NEW
+        - OLD
+
+    KindHolder:
+      type: object
+      required:
+        - refKind
+      properties:
+        refKind:
+          $ref: '#/components/schemas/Kind'

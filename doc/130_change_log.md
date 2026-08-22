@@ -1,6 +1,10 @@
 ## Change Log
 
 * next
+    * [#383](https://github.com/muehmar/gradle-openapi-schema/issues/383) - Apply a `formatTypeMapping` also to an
+      enum schema which is referenced via `$ref`: the format of a component-level enum schema was discarded, hence the
+      mapping was silently ignored although it is applied for the identical inline enum and for `$ref`'d plain string
+      schemas. A `dtoMapping` for the same enum still takes precedence, as it addresses the enum by name
     * [#412](https://github.com/muehmar/gradle-openapi-schema/issues/412) - Generate the all-args constructor of a DTO
       package-private instead of `public`: it takes the companion flags of required-nullable and optional-not-nullable
       properties as positional `boolean` arguments and hence allowed constructing DTOs in a state no intended

@@ -124,11 +124,24 @@ public class TypeMapping {
       QualifiedClassName internalClassName,
       Optional<PluginApiType> pluginApiType,
       PList<DtoMapping> dtoMappings) {
+    return findDtoMapping(dtoClassName, internalClassName, pluginApiType, dtoMappings)
+        .orElseGet(() -> fromClassNameAndPluginApiType(internalClassName, pluginApiType));
+  }
+
+  /**
+   * Like {@link #fromDtoMappings(QualifiedClassName, QualifiedClassName, Optional, PList)}, but
+   * empty instead of falling back to the unmapped type, so that a caller can try another kind of
+   * mapping only if no {@code dtoMapping} matched.
+   */
+  public static Optional<TypeMapping> findDtoMapping(
+      QualifiedClassName dtoClassName,
+      QualifiedClassName internalClassName,
+      Optional<PluginApiType> pluginApiType,
+      PList<DtoMapping> dtoMappings) {
     return dtoMappings
         .filter(dtoMapping -> dtoMapping.getDtoName().equals(dtoClassName.asString()))
         .headOption()
-        .map(dtoMapping -> fromDtoMapping(internalClassName, pluginApiType, dtoMapping))
-        .orElseGet(() -> fromClassNameAndPluginApiType(internalClassName, pluginApiType));
+        .map(dtoMapping -> fromDtoMapping(internalClassName, pluginApiType, dtoMapping));
   }
 
   private static TypeMapping fromDtoMapping(

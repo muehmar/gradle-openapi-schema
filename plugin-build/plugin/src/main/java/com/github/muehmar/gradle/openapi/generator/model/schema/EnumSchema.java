@@ -51,7 +51,13 @@ public class EnumSchema implements OpenApiSchema {
 
   @Override
   public MapContext mapToPojo(ComponentName name) {
-    final EnumPojo enumPojo = EnumPojo.of(name, getDescription(), getV31Nullability(), enums);
+    final EnumPojo enumPojo =
+        EnumPojo.of(
+            name,
+            getDescription(),
+            getV31Nullability(),
+            enums,
+            Optional.ofNullable(delegate.getFormat()));
     return MapContext.ofPojo(enumPojo);
   }
 
