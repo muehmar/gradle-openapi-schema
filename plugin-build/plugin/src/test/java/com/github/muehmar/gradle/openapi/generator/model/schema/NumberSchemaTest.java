@@ -119,11 +119,23 @@ class NumberSchemaTest {
   }
 
   @Test
+  void mapToMemberType_when_unknownFormat_then_declaredFormatRetained() {
+    final Schema<?> schema = new io.swagger.v3.oas.models.media.NumberSchema().format("decimal");
+    final MemberSchemaMapResult mappedSchema = mapToMemberType(schema);
+
+    final Type expectedType =
+        NumericType.ofFormatAndValue(NumericType.Format.FLOAT, "decimal", NOT_NULLABLE);
+
+    assertEquals(expectedType, mappedSchema.getType());
+    assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
+  }
+
+  @Test
   void mapToMemberType_when_noFormat_then_correctDefaultFormat() {
     final Schema<?> schema = new NumberSchema();
     final MemberSchemaMapResult mappedSchema = mapToMemberType(schema);
 
-    final Type expectedType = NumericType.formatFloat();
+    final Type expectedType = NumericType.noFormat(NumericType.Format.FLOAT, NOT_NULLABLE);
 
     assertEquals(expectedType, mappedSchema.getType());
     assertEquals(UnmappedItems.empty(), mappedSchema.getUnmappedItems());
@@ -145,7 +157,10 @@ class NumberSchemaTest {
     final PojoMemberReference memberReference =
         unresolvedMapResult.getPojoMemberReferences().apply(0);
     assertEquals(
-        new PojoMemberReference(pojoSchema.getPojoName(), "", NumericType.formatFloat()),
+        new PojoMemberReference(
+            pojoSchema.getPojoName(),
+            "",
+            NumericType.noFormat(NumericType.Format.FLOAT, NOT_NULLABLE)),
         memberReference);
   }
 

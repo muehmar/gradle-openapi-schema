@@ -94,6 +94,45 @@ class JavaIntegerTypeTest {
   }
 
   @Test
+  void wrap_when_customFormatMappedByDeclaredFormat_then_correctTypeMapped() {
+    final IntegerType integerType =
+        IntegerType.ofFormatAndValue(IntegerType.Format.INTEGER, "timestamp", NOT_NULLABLE);
+    final JavaIntegerType javaType =
+        JavaIntegerType.wrap(
+            integerType,
+            TypeMappings.ofSingleFormatTypeMapping(
+                new FormatTypeMapping(
+                    "timestamp", "com.custom.CustomTimestamp", Optional.empty())));
+
+    assertEquals("CustomTimestamp", javaType.getParameterizedClassName().asString());
+  }
+
+  @Test
+  void wrap_when_customFormatAndMappingForNormalizedFormat_then_mappingNotApplied() {
+    final IntegerType integerType =
+        IntegerType.ofFormatAndValue(IntegerType.Format.INTEGER, "timestamp", NOT_NULLABLE);
+    final JavaIntegerType javaType =
+        JavaIntegerType.wrap(
+            integerType,
+            TypeMappings.ofSingleFormatTypeMapping(
+                new FormatTypeMapping("int32", "com.custom.CustomInt", Optional.empty())));
+
+    assertEquals("Integer", javaType.getParameterizedClassName().asString());
+  }
+
+  @Test
+  void wrap_when_noFormatDeclaredAndMappingForNormalizedFormat_then_mappingNotApplied() {
+    final IntegerType integerType = IntegerType.noFormat(IntegerType.Format.INTEGER, NOT_NULLABLE);
+    final JavaIntegerType javaType =
+        JavaIntegerType.wrap(
+            integerType,
+            TypeMappings.ofSingleFormatTypeMapping(
+                new FormatTypeMapping("int32", "com.custom.CustomInt", Optional.empty())));
+
+    assertEquals("Integer", javaType.getParameterizedClassName().asString());
+  }
+
+  @Test
   void wrap_when_numericTypeWrappedWithFormatMappingAndConversion_then_correctTypeMapped() {
     final IntegerType integerType = IntegerType.ofFormat(IntegerType.Format.LONG, NOT_NULLABLE);
     final TypeConversion typeConversion =

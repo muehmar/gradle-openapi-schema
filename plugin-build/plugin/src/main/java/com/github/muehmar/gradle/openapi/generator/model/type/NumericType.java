@@ -16,17 +16,39 @@ import lombok.ToString;
 public class NumericType implements AdditionalPropertiesValueType, InlinableType {
 
   private final Format format;
+  private final Optional<String> formatString;
   private final Nullability nullability;
   private final Constraints constraints;
 
-  private NumericType(Format format, Nullability nullability, Constraints constraints) {
+  private NumericType(
+      Format format,
+      Optional<String> formatString,
+      Nullability nullability,
+      Constraints constraints) {
     this.format = format;
+    this.formatString = formatString;
     this.nullability = nullability;
     this.constraints = constraints;
   }
 
   public static NumericType ofFormat(Format format, Nullability nullability) {
-    return new NumericType(format, nullability, Constraints.empty());
+    return new NumericType(
+        format, Optional.of(format.asString()), nullability, Constraints.empty());
+  }
+
+  /**
+   * Creates a type for a schema which declares {@code formatString} as format, where {@code format}
+   * is the normalized format the type is internally represented with. The declared format is kept
+   * as it is the one a format-type-mapping is matched against.
+   */
+  public static NumericType ofFormatAndValue(
+      Format format, String formatString, Nullability nullability) {
+    return new NumericType(format, Optional.of(formatString), nullability, Constraints.empty());
+  }
+
+  /** Creates a type for a schema which declares no format at all. */
+  public static NumericType noFormat(Format format, Nullability nullability) {
+    return new NumericType(format, Optional.empty(), nullability, Constraints.empty());
   }
 
   public static NumericType formatFloat() {
@@ -38,11 +60,20 @@ public class NumericType implements AdditionalPropertiesValueType, InlinableType
   }
 
   public NumericType withConstraints(Constraints constraints) {
-    return new NumericType(format, nullability, constraints);
+    return new NumericType(format, formatString, nullability, constraints);
   }
 
   public Format getFormat() {
     return format;
+  }
+
+  /**
+   * The format as declared in the specification, empty if the specification declares no format. Use
+   * this for format-type-mapping lookups, as {@link #getFormat()} is the normalized format which
+   * may differ from the declared one.
+   */
+  public Optional<String> getFormatString() {
+    return formatString;
   }
 
   @Override
@@ -57,7 +88,7 @@ public class NumericType implements AdditionalPropertiesValueType, InlinableType
 
   @Override
   public NumericType makeNullable() {
-    return new NumericType(format, Nullability.NULLABLE, constraints);
+    return new NumericType(format, formatString, Nullability.NULLABLE, constraints);
   }
 
   @Override

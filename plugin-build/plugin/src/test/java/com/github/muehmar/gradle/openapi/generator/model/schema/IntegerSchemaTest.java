@@ -103,10 +103,23 @@ class IntegerSchemaTest {
   }
 
   @Test
+  void mapToMemberType_when_unknownFormat_then_declaredFormatRetained() {
+    final Schema<?> schema = new IntegerSchema().format("timestamp");
+    final MemberSchemaMapResult result = mapToMemberType(schema);
+
+    final Type expectedType =
+        IntegerType.ofFormatAndValue(IntegerType.Format.INTEGER, "timestamp", NOT_NULLABLE);
+
+    assertEquals(expectedType, result.getType());
+    assertEquals(UnmappedItems.empty(), result.getUnmappedItems());
+  }
+
+  @Test
   void mapToMemberType_when_noFormat_then_correctDefaultFormat() {
     final Schema<?> schema = new IntegerSchema();
     final MemberSchemaMapResult result = mapToMemberType(schema);
 
+    // io.swagger's IntegerSchema declares int32 as format by default
     final Type expectedType = IntegerType.formatInteger();
 
     assertEquals(expectedType, result.getType());

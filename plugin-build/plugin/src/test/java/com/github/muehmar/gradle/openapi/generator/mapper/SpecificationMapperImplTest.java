@@ -182,7 +182,7 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("key"),
                         "",
-                        IntegerType.formatInteger(),
+                        IntegerType.noFormat(IntegerType.Format.INTEGER, NOT_NULLABLE),
                         PropertyScope.DEFAULT,
                         REQUIRED,
                         PojoMemberXml.noDefinition()),
@@ -252,7 +252,7 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("age"),
                         "",
-                        IntegerType.formatInteger()
+                        IntegerType.noFormat(IntegerType.Format.INTEGER, NOT_NULLABLE)
                             .withConstraints(Constraints.ofMin(new Min(18)).withMax(new Max(50))),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
@@ -260,7 +260,7 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("height"),
                         "",
-                        NumericType.formatFloat()
+                        NumericType.noFormat(NumericType.Format.FLOAT, NOT_NULLABLE)
                             .withConstraints(
                                 Constraints.ofDecimalMinAndMax(
                                     new DecimalMin("120", false), new DecimalMax("199", true))),
@@ -456,7 +456,7 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("prio"),
                         "",
-                        IntegerType.formatInteger(),
+                        IntegerType.noFormat(IntegerType.Format.INTEGER, NOT_NULLABLE),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         PojoMemberXml.noDefinition())))
@@ -803,7 +803,7 @@ class SpecificationMapperImplTest {
                     new PojoMember(
                         Name.ofString("height"),
                         "User height",
-                        NumericType.formatFloat(),
+                        NumericType.noFormat(NumericType.Format.FLOAT, NOT_NULLABLE),
                         PropertyScope.DEFAULT,
                         OPTIONAL,
                         PojoMemberXml.noDefinition())))

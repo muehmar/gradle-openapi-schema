@@ -1,6 +1,10 @@
 ## Change Log
 
 * next
+    * [#381](https://github.com/muehmar/gradle-openapi-schema/issues/381) - Match a `formatTypeMapping` for numeric
+      properties against the format declared in the specification instead of the normalized format `int32`/`float`: a
+      mapping for a custom format such as `decimal` is applied now, while a mapping for `int32`/`float` is no longer
+      wrongly applied to properties declaring a different format or no format at all
     * [#376](https://github.com/muehmar/gradle-openapi-schema/issues/376) - Round fractional `minimum`/`maximum` of
       integer properties towards the valid range instead of truncating towards zero: `minimum: 5.5` now yields
       `@Min(6)` and `maximum: 100.5` yields `@Max(100)`, in the bean-validation annotations as well as in the
