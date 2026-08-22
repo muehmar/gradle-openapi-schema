@@ -1,0 +1,36 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    Payment:
+      type: object
+      required:
+        - amount
+        - rate
+        - quantity
+        - count
+        - sequence
+      properties:
+        # A custom numeric format must be mapped by the declared format, not by the
+        # normalized one ('float').
+        amount:
+          type: number
+          format: decimal
+        # The mapping for 'float' must be applied here, as this is the declared format.
+        rate:
+          type: number
+          format: float
+        # No format declared, so neither the 'decimal' nor the 'float' mapping applies.
+        quantity:
+          type: number
+        # A custom integer format must not be mapped by the normalized format ('int32'),
+        # the mapping for 'timestamp' applies.
+        count:
+          type: integer
+          format: timestamp
+        # No format declared, so the mapping for 'int32' must not be applied.
+        sequence:
+          type: integer
