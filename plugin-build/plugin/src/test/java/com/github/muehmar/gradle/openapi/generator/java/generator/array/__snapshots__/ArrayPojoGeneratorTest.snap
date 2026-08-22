@@ -24,7 +24,7 @@ public class PosologyDto {
   private final List<Double> items;
 
   @JsonCreator
-  public PosologyDto(
+  PosologyDto(
       List<Double> items
     ) {
     this.items = items;
@@ -208,7 +208,7 @@ public class DirectionArrayDto {
   private final List<String> items;
 
   @JsonCreator
-  public DirectionArrayDto(
+  DirectionArrayDto(
       List<String> items
     ) {
     this.items = items;

@@ -31,7 +31,7 @@ public class PersonDto {
   private final String username;
   private final Map<String, Object> additionalProperties;
 
-  public PersonDto(
+  PersonDto(
       String requiredStringVal,
       LocalDate birthdate,
       String username,
@@ -626,7 +626,7 @@ public class PersonDto {
   private final String username;
   private final Map<String, Object> additionalProperties;
 
-  public PersonDto(
+  PersonDto(
       String requiredStringVal,
       LocalDate birthdate,
       String username,
@@ -1517,7 +1517,7 @@ public class UserDto {
   private final boolean isAnotherPojoNotNull;
   private final Map<String, Object> additionalProperties;
 
-  public UserDto(
+  UserDto(
       Long id,
       String name,
       String lastName,
@@ -2510,7 +2510,7 @@ public class UserDto {
   private final boolean isAnotherPojoNotNull;
   private final Map<String, Object> additionalProperties;
 
-  public UserDto(
+  UserDto(
       Long id,
       String name,
       String lastName,
@@ -3483,7 +3483,7 @@ public class UserDto {
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
-  public UserDto(
+  UserDto(
       Long id,
       String name,
       String language,
@@ -4070,7 +4070,7 @@ public class Illegal_IdentifierDto {
   private final boolean isPoint_Null;
   private final Map<String, Object> additionalProperties;
 
-  public Illegal_IdentifierDto(
+  Illegal_IdentifierDto(
       String switch_,
       boolean isSwitchNull,
       String point_,
@@ -5209,7 +5209,7 @@ public class UserDto {
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
-  public UserDto(
+  UserDto(
       Long id,
       String name,
       String language,
@@ -5616,7 +5616,7 @@ public class UserDto {
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
-  public UserDto(
+  UserDto(
       Long id,
       String name,
       String language,
@@ -6019,7 +6019,7 @@ public class NecessityAndNullabilityDto {
   private final boolean isOptionalNullableMapWithNullableValuesNull;
   private final Map<String, Object> additionalProperties;
 
-  public NecessityAndNullabilityDto(
+  NecessityAndNullabilityDto(
       String requiredStringVal,
       String requiredNullableStringVal,
       boolean isRequiredNullableStringValPresent,
@@ -11179,7 +11179,7 @@ public class ObjectPojo1Dto {
   private final List<String> listVal;
   private final Map<String, Object> additionalProperties;
 
-  public ObjectPojo1Dto(
+  ObjectPojo1Dto(
       List<String> listVal,
       Map<String, Object> additionalProperties
     ) {
@@ -11619,7 +11619,7 @@ public class ObjectPojo1Dto {
   private final Map<String, UUID> mapVal;
   private final Map<String, Object> additionalProperties;
 
-  public ObjectPojo1Dto(
+  ObjectPojo1Dto(
       Map<String, UUID> mapVal,
       Map<String, Object> additionalProperties
     ) {
@@ -12044,7 +12044,7 @@ public class PersonDto {
   private final String username;
   private final Map<String, Object> additionalProperties;
 
-  public PersonDto(
+  PersonDto(
       String requiredStringVal,
       LocalDate birthdate,
       String username,
@@ -12665,7 +12665,7 @@ public class UserDto {
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
-  public UserDto(
+  UserDto(
       String language,
       boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
@@ -12974,7 +12974,7 @@ public class UserDto {
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
-  public UserDto(
+  UserDto(
       String language,
       boolean isLanguageNotNull,
       Map<String, Object> additionalProperties
@@ -13308,7 +13308,7 @@ public class ObjectPojo1Dto {
   private final boolean isBirthdateNotNull;
   private final Map<String, Object> additionalProperties;
 
-  public ObjectPojo1Dto(
+  ObjectPojo1Dto(
       String email,
       LocalDate birthdate,
       boolean isBirthdateNotNull,
@@ -13879,7 +13879,7 @@ public class UserDto {
   private final boolean isLanguageNotNull;
   private final Map<String, Object> additionalProperties;
 
-  public UserDto(
+  UserDto(
       Long id,
       String name,
       String language,
