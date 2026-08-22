@@ -15,11 +15,9 @@ stages:
       - id: fix
         type: claude
         prompt_file: .clauckpit/prompts/fix.md
-        permission_mode: acceptEdits
 
   - id: test
     title: Tests
-    parallel: true
     on_fail: { goto: fix, max: 3 }
     tasks:
       - use: .clauckpit/tasks/test-plugin.yml

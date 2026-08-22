@@ -15,11 +15,9 @@ stages:
       - id: implement
         type: claude
         prompt_file: .clauckpit/prompts/implement.md
-        permission_mode: acceptEdits
 
   - id: test
     title: Tests
-    parallel: true
     on_fail: { goto: implement, max: 3 }
     tasks:
       - use: .clauckpit/tasks/test-plugin.yml
