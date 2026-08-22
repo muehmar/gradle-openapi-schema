@@ -5,3 +5,19 @@ javax.validation.constraints.Size
 
 List<@NotNull @Size(min = 5) @Pattern(regexp="pattern") String>
 ]
+
+
+mapTypeWithArrayValueType=[
+javax.validation.constraints.NotNull
+javax.validation.constraints.Size
+
+Map<String, @NotNull List<@NotNull @Size(min = 5) String>>
+]
+
+
+nestedArrayType=[
+javax.validation.constraints.Max
+javax.validation.constraints.NotNull
+
+List<@NotNull List<@NotNull @Max(value = 100L) Integer>>
+]

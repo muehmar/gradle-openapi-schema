@@ -1,0 +1,33 @@
+openapi: "3.0.0"
+info: { }
+
+paths: { }
+
+components:
+  schemas:
+    PetMatrix:
+      type: object
+      properties:
+        pets:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/Pet'
+        matrix:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+              format: int32
+              maximum: 100
+
+    Pet:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 2

@@ -60,13 +60,17 @@ public class ParameterizedClassName implements WriteableParameterizedClassName {
               return String.format(
                       "%s " + typeFormat,
                       createAnnotationsForValueType.apply(type),
-                      type.getParameterizedClassName())
+                      type.getParameterizedClassName()
+                          .asStringWithValueTypeAnnotations(createAnnotationsForValueType))
                   .trim();
             });
     final PList<Name> formattedGenericTypes =
         this.genericTypes
             .map(JavaType::getParameterizedClassName)
-            .map(ParameterizedClassName::asString)
+            .map(
+                parameterizedClassName ->
+                    parameterizedClassName.asStringWithValueTypeAnnotations(
+                        createAnnotationsForValueType))
             .concat(PList.fromOptional(annotatedValueType))
             .map(Name::ofString);
     return qualifiedClassName.getClassNameWithGenerics(formattedGenericTypes).asString();
