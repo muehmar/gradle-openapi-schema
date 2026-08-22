@@ -276,6 +276,24 @@ class ValidationAnnotationGeneratorTest {
   }
 
   @Test
+  void validationAnnotations_when_calledForByteArrayField_then_minAndMaxWithRefs() {
+    final JavaPojoMember member =
+        TestJavaPojoMembers.byteArrayMember()
+            .withJavaType(
+                JavaStringType.wrap(
+                    StringType.ofFormat(StringType.Format.BINARY)
+                        .withConstraints(Constraints.ofSize(Size.of(2, 4))),
+                    TypeMappings.empty()));
+    final Generator<JavaPojoMember, PojoSettings> generator = validationAnnotationsForMember();
+
+    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+
+    assertEquals(
+        PList.of(Jakarta2ValidationRefs.SIZE, Jakarta2ValidationRefs.NOT_NULL), writer.getRefs());
+    assertEquals("@NotNull\n@Size(min = 2, max = 4)", writer.asString());
+  }
+
+  @Test
   void validationAnnotations_when_calledForOptionalStringField_then_minAndMaxWithRefs() {
     final JavaPojoMember member =
         TestJavaPojoMembers.string(OPTIONAL, NOT_NULLABLE, TypeMappings.empty());

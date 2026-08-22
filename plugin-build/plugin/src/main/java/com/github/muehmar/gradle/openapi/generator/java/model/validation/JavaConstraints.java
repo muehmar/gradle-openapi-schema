@@ -29,6 +29,7 @@ public class JavaConstraints {
     map.put(QualifiedClassNames.FLOAT, PList.of(DECIMAL_MIN, DECIMAL_MAX, MULTIPLE_OF));
     map.put(QualifiedClassNames.DOUBLE, PList.of(DECIMAL_MIN, DECIMAL_MAX, MULTIPLE_OF));
     map.put(QualifiedClassNames.STRING, PList.of(PATTERN, EMAIL, SIZE));
+    map.put(QualifiedClassNames.BYTE_ARRAY, PList.of(SIZE));
 
     QualifiedClassNames.ALL_LIST_CLASSNAMES.forEach(
         listClassName -> map.put(listClassName, PList.of(SIZE)));
