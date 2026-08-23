@@ -17,252 +17,108 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ge
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.TRISTATE_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.VALIDATION_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GroupsDefinitionBuilder.generator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GroupsDefinitionBuilder.group;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GroupsDefinitionBuilder.groups;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GroupsDefinitionBuilder.nested;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ALL_OF_MEMBER;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ARRAY_VALUE;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.OBJECT_MEMBER;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ONE_OF_MEMBER;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.AccessorProfile.Rendering;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.AccessorProfile.Shape;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import java.util.function.Predicate;
 
+/**
+ * Defines which getters are generated for a property.
+ *
+ * <p>The getters are <i>derived</i> from the {@link AccessorProfile} of the member instead of being
+ * selected from a table of nested predicates. As the profile answers with a single {@link Shape}
+ * which api accessor a property needs, generating two of them or none is not representable.
+ *
+ * <p>Every property gets one api accessor - accompanied by an {@code ...Or(defaultValue)} accessor
+ * and a flag accessor where its shape has them - and a json anchor; a property carrying its own
+ * constraints additionally gets a validation getter. Neither the json anchor nor the validation
+ * getter is conditional on the shape of the api accessor anymore, see the issues #414 and #415.
+ */
 public class GetterGroupsDefinition {
   private GetterGroupsDefinition() {}
 
+  /** One group per profile: the generators of a group all share the same member filter. */
   public static GetterGroups create() {
-    return new GetterGroups(
-        groups(
-            nested(isStandardMemberType(), standardMemberType()),
-            nested(isAllOfMemberType(), allOfMemberType()),
-            nested(isOneOfOrAnyOfMemberType(), oneOfAnyOfMemberType())));
+    return new GetterGroups(AccessorProfile.all().map(GetterGroupsDefinition::gettersOf));
   }
 
-  private static PList<GetterGroup> standardMemberType() {
-    return groups(
-        nested(
-            isNotContainerType(),
-            group(
-                JavaPojoMember::isRequiredAndNotNullable,
-                generator(STANDARD_GETTER, NO_VALIDATION, NO_JSON),
-                generator(JSON_GETTER),
-                generator(VALIDATION_GETTER)),
-            group(
-                JavaPojoMember::isRequiredAndNullable,
-                generator(OPTIONAL_GETTER),
-                generator(OPTIONAL_OR_GETTER),
-                generator(JSON_GETTER),
-                generator(VALIDATION_GETTER),
-                generator(FLAG_VALIDATION_GETTER)),
-            group(
-                JavaPojoMember::isOptionalAndNotNullable,
-                generator(OPTIONAL_GETTER),
-                generator(OPTIONAL_OR_GETTER),
-                generator(JSON_GETTER),
-                generator(VALIDATION_GETTER),
-                generator(FLAG_VALIDATION_GETTER)),
-            group(
-                JavaPojoMember::isOptionalAndNullable,
-                generator(TRISTATE_GETTER),
-                generator(JSON_GETTER),
-                generator(VALIDATION_GETTER))),
-        nested(
-            isContainerType(),
-            groups(
-                nested(
-                    isNullableValueContainerType(),
-                    group(
-                        JavaPojoMember::isRequiredAndNotNullable,
-                        generator(CONTAINER_STANDARD_GETTER, NO_VALIDATION, NO_JSON),
-                        generator(JSON_GETTER),
-                        generator(VALIDATION_GETTER)),
-                    group(
-                        JavaPojoMember::isRequiredAndNullable,
-                        generator(CONTAINER_OPTIONAL_GETTER),
-                        generator(CONTAINER_OPTIONAL_OR_GETTER),
-                        generator(JSON_GETTER),
-                        generator(VALIDATION_GETTER),
-                        generator(FLAG_VALIDATION_GETTER)),
-                    group(
-                        JavaPojoMember::isOptionalAndNotNullable,
-                        generator(CONTAINER_OPTIONAL_GETTER),
-                        generator(CONTAINER_OPTIONAL_OR_GETTER),
-                        generator(JSON_GETTER),
-                        generator(VALIDATION_GETTER),
-                        generator(FLAG_VALIDATION_GETTER)),
-                    group(
-                        JavaPojoMember::isOptionalAndNullable,
-                        generator(CONTAINER_TRISTATE_GETTER),
-                        generator(JSON_GETTER),
-                        generator(VALIDATION_GETTER))),
-                nested(
-                    isNotNullableValueContainerType(),
-                    group(
-                        JavaPojoMember::isRequiredAndNotNullable,
-                        generator(CONTAINER_STANDARD_GETTER, NO_VALIDATION, NO_JSON),
-                        generator(JSON_GETTER),
-                        generator(VALIDATION_GETTER)),
-                    group(
-                        JavaPojoMember::isRequiredAndNullable,
-                        generator(CONTAINER_OPTIONAL_GETTER),
-                        generator(CONTAINER_OPTIONAL_OR_GETTER),
-                        generator(JSON_GETTER),
-                        generator(VALIDATION_GETTER),
-                        generator(FLAG_VALIDATION_GETTER)),
-                    group(
-                        JavaPojoMember::isOptionalAndNotNullable,
-                        generator(CONTAINER_OPTIONAL_GETTER),
-                        generator(CONTAINER_OPTIONAL_OR_GETTER),
-                        generator(JSON_GETTER),
-                        generator(VALIDATION_GETTER),
-                        generator(FLAG_VALIDATION_GETTER)),
-                    group(
-                        JavaPojoMember::isOptionalAndNullable,
-                        generator(CONTAINER_TRISTATE_GETTER),
-                        generator(JSON_GETTER),
-                        generator(VALIDATION_GETTER))))));
+  private static GetterGroup gettersOf(AccessorProfile profile) {
+    return new GetterGroup(hasProfile(profile), generatorsOf(profile));
   }
 
-  private static PList<GetterGroup> allOfMemberType() {
-    return groups(
-        nested(
-            isNotContainerType(),
-            group(
-                JavaPojoMember::isRequiredAndNotNullable,
-                generator(STANDARD_GETTER, NO_VALIDATION, NO_JSON),
-                generator(JSON_GETTER)),
-            group(
-                JavaPojoMember::isRequiredAndNullable,
-                generator(OPTIONAL_GETTER),
-                generator(OPTIONAL_OR_GETTER),
-                generator(JSON_GETTER)),
-            group(
-                JavaPojoMember::isOptionalAndNotNullable,
-                generator(OPTIONAL_GETTER),
-                generator(OPTIONAL_OR_GETTER),
-                generator(JSON_GETTER)),
-            group(
-                JavaPojoMember::isOptionalAndNullable,
-                generator(TRISTATE_GETTER),
-                generator(JSON_GETTER))),
-        nested(
-            isContainerType(),
-            groups(
-                nested(
-                    isNullableValueContainerType(),
-                    group(
-                        JavaPojoMember::isRequiredAndNotNullable,
-                        generator(CONTAINER_STANDARD_GETTER, NO_JSON),
-                        generator(JSON_GETTER)),
-                    group(
-                        JavaPojoMember::isRequiredAndNullable,
-                        generator(CONTAINER_OPTIONAL_GETTER),
-                        generator(CONTAINER_OPTIONAL_OR_GETTER),
-                        generator(JSON_GETTER)),
-                    group(
-                        JavaPojoMember::isOptionalAndNotNullable,
-                        generator(CONTAINER_OPTIONAL_GETTER),
-                        generator(CONTAINER_OPTIONAL_OR_GETTER),
-                        generator(JSON_GETTER)),
-                    group(
-                        JavaPojoMember::isOptionalAndNullable,
-                        generator(CONTAINER_TRISTATE_GETTER),
-                        generator(JSON_GETTER))),
-                nested(
-                    isNotNullableValueContainerType(),
-                    group(
-                        JavaPojoMember::isRequiredAndNotNullable,
-                        generator(CONTAINER_STANDARD_GETTER, NO_VALIDATION, NO_JSON),
-                        generator(JSON_GETTER)),
-                    group(
-                        JavaPojoMember::isRequiredAndNullable,
-                        generator(CONTAINER_OPTIONAL_GETTER),
-                        generator(CONTAINER_OPTIONAL_OR_GETTER),
-                        generator(JSON_GETTER)),
-                    group(
-                        JavaPojoMember::isOptionalAndNotNullable,
-                        generator(CONTAINER_OPTIONAL_GETTER),
-                        generator(CONTAINER_OPTIONAL_OR_GETTER),
-                        generator(JSON_GETTER)),
-                    group(
-                        JavaPojoMember::isOptionalAndNullable,
-                        generator(CONTAINER_TRISTATE_GETTER),
-                        generator(JSON_GETTER))))));
+  private static PList<GetterGenerator> generatorsOf(AccessorProfile profile) {
+    // The json anchor precedes the api accessor for a oneOf/anyOf member. This ordering is a wart
+    // kept to prove that this refactoring changes no generated output; a follow-up normalizes it.
+    final PList<GetterGenerator> jsonAnchorFirst =
+        profile.isPackagePrivate() ? PList.single(generator(JSON_GETTER)) : PList.empty();
+    final PList<GetterGenerator> jsonAnchorLast =
+        profile.isPackagePrivate() ? PList.empty() : PList.single(generator(JSON_GETTER));
+
+    return jsonAnchorFirst
+        .concat(apiAccessors(profile))
+        .concat(jsonAnchorLast)
+        .concat(validationGetter(profile))
+        .concat(flagAccessor(profile));
   }
 
-  private static PList<GetterGroup> oneOfAnyOfMemberType() {
-    return groups(
-        nested(
-            isNotContainerType(),
-            group(
-                JavaPojoMember::isRequiredAndNotNullable,
-                generator(JSON_GETTER),
-                generator(STANDARD_GETTER, NO_VALIDATION, PACKAGE_PRIVATE, NO_JAVA_DOC, NO_JSON)),
-            group(
-                JavaPojoMember::isRequiredAndNullable,
-                generator(JSON_GETTER),
-                generator(OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
-                generator(FLAG_GETTER)),
-            group(
-                JavaPojoMember::isOptionalAndNotNullable,
-                generator(JSON_GETTER),
-                generator(OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
-                generator(FLAG_GETTER)),
-            group(
-                JavaPojoMember::isOptionalAndNullable,
-                generator(JSON_GETTER),
-                generator(TRISTATE_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC))),
-        nested(
-            isContainerType(),
-            group(
-                JavaPojoMember::isRequiredAndNotNullable,
-                generator(JSON_GETTER),
-                generator(CONTAINER_STANDARD_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC, NO_JSON)),
-            group(
-                JavaPojoMember::isRequiredAndNullable,
-                generator(JSON_GETTER),
-                generator(CONTAINER_OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
-                generator(FLAG_GETTER)),
-            group(
-                JavaPojoMember::isOptionalAndNotNullable,
-                generator(JSON_GETTER),
-                generator(CONTAINER_OPTIONAL_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC),
-                generator(FLAG_GETTER)),
-            group(
-                JavaPojoMember::isOptionalAndNullable,
-                generator(JSON_GETTER),
-                generator(CONTAINER_TRISTATE_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC))));
+  /**
+   * The accessor returning the value in the shape of the api, plus the {@code ...Or(defaultValue)}
+   * companion of an {@link Shape#OPTIONAL} one. It never carries the validation or json annotations
+   * - those live on the dedicated validation getter and json anchor - and is package-private
+   * without java doc for a oneOf/anyOf member.
+   */
+  private static PList<GetterGenerator> apiAccessors(AccessorProfile profile) {
+    final boolean container = profile.getRendering() == Rendering.CONTAINER;
+    final GetterGeneratorSetting[] settings = apiAccessorSettings(profile);
+    switch (profile.getShape()) {
+      case STANDARD:
+        return PList.single(
+            generator(container ? CONTAINER_STANDARD_GETTER : STANDARD_GETTER, settings));
+      case OPTIONAL:
+        // The ...Or(defaultValue) accessor is a convenience of the public api, hence it is not
+        // generated where the property is not part of it.
+        return profile.isPackagePrivate()
+            ? PList.single(
+                generator(container ? CONTAINER_OPTIONAL_GETTER : OPTIONAL_GETTER, settings))
+            : PList.of(
+                generator(container ? CONTAINER_OPTIONAL_GETTER : OPTIONAL_GETTER, settings),
+                generator(container ? CONTAINER_OPTIONAL_OR_GETTER : OPTIONAL_OR_GETTER, settings));
+      default:
+        return PList.single(
+            generator(container ? CONTAINER_TRISTATE_GETTER : TRISTATE_GETTER, settings));
+    }
   }
 
-  private static Predicate<JavaPojoMember> isStandardMemberType() {
-    return member -> member.getType().equals(OBJECT_MEMBER) || member.getType().equals(ARRAY_VALUE);
+  private static GetterGeneratorSetting[] apiAccessorSettings(AccessorProfile profile) {
+    return profile.isPackagePrivate()
+        ? new GetterGeneratorSetting[] {NO_VALIDATION, NO_JSON, PACKAGE_PRIVATE, NO_JAVA_DOC}
+        : new GetterGeneratorSetting[] {NO_VALIDATION, NO_JSON};
   }
 
-  private static Predicate<JavaPojoMember> isAllOfMemberType() {
-    return member -> member.getType().equals(ALL_OF_MEMBER);
+  private static PList<GetterGenerator> validationGetter(AccessorProfile profile) {
+    return profile.hasOwnConstraints() ? PList.single(generator(VALIDATION_GETTER)) : PList.empty();
   }
 
-  private static Predicate<JavaPojoMember> isOneOfOrAnyOfMemberType() {
-    return member ->
-        member.getType().equals(ONE_OF_MEMBER) || member.getType().equals(ANY_OF_MEMBER);
+  /**
+   * The flag telling present from absent resp. non-null from null. It carries the
+   * {@code @AssertTrue} assertion for a property with own constraints, and is a plain getter for a
+   * oneOf/anyOf member, whose composition validation needs to read it.
+   */
+  private static PList<GetterGenerator> flagAccessor(AccessorProfile profile) {
+    if (!profile.hasPresenceFlag()) {
+      return PList.empty();
+    } else if (profile.hasOwnConstraints()) {
+      return PList.single(generator(FLAG_VALIDATION_GETTER));
+    } else if (profile.isPackagePrivate()) {
+      return PList.single(generator(FLAG_GETTER));
+    } else {
+      return PList.empty();
+    }
   }
 
-  private static Predicate<JavaPojoMember> isNullableValueContainerType() {
-    return member -> member.getJavaType().isNullableContainerValueType();
-  }
-
-  private static Predicate<JavaPojoMember> isNotNullableValueContainerType() {
-    return isNullableValueContainerType().negate();
-  }
-
-  private static Predicate<JavaPojoMember> isContainerType() {
-    return member -> member.getJavaType().isArrayType() || member.getJavaType().isMapType();
-  }
-
-  private static Predicate<JavaPojoMember> isNotContainerType() {
-    return isContainerType().negate();
+  private static Predicate<JavaPojoMember> hasProfile(AccessorProfile profile) {
+    return member -> AccessorProfile.of(member).equals(profile);
   }
 }
