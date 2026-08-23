@@ -48,17 +48,10 @@ public class GetterGroupsDefinition {
     return new GetterGroup(hasProfile(profile), generatorsOf(profile));
   }
 
+  /** The api accessors first, then the anchors which are not part of the api. */
   private static PList<GetterGenerator> generatorsOf(AccessorProfile profile) {
-    // The json anchor precedes the api accessor for a oneOf/anyOf member. This ordering is a wart
-    // kept to prove that this refactoring changes no generated output; a follow-up normalizes it.
-    final PList<GetterGenerator> jsonAnchorFirst =
-        profile.isPackagePrivate() ? PList.single(generator(JSON_GETTER)) : PList.empty();
-    final PList<GetterGenerator> jsonAnchorLast =
-        profile.isPackagePrivate() ? PList.empty() : PList.single(generator(JSON_GETTER));
-
-    return jsonAnchorFirst
-        .concat(apiAccessors(profile))
-        .concat(jsonAnchorLast)
+    return apiAccessors(profile)
+        .add(generator(JSON_GETTER))
         .concat(validationGetter(profile))
         .concat(flagAccessor(profile));
   }

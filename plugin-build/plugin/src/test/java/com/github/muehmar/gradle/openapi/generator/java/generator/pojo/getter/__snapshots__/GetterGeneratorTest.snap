@@ -55,12 +55,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("optionalListWithNullableItemsAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalListWithNullableItemsAnyOfJson() {
-  return optionalListWithNullableItemsAnyOf;
-}
-
 @JsonIgnore
 Optional<List<Optional<String>>> getOptionalListWithNullableItemsAnyOf() {
   return mapList(
@@ -70,6 +64,12 @@ Optional<List<Optional<String>>> getOptionalListWithNullableItemsAnyOf() {
       Function.identity(),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("optionalListWithNullableItemsAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalListWithNullableItemsAnyOfJson() {
+  return optionalListWithNullableItemsAnyOf;
 }
 
 @JsonIgnore
@@ -203,12 +203,6 @@ java.util.List
 java.util.Optional
 .
 .
-@JsonProperty("optionalListWithNullableItems_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalListWithNullableItems_FullyMappedAnyOfJson() {
-  return optionalListWithNullableItems_FullyMappedAnyOf;
-}
-
 @JsonIgnore
 Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableItems_FullyMappedAnyOf() {
   return mapList(
@@ -218,6 +212,12 @@ Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableItems_Fu
       l -> CustomList.fromList(l),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("optionalListWithNullableItems_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalListWithNullableItems_FullyMappedAnyOfJson() {
+  return optionalListWithNullableItems_FullyMappedAnyOf;
 }
 
 @JsonIgnore
@@ -352,12 +352,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("optionalListWithNullableItems_ListMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalListWithNullableItems_ListMappedAnyOfJson() {
-  return optionalListWithNullableItems_ListMappedAnyOf;
-}
-
 @JsonIgnore
 Optional<CustomList<Optional<String>>> getOptionalListWithNullableItems_ListMappedAnyOf() {
   return mapList(
@@ -367,6 +361,12 @@ Optional<CustomList<Optional<String>>> getOptionalListWithNullableItems_ListMapp
       l -> CustomList.fromList(l),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("optionalListWithNullableItems_ListMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalListWithNullableItems_ListMappedAnyOfJson() {
+  return optionalListWithNullableItems_ListMappedAnyOf;
 }
 
 @JsonIgnore
@@ -500,12 +500,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("optionalListWithNullableItems_StringMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalListWithNullableItems_StringMappedAnyOfJson() {
-  return optionalListWithNullableItems_StringMappedAnyOf;
-}
-
 @JsonIgnore
 Optional<List<Optional<CustomString>>> getOptionalListWithNullableItems_StringMappedAnyOf() {
   return mapList(
@@ -515,6 +509,12 @@ Optional<List<Optional<CustomString>>> getOptionalListWithNullableItems_StringMa
       Function.identity(),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("optionalListWithNullableItems_StringMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalListWithNullableItems_StringMappedAnyOfJson() {
+  return optionalListWithNullableItems_StringMappedAnyOf;
 }
 
 @JsonIgnore
@@ -640,12 +640,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("optionalMapAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Map<String, String> getOptionalMapAnyOfJson() {
-  return optionalMapAnyOf;
-}
-
 @JsonIgnore
 Optional<Map<String, String>> getOptionalMapAnyOf() {
   return mapMap(
@@ -655,6 +649,12 @@ Optional<Map<String, String>> getOptionalMapAnyOf() {
       Function.identity(),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("optionalMapAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Map<String, String> getOptionalMapAnyOfJson() {
+  return optionalMapAnyOf;
 }
 
 @JsonIgnore
@@ -782,12 +782,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("optionalMap_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Map<String, String> getOptionalMap_FullyMappedAnyOfJson() {
-  return optionalMap_FullyMappedAnyOf;
-}
-
 @JsonIgnore
 Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMappedAnyOf() {
   return mapMap(
@@ -797,6 +791,12 @@ Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMappedAnyOf() {
       m -> CustomMap.fromMap(m),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("optionalMap_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Map<String, String> getOptionalMap_FullyMappedAnyOfJson() {
+  return optionalMap_FullyMappedAnyOf;
 }
 
 @JsonIgnore
@@ -916,12 +916,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("optionalNullableListWithNullableItemsAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableListWithNullableItemsAnyOfJson() {
-  return isOptionalNullableListWithNullableItemsAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItemsAnyOf) : optionalNullableListWithNullableItemsAnyOf;
-}
-
 @JsonIgnore
 Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItemsAnyOf() {
   return mapList(
@@ -931,6 +925,12 @@ Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItemsAnyOf()
       Function.identity(),
       l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableListWithNullableItemsAnyOfNull)
   );
+}
+
+@JsonProperty("optionalNullableListWithNullableItemsAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableListWithNullableItemsAnyOfJson() {
+  return isOptionalNullableListWithNullableItemsAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItemsAnyOf) : optionalNullableListWithNullableItemsAnyOf;
 }
 
 ]
@@ -1025,12 +1025,6 @@ java.util.List
 java.util.Optional
 .
 .
-@JsonProperty("optionalNullableListWithNullableItems_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableListWithNullableItems_FullyMappedAnyOfJson() {
-  return isOptionalNullableListWithNullableItems_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_FullyMappedAnyOf) : optionalNullableListWithNullableItems_FullyMappedAnyOf;
-}
-
 @JsonIgnore
 Tristate<CustomList<Optional<CustomString>>> getOptionalNullableListWithNullableItems_FullyMappedAnyOf() {
   return mapList(
@@ -1040,6 +1034,12 @@ Tristate<CustomList<Optional<CustomString>>> getOptionalNullableListWithNullable
       l -> CustomList.fromList(l),
       l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableListWithNullableItems_FullyMappedAnyOfNull)
   );
+}
+
+@JsonProperty("optionalNullableListWithNullableItems_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableListWithNullableItems_FullyMappedAnyOfJson() {
+  return isOptionalNullableListWithNullableItems_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_FullyMappedAnyOf) : optionalNullableListWithNullableItems_FullyMappedAnyOf;
 }
 
 ]
@@ -1135,12 +1135,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("optionalNullableListWithNullableItems_ListMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableListWithNullableItems_ListMappedAnyOfJson() {
-  return isOptionalNullableListWithNullableItems_ListMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_ListMappedAnyOf) : optionalNullableListWithNullableItems_ListMappedAnyOf;
-}
-
 @JsonIgnore
 Tristate<CustomList<Optional<String>>> getOptionalNullableListWithNullableItems_ListMappedAnyOf() {
   return mapList(
@@ -1150,6 +1144,12 @@ Tristate<CustomList<Optional<String>>> getOptionalNullableListWithNullableItems_
       l -> CustomList.fromList(l),
       l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableListWithNullableItems_ListMappedAnyOfNull)
   );
+}
+
+@JsonProperty("optionalNullableListWithNullableItems_ListMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableListWithNullableItems_ListMappedAnyOfJson() {
+  return isOptionalNullableListWithNullableItems_ListMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_ListMappedAnyOf) : optionalNullableListWithNullableItems_ListMappedAnyOf;
 }
 
 ]
@@ -1245,12 +1245,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("optionalNullableListWithNullableItems_StringMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableListWithNullableItems_StringMappedAnyOfJson() {
-  return isOptionalNullableListWithNullableItems_StringMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_StringMappedAnyOf) : optionalNullableListWithNullableItems_StringMappedAnyOf;
-}
-
 @JsonIgnore
 Tristate<List<Optional<CustomString>>> getOptionalNullableListWithNullableItems_StringMappedAnyOf() {
   return mapList(
@@ -1260,6 +1254,12 @@ Tristate<List<Optional<CustomString>>> getOptionalNullableListWithNullableItems_
       Function.identity(),
       l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableListWithNullableItems_StringMappedAnyOfNull)
   );
+}
+
+@JsonProperty("optionalNullableListWithNullableItems_StringMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableListWithNullableItems_StringMappedAnyOfJson() {
+  return isOptionalNullableListWithNullableItems_StringMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_StringMappedAnyOf) : optionalNullableListWithNullableItems_StringMappedAnyOf;
 }
 
 ]
@@ -1351,12 +1351,6 @@ java.util.Map
 java.util.function.Function
 .
 .
-@JsonProperty("optionalNullableMapAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableMapAnyOfJson() {
-  return isOptionalNullableMapAnyOfNull ? new JacksonNullContainer<>(optionalNullableMapAnyOf) : optionalNullableMapAnyOf;
-}
-
 @JsonIgnore
 Tristate<Map<String, String>> getOptionalNullableMapAnyOf() {
   return mapMap(
@@ -1366,6 +1360,12 @@ Tristate<Map<String, String>> getOptionalNullableMapAnyOf() {
       Function.identity(),
       m -> Tristate.ofNullableAndNullFlag(m, isOptionalNullableMapAnyOfNull)
   );
+}
+
+@JsonProperty("optionalNullableMapAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableMapAnyOfJson() {
+  return isOptionalNullableMapAnyOfNull ? new JacksonNullContainer<>(optionalNullableMapAnyOf) : optionalNullableMapAnyOf;
 }
 
 ]
@@ -1458,12 +1458,6 @@ java.util.Map
 java.util.function.Function
 .
 .
-@JsonProperty("optionalNullableMap_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableMap_FullyMappedAnyOfJson() {
-  return isOptionalNullableMap_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableMap_FullyMappedAnyOf) : optionalNullableMap_FullyMappedAnyOf;
-}
-
 @JsonIgnore
 Tristate<CustomMap<String, CustomString>> getOptionalNullableMap_FullyMappedAnyOf() {
   return mapMap(
@@ -1473,6 +1467,12 @@ Tristate<CustomMap<String, CustomString>> getOptionalNullableMap_FullyMappedAnyO
       m -> CustomMap.fromMap(m),
       m -> Tristate.ofNullableAndNullFlag(m, isOptionalNullableMap_FullyMappedAnyOfNull)
   );
+}
+
+@JsonProperty("optionalNullableMap_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableMap_FullyMappedAnyOfJson() {
+  return isOptionalNullableMap_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableMap_FullyMappedAnyOf) : optionalNullableMap_FullyMappedAnyOf;
 }
 
 ]
@@ -1563,12 +1563,6 @@ java.util.List
 java.util.function.Function
 .
 .
-@JsonProperty("optionalNullableStringListAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableStringListAnyOfJson() {
-  return isOptionalNullableStringListAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringListAnyOf) : optionalNullableStringListAnyOf;
-}
-
 @JsonIgnore
 Tristate<List<String>> getOptionalNullableStringListAnyOf() {
   return mapList(
@@ -1578,6 +1572,12 @@ Tristate<List<String>> getOptionalNullableStringListAnyOf() {
       Function.identity(),
       l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableStringListAnyOfNull)
   );
+}
+
+@JsonProperty("optionalNullableStringListAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableStringListAnyOfJson() {
+  return isOptionalNullableStringListAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringListAnyOf) : optionalNullableStringListAnyOf;
 }
 
 ]
@@ -1672,12 +1672,6 @@ java.util.List
 java.util.function.Function
 .
 .
-@JsonProperty("optionalNullableStringList_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableStringList_FullyMappedAnyOfJson() {
-  return isOptionalNullableStringList_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringList_FullyMappedAnyOf) : optionalNullableStringList_FullyMappedAnyOf;
-}
-
 @JsonIgnore
 Tristate<CustomList<CustomString>> getOptionalNullableStringList_FullyMappedAnyOf() {
   return mapList(
@@ -1687,6 +1681,12 @@ Tristate<CustomList<CustomString>> getOptionalNullableStringList_FullyMappedAnyO
       l -> CustomList.fromList(l),
       l -> Tristate.ofNullableAndNullFlag(l, isOptionalNullableStringList_FullyMappedAnyOfNull)
   );
+}
+
+@JsonProperty("optionalNullableStringList_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableStringList_FullyMappedAnyOfJson() {
+  return isOptionalNullableStringList_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringList_FullyMappedAnyOf) : optionalNullableStringList_FullyMappedAnyOf;
 }
 
 ]
@@ -1769,15 +1769,15 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 .
 .
+@JsonIgnore
+Tristate<String> getOptionalNullableStringValAnyOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringValAnyOf, isOptionalNullableStringValAnyOfNull);
+}
+
 @JsonProperty("optionalNullableStringValAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableStringValAnyOfJson() {
   return isOptionalNullableStringValAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringValAnyOf) : optionalNullableStringValAnyOf;
-}
-
-@JsonIgnore
-Tristate<String> getOptionalNullableStringValAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringValAnyOf, isOptionalNullableStringValAnyOfNull);
 }
 
 ]
@@ -1850,15 +1850,15 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 .
 .
+@JsonIgnore
+Tristate<CustomString> getOptionalNullableStringVal_FullyMappedAnyOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMappedAnyOf, isOptionalNullableStringVal_FullyMappedAnyOfNull).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("optionalNullableStringVal_FullyMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableStringVal_FullyMappedAnyOfJson() {
   return isOptionalNullableStringVal_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringVal_FullyMappedAnyOf) : optionalNullableStringVal_FullyMappedAnyOf;
-}
-
-@JsonIgnore
-Tristate<CustomString> getOptionalNullableStringVal_FullyMappedAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMappedAnyOf, isOptionalNullableStringVal_FullyMappedAnyOfNull).map(value -> CustomString.fromString(value));
 }
 
 ]
@@ -1930,15 +1930,15 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 .
 .
+@JsonIgnore
+Tristate<String> getOptionalNullableStringVal_ListMappedAnyOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_ListMappedAnyOf, isOptionalNullableStringVal_ListMappedAnyOfNull);
+}
+
 @JsonProperty("optionalNullableStringVal_ListMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableStringVal_ListMappedAnyOfJson() {
   return isOptionalNullableStringVal_ListMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringVal_ListMappedAnyOf) : optionalNullableStringVal_ListMappedAnyOf;
-}
-
-@JsonIgnore
-Tristate<String> getOptionalNullableStringVal_ListMappedAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_ListMappedAnyOf, isOptionalNullableStringVal_ListMappedAnyOfNull);
 }
 
 ]
@@ -2011,15 +2011,15 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 .
 .
+@JsonIgnore
+Tristate<CustomString> getOptionalNullableStringVal_StringMappedAnyOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMappedAnyOf, isOptionalNullableStringVal_StringMappedAnyOfNull).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("optionalNullableStringVal_StringMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableStringVal_StringMappedAnyOfJson() {
   return isOptionalNullableStringVal_StringMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringVal_StringMappedAnyOf) : optionalNullableStringVal_StringMappedAnyOf;
-}
-
-@JsonIgnore
-Tristate<CustomString> getOptionalNullableStringVal_StringMappedAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMappedAnyOf, isOptionalNullableStringVal_StringMappedAnyOfNull).map(value -> CustomString.fromString(value));
 }
 
 ]
@@ -2109,12 +2109,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("optionalStringListAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalStringListAnyOfJson() {
-  return optionalStringListAnyOf;
-}
-
 @JsonIgnore
 Optional<List<String>> getOptionalStringListAnyOf() {
   return mapList(
@@ -2124,6 +2118,12 @@ Optional<List<String>> getOptionalStringListAnyOf() {
       Function.identity(),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("optionalStringListAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalStringListAnyOfJson() {
+  return optionalStringListAnyOf;
 }
 
 @JsonIgnore
@@ -2253,12 +2253,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("optionalStringList_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalStringList_FullyMappedAnyOfJson() {
-  return optionalStringList_FullyMappedAnyOf;
-}
-
 @JsonIgnore
 Optional<CustomList<CustomString>> getOptionalStringList_FullyMappedAnyOf() {
   return mapList(
@@ -2268,6 +2262,12 @@ Optional<CustomList<CustomString>> getOptionalStringList_FullyMappedAnyOf() {
       l -> CustomList.fromList(l),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("optionalStringList_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalStringList_FullyMappedAnyOfJson() {
+  return optionalStringList_FullyMappedAnyOf;
 }
 
 @JsonIgnore
@@ -2385,15 +2385,15 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 .
 .
+@JsonIgnore
+Optional<String> getOptionalStringValAnyOf() {
+  return Optional.ofNullable(optionalStringValAnyOf);
+}
+
 @JsonProperty("optionalStringValAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getOptionalStringValAnyOfJson() {
   return optionalStringValAnyOf;
-}
-
-@JsonIgnore
-Optional<String> getOptionalStringValAnyOf() {
-  return Optional.ofNullable(optionalStringValAnyOf);
 }
 
 @JsonIgnore
@@ -2495,15 +2495,15 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 .
 .
+@JsonIgnore
+Optional<CustomString> getOptionalStringVal_FullyMappedAnyOf() {
+  return Optional.ofNullable(optionalStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("optionalStringVal_FullyMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getOptionalStringVal_FullyMappedAnyOfJson() {
   return optionalStringVal_FullyMappedAnyOf;
-}
-
-@JsonIgnore
-Optional<CustomString> getOptionalStringVal_FullyMappedAnyOf() {
-  return Optional.ofNullable(optionalStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
 }
 
 @JsonIgnore
@@ -2604,15 +2604,15 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 .
 .
+@JsonIgnore
+Optional<String> getOptionalStringVal_ListMappedAnyOf() {
+  return Optional.ofNullable(optionalStringVal_ListMappedAnyOf);
+}
+
 @JsonProperty("optionalStringVal_ListMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getOptionalStringVal_ListMappedAnyOfJson() {
   return optionalStringVal_ListMappedAnyOf;
-}
-
-@JsonIgnore
-Optional<String> getOptionalStringVal_ListMappedAnyOf() {
-  return Optional.ofNullable(optionalStringVal_ListMappedAnyOf);
 }
 
 @JsonIgnore
@@ -2714,15 +2714,15 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 .
 .
+@JsonIgnore
+Optional<CustomString> getOptionalStringVal_StringMappedAnyOf() {
+  return Optional.ofNullable(optionalStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("optionalStringVal_StringMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getOptionalStringVal_StringMappedAnyOfJson() {
   return optionalStringVal_StringMappedAnyOf;
-}
-
-@JsonIgnore
-Optional<CustomString> getOptionalStringVal_StringMappedAnyOf() {
-  return Optional.ofNullable(optionalStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
 }
 
 @JsonIgnore
@@ -2853,12 +2853,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("requiredListWithNullableItemsAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredListWithNullableItemsAnyOfJson() {
-  return requiredListWithNullableItemsAnyOf;
-}
-
 @JsonIgnore
 List<Optional<String>> getRequiredListWithNullableItemsAnyOf() {
   return mapList(
@@ -2868,6 +2862,12 @@ List<Optional<String>> getRequiredListWithNullableItemsAnyOf() {
       Function.identity(),
       Function.identity()
   );
+}
+
+@JsonProperty("requiredListWithNullableItemsAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredListWithNullableItemsAnyOfJson() {
+  return requiredListWithNullableItemsAnyOf;
 }
 
 ]
@@ -2960,12 +2960,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("requiredListWithNullableItems_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredListWithNullableItems_FullyMappedAnyOfJson() {
-  return requiredListWithNullableItems_FullyMappedAnyOf;
-}
-
 @JsonIgnore
 CustomList<Optional<CustomString>> getRequiredListWithNullableItems_FullyMappedAnyOf() {
   return mapList(
@@ -2975,6 +2969,12 @@ CustomList<Optional<CustomString>> getRequiredListWithNullableItems_FullyMappedA
       l -> CustomList.fromList(l),
       Function.identity()
   );
+}
+
+@JsonProperty("requiredListWithNullableItems_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredListWithNullableItems_FullyMappedAnyOfJson() {
+  return requiredListWithNullableItems_FullyMappedAnyOf;
 }
 
 ]
@@ -3067,12 +3067,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("requiredListWithNullableItems_ListMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredListWithNullableItems_ListMappedAnyOfJson() {
-  return requiredListWithNullableItems_ListMappedAnyOf;
-}
-
 @JsonIgnore
 CustomList<Optional<String>> getRequiredListWithNullableItems_ListMappedAnyOf() {
   return mapList(
@@ -3082,6 +3076,12 @@ CustomList<Optional<String>> getRequiredListWithNullableItems_ListMappedAnyOf() 
       l -> CustomList.fromList(l),
       Function.identity()
   );
+}
+
+@JsonProperty("requiredListWithNullableItems_ListMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredListWithNullableItems_ListMappedAnyOfJson() {
+  return requiredListWithNullableItems_ListMappedAnyOf;
 }
 
 ]
@@ -3173,12 +3173,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("requiredListWithNullableItems_StringMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredListWithNullableItems_StringMappedAnyOfJson() {
-  return requiredListWithNullableItems_StringMappedAnyOf;
-}
-
 @JsonIgnore
 List<Optional<CustomString>> getRequiredListWithNullableItems_StringMappedAnyOf() {
   return mapList(
@@ -3188,6 +3182,12 @@ List<Optional<CustomString>> getRequiredListWithNullableItems_StringMappedAnyOf(
       Function.identity(),
       Function.identity()
   );
+}
+
+@JsonProperty("requiredListWithNullableItems_StringMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredListWithNullableItems_StringMappedAnyOfJson() {
+  return requiredListWithNullableItems_StringMappedAnyOf;
 }
 
 ]
@@ -3267,14 +3267,14 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
 .
 .
-@JsonProperty("requiredMapAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Map<String, String> getRequiredMapAnyOfJson() {
+@JsonIgnore
+Map<String, String> getRequiredMapAnyOf() {
   return requiredMapAnyOf;
 }
 
-@JsonIgnore
-Map<String, String> getRequiredMapAnyOf() {
+@JsonProperty("requiredMapAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Map<String, String> getRequiredMapAnyOfJson() {
   return requiredMapAnyOf;
 }
 
@@ -3356,12 +3356,6 @@ java.util.Map
 java.util.function.Function
 .
 .
-@JsonProperty("requiredMap_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Map<String, String> getRequiredMap_FullyMappedAnyOfJson() {
-  return requiredMap_FullyMappedAnyOf;
-}
-
 @JsonIgnore
 CustomMap<String, CustomString> getRequiredMap_FullyMappedAnyOf() {
   return mapMap(
@@ -3371,6 +3365,12 @@ CustomMap<String, CustomString> getRequiredMap_FullyMappedAnyOf() {
       m -> CustomMap.fromMap(m),
       Function.identity()
   );
+}
+
+@JsonProperty("requiredMap_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Map<String, String> getRequiredMap_FullyMappedAnyOfJson() {
+  return requiredMap_FullyMappedAnyOf;
 }
 
 ]
@@ -3476,12 +3476,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("requiredNullableListWithNullableItemsAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableListWithNullableItemsAnyOfJson() {
-  return isRequiredNullableListWithNullableItemsAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItemsAnyOf) : null;
-}
-
 @JsonIgnore
 Optional<List<Optional<String>>> getRequiredNullableListWithNullableItemsAnyOf() {
   return mapList(
@@ -3491,6 +3485,12 @@ Optional<List<Optional<String>>> getRequiredNullableListWithNullableItemsAnyOf()
       Function.identity(),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("requiredNullableListWithNullableItemsAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableListWithNullableItemsAnyOfJson() {
+  return isRequiredNullableListWithNullableItemsAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItemsAnyOf) : null;
 }
 
 @JsonIgnore
@@ -3627,12 +3627,6 @@ java.util.List
 java.util.Optional
 .
 .
-@JsonProperty("requiredNullableListWithNullableItems_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableListWithNullableItems_FullyMappedAnyOfJson() {
-  return isRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_FullyMappedAnyOf) : null;
-}
-
 @JsonIgnore
 Optional<CustomList<Optional<CustomString>>> getRequiredNullableListWithNullableItems_FullyMappedAnyOf() {
   return mapList(
@@ -3642,6 +3636,12 @@ Optional<CustomList<Optional<CustomString>>> getRequiredNullableListWithNullable
       l -> CustomList.fromList(l),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("requiredNullableListWithNullableItems_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableListWithNullableItems_FullyMappedAnyOfJson() {
+  return isRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_FullyMappedAnyOf) : null;
 }
 
 @JsonIgnore
@@ -3779,12 +3779,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("requiredNullableListWithNullableItems_ListMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableListWithNullableItems_ListMappedAnyOfJson() {
-  return isRequiredNullableListWithNullableItems_ListMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_ListMappedAnyOf) : null;
-}
-
 @JsonIgnore
 Optional<CustomList<Optional<String>>> getRequiredNullableListWithNullableItems_ListMappedAnyOf() {
   return mapList(
@@ -3794,6 +3788,12 @@ Optional<CustomList<Optional<String>>> getRequiredNullableListWithNullableItems_
       l -> CustomList.fromList(l),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("requiredNullableListWithNullableItems_ListMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableListWithNullableItems_ListMappedAnyOfJson() {
+  return isRequiredNullableListWithNullableItems_ListMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_ListMappedAnyOf) : null;
 }
 
 @JsonIgnore
@@ -3930,12 +3930,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("requiredNullableListWithNullableItems_StringMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableListWithNullableItems_StringMappedAnyOfJson() {
-  return isRequiredNullableListWithNullableItems_StringMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_StringMappedAnyOf) : null;
-}
-
 @JsonIgnore
 Optional<List<Optional<CustomString>>> getRequiredNullableListWithNullableItems_StringMappedAnyOf() {
   return mapList(
@@ -3945,6 +3939,12 @@ Optional<List<Optional<CustomString>>> getRequiredNullableListWithNullableItems_
       Function.identity(),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("requiredNullableListWithNullableItems_StringMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableListWithNullableItems_StringMappedAnyOfJson() {
+  return isRequiredNullableListWithNullableItems_StringMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_StringMappedAnyOf) : null;
 }
 
 @JsonIgnore
@@ -4073,12 +4073,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("requiredNullableMapAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableMapAnyOfJson() {
-  return isRequiredNullableMapAnyOfPresent ? new JacksonNullContainer<>(requiredNullableMapAnyOf) : null;
-}
-
 @JsonIgnore
 Optional<Map<String, String>> getRequiredNullableMapAnyOf() {
   return mapMap(
@@ -4088,6 +4082,12 @@ Optional<Map<String, String>> getRequiredNullableMapAnyOf() {
       Function.identity(),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("requiredNullableMapAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableMapAnyOfJson() {
+  return isRequiredNullableMapAnyOfPresent ? new JacksonNullContainer<>(requiredNullableMapAnyOf) : null;
 }
 
 @JsonIgnore
@@ -4218,12 +4218,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("requiredNullableMap_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableMap_FullyMappedAnyOfJson() {
-  return isRequiredNullableMap_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableMap_FullyMappedAnyOf) : null;
-}
-
 @JsonIgnore
 Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMappedAnyOf() {
   return mapMap(
@@ -4233,6 +4227,12 @@ Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMappedAnyO
       m -> CustomMap.fromMap(m),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("requiredNullableMap_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableMap_FullyMappedAnyOfJson() {
+  return isRequiredNullableMap_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableMap_FullyMappedAnyOf) : null;
 }
 
 @JsonIgnore
@@ -4361,12 +4361,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("requiredNullableStringListAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableStringListAnyOfJson() {
-  return isRequiredNullableStringListAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringListAnyOf) : null;
-}
-
 @JsonIgnore
 Optional<List<String>> getRequiredNullableStringListAnyOf() {
   return mapList(
@@ -4376,6 +4370,12 @@ Optional<List<String>> getRequiredNullableStringListAnyOf() {
       Function.identity(),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("requiredNullableStringListAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableStringListAnyOfJson() {
+  return isRequiredNullableStringListAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringListAnyOf) : null;
 }
 
 @JsonIgnore
@@ -4508,12 +4508,6 @@ java.util.Optional
 java.util.function.Function
 .
 .
-@JsonProperty("requiredNullableStringList_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableStringList_FullyMappedAnyOfJson() {
-  return isRequiredNullableStringList_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringList_FullyMappedAnyOf) : null;
-}
-
 @JsonIgnore
 Optional<CustomList<CustomString>> getRequiredNullableStringList_FullyMappedAnyOf() {
   return mapList(
@@ -4523,6 +4517,12 @@ Optional<CustomList<CustomString>> getRequiredNullableStringList_FullyMappedAnyO
       l -> CustomList.fromList(l),
       Optional::ofNullable
   );
+}
+
+@JsonProperty("requiredNullableStringList_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableStringList_FullyMappedAnyOfJson() {
+  return isRequiredNullableStringList_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringList_FullyMappedAnyOf) : null;
 }
 
 @JsonIgnore
@@ -4643,15 +4643,15 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 .
 .
+@JsonIgnore
+Optional<String> getRequiredNullableStringValAnyOf() {
+  return Optional.ofNullable(requiredNullableStringValAnyOf);
+}
+
 @JsonProperty("requiredNullableStringValAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getRequiredNullableStringValAnyOfJson() {
   return isRequiredNullableStringValAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringValAnyOf) : null;
-}
-
-@JsonIgnore
-Optional<String> getRequiredNullableStringValAnyOf() {
-  return Optional.ofNullable(requiredNullableStringValAnyOf);
 }
 
 @JsonIgnore
@@ -4756,15 +4756,15 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 .
 .
+@JsonIgnore
+Optional<CustomString> getRequiredNullableStringVal_FullyMappedAnyOf() {
+  return Optional.ofNullable(requiredNullableStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("requiredNullableStringVal_FullyMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getRequiredNullableStringVal_FullyMappedAnyOfJson() {
   return isRequiredNullableStringVal_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringVal_FullyMappedAnyOf) : null;
-}
-
-@JsonIgnore
-Optional<CustomString> getRequiredNullableStringVal_FullyMappedAnyOf() {
-  return Optional.ofNullable(requiredNullableStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
 }
 
 @JsonIgnore
@@ -4868,15 +4868,15 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 .
 .
+@JsonIgnore
+Optional<String> getRequiredNullableStringVal_ListMappedAnyOf() {
+  return Optional.ofNullable(requiredNullableStringVal_ListMappedAnyOf);
+}
+
 @JsonProperty("requiredNullableStringVal_ListMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getRequiredNullableStringVal_ListMappedAnyOfJson() {
   return isRequiredNullableStringVal_ListMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringVal_ListMappedAnyOf) : null;
-}
-
-@JsonIgnore
-Optional<String> getRequiredNullableStringVal_ListMappedAnyOf() {
-  return Optional.ofNullable(requiredNullableStringVal_ListMappedAnyOf);
 }
 
 @JsonIgnore
@@ -4981,15 +4981,15 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 .
 .
+@JsonIgnore
+Optional<CustomString> getRequiredNullableStringVal_StringMappedAnyOf() {
+  return Optional.ofNullable(requiredNullableStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("requiredNullableStringVal_StringMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getRequiredNullableStringVal_StringMappedAnyOfJson() {
   return isRequiredNullableStringVal_StringMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringVal_StringMappedAnyOf) : null;
-}
-
-@JsonIgnore
-Optional<CustomString> getRequiredNullableStringVal_StringMappedAnyOf() {
-  return Optional.ofNullable(requiredNullableStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
 }
 
 @JsonIgnore
@@ -5081,14 +5081,14 @@ com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 .
 .
-@JsonProperty("requiredStringListAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredStringListAnyOfJson() {
+@JsonIgnore
+List<String> getRequiredStringListAnyOf() {
   return requiredStringListAnyOf;
 }
 
-@JsonIgnore
-List<String> getRequiredStringListAnyOf() {
+@JsonProperty("requiredStringListAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredStringListAnyOfJson() {
   return requiredStringListAnyOf;
 }
 
@@ -5172,12 +5172,6 @@ java.util.List
 java.util.function.Function
 .
 .
-@JsonProperty("requiredStringList_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredStringList_FullyMappedAnyOfJson() {
-  return requiredStringList_FullyMappedAnyOf;
-}
-
 @JsonIgnore
 CustomList<CustomString> getRequiredStringList_FullyMappedAnyOf() {
   return mapList(
@@ -5187,6 +5181,12 @@ CustomList<CustomString> getRequiredStringList_FullyMappedAnyOf() {
       l -> CustomList.fromList(l),
       Function.identity()
   );
+}
+
+@JsonProperty("requiredStringList_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredStringList_FullyMappedAnyOfJson() {
+  return requiredStringList_FullyMappedAnyOf;
 }
 
 ]
@@ -5264,14 +5264,14 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 .
 .
-@JsonProperty("stringValAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private String getStringValAnyOfJson() {
+@JsonIgnore
+String getStringValAnyOf() {
   return stringValAnyOf;
 }
 
-@JsonIgnore
-String getStringValAnyOf() {
+@JsonProperty("stringValAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringValAnyOfJson() {
   return stringValAnyOf;
 }
 
@@ -5340,15 +5340,15 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 .
 .
+@JsonIgnore
+CustomString getStringVal_FullyMappedAnyOf() {
+  return stringVal_FullyMappedAnyOf != null ? CustomString.fromString(stringVal_FullyMappedAnyOf) : null;
+}
+
 @JsonProperty("stringVal_FullyMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getStringVal_FullyMappedAnyOfJson() {
   return stringVal_FullyMappedAnyOf;
-}
-
-@JsonIgnore
-CustomString getStringVal_FullyMappedAnyOf() {
-  return stringVal_FullyMappedAnyOf != null ? CustomString.fromString(stringVal_FullyMappedAnyOf) : null;
 }
 
 ]
@@ -5415,14 +5415,14 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 .
 .
-@JsonProperty("stringVal_ListMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private String getStringVal_ListMappedAnyOfJson() {
+@JsonIgnore
+String getStringVal_ListMappedAnyOf() {
   return stringVal_ListMappedAnyOf;
 }
 
-@JsonIgnore
-String getStringVal_ListMappedAnyOf() {
+@JsonProperty("stringVal_ListMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_ListMappedAnyOfJson() {
   return stringVal_ListMappedAnyOf;
 }
 
@@ -5491,15 +5491,15 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 .
 .
+@JsonIgnore
+CustomString getStringVal_StringMappedAnyOf() {
+  return stringVal_StringMappedAnyOf != null ? CustomString.fromString(stringVal_StringMappedAnyOf) : null;
+}
+
 @JsonProperty("stringVal_StringMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getStringVal_StringMappedAnyOfJson() {
   return stringVal_StringMappedAnyOf;
-}
-
-@JsonIgnore
-CustomString getStringVal_StringMappedAnyOf() {
-  return stringVal_StringMappedAnyOf != null ? CustomString.fromString(stringVal_StringMappedAnyOf) : null;
 }
 
 ]

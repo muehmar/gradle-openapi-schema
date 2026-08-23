@@ -684,26 +684,26 @@ public class PersonDto {
   }
 .
 .
+  @JsonIgnore
+  LocalDate getBirthdate() {
+    return birthdate;
+  }
+
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private LocalDate getBirthdateJson() {
     return birthdate;
   }
-
+.
+.
   @JsonIgnore
-  LocalDate getBirthdate() {
-    return birthdate;
-  }
-.
-.
-  @JsonProperty("username")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsernameJson() {
+  String getUsername() {
     return username;
   }
 
-  @JsonIgnore
-  String getUsername() {
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsernameJson() {
     return username;
   }
 
@@ -12194,26 +12194,26 @@ public class PersonDto {
   }
 .
 .
+  @JsonIgnore
+  LocalDate getBirthdate() {
+    return birthdate;
+  }
+
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private LocalDate getBirthdateJson() {
     return birthdate;
   }
-
+.
+.
   @JsonIgnore
-  LocalDate getBirthdate() {
-    return birthdate;
-  }
-.
-.
-  @JsonProperty("username")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsernameJson() {
+  String getUsername() {
     return username;
   }
 
-  @JsonIgnore
-  String getUsername() {
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsernameJson() {
     return username;
   }
 
