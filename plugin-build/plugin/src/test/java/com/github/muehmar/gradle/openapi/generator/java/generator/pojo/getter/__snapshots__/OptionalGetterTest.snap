@@ -1,42 +1,3 @@
-generatorSettings[NO_JAVA_DOC]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-java.util.Optional
-
-@JsonIgnore
-public Optional<String> getOptionalStringVal() {
-  return Optional.ofNullable(optionalStringVal);
-}
-]
-
-
-generatorSettings[PACKAGE_PRIVATE]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-java.util.Optional
-
-/**
- * OptionalStringVal
- */
-@JsonIgnore
-Optional<String> getOptionalStringVal() {
-  return Optional.ofNullable(optionalStringVal);
-}
-]
-
-
-generatorSettings[]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-java.util.Optional
-
-/**
- * OptionalStringVal
- */
-@JsonIgnore
-public Optional<String> getOptionalStringVal() {
-  return Optional.ofNullable(optionalStringVal);
-}
-]
-
-
 genericType=[
 com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
@@ -61,5 +22,30 @@ java.util.Optional
 @JsonIgnore
 public Optional<CustomString> getOptionalStringVal() {
   return Optional.ofNullable(optionalStringVal).map(value -> CustomString.fromString(value));
+}
+]
+
+
+visibility[PACKAGE_PRIVATE]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+
+@JsonIgnore
+Optional<String> getOptionalStringVal() {
+  return Optional.ofNullable(optionalStringVal);
+}
+]
+
+
+visibility[PUBLIC]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+java.util.Optional
+
+/**
+ * OptionalStringVal
+ */
+@JsonIgnore
+public Optional<String> getOptionalStringVal() {
+  return Optional.ofNullable(optionalStringVal);
 }
 ]

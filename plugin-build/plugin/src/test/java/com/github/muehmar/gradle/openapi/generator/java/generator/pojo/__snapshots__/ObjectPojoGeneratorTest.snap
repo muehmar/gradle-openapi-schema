@@ -5390,7 +5390,6 @@ public class UserDto {
   /**
    * Preferred language of this user
    */
-  @JsonIgnore
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue
@@ -6196,7 +6195,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableStringVal
    */
-  @JsonIgnore
   public String getRequiredNullableStringValOr(String defaultValue) {
     return this.requiredNullableStringVal == null
         ? defaultValue
@@ -6233,7 +6231,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalStringVal
    */
-  @JsonIgnore
   public String getOptionalStringValOr(String defaultValue) {
     return this.optionalStringVal == null
         ? defaultValue
@@ -6283,7 +6280,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredListWithNullableItems
    */
-  @JsonIgnore
   public List<Optional<String>> getRequiredListWithNullableItems() {
     return mapList(
         requiredListWithNullableItems,
@@ -6311,7 +6307,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItems() {
     return mapList(
         requiredNullableListWithNullableItems,
@@ -6325,7 +6320,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   public List<Optional<String>> getRequiredNullableListWithNullableItemsOr(List<Optional<String>> defaultValue) {
     return this.requiredNullableListWithNullableItems == null
         ? defaultValue
@@ -6360,7 +6354,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public Optional<List<Optional<String>>> getOptionalListWithNullableItems() {
     return mapList(
         optionalListWithNullableItems,
@@ -6374,7 +6367,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public List<Optional<String>> getOptionalListWithNullableItemsOr(List<Optional<String>> defaultValue) {
     return this.optionalListWithNullableItems == null
         ? defaultValue
@@ -6409,7 +6401,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalNullableListWithNullableItems
    */
-  @JsonIgnore
   public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
     return mapList(
         optionalNullableListWithNullableItems,
@@ -6436,7 +6427,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredMap
    */
-  @JsonIgnore
   public Map<String, String> getRequiredMap() {
     return requiredMap;
   }
@@ -6457,7 +6447,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredMapWithNullableValues
    */
-  @JsonIgnore
   public Map<String, Optional<String>> getRequiredMapWithNullableValues() {
     return mapMap(
         requiredMapWithNullableValues,
@@ -6484,7 +6473,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableMap
    */
-  @JsonIgnore
   public Optional<Map<String, String>> getRequiredNullableMap() {
     return mapMap(
         requiredNullableMap,
@@ -6498,7 +6486,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableMap
    */
-  @JsonIgnore
   public Map<String, String> getRequiredNullableMapOr(Map<String, String> defaultValue) {
     return this.requiredNullableMap == null
         ? defaultValue
@@ -6526,7 +6513,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Optional<Map<String, Optional<String>>> getRequiredNullableMapWithNullableValues() {
     return mapMap(
         requiredNullableMapWithNullableValues,
@@ -6540,7 +6526,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Map<String, Optional<String>> getRequiredNullableMapWithNullableValuesOr(Map<String, Optional<String>> defaultValue) {
     return this.requiredNullableMapWithNullableValues == null
         ? defaultValue
@@ -6574,7 +6559,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalMap
    */
-  @JsonIgnore
   public Optional<Map<String, String>> getOptionalMap() {
     return mapMap(
         optionalMap,
@@ -6588,7 +6572,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalMap
    */
-  @JsonIgnore
   public Map<String, String> getOptionalMapOr(Map<String, String> defaultValue) {
     return this.optionalMap == null
         ? defaultValue
@@ -6616,7 +6599,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Optional<Map<String, Optional<String>>> getOptionalMapWithNullableValues() {
     return mapMap(
         optionalMapWithNullableValues,
@@ -6630,7 +6612,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Map<String, Optional<String>> getOptionalMapWithNullableValuesOr(Map<String, Optional<String>> defaultValue) {
     return this.optionalMapWithNullableValues == null
         ? defaultValue
@@ -6664,7 +6645,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalNullableMap
    */
-  @JsonIgnore
   public Tristate<Map<String, String>> getOptionalNullableMap() {
     return mapMap(
         optionalNullableMap,
@@ -6690,7 +6670,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Tristate<Map<String, Optional<String>>> getOptionalNullableMapWithNullableValues() {
     return mapMap(
         optionalNullableMapWithNullableValues,
@@ -11294,7 +11273,6 @@ public class ObjectPojo1Dto {
   /**
    * List
    */
-  @JsonIgnore
   public Set<String> getListVal() {
     return mapList(
         listVal,
@@ -11735,7 +11713,6 @@ public class ObjectPojo1Dto {
   /**
    * Map
    */
-  @JsonIgnore
   public Map<String, UUID> getMapVal() {
     return mapVal;
   }
@@ -13180,7 +13157,6 @@ public class UserDto {
    * * `GERMAN`: German language<br>
    * * `ENGLISH`: English language
    */
-  @JsonIgnore
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue
@@ -13480,7 +13456,6 @@ public class ObjectPojo1Dto {
   /**
    * Birthdate
    */
-  @JsonIgnore
   public LocalDate getBirthdateOr(LocalDate defaultValue) {
     return this.birthdate == null
         ? defaultValue
@@ -14119,7 +14094,6 @@ public class UserDto {
   /**
    * Preferred language of this user
    */
-  @JsonIgnore
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue

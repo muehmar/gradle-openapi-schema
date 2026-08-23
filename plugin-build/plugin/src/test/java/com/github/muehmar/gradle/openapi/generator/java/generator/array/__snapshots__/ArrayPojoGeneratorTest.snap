@@ -45,7 +45,6 @@ public class PosologyDto {
   /**
    * Doses to be taken
    */
-  @JsonIgnore
   public Set<Double> getItems() {
     return mapList(
         items,
@@ -275,7 +274,6 @@ public class DirectionArrayDto {
   /**
    * Direction array
    */
-  @JsonIgnore
   public List<Direction> getItems() {
     return mapList(
         items,

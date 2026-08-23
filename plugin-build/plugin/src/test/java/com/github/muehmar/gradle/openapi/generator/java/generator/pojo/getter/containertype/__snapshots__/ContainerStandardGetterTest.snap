@@ -1,14 +1,12 @@
 containerMembers[requiredListWithNullableItemsFullMapping]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 java.util.function.Function
 
 /**
  * RequiredListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<CustomString>> getRequiredListWithNullableItemsFullMapping() {
   return mapList(
       requiredListWithNullableItemsFullMapping,
@@ -22,14 +20,12 @@ public CustomList<Optional<CustomString>> getRequiredListWithNullableItemsFullMa
 
 
 containerMembers[requiredListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 java.util.function.Function
 
 /**
  * RequiredListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<String>> getRequiredListWithNullableItems() {
   return mapList(
       requiredListWithNullableItems,
@@ -43,12 +39,11 @@ public List<Optional<String>> getRequiredListWithNullableItems() {
 
 
 containerMembers[requiredMap]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
+.
+.
 /**
  * RequiredMap
  */
-@JsonIgnore
 public Map<String, String> getRequiredMap() {
   return requiredMap;
 }
@@ -56,48 +51,32 @@ public Map<String, String> getRequiredMap() {
 
 
 containerMembers[requiredStringList]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
+.
+.
 /**
  * List
  */
-@JsonIgnore
 public List<String> getRequiredStringList() {
   return requiredStringList;
 }
 ]
 
 
-generatorSettings[NO_JAVA_DOC]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
-@JsonIgnore
-public List<String> getRequiredStringList() {
-  return requiredStringList;
-}
-]
-
-
-generatorSettings[PACKAGE_PRIVATE]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
-/**
- * List
- */
-@JsonIgnore
+visibility[PACKAGE_PRIVATE]=[
+.
+.
 List<String> getRequiredStringList() {
   return requiredStringList;
 }
 ]
 
 
-generatorSettings[]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
+visibility[PUBLIC]=[
+.
+.
 /**
  * List
  */
-@JsonIgnore
 public List<String> getRequiredStringList() {
   return requiredStringList;
 }

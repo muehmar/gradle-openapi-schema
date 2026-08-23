@@ -9,6 +9,6 @@ public class GetterGenerator {
   private GetterGenerator() {}
 
   public static Generator<JavaPojoMember, PojoSettings> getterGenerator() {
-    return GetterGroupsDefinition.create().generator();
+    return GetterGroupsDefinition.create();
   }
 }

@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.containertype;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.containertype.ContainerOptionalOrGetter.containerOptionalOrGetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JAVA_DOC;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalStringList;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredNullableListWithNullableItems;
@@ -15,9 +14,6 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
-import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -26,6 +22,7 @@ import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -38,8 +35,7 @@ class ContainerOptionalOrGetterTest {
   @MethodSource("containerMembers")
   @SnapshotName("containerMembers")
   void generate_when_listMembers_then_matchSnapshot(JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        containerOptionalOrGetterGenerator(GetterGeneratorSettings.empty());
+    final Generator<JavaPojoMember, PojoSettings> generator = containerOptionalOrGetterGenerator();
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -59,25 +55,14 @@ class ContainerOptionalOrGetterTest {
         .map(Arguments::arguments);
   }
 
-  @ParameterizedTest
-  @MethodSource("generatorSettings")
-  @SnapshotName("generatorSettings")
-  void generate_when_generatorSettings_then_matchSnapshot(
-      GetterGeneratorSettings generatorSettings) {
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        containerOptionalOrGetterGenerator(generatorSettings);
+  @Test
+  @SnapshotName("optionalStringList")
+  void generate_when_optionalStringList_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = containerOptionalOrGetterGenerator();
 
-    final Writer writer;
-    writer = generator.generate(optionalStringList(), defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(optionalStringList(), defaultTestSettings(), javaWriter());
 
-    expect
-        .scenario(generatorSettings.getSettings().mkString("|"))
-        .toMatchSnapshot(writerSnapshot(writer));
-  }
-
-  private static Stream<Arguments> generatorSettings() {
-    return Stream.<PList<GetterGeneratorSetting>>of(PList.empty(), PList.of(NO_JAVA_DOC))
-        .map(GetterGeneratorSettings::new)
-        .map(Arguments::arguments);
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

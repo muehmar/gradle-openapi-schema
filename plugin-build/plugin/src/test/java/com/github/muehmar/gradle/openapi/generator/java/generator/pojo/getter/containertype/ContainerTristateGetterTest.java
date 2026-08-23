@@ -1,8 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.containertype;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.containertype.ContainerTristateGetter.containerTristateGetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JAVA_DOC;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.PACKAGE_PRIVATE;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableListWithNullableItems;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableMap;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.optionalNullableStringList;
@@ -15,9 +13,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
-import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.AccessorProfile.Visibility;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -39,7 +35,7 @@ class ContainerTristateGetterTest {
   @SnapshotName("containerMembers")
   void generate_when_listMembers_then_matchSnapshot(JavaPojoMember member) {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        containerTristateGetterGenerator(GetterGeneratorSettings.empty());
+        containerTristateGetterGenerator(Visibility.PUBLIC);
 
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
@@ -60,25 +56,19 @@ class ContainerTristateGetterTest {
   }
 
   @ParameterizedTest
-  @MethodSource("generatorSettings")
-  @SnapshotName("generatorSettings")
-  void generate_when_generatorSettings_then_matchSnapshot(
-      GetterGeneratorSettings generatorSettings) {
+  @MethodSource("visibilities")
+  @SnapshotName("visibility")
+  void generate_when_visibility_then_matchSnapshot(Visibility visibility) {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        containerTristateGetterGenerator(generatorSettings);
+        containerTristateGetterGenerator(visibility);
 
     final Writer writer;
     writer = generator.generate(requiredStringList(), defaultTestSettings(), javaWriter());
 
-    expect
-        .scenario(generatorSettings.getSettings().mkString("|"))
-        .toMatchSnapshot(writerSnapshot(writer));
+    expect.scenario(visibility.name()).toMatchSnapshot(writerSnapshot(writer));
   }
 
-  private static Stream<Arguments> generatorSettings() {
-    return Stream.<PList<GetterGeneratorSetting>>of(
-            PList.empty(), PList.of(PACKAGE_PRIVATE), PList.of(NO_JAVA_DOC))
-        .map(GetterGeneratorSettings::new)
-        .map(Arguments::arguments);
+  private static Stream<Arguments> visibilities() {
+    return Stream.of(Visibility.values()).map(Arguments::arguments);
   }
 }

@@ -40,7 +40,6 @@ public class PosologyDto {
   /**
    * Doses to be taken
    */
-  @JsonIgnore
   public List<Double> getItems() {
     return items;
   }

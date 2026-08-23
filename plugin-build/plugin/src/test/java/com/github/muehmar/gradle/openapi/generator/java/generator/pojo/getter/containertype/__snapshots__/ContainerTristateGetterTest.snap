@@ -1,14 +1,12 @@
 containerMembers[optionalNullableListWithNullableItemsFullMapping]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
 java.util.Optional
 
 /**
  * OptionalNullableListWithNullableItems
  */
-@JsonIgnore
 public Tristate<CustomList<Optional<CustomString>>> getOptionalNullableListWithNullableItemsFullMapping() {
   return mapList(
       optionalNullableListWithNullableItemsFullMapping,
@@ -22,7 +20,6 @@ public Tristate<CustomList<Optional<CustomString>>> getOptionalNullableListWithN
 
 
 containerMembers[optionalNullableListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
 java.util.Optional
 java.util.function.Function
@@ -30,7 +27,6 @@ java.util.function.Function
 /**
  * OptionalNullableListWithNullableItems
  */
-@JsonIgnore
 public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
   return mapList(
       optionalNullableListWithNullableItems,
@@ -44,14 +40,12 @@ public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems
 
 
 containerMembers[optionalNullableMap]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
 java.util.function.Function
 
 /**
  * OptionalNullableMap
  */
-@JsonIgnore
 public Tristate<Map<String, String>> getOptionalNullableMap() {
   return mapMap(
       optionalNullableMap,
@@ -65,14 +59,12 @@ public Tristate<Map<String, String>> getOptionalNullableMap() {
 
 
 containerMembers[optionalNullableStringList]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
 java.util.function.Function
 
 /**
  * List
  */
-@JsonIgnore
 public Tristate<List<String>> getOptionalNullableStringList() {
   return mapList(
       optionalNullableStringList,
@@ -85,39 +77,21 @@ public Tristate<List<String>> getOptionalNullableStringList() {
 ]
 
 
-generatorSettings[NO_JAVA_DOC]=[
-com.fasterxml.jackson.annotation.JsonIgnore
+visibility[PACKAGE_PRIVATE]=[
 com.github.muehmar.openapi.util.Tristate
 
-@JsonIgnore
-public Tristate<List<String>> getRequiredStringList() {
-  return requiredStringList;
-}
-]
-
-
-generatorSettings[PACKAGE_PRIVATE]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-com.github.muehmar.openapi.util.Tristate
-
-/**
- * List
- */
-@JsonIgnore
 Tristate<List<String>> getRequiredStringList() {
   return requiredStringList;
 }
 ]
 
 
-generatorSettings[]=[
-com.fasterxml.jackson.annotation.JsonIgnore
+visibility[PUBLIC]=[
 com.github.muehmar.openapi.util.Tristate
 
 /**
  * List
  */
-@JsonIgnore
 public Tristate<List<String>> getRequiredStringList() {
   return requiredStringList;
 }

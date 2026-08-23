@@ -175,18 +175,19 @@ public class JavaPojoMember {
     return IsNotNullFlagName.fromName(name).getName();
   }
 
+  public JavaName getFlagGetterName() {
+    return isRequiredAndNullable()
+        ? getIsPresentFlagName().startUpperCase().prefix("get")
+        : getIsNotNullFlagName().startUpperCase().prefix("get");
+  }
+
   public JavaName getGetterName() {
     return prefixedMethodName("get");
   }
 
   /**
-   * Name of the getter carrying the validation annotations. The suffix is appended unconditionally
-   * so that violation property paths are uniform across all property shapes.
-   *
-   * <p>A property name which already ends in the suffix would yield the name of the api getter -
-   * this happens for names sanitized to a legal java identifier, e.g. a property {@code point.}
-   * becomes {@code point_} and its api getter {@code getPoint_()}. The suffix is repeated in that
-   * case until the name is free.
+   * The suffix is repeated until the name is free: a property whose name already ends in it -
+   * {@code point.} sanitized to {@code point_} - would otherwise yield the name of the api getter.
    */
   public JavaName getValidationGetterName(PojoSettings settings) {
     final String suffix = settings.getValidationMethods().getGetterSuffix();
@@ -307,7 +308,6 @@ public class JavaPojoMember {
 
   public enum MemberType {
     OBJECT_MEMBER,
-    ADDITIONAL_PROPERTY_MEMBER,
     ALL_OF_MEMBER,
     ONE_OF_MEMBER,
     ANY_OF_MEMBER,
