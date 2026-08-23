@@ -42,6 +42,15 @@
 
 ### Changes in Runtime Behaviour
 
+* [#415](https://github.com/muehmar/gradle-openapi-schema/issues/415) - Every property is serialized through a
+  dedicated JSON getter, which for `date-time` properties carries `@JsonFormat(shape = JsonFormat.Shape.STRING)`.
+  Previously a required not-nullable `date-time` property without a type mapping was serialized through the public
+  getter, which lacked this annotation: with an `ObjectMapper` that writes dates as timestamps (Jackson 2's default
+  `WRITE_DATES_AS_TIMESTAMPS=true`) it was written as a numeric timestamp, while the optional and nullable shapes of
+  the same format were already written as ISO-8601 strings. Such a property is now written as an ISO-8601 string as
+  well, uniform for all shapes. This is only observable with an `ObjectMapper` that serializes dates as timestamps;
+  with `WRITE_DATES_AS_TIMESTAMPS` disabled (the default in Jackson 3) the output is unchanged.
+
 * [#266](https://github.com/muehmar/gradle-openapi-schema/issues/266) - Enum properties are represented internally as
   strings. The generated api (getters, setters, withers) still uses the generated enum or a mapped custom type, but the
   runtime behaviour changes in the following ways:

@@ -5236,14 +5236,22 @@ private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList_Ful
 
 
 pojoMembers[stringValAllOf]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 .
 .
 /**
  * stringVal
  */
-@JsonProperty("stringValAllOf")
+@JsonIgnore
 public String getStringValAllOf() {
+  return stringValAllOf;
+}
+
+@JsonProperty("stringValAllOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringValAllOfJson() {
   return stringValAllOf;
 }
 
@@ -5303,15 +5311,23 @@ private String getStringVal_() {
 
 pojoMembers[stringVal_FullyMappedAllOf]=[
 com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 .
 .
 /**
  * stringVal
  */
-@JsonProperty("stringVal_FullyMappedAllOf")
+@JsonIgnore
 public CustomString getStringVal_FullyMappedAllOf() {
   return stringVal_FullyMappedAllOf != null ? CustomString.fromString(stringVal_FullyMappedAllOf) : null;
+}
+
+@JsonProperty("stringVal_FullyMappedAllOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_FullyMappedAllOfJson() {
+  return stringVal_FullyMappedAllOf;
 }
 
 ]
@@ -5371,14 +5387,22 @@ private String getStringVal_FullyMapped_() {
 
 
 pojoMembers[stringVal_ListMappedAllOf]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 .
 .
 /**
  * stringVal
  */
-@JsonProperty("stringVal_ListMappedAllOf")
+@JsonIgnore
 public String getStringVal_ListMappedAllOf() {
+  return stringVal_ListMappedAllOf;
+}
+
+@JsonProperty("stringVal_ListMappedAllOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_ListMappedAllOfJson() {
   return stringVal_ListMappedAllOf;
 }
 
@@ -5438,15 +5462,23 @@ private String getStringVal_ListMapped_() {
 
 pojoMembers[stringVal_StringMappedAllOf]=[
 com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 .
 .
 /**
  * stringVal
  */
-@JsonProperty("stringVal_StringMappedAllOf")
+@JsonIgnore
 public CustomString getStringVal_StringMappedAllOf() {
   return stringVal_StringMappedAllOf != null ? CustomString.fromString(stringVal_StringMappedAllOf) : null;
+}
+
+@JsonProperty("stringVal_StringMappedAllOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_StringMappedAllOfJson() {
+  return stringVal_StringMappedAllOf;
 }
 
 ]

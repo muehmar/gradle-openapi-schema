@@ -69,8 +69,14 @@ public class PersonDto {
   /**
    * Birthdate
    */
-  @JsonProperty("birthdate")
+  @JsonIgnore
   public LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdateJson() {
     return birthdate;
   }
 .
@@ -78,8 +84,14 @@ public class PersonDto {
   /**
    * Username
    */
-  @JsonProperty("username")
+  @JsonIgnore
   public String getUsername() {
+    return username;
+  }
+
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsernameJson() {
     return username;
   }
 

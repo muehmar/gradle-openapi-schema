@@ -132,7 +132,8 @@ public class GetterGroupsDefinition {
             isNotContainerType(),
             group(
                 JavaPojoMember::isRequiredAndNotNullable,
-                generator(STANDARD_GETTER, NO_VALIDATION)),
+                generator(STANDARD_GETTER, NO_VALIDATION, NO_JSON),
+                generator(JSON_GETTER)),
             group(
                 JavaPojoMember::isRequiredAndNullable,
                 generator(OPTIONAL_GETTER),
@@ -154,7 +155,7 @@ public class GetterGroupsDefinition {
                     isNullableValueContainerType(),
                     group(
                         JavaPojoMember::isRequiredAndNotNullable,
-                        generator(CONTAINER_STANDARD_GETTER),
+                        generator(CONTAINER_STANDARD_GETTER, NO_JSON),
                         generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isRequiredAndNullable,
@@ -174,7 +175,7 @@ public class GetterGroupsDefinition {
                     isNotNullableValueContainerType(),
                     group(
                         JavaPojoMember::isRequiredAndNotNullable,
-                        generator(CONTAINER_STANDARD_GETTER, NO_VALIDATION),
+                        generator(CONTAINER_STANDARD_GETTER, NO_VALIDATION, NO_JSON),
                         generator(JSON_GETTER)),
                     group(
                         JavaPojoMember::isRequiredAndNullable,
@@ -219,7 +220,7 @@ public class GetterGroupsDefinition {
             group(
                 JavaPojoMember::isRequiredAndNotNullable,
                 generator(JSON_GETTER),
-                generator(CONTAINER_STANDARD_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC)),
+                generator(CONTAINER_STANDARD_GETTER, PACKAGE_PRIVATE, NO_JAVA_DOC, NO_JSON)),
             group(
                 JavaPojoMember::isRequiredAndNullable,
                 generator(JSON_GETTER),
