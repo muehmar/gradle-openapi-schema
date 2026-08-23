@@ -64,7 +64,7 @@ public class PosologyDto {
 
   @JsonIgnore
   @NotNull
-  private List<@NotNull Double> getItemsRaw() {
+  private List<@NotNull Double> getItems_() {
     return items;
   }
 
@@ -294,7 +294,7 @@ public class DirectionArrayDto {
 
   @JsonIgnore
   @NotNull
-  private List<@NotNull @Pattern(regexp="north|east|south|west") String> getItemsRaw() {
+  private List<@NotNull @Pattern(regexp="north|east|south|west") String> getItems_() {
     return items;
   }
 

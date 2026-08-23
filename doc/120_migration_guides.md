@@ -2,6 +2,28 @@
 
 ### Breaking Changes
 
+* [#414](https://github.com/muehmar/gradle-openapi-schema/issues/414) - **The property path of constraint violations
+  gains the validation-method getter suffix, whose default changed from `Raw` to `_`.** Every property now carries its
+  constraints on a dedicated validation getter instead of on the public getter where that happened to be possible, so
+  a violation for the property `firstname` is reported for the path `firstname_` rather than `firstname`. This affects
+  all constrained properties, not only some shapes: previously the suffix was omitted whenever the api getter itself
+  had a distinguishing suffix, which by default is the case for optional and nullable properties (`Opt`/`Tristate`).
+  Nested paths gain the suffix on every segment referring to a constrained property, e.g.
+  `address_.street_`. Only the segments of computed assertion methods are unchanged, e.g.
+  `validAgainstNoOneOfSchema` or `additionalProperties_`.
+
+  Code asserting on violation paths has to be adapted. The suffix is configurable, so the previous default can be
+  restored with:
+  ```groovy
+  validation {
+      validationMethods {
+          getterSuffix = "Raw"
+      }
+  }
+  ```
+  Note this only restores the *suffix*, not the previous shape-dependent omission of it: paths of optional and
+  nullable properties keep the suffix in any case.
+
 * [#412](https://github.com/muehmar/gradle-openapi-schema/issues/412) - The all-args constructor of a generated DTO is
   package-private instead of `public`. It takes the companion flags of required-nullable and optional-not-nullable
   properties as positional `boolean` arguments, hence it allowed constructing a DTO with a value and its flag
@@ -25,11 +47,9 @@
   runtime behaviour changes in the following ways:
     * An enum value outside the range of the defined constants no longer throws an exception during deserialisation.
       The value is accepted and reported as a constraint violation when the DTO is validated.
-    * Constraint violations for enum properties reference the string-typed validation getter. For a required property,
-      the property path of a violation gains the configured validation-method getter suffix (default `Raw`): a
-      violation for the required property `status` is now reported for the path `statusRaw`. For an optional or
-      nullable property, the validation getter keeps the plain property name (the api getter is suffixed instead), so
-      the violation path is unchanged.
+    * Constraint violations for enum properties reference the string-typed validation getter, hence their property
+      path gains the validation-method getter suffix as described for
+      [#414](https://github.com/muehmar/gradle-openapi-schema/issues/414) above.
     * If validation is disabled or the DTO is not validated, an out-of-range value surfaces as an
       `IllegalArgumentException` when the enum-typed getter is accessed, instead of failing already at
       deserialisation. Validate DTOs before accessing enum-typed getters.

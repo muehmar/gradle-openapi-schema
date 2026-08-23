@@ -70,7 +70,7 @@ private Object getProp1AsObject() {
 
 @JsonIgnore
 @Valid
-private AdminDto getProp1Raw() {
+private AdminDto getProp1_() {
   return getProp1Internal();
 }
 
@@ -217,7 +217,7 @@ private boolean isProp1Present() {
 
 @JsonIgnore
 @Valid
-private UserDto getProp1Raw() {
+private UserDto getProp1_() {
   return getProp1Internal();
 }
 

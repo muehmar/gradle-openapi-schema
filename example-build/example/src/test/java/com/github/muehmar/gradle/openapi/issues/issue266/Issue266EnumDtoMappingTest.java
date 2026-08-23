@@ -62,7 +62,7 @@ class Issue266EnumDtoMappingTest {
   @Test
   void deserialize_when_enumValueOutOfRange_then_violationAndGetterThrows() throws Exception {
     // The out-of-range contract also holds for a dto-mapped enum: no exception during
-    // deserialisation, a violation on the Raw validation getter, the raw value round-trips and
+    // deserialisation, a violation on the validation getter, the raw value round-trips and
     // the getter throws (fromValue runs before the conversion to the custom type).
     final MappedPaletteDto palette =
         MAPPER.readValue("{\"name\":\"warm\",\"color\":\"purple\"}", MappedPaletteDto.class);
@@ -70,7 +70,7 @@ class Issue266EnumDtoMappingTest {
     final Set<ConstraintViolation<MappedPaletteDto>> violations = validate(palette);
 
     assertEquals(
-        Collections.singletonList("colorRaw -> must match \"red|green|blue\""),
+        Collections.singletonList("color_ -> must match \"red|green|blue\""),
         formatViolations(violations));
     assertEquals("{\"color\":\"purple\",\"name\":\"warm\"}", MAPPER.writeValueAsString(palette));
     assertThrows(IllegalArgumentException.class, palette::getColor);

@@ -45,15 +45,11 @@ public class GetterGroupsDefinition {
     return groups(
         nested(
             isNotContainerType(),
-            groups(
-                nested(
-                    JavaPojoMember::isRequiredAndNotNullable,
-                    group(hasNoApiTypeDeep(), generator(STANDARD_GETTER)),
-                    group(
-                        hasApiTypeDeep(),
-                        generator(STANDARD_GETTER, NO_VALIDATION, NO_JSON),
-                        generator(JSON_GETTER),
-                        generator(VALIDATION_GETTER)))),
+            group(
+                JavaPojoMember::isRequiredAndNotNullable,
+                generator(STANDARD_GETTER, NO_VALIDATION, NO_JSON),
+                generator(JSON_GETTER),
+                generator(VALIDATION_GETTER)),
             group(
                 JavaPojoMember::isRequiredAndNullable,
                 generator(OPTIONAL_GETTER),
@@ -80,7 +76,7 @@ public class GetterGroupsDefinition {
                     isNullableValueContainerType(),
                     group(
                         JavaPojoMember::isRequiredAndNotNullable,
-                        generator(CONTAINER_STANDARD_GETTER),
+                        generator(CONTAINER_STANDARD_GETTER, NO_VALIDATION, NO_JSON),
                         generator(JSON_GETTER),
                         generator(VALIDATION_GETTER)),
                     group(
@@ -104,15 +100,11 @@ public class GetterGroupsDefinition {
                         generator(VALIDATION_GETTER))),
                 nested(
                     isNotNullableValueContainerType(),
-                    groups(
-                        nested(
-                            JavaPojoMember::isRequiredAndNotNullable,
-                            group(hasNoApiTypeDeep(), generator(STANDARD_GETTER)),
-                            group(
-                                hasApiTypeDeep(),
-                                generator(CONTAINER_STANDARD_GETTER, NO_VALIDATION, NO_JSON),
-                                generator(JSON_GETTER),
-                                generator(VALIDATION_GETTER)))),
+                    group(
+                        JavaPojoMember::isRequiredAndNotNullable,
+                        generator(CONTAINER_STANDARD_GETTER, NO_VALIDATION, NO_JSON),
+                        generator(JSON_GETTER),
+                        generator(VALIDATION_GETTER)),
                     group(
                         JavaPojoMember::isRequiredAndNullable,
                         generator(CONTAINER_OPTIONAL_GETTER),
@@ -271,13 +263,5 @@ public class GetterGroupsDefinition {
 
   private static Predicate<JavaPojoMember> isNotContainerType() {
     return isContainerType().negate();
-  }
-
-  private static Predicate<JavaPojoMember> hasApiTypeDeep() {
-    return member -> member.getJavaType().hasApiTypeDeep();
-  }
-
-  private static Predicate<JavaPojoMember> hasNoApiTypeDeep() {
-    return hasApiTypeDeep().negate();
   }
 }

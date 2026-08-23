@@ -56,7 +56,7 @@ class Issue266EnumMapTest {
     final Set<ConstraintViolation<InventoryDto>> violations = validate(dto);
 
     assertEquals(
-        Collections.singletonList("stock[pear].<map value> -> must match \"available|sold-out\""),
+        Collections.singletonList("stock_[pear].<map value> -> must match \"available|sold-out\""),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }

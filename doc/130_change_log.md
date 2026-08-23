@@ -1,6 +1,13 @@
 ## Change Log
 
 * next
+    * [#414](https://github.com/muehmar/gradle-openapi-schema/issues/414) - Generate a dedicated validation getter for
+      every property instead of placing the constraint annotations on the public getter where its shape allowed it. The
+      public getter serves the api, the validation getter carries the constraints and always returns the internal
+      representation, hence the property path of a violation is uniform for all property shapes. The default
+      validation-method getter suffix changed from `Raw` to `_`. The validation getters are omitted entirely when
+      validation is disabled. See the
+      [migration guide](120_migration_guides.md#breaking-changes)
     * [#383](https://github.com/muehmar/gradle-openapi-schema/issues/383) - Apply a `formatTypeMapping` also to an
       enum schema which is referenced via `$ref`: the format of a component-level enum schema was discarded, hence the
       mapping was silently ignored although it is applied for the identical inline enum and for `$ref`'d plain string

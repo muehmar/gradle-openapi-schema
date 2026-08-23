@@ -4,6 +4,7 @@ package com.github.muehmar;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
@@ -46,10 +47,21 @@ public class PersonDto {
   /**
    * RequiredStringVal
    */
+  @JsonIgnore
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringValJson() {
+    return requiredStringVal;
+  }
+
+  @JsonIgnore
   @NotNull
   @Pattern(regexp="Hello")
-  @JsonProperty("requiredStringVal")
-  public String getRequiredStringVal() {
+  private String getRequiredStringVal_() {
     return requiredStringVal;
   }
 .
@@ -641,10 +653,21 @@ public class PersonDto {
   /**
    * RequiredStringVal
    */
+  @JsonIgnore
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringValJson() {
+    return requiredStringVal;
+  }
+
+  @JsonIgnore
   @NotNull
   @Pattern(regexp="Hello")
-  @JsonProperty("requiredStringVal")
-  public String getRequiredStringVal() {
+  private String getRequiredStringVal_() {
     return requiredStringVal;
   }
 .
@@ -1554,9 +1577,13 @@ public class UserDto {
   /**
    * ID of this user
    */
+  public Long getId() {
+    return id;
+  }
+
   @NotNull
   @Max(value = 50L)
-  public Long getId() {
+  private Long getId_() {
     return id;
   }
 .
@@ -1564,9 +1591,13 @@ public class UserDto {
   /**
    * Name of this user
    */
+  public String getName() {
+    return name;
+  }
+
   @NotNull
   @Size(min = 10, max = 15)
-  public String getName() {
+  private String getName_() {
     return name;
   }
 .
@@ -1574,9 +1605,13 @@ public class UserDto {
   /**
    * Lastname of this user
    */
+  public String getLastName() {
+    return lastName;
+  }
+
   @NotNull
   @Size(min = 10)
-  public String getLastName() {
+  private String getLastName_() {
     return lastName;
   }
 .
@@ -1584,9 +1619,13 @@ public class UserDto {
   /**
    * Nickname of this user
    */
+  public String getNickName() {
+    return nickName;
+  }
+
   @NotNull
   @Size(max = 50)
-  public String getNickName() {
+  private String getNickName_() {
     return nickName;
   }
 .
@@ -1594,9 +1633,13 @@ public class UserDto {
   /**
    * Email of this user
    */
+  public String getEmail() {
+    return email;
+  }
+
   @NotNull
   @Email
-  public String getEmail() {
+  private String getEmail_() {
     return email;
   }
 .
@@ -1604,10 +1647,14 @@ public class UserDto {
   /**
    * Height of this user
    */
+  public Double getHeight() {
+    return height;
+  }
+
   @NotNull
   @DecimalMin(value = "120.0", inclusive = true)
   @DecimalMax(value = "199", inclusive = false)
-  public Double getHeight() {
+  private Double getHeight_() {
     return height;
   }
 .
@@ -1629,7 +1676,7 @@ public class UserDto {
   }
 
   @Min(value = 5L)
-  private Long getLevelRaw() {
+  private Long getLevel_() {
     return level;
   }
 
@@ -1656,7 +1703,7 @@ public class UserDto {
   }
 
   @Pattern(regexp="^(\\d[A-Z]*)")
-  private String getUppercaseRaw() {
+  private String getUppercase_() {
     return uppercase;
   }
 
@@ -1682,7 +1729,7 @@ public class UserDto {
         : this.multipleOfValue;
   }
 
-  private Long getMultipleOfValueRaw() {
+  private Long getMultipleOfValue_() {
     return multipleOfValue;
   }
 
@@ -1709,7 +1756,7 @@ public class UserDto {
   }
 
   @Valid
-  private AnotherPojo getAnotherPojoRaw() {
+  private AnotherPojo getAnotherPojo_() {
     return anotherPojo;
   }
 
@@ -2547,9 +2594,13 @@ public class UserDto {
   /**
    * ID of this user
    */
+  public Long getId() {
+    return id;
+  }
+
   @NotNull
   @Max(value = 50L)
-  public Long getId() {
+  private Long getId_() {
     return id;
   }
 .
@@ -2557,9 +2608,13 @@ public class UserDto {
   /**
    * Name of this user
    */
+  public String getName() {
+    return name;
+  }
+
   @NotNull
   @Size(min = 10, max = 15)
-  public String getName() {
+  private String getName_() {
     return name;
   }
 .
@@ -2567,9 +2622,13 @@ public class UserDto {
   /**
    * Lastname of this user
    */
+  public String getLastName() {
+    return lastName;
+  }
+
   @NotNull
   @Size(min = 10)
-  public String getLastName() {
+  private String getLastName_() {
     return lastName;
   }
 .
@@ -2577,9 +2636,13 @@ public class UserDto {
   /**
    * Nickname of this user
    */
+  public String getNickName() {
+    return nickName;
+  }
+
   @NotNull
   @Size(max = 50)
-  public String getNickName() {
+  private String getNickName_() {
     return nickName;
   }
 .
@@ -2587,9 +2650,13 @@ public class UserDto {
   /**
    * Email of this user
    */
+  public String getEmail() {
+    return email;
+  }
+
   @NotNull
   @Email
-  public String getEmail() {
+  private String getEmail_() {
     return email;
   }
 .
@@ -2597,10 +2664,14 @@ public class UserDto {
   /**
    * Height of this user
    */
+  public Double getHeight() {
+    return height;
+  }
+
   @NotNull
   @DecimalMin(value = "120.0", inclusive = true)
   @DecimalMax(value = "199", inclusive = false)
-  public Double getHeight() {
+  private Double getHeight_() {
     return height;
   }
 .
@@ -2622,7 +2693,7 @@ public class UserDto {
   }
 
   @Min(value = 5L)
-  private Long getLevelRaw() {
+  private Long getLevel_() {
     return level;
   }
 
@@ -2649,7 +2720,7 @@ public class UserDto {
   }
 
   @Pattern(regexp="^(\\d[A-Z]*)")
-  private String getUppercaseRaw() {
+  private String getUppercase_() {
     return uppercase;
   }
 
@@ -2675,7 +2746,7 @@ public class UserDto {
         : this.multipleOfValue;
   }
 
-  private Long getMultipleOfValueRaw() {
+  private Long getMultipleOfValue_() {
     return multipleOfValue;
   }
 
@@ -2702,7 +2773,7 @@ public class UserDto {
   }
 
   @Valid
-  private AnotherPojo getAnotherPojoRaw() {
+  private AnotherPojo getAnotherPojo_() {
     return anotherPojo;
   }
 
@@ -3574,10 +3645,6 @@ public class UserDto {
         : LanguageEnum.fromValue(this.language);
   }
 
-  private String getLanguageRaw() {
-    return language;
-  }
-
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
@@ -4099,7 +4166,7 @@ public class Illegal_IdentifierDto {
   }
 
   @JsonIgnore
-  private String getSwitchRaw() {
+  private String getSwitch_() {
     return switch_;
   }
 .
@@ -4119,7 +4186,7 @@ public class Illegal_IdentifierDto {
   }
 
   @JsonIgnore
-  private String getPoint_Raw() {
+  private String getPoint__() {
     return point_;
   }
 
@@ -5273,8 +5340,14 @@ public class UserDto {
   /**
    * ID of this user
    */
-  @JsonProperty("id")
+  @JsonIgnore
   public Long getId() {
+    return id;
+  }
+
+  @JsonProperty("id")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Long getIdJson() {
     return id;
   }
 .
@@ -5282,8 +5355,14 @@ public class UserDto {
   /**
    * Name of this user
    */
-  @JsonProperty("name")
+  @JsonIgnore
   public String getName() {
+    return name;
+  }
+
+  @JsonProperty("name")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getNameJson() {
     return name;
   }
 .
@@ -5309,11 +5388,6 @@ public class UserDto {
   @JsonProperty("language")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String getLanguageJson() {
-    return language;
-  }
-
-  @JsonIgnore
-  private String getLanguageRaw() {
     return language;
   }
 
@@ -5707,10 +5781,6 @@ public class UserDto {
         : LanguageEnum.fromValue(this.language);
   }
 
-  private String getLanguageRaw() {
-    return language;
-  }
-
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
@@ -6084,10 +6154,21 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredStringVal
    */
+  @JsonIgnore
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringValJson() {
+    return requiredStringVal;
+  }
+
+  @JsonIgnore
   @NotNull
   @Pattern(regexp="Hello")
-  @JsonProperty("requiredStringVal")
-  public String getRequiredStringVal() {
+  private String getRequiredStringVal_() {
     return requiredStringVal;
   }
 .
@@ -6118,7 +6199,7 @@ public class NecessityAndNullabilityDto {
 
   @JsonIgnore
   @Pattern(regexp="Hello")
-  private String getRequiredNullableStringValRaw() {
+  private String getRequiredNullableStringVal_() {
     return requiredNullableStringVal;
   }
 
@@ -6155,7 +6236,7 @@ public class NecessityAndNullabilityDto {
 
   @JsonIgnore
   @Pattern(regexp="Hello")
-  private String getOptionalStringValRaw() {
+  private String getOptionalStringVal_() {
     return optionalStringVal;
   }
 
@@ -6182,7 +6263,7 @@ public class NecessityAndNullabilityDto {
 
   @JsonIgnore
   @Pattern(regexp="Hello")
-  private String getOptionalNullableStringValRaw() {
+  private String getOptionalNullableStringVal_() {
     return optionalNullableStringVal;
   }
 .
@@ -6210,7 +6291,7 @@ public class NecessityAndNullabilityDto {
   @JsonIgnore
   @NotNull
   @Size(min = 5, max = 10)
-  private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRaw() {
+  private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_() {
     return requiredListWithNullableItems;
   }
 .
@@ -6253,7 +6334,7 @@ public class NecessityAndNullabilityDto {
 
   @JsonIgnore
   @Size(min = 5, max = 10)
-  private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItemsRaw() {
+  private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_() {
     return requiredNullableListWithNullableItems;
   }
 
@@ -6302,7 +6383,7 @@ public class NecessityAndNullabilityDto {
 
   @JsonIgnore
   @Size(min = 5, max = 10)
-  private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRaw() {
+  private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_() {
     return optionalListWithNullableItems;
   }
 
@@ -6335,7 +6416,7 @@ public class NecessityAndNullabilityDto {
 
   @JsonIgnore
   @Size(min = 5, max = 10)
-  private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItemsRaw() {
+  private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_() {
     return optionalNullableListWithNullableItems;
   }
 .
@@ -6343,9 +6424,20 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredMap
    */
-  @NotNull
+  @JsonIgnore
+  public Map<String, String> getRequiredMap() {
+    return requiredMap;
+  }
+
   @JsonProperty("requiredMap")
-  public Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap() {
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Map<String, String> getRequiredMapJson() {
+    return requiredMap;
+  }
+
+  @JsonIgnore
+  @NotNull
+  private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap_() {
     return requiredMap;
   }
 .
@@ -6372,7 +6464,7 @@ public class NecessityAndNullabilityDto {
 
   @JsonIgnore
   @NotNull
-  private Map<String, @Pattern(regexp="Hello") String> getRequiredMapWithNullableValuesRaw() {
+  private Map<String, @Pattern(regexp="Hello") String> getRequiredMapWithNullableValues_() {
     return requiredMapWithNullableValues;
   }
 .
@@ -6408,7 +6500,7 @@ public class NecessityAndNullabilityDto {
   }
 
   @JsonIgnore
-  private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMapRaw() {
+  private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMap_() {
     return requiredNullableMap;
   }
 
@@ -6456,7 +6548,7 @@ public class NecessityAndNullabilityDto {
   }
 
   @JsonIgnore
-  private Map<String, @Pattern(regexp="Hello") String> getRequiredNullableMapWithNullableValuesRaw() {
+  private Map<String, @Pattern(regexp="Hello") String> getRequiredNullableMapWithNullableValues_() {
     return requiredNullableMapWithNullableValues;
   }
 
@@ -6498,7 +6590,7 @@ public class NecessityAndNullabilityDto {
   }
 
   @JsonIgnore
-  private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMapRaw() {
+  private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMap_() {
     return optionalMap;
   }
 
@@ -6546,7 +6638,7 @@ public class NecessityAndNullabilityDto {
   }
 
   @JsonIgnore
-  private Map<String, @Pattern(regexp="Hello") String> getOptionalMapWithNullableValuesRaw() {
+  private Map<String, @Pattern(regexp="Hello") String> getOptionalMapWithNullableValues_() {
     return optionalMapWithNullableValues;
   }
 
@@ -6578,7 +6670,7 @@ public class NecessityAndNullabilityDto {
   }
 
   @JsonIgnore
-  private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMapRaw() {
+  private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMap_() {
     return optionalNullableMap;
   }
 .
@@ -6604,7 +6696,7 @@ public class NecessityAndNullabilityDto {
   }
 
   @JsonIgnore
-  private Map<String, @Pattern(regexp="Hello") String> getOptionalNullableMapWithNullableValuesRaw() {
+  private Map<String, @Pattern(regexp="Hello") String> getOptionalNullableMapWithNullableValues_() {
     return optionalNullableMapWithNullableValues;
   }
 
@@ -11209,7 +11301,7 @@ public class ObjectPojo1Dto {
 
   @JsonIgnore
   @NotNull
-  private List<@NotNull String> getListValRaw() {
+  private List<@NotNull String> getListVal_() {
     return listVal;
   }
 
@@ -11596,6 +11688,7 @@ package com.github.muehmar;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
@@ -11630,10 +11723,21 @@ public class ObjectPojo1Dto {
   /**
    * Map
    */
+  @JsonIgnore
+  public Map<String, UUID> getMapVal() {
+    return mapVal;
+  }
+
+  @JsonProperty("mapVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Map<String, UUID> getMapValJson() {
+    return mapVal;
+  }
+
+  @JsonIgnore
   @NotNull
   @Size(min = 3, max = 8)
-  @JsonProperty("mapVal")
-  public Map<String, @NotNull UUID> getMapVal() {
+  private Map<String, @NotNull UUID> getMapVal_() {
     return mapVal;
   }
 
@@ -12059,10 +12163,21 @@ public class PersonDto {
   /**
    * RequiredStringVal
    */
+  @JsonIgnore
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringValJson() {
+    return requiredStringVal;
+  }
+
+  @JsonIgnore
   @NotNull
   @Pattern(regexp="Hello")
-  @JsonProperty("requiredStringVal")
-  public String getRequiredStringVal() {
+  private String getRequiredStringVal_() {
     return requiredStringVal;
   }
 .
@@ -12747,7 +12862,7 @@ public class UserDto {
   }
 
   @Pattern(regexp="GERMAN|ENGLISH")
-  private String getLanguageRaw() {
+  private String getLanguage_() {
     return language;
   }
 
@@ -13068,7 +13183,7 @@ public class UserDto {
 
   @JsonIgnore
   @Pattern(regexp="GERMAN|ENGLISH")
-  private String getLanguageRaw() {
+  private String getLanguage_() {
     return language;
   }
 
@@ -13323,10 +13438,21 @@ public class ObjectPojo1Dto {
   /**
    * email
    */
+  @JsonIgnore
+  public String getEmail() {
+    return email;
+  }
+
+  @JsonProperty("email")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getEmailJson() {
+    return email;
+  }
+
+  @JsonIgnore
   @NotNull
   @Email
-  @JsonProperty("email")
-  public String getEmail() {
+  private String getEmail_() {
     return email;
   }
 .
@@ -13356,7 +13482,7 @@ public class ObjectPojo1Dto {
   }
 
   @JsonIgnore
-  private LocalDate getBirthdateRaw() {
+  private LocalDate getBirthdate_() {
     return birthdate;
   }
 
@@ -13943,8 +14069,14 @@ public class UserDto {
   /**
    * ID of this user
    */
-  @JsonProperty("id")
+  @JsonIgnore
   public Long getId() {
+    return id;
+  }
+
+  @JsonProperty("id")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Long getIdJson() {
     return id;
   }
 .
@@ -13952,8 +14084,14 @@ public class UserDto {
   /**
    * Name of this user
    */
-  @JsonProperty("name")
+  @JsonIgnore
   public String getName() {
+    return name;
+  }
+
+  @JsonProperty("name")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getNameJson() {
     return name;
   }
 .
@@ -13979,11 +14117,6 @@ public class UserDto {
   @JsonProperty("language")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String getLanguageJson() {
-    return language;
-  }
-
-  @JsonIgnore
-  private String getLanguageRaw() {
     return language;
   }
 

@@ -46,7 +46,7 @@ class TestValidation {
     final Set<ConstraintViolation<UserDto>> violations = validate(dto);
 
     assertEquals(
-        Collections.singletonList("id -> must not be null"),
+        Collections.singletonList("idRaw -> must not be null"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(dto.isValid());
@@ -59,7 +59,7 @@ class TestValidation {
     final Set<ConstraintViolation<UserDto>> violations = validate(dto);
 
     assertEquals(
-        Collections.singletonList("id -> size must be between 6 and 10"),
+        Collections.singletonList("idRaw -> size must be between 6 and 10"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(dto.isValid());
@@ -87,7 +87,7 @@ class TestValidation {
     final Set<ConstraintViolation<UserDto>> violations = validate(dto);
 
     assertEquals(
-        Collections.singletonList("username -> size must be between 5 and 20"),
+        Collections.singletonList("usernameRaw -> size must be between 5 and 20"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(dto.isValid());
@@ -102,7 +102,7 @@ class TestValidation {
     final Set<ConstraintViolation<UserDto>> violations = validate(dto);
 
     assertEquals(
-        Collections.singletonList("email -> must match \"[A-Za-z0-9]+@[A-Za-z0-9]+\\.[a-z]+\""),
+        Collections.singletonList("emailRaw -> must match \"[A-Za-z0-9]+@[A-Za-z0-9]+\\.[a-z]+\""),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(dto.isValid());
@@ -131,7 +131,7 @@ class TestValidation {
     final Set<ConstraintViolation<UserDto>> violations = validate(dto);
 
     assertEquals(
-        Collections.singletonList("phone -> must match \"\\+41[0-9]{7}\""),
+        Collections.singletonList("phoneRaw -> must match \"\\+41[0-9]{7}\""),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(dto.isValid());

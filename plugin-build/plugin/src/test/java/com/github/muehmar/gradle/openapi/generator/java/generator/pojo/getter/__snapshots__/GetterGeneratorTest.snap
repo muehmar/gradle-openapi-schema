@@ -130,7 +130,7 @@ private List<String> getOptionalListWithNullableItemsJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_() {
   return optionalListWithNullableItems;
 }
 
@@ -280,7 +280,7 @@ private List<String> getOptionalListWithNullableItems_FullyMappedJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_FullyMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_FullyMapped_() {
   return optionalListWithNullableItems_FullyMapped;
 }
 
@@ -428,7 +428,7 @@ private List<String> getOptionalListWithNullableItems_ListMappedJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_ListMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_ListMapped_() {
   return optionalListWithNullableItems_ListMapped;
 }
 
@@ -576,7 +576,7 @@ private List<String> getOptionalListWithNullableItems_StringMappedJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_StringMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_StringMapped_() {
   return optionalListWithNullableItems_StringMapped;
 }
 
@@ -708,7 +708,7 @@ private Map<String, String> getOptionalMapJson() {
 }
 
 @JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMapRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMap_() {
   return optionalMap;
 }
 
@@ -858,7 +858,7 @@ private Map<String, String> getOptionalMap_FullyMappedJson() {
 }
 
 @JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMap_FullyMappedRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMap_FullyMapped_() {
   return optionalMap_FullyMapped;
 }
 
@@ -971,7 +971,7 @@ private Object getOptionalNullableListWithNullableItemsJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItemsRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_() {
   return optionalNullableListWithNullableItems;
 }
 
@@ -1081,7 +1081,7 @@ private Object getOptionalNullableListWithNullableItems_FullyMappedJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_FullyMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_FullyMapped_() {
   return optionalNullableListWithNullableItems_FullyMapped;
 }
 
@@ -1191,7 +1191,7 @@ private Object getOptionalNullableListWithNullableItems_ListMappedJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_ListMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_ListMapped_() {
   return optionalNullableListWithNullableItems_ListMapped;
 }
 
@@ -1301,7 +1301,7 @@ private Object getOptionalNullableListWithNullableItems_StringMappedJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_StringMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_StringMapped_() {
   return optionalNullableListWithNullableItems_StringMapped;
 }
 
@@ -1404,7 +1404,7 @@ private Object getOptionalNullableMapJson() {
 }
 
 @JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMapRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMap_() {
   return optionalNullableMap;
 }
 
@@ -1513,7 +1513,7 @@ private Object getOptionalNullableMap_FullyMappedJson() {
 }
 
 @JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMap_FullyMappedRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMap_FullyMapped_() {
   return optionalNullableMap_FullyMapped;
 }
 
@@ -1618,7 +1618,7 @@ private Object getOptionalNullableStringListJson() {
 
 @JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getOptionalNullableStringListRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getOptionalNullableStringList_() {
   return optionalNullableStringList;
 }
 
@@ -1729,7 +1729,7 @@ private Object getOptionalNullableStringList_FullyMappedJson() {
 
 @JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getOptionalNullableStringList_FullyMappedRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getOptionalNullableStringList_FullyMapped_() {
   return optionalNullableStringList_FullyMapped;
 }
 
@@ -1808,7 +1808,7 @@ private Object getOptionalNullableStringValJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalNullableStringValRaw() {
+private String getOptionalNullableStringVal_() {
   return optionalNullableStringVal;
 }
 
@@ -1890,7 +1890,7 @@ private Object getOptionalNullableStringVal_FullyMappedJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalNullableStringVal_FullyMappedRaw() {
+private String getOptionalNullableStringVal_FullyMapped_() {
   return optionalNullableStringVal_FullyMapped;
 }
 
@@ -1969,7 +1969,7 @@ private Object getOptionalNullableStringVal_ListMappedJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalNullableStringVal_ListMappedRaw() {
+private String getOptionalNullableStringVal_ListMapped_() {
   return optionalNullableStringVal_ListMapped;
 }
 
@@ -2051,7 +2051,7 @@ private Object getOptionalNullableStringVal_StringMappedJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalNullableStringVal_StringMappedRaw() {
+private String getOptionalNullableStringVal_StringMapped_() {
   return optionalNullableStringVal_StringMapped;
 }
 
@@ -2179,7 +2179,7 @@ private List<String> getOptionalStringListJson() {
 
 @JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getOptionalStringListRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getOptionalStringList_() {
   return optionalStringList;
 }
 
@@ -2331,7 +2331,7 @@ private List<String> getOptionalStringList_FullyMappedJson() {
 
 @JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getOptionalStringList_FullyMappedRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getOptionalStringList_FullyMapped_() {
   return optionalStringList_FullyMapped;
 }
 
@@ -2439,7 +2439,7 @@ private String getOptionalStringValJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalStringValRaw() {
+private String getOptionalStringVal_() {
   return optionalStringVal;
 }
 
@@ -2550,7 +2550,7 @@ private String getOptionalStringVal_FullyMappedJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalStringVal_FullyMappedRaw() {
+private String getOptionalStringVal_FullyMapped_() {
   return optionalStringVal_FullyMapped;
 }
 
@@ -2658,7 +2658,7 @@ private String getOptionalStringVal_ListMappedJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalStringVal_ListMappedRaw() {
+private String getOptionalStringVal_ListMapped_() {
   return optionalStringVal_ListMapped;
 }
 
@@ -2769,7 +2769,7 @@ private String getOptionalStringVal_StringMappedJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalStringVal_StringMappedRaw() {
+private String getOptionalStringVal_StringMapped_() {
   return optionalStringVal_StringMapped;
 }
 
@@ -2805,7 +2805,7 @@ private Object getPoint_Json() {
 }
 
 @JsonIgnore
-private String getPoint_Raw() {
+private String getPoint__() {
   return point_;
 }
 
@@ -2908,7 +2908,7 @@ private List<String> getRequiredListWithNullableItemsJson() {
 @JsonIgnore
 @NotNull
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_() {
   return requiredListWithNullableItems;
 }
 
@@ -3017,7 +3017,7 @@ private List<String> getRequiredListWithNullableItems_FullyMappedJson() {
 @JsonIgnore
 @NotNull
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_FullyMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_FullyMapped_() {
   return requiredListWithNullableItems_FullyMapped;
 }
 
@@ -3123,7 +3123,7 @@ private List<String> getRequiredListWithNullableItems_ListMappedJson() {
 @JsonIgnore
 @NotNull
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_ListMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_ListMapped_() {
   return requiredListWithNullableItems_ListMapped;
 }
 
@@ -3229,7 +3229,7 @@ private List<String> getRequiredListWithNullableItems_StringMappedJson() {
 @JsonIgnore
 @NotNull
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_StringMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_StringMapped_() {
   return requiredListWithNullableItems_StringMapped;
 }
 
@@ -3282,6 +3282,8 @@ Map<String, String> getRequiredMapAnyOf() {
 
 
 pojoMembers[requiredMap]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
 javax.validation.constraints.NotNull
@@ -3291,9 +3293,20 @@ javax.validation.constraints.Pattern
 /**
  * RequiredMap
  */
-@NotNull
+@JsonIgnore
+public Map<String, String> getRequiredMap() {
+  return requiredMap;
+}
+
 @JsonProperty("requiredMap")
-public Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap() {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Map<String, String> getRequiredMapJson() {
+  return requiredMap;
+}
+
+@JsonIgnore
+@NotNull
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap_() {
   return requiredMap;
 }
 
@@ -3397,7 +3410,7 @@ private Map<String, String> getRequiredMap_FullyMappedJson() {
 
 @JsonIgnore
 @NotNull
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap_FullyMappedRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap_FullyMapped_() {
   return requiredMap_FullyMapped;
 }
 
@@ -3539,7 +3552,7 @@ private Object getRequiredNullableListWithNullableItemsJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItemsRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_() {
   return requiredNullableListWithNullableItems;
 }
 
@@ -3692,7 +3705,7 @@ private Object getRequiredNullableListWithNullableItems_FullyMappedJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_FullyMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_FullyMapped_() {
   return requiredNullableListWithNullableItems_FullyMapped;
 }
 
@@ -3843,7 +3856,7 @@ private Object getRequiredNullableListWithNullableItems_ListMappedJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_ListMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_ListMapped_() {
   return requiredNullableListWithNullableItems_ListMapped;
 }
 
@@ -3994,7 +4007,7 @@ private Object getRequiredNullableListWithNullableItems_StringMappedJson() {
 
 @JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_StringMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_StringMapped_() {
   return requiredNullableListWithNullableItems_StringMapped;
 }
 
@@ -4129,7 +4142,7 @@ private Object getRequiredNullableMapJson() {
 }
 
 @JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMapRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMap_() {
   return requiredNullableMap;
 }
 
@@ -4282,7 +4295,7 @@ private Object getRequiredNullableMap_FullyMappedJson() {
 }
 
 @JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMap_FullyMappedRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMap_FullyMapped_() {
   return requiredNullableMap_FullyMapped;
 }
 
@@ -4419,7 +4432,7 @@ private Object getRequiredNullableStringListJson() {
 
 @JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getRequiredNullableStringListRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getRequiredNullableStringList_() {
   return requiredNullableStringList;
 }
 
@@ -4574,7 +4587,7 @@ private Object getRequiredNullableStringList_FullyMappedJson() {
 
 @JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getRequiredNullableStringList_FullyMappedRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getRequiredNullableStringList_FullyMapped_() {
   return requiredNullableStringList_FullyMapped;
 }
 
@@ -4657,7 +4670,8 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * RequiredNullableStringVal
  */
@@ -4684,7 +4698,7 @@ private Object getRequiredNullableStringValJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getRequiredNullableStringValRaw() {
+private String getRequiredNullableStringVal_() {
   return requiredNullableStringVal;
 }
 
@@ -4770,7 +4784,8 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * RequiredNullableStringVal
  */
@@ -4797,7 +4812,7 @@ private Object getRequiredNullableStringVal_FullyMappedJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getRequiredNullableStringVal_FullyMappedRaw() {
+private String getRequiredNullableStringVal_FullyMapped_() {
   return requiredNullableStringVal_FullyMapped;
 }
 
@@ -4880,7 +4895,8 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * RequiredNullableStringVal
  */
@@ -4907,7 +4923,7 @@ private Object getRequiredNullableStringVal_ListMappedJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getRequiredNullableStringVal_ListMappedRaw() {
+private String getRequiredNullableStringVal_ListMapped_() {
   return requiredNullableStringVal_ListMapped;
 }
 
@@ -4993,7 +5009,8 @@ com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-
+.
+.
 /**
  * RequiredNullableStringVal
  */
@@ -5020,7 +5037,7 @@ private Object getRequiredNullableStringVal_StringMappedJson() {
 
 @JsonIgnore
 @Pattern(regexp="Hello")
-private String getRequiredNullableStringVal_StringMappedRaw() {
+private String getRequiredNullableStringVal_StringMapped_() {
   return requiredNullableStringVal_StringMapped;
 }
 
@@ -5079,6 +5096,8 @@ List<String> getRequiredStringListAnyOf() {
 
 
 pojoMembers[requiredStringList]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 javax.validation.constraints.NotNull
@@ -5089,10 +5108,21 @@ javax.validation.constraints.Size
 /**
  * List
  */
+@JsonIgnore
+public List<String> getRequiredStringList() {
+  return requiredStringList;
+}
+
+@JsonProperty("requiredStringList")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredStringListJson() {
+  return requiredStringList;
+}
+
+@JsonIgnore
 @NotNull
 @Size(min = 1)
-@JsonProperty("requiredStringList")
-public List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList() {
+private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList_() {
   return requiredStringList;
 }
 
@@ -5198,60 +5228,8 @@ private List<String> getRequiredStringList_FullyMappedJson() {
 @JsonIgnore
 @NotNull
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList_FullyMappedRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList_FullyMapped_() {
   return requiredStringList_FullyMapped;
-}
-
-]
-
-
-pojoMembers[requiredStringValAllOf]=[
-.
-.
-
-/**
- * RequiredStringVal
- */
-public String getRequiredStringValAllOf() {
-  return requiredStringValAllOf;
-}
-
-]
-
-
-pojoMembers[requiredStringValAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-com.fasterxml.jackson.annotation.JsonInclude
-com.fasterxml.jackson.annotation.JsonProperty
-.
-.
-@JsonProperty("requiredStringValAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private String getRequiredStringValAnyOfJson() {
-  return requiredStringValAnyOf;
-}
-
-@JsonIgnore
-String getRequiredStringValAnyOf() {
-  return requiredStringValAnyOf;
-}
-
-]
-
-
-pojoMembers[requiredStringVal]=[
-com.fasterxml.jackson.annotation.JsonProperty
-javax.validation.constraints.NotNull
-javax.validation.constraints.Pattern
-
-/**
- * RequiredStringVal
- */
-@NotNull
-@Pattern(regexp="Hello")
-@JsonProperty("requiredStringVal")
-public String getRequiredStringVal() {
-  return requiredStringVal;
 }
 
 ]
@@ -5293,18 +5271,30 @@ String getStringValAnyOf() {
 
 
 pojoMembers[stringVal]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * stringVal
  */
+@JsonIgnore
+public String getStringVal() {
+  return stringVal;
+}
+
+@JsonProperty("stringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringValJson() {
+  return stringVal;
+}
+
+@JsonIgnore
 @NotNull
 @Pattern(regexp="Hello")
-@JsonProperty("stringVal")
-public String getStringVal() {
+private String getStringVal_() {
   return stringVal;
 }
 
@@ -5355,8 +5345,7 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * stringVal
  */
@@ -5374,7 +5363,7 @@ private String getStringVal_FullyMappedJson() {
 @JsonIgnore
 @NotNull
 @Pattern(regexp="Hello")
-private String getStringVal_FullyMappedRaw() {
+private String getStringVal_FullyMapped_() {
   return stringVal_FullyMapped;
 }
 
@@ -5417,18 +5406,30 @@ String getStringVal_ListMappedAnyOf() {
 
 
 pojoMembers[stringVal_ListMapped]=[
+com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * stringVal
  */
+@JsonIgnore
+public String getStringVal_ListMapped() {
+  return stringVal_ListMapped;
+}
+
+@JsonProperty("stringVal-ListMapped")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_ListMappedJson() {
+  return stringVal_ListMapped;
+}
+
+@JsonIgnore
 @NotNull
 @Pattern(regexp="Hello")
-@JsonProperty("stringVal-ListMapped")
-public String getStringVal_ListMapped() {
+private String getStringVal_ListMapped_() {
   return stringVal_ListMapped;
 }
 
@@ -5479,8 +5480,7 @@ com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * stringVal
  */
@@ -5498,7 +5498,7 @@ private String getStringVal_StringMappedJson() {
 @JsonIgnore
 @NotNull
 @Pattern(regexp="Hello")
-private String getStringVal_StringMappedRaw() {
+private String getStringVal_StringMapped_() {
   return stringVal_StringMapped;
 }
 
@@ -5528,7 +5528,7 @@ private Object getSwitchJson() {
 }
 
 @JsonIgnore
-private String getSwitchRaw() {
+private String getSwitch_() {
   return switch_;
 }
 

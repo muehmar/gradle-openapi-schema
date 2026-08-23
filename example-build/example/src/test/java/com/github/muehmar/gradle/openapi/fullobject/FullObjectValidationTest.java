@@ -84,7 +84,7 @@ class FullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidOneOf[Admin].adminname -> must not be null",
+            "invalidOneOf[Admin].adminname_ -> must not be null",
             "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations));
     assertFalse(dto.isValid());
@@ -114,7 +114,7 @@ class FullObjectValidationTest {
     final Set<ConstraintViolation<FullObjectDto>> violations = validate(dto);
 
     assertEquals(
-        Arrays.asList("message -> size must be between 0 and 10"),
+        Arrays.asList("message_ -> size must be between 0 and 10"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(dto.isValid());
@@ -131,7 +131,7 @@ class FullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidOneOf[User].username -> size must be between 0 and 9",
+            "invalidOneOf[User].username_ -> size must be between 0 and 9",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations),

@@ -37,7 +37,7 @@ public class UsersValidationTest {
     final Set<ConstraintViolation<ListObjectDto>> violations = validate(listObjectDto);
 
     assertEquals(
-        list("idsRaw -> size must be between 1 and 2"),
+        list("ids_ -> size must be between 1 and 2"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(listObjectDto.isValid());
@@ -52,7 +52,7 @@ public class UsersValidationTest {
     final Set<ConstraintViolation<ListObjectDto>> violations = validate(listObjectDto);
 
     assertEquals(
-        list("usernames -> size must be between 3 and 4"),
+        list("usernames_ -> size must be between 3 and 4"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(listObjectDto.isValid());
@@ -67,7 +67,7 @@ public class UsersValidationTest {
     final Set<ConstraintViolation<ListObjectDto>> violations = validate(listObjectDto);
 
     assertEquals(
-        list("emails -> size must be between 5 and 6"),
+        list("emails_ -> size must be between 5 and 6"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(listObjectDto.isValid());
@@ -82,7 +82,7 @@ public class UsersValidationTest {
     final Set<ConstraintViolation<ListObjectDto>> violations = validate(listObjectDto);
 
     assertEquals(
-        list("phones -> size must be between 7 and 8"),
+        list("phones_ -> size must be between 7 and 8"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(listObjectDto.isValid());

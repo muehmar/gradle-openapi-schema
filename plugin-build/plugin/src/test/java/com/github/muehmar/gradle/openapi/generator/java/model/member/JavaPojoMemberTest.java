@@ -13,6 +13,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIR
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
+import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultValidationMethods;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -28,6 +29,7 @@ import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.model.type.EnumType;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixes;
 import com.github.muehmar.gradle.openapi.generator.settings.GetterSuffixesBuilder;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -97,17 +99,44 @@ class JavaPojoMemberTest {
     assertEquals(expectedValidationGetterName, validationGetterName.asString());
   }
 
+  @Test
+  void
+      getValidationGetterName_when_nameEndsWithSuffixAfterSanitizing_then_suffixRepeatedToAvoidApiGetterName() {
+    final JavaPojoMember member =
+        TestJavaPojoMembers.requiredString().withName(JavaName.fromString("point."));
+
+    final PojoSettings settings = defaultTestSettings();
+
+    assertEquals("getPoint_", member.getGetterNameWithSuffix(settings).asString());
+    assertEquals("getPoint__", member.getValidationGetterName(settings).asString());
+  }
+
+  @Test
+  void getValidationGetterName_when_emptySuffix_then_plainGetterName() {
+    final JavaPojoMember member = TestJavaPojoMembers.requiredString();
+
+    final PojoSettings settings =
+        defaultTestSettings()
+            .withValidationMethods(defaultValidationMethods().withGetterSuffix(""));
+
+    assertEquals("getStringVal", member.getValidationGetterName(settings).asString());
+  }
+
+  /**
+   * The validation getter suffix is applied unconditionally, independently of the suffixes of the
+   * api getters, so that the violation property paths are uniform across all property shapes.
+   */
   public static Stream<Arguments> membersWithValidationGetterName() {
-    final GetterSuffixes getterSuffixes = new GetterSuffixes("", "", "", "");
+    final GetterSuffixes noGetterSuffixes = new GetterSuffixes("", "", "", "");
     return Stream.of(
-        arguments(requiredString(), getterSuffixes, "getStringValRaw"),
-        arguments(requiredNullableString(), getterSuffixes, "getRequiredNullableStringValRaw"),
-        arguments(optionalString(), getterSuffixes, "getOptionalStringValRaw"),
-        arguments(optionalNullableString(), getterSuffixes, "getOptionalNullableStringValRaw"),
-        arguments(requiredString(), GETTER_SUFFIXES, "getStringVal"),
-        arguments(requiredNullableString(), GETTER_SUFFIXES, "getRequiredNullableStringVal"),
-        arguments(optionalString(), GETTER_SUFFIXES, "getOptionalStringVal"),
-        arguments(optionalNullableString(), GETTER_SUFFIXES, "getOptionalNullableStringVal"));
+        arguments(requiredString(), noGetterSuffixes, "getStringVal_"),
+        arguments(requiredNullableString(), noGetterSuffixes, "getRequiredNullableStringVal_"),
+        arguments(optionalString(), noGetterSuffixes, "getOptionalStringVal_"),
+        arguments(optionalNullableString(), noGetterSuffixes, "getOptionalNullableStringVal_"),
+        arguments(requiredString(), GETTER_SUFFIXES, "getStringVal_"),
+        arguments(requiredNullableString(), GETTER_SUFFIXES, "getRequiredNullableStringVal_"),
+        arguments(optionalString(), GETTER_SUFFIXES, "getOptionalStringVal_"),
+        arguments(optionalNullableString(), GETTER_SUFFIXES, "getOptionalNullableStringVal_"));
   }
 
   @Test

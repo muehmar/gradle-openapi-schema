@@ -103,7 +103,7 @@ public class NonNullableListPropertiesTest {
     final Set<ConstraintViolation<NonNullableListPropertiesDto>> violations = validate(dto);
     assertEquals(
         Collections.singletonList(
-            "additionalProperties_[hello].items[0].<list element> -> size must be between 0 and 10"),
+            "additionalProperties_[hello].items_[0].<list element> -> size must be between 0 and 10"),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }

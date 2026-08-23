@@ -16,6 +16,7 @@ import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.writer.Writer;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -33,6 +34,20 @@ class ValidationGetterTest {
     final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
+  }
+
+  @Test
+  @SnapshotName("validationDisabled")
+  void generate_when_validationDisabled_then_matchSnapshot() {
+    final Generator<JavaPojoMember, PojoSettings> generator = validationGetterGenerator();
+
+    final Writer writer =
+        generator.generate(
+            TestJavaPojoMembers.requiredString(),
+            defaultTestSettings().withEnableValidation(false),
+            javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 
   private static Stream<Arguments> members() {

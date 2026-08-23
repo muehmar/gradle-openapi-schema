@@ -23,7 +23,7 @@ public class Issue258Test {
     final Set<ConstraintViolation<InlinedMapSchemaDto>> violations = ValidationUtil.validate(dto);
 
     assertEquals(1, violations.size());
-    assertEquals("map[key].<map value>", propertyPath(violations));
+    assertEquals("map_[key].<map value>", propertyPath(violations));
   }
 
   @Test
@@ -52,7 +52,7 @@ public class Issue258Test {
     final Set<ConstraintViolation<InlinedMapSchemaDto>> violations = ValidationUtil.validate(dto);
 
     assertEquals(1, violations.size());
-    assertEquals("map[key].<map value>", propertyPath(violations));
+    assertEquals("map_[key].<map value>", propertyPath(violations));
   }
 
   @Test
@@ -63,7 +63,7 @@ public class Issue258Test {
     final Set<ConstraintViolation<RequiredMapSchemaDto>> violations = ValidationUtil.validate(dto);
 
     assertEquals(1, violations.size());
-    assertEquals("map[key].<map value>", propertyPath(violations));
+    assertEquals("map_[key].<map value>", propertyPath(violations));
   }
 
   @Test
@@ -74,7 +74,7 @@ public class Issue258Test {
     final Set<ConstraintViolation<NullableMapSchemaDto>> violations = ValidationUtil.validate(dto);
 
     assertEquals(1, violations.size());
-    assertEquals("map[key].<map value>", propertyPath(violations));
+    assertEquals("map_[key].<map value>", propertyPath(violations));
   }
 
   @Test
@@ -92,7 +92,7 @@ public class Issue258Test {
     final Set<ConstraintViolation<ObjectMapSchemaDto>> violations = ValidationUtil.validate(dto);
 
     assertEquals(1, violations.size());
-    assertEquals("map[key].<map value>", propertyPath(violations));
+    assertEquals("map_[key].<map value>", propertyPath(violations));
   }
 
   @Test
@@ -103,7 +103,7 @@ public class Issue258Test {
     final Set<ConstraintViolation<IntegerMapSchemaDto>> violations = ValidationUtil.validate(dto);
 
     assertEquals(1, violations.size());
-    assertEquals("map[key].<map value>", propertyPath(violations));
+    assertEquals("map_[key].<map value>", propertyPath(violations));
   }
 
   @Test
@@ -114,7 +114,7 @@ public class Issue258Test {
     final Set<ConstraintViolation<AllOfMapSchemaDto>> violations = ValidationUtil.validate(dto);
 
     assertEquals(1, violations.size());
-    assertEquals("requiredMapSchemaDto.map[key].<map value>", propertyPath(violations));
+    assertEquals("requiredMapSchemaDto.map_[key].<map value>", propertyPath(violations));
   }
 
   @Test
@@ -137,7 +137,7 @@ public class Issue258Test {
                 v ->
                     v.getPropertyPath()
                         .toString()
-                        .equals("invalidOneOf[RequiredMapSchema].map[key].<map value>")));
+                        .equals("invalidOneOf[RequiredMapSchema].map_[key].<map value>")));
   }
 
   @Test
@@ -150,7 +150,7 @@ public class Issue258Test {
         ValidationUtil.validate(dto);
 
     assertEquals(1, violations.size());
-    assertEquals("map[key].items[1].<list element>", propertyPath(violations));
+    assertEquals("map_[key].items_[1].<list element>", propertyPath(violations));
   }
 
   private static <T> String propertyPath(Set<ConstraintViolation<T>> violations) {

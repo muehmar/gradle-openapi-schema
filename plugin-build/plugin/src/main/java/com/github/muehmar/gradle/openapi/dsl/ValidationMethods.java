@@ -16,7 +16,7 @@ import org.gradle.api.InvalidUserDataException;
 @PojoBuilder
 public class ValidationMethods implements Serializable {
   private static final String DEFAULT_MODIFIER = JavaModifier.PRIVATE.getValue();
-  private static final String DEFAULT_SUFFIX = "Raw";
+  private static final String DEFAULT_SUFFIX = "_";
   private static final boolean DEFAULT_DEPRECATED_ANNOTATION = false;
 
   @Nullable String modifier;

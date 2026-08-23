@@ -105,7 +105,7 @@ public class NullableObjectPropertiesTest {
 
     assertEquals(
         Collections.singletonList(
-            "additionalProperties_[hello].bar -> size must be between 0 and 10"),
+            "additionalProperties_[hello].bar_ -> size must be between 0 and 10"),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }

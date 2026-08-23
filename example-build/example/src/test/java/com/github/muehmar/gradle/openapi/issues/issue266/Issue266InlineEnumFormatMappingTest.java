@@ -57,14 +57,14 @@ class Issue266InlineEnumFormatMappingTest {
   @Test
   void deserialize_when_enumValueOutOfRange_then_violationAndGetterThrows() throws Exception {
     // The out-of-range contract also holds for a mapped inline enum: no exception during
-    // deserialisation, a violation on the Raw validation getter and the getter throws, as
+    // deserialisation, a violation on the validation getter and the getter throws, as
     // fromValue runs before the conversion to the custom type.
     final Palette2Dto palette = MAPPER.readValue("{\"color\":\"purple\"}", Palette2Dto.class);
 
     final Set<ConstraintViolation<Palette2Dto>> violations = validate(palette);
 
     assertEquals(
-        Collections.singletonList("colorRaw -> must match \"red|green|blue\""),
+        Collections.singletonList("color_ -> must match \"red|green|blue\""),
         formatViolations(violations));
     assertFalse(palette.isValid());
     assertThrows(IllegalArgumentException.class, palette::getColor);

@@ -60,7 +60,6 @@ compileJava.dependsOn(tasks.openApiGenerate)
 openApiGenerator {
     validation {
         validationMethods {
-            getterSuffix = "Raw"
             modifier = "public"
             deprecatedAnnotation = true
         }

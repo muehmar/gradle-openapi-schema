@@ -41,8 +41,8 @@ class AdminUserValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidOneOf[Admin].adminname -> must not be null",
-            "invalidOneOf[User].age -> must be less than or equal to 199",
+            "invalidOneOf[Admin].adminname_ -> must not be null",
+            "invalidOneOf[User].age_ -> must be less than or equal to 199",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
@@ -57,12 +57,12 @@ class AdminUserValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidOneOf[Admin].adminname -> must not be null",
-            "invalidOneOf[Admin].id -> must not be null",
-            "invalidOneOf[Admin].type -> must not be null",
-            "invalidOneOf[User].id -> must not be null",
-            "invalidOneOf[User].type -> must not be null",
-            "invalidOneOf[User].username -> must not be null",
+            "invalidOneOf[Admin].adminname_ -> must not be null",
+            "invalidOneOf[Admin].id_ -> must not be null",
+            "invalidOneOf[Admin].type_ -> must not be null",
+            "invalidOneOf[User].id_ -> must not be null",
+            "invalidOneOf[User].type_ -> must not be null",
+            "invalidOneOf[User].username_ -> must not be null",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations));
     assertFalse(adminOrUserDto.isValid());

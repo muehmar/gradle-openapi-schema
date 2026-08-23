@@ -63,7 +63,7 @@ public class TestPojoSettings {
   public static ValidationMethods defaultValidationMethods() {
     return ValidationMethodsBuilder.create()
         .modifier(JavaModifier.PRIVATE)
-        .getterSuffix("Raw")
+        .getterSuffix("_")
         .deprecatedAnnotation(false)
         .andAllOptionals()
         .build();

@@ -58,6 +58,6 @@ public class Issue263Test {
     assertEquals(1, violations.size());
 
     assertEquals(
-        Collections.singletonList("foo -> must not be null"), formatViolations(violations));
+        Collections.singletonList("foo_ -> must not be null"), formatViolations(violations));
   }
 }

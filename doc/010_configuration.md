@@ -239,7 +239,7 @@ validationMethods {
 
 | Key                  | Data Type | Default | Description                                                                                          |
 |----------------------|-----------|:--------|:-----------------------------------------------------------------------------------------------------|
-| getterSuffix         | String    | Raw     | Suffix which is added to properties of getters which are only used for validation                    |
+| getterSuffix         | String    | _       | Suffix which is added to properties of getters which are only used for validation. It determines the property path of constraint violations and is applied to every property. |
 | modifier             | String    | private | Modifier for validation methods. Can be one of `public`, `protected`, `package-private` or `private` |
 | deprecatedAnnotation | boolean   | false   | Determines if the validation methods should be annotated with deprecated.                            |
 

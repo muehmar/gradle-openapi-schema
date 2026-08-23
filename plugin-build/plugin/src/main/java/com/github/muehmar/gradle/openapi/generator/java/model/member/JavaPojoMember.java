@@ -179,13 +179,26 @@ public class JavaPojoMember {
     return prefixedMethodName("get");
   }
 
+  /**
+   * Name of the getter carrying the validation annotations. The suffix is appended unconditionally
+   * so that violation property paths are uniform across all property shapes.
+   *
+   * <p>A property name which already ends in the suffix would yield the name of the api getter -
+   * this happens for names sanitized to a legal java identifier, e.g. a property {@code point.}
+   * becomes {@code point_} and its api getter {@code getPoint_()}. The suffix is repeated in that
+   * case until the name is free.
+   */
   public JavaName getValidationGetterName(PojoSettings settings) {
-    final String getterSuffix = determineSuffix(settings);
-    if (getterSuffix.isEmpty()) {
-      return getGetterName().append(settings.getValidationMethods().getGetterSuffix());
-    } else {
+    final String suffix = settings.getValidationMethods().getGetterSuffix();
+    if (suffix.isEmpty()) {
       return getGetterName();
     }
+    final JavaName apiGetterName = getGetterNameWithSuffix(settings);
+    JavaName validationGetterName = getGetterName().append(suffix);
+    while (validationGetterName.asString().equals(apiGetterName.asString())) {
+      validationGetterName = validationGetterName.append(suffix);
+    }
+    return validationGetterName;
   }
 
   public JavaName getGetterNameWithSuffix(PojoSettings settings) {

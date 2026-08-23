@@ -2,6 +2,8 @@ arrayPojo=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Collections;
@@ -38,9 +40,20 @@ public class PosologyDto {
   /**
    * Doses to be taken
    */
-  @NotNull
+  @JsonIgnore
+  public List<Double> getItems() {
+    return items;
+  }
+
   @JsonProperty("items")
-  public List<@NotNull Double> getItems() {
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<Double> getItemsJson() {
+    return items;
+  }
+
+  @JsonIgnore
+  @NotNull
+  private List<@NotNull Double> getItems_() {
     return items;
   }
 
@@ -213,6 +226,7 @@ package com.github.muehmar;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
@@ -256,10 +270,21 @@ public class SampleObjectPojo1Dto {
   /**
    * stringVal
    */
+  @JsonIgnore
+  public String getStringVal() {
+    return stringVal;
+  }
+
+  @JsonProperty("stringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getStringValJson() {
+    return stringVal;
+  }
+
+  @JsonIgnore
   @NotNull
   @Pattern(regexp="Hello")
-  @JsonProperty("stringVal")
-  public String getStringVal() {
+  private String getStringVal_() {
     return stringVal;
   }
 .
@@ -267,11 +292,22 @@ public class SampleObjectPojo1Dto {
   /**
    * intVal
    */
+  @JsonIgnore
+  public Integer getIntVal() {
+    return intVal;
+  }
+
+  @JsonProperty("intVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Integer getIntValJson() {
+    return intVal;
+  }
+
+  @JsonIgnore
   @NotNull
   @Min(value = 10L)
   @Max(value = 50L)
-  @JsonProperty("intVal")
-  public Integer getIntVal() {
+  private Integer getIntVal_() {
     return intVal;
   }
 .
@@ -279,11 +315,22 @@ public class SampleObjectPojo1Dto {
   /**
    * doubleVal
    */
+  @JsonIgnore
+  public Double getDoubleVal() {
+    return doubleVal;
+  }
+
+  @JsonProperty("doubleVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Double getDoubleValJson() {
+    return doubleVal;
+  }
+
+  @JsonIgnore
   @NotNull
   @DecimalMin(value = "12.5", inclusive = true)
   @DecimalMax(value = "50.1", inclusive = false)
-  @JsonProperty("doubleVal")
-  public Double getDoubleVal() {
+  private Double getDoubleVal_() {
     return doubleVal;
   }
 

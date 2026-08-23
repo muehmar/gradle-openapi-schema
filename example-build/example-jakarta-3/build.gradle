@@ -16,12 +16,6 @@ dependencies {
 }
 
 openApiGenerator {
-    validation {
-        validationMethods {
-            getterSuffix = "Raw"
-        }
-    }
-
     schemas {
         api {
             sourceSet = 'main'

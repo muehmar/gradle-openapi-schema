@@ -54,8 +54,8 @@ class ValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[Admin].adminname -> must not be null",
-            "invalidAnyOf[User].age -> must be less than or equal to 199",
+            "invalidAnyOf[Admin].adminname_ -> must not be null",
+            "invalidAnyOf[User].age_ -> must be less than or equal to 199",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
@@ -73,9 +73,9 @@ class ValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "adminOrUser.invalidAnyOf[Admin].adminname -> must not be null",
-            "adminOrUser.invalidAnyOf[User].age -> must be less than or equal to 199",
-            "adminOrUser.validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
+            "adminOrUser_.invalidAnyOf[Admin].adminname_ -> must not be null",
+            "adminOrUser_.invalidAnyOf[User].age_ -> must be less than or equal to 199",
+            "adminOrUser_.validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(inlinedDto.isValid());
@@ -89,12 +89,12 @@ class ValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[Admin].adminname -> must not be null",
-            "invalidAnyOf[Admin].id -> must not be null",
-            "invalidAnyOf[Admin].type -> must not be null",
-            "invalidAnyOf[User].id -> must not be null",
-            "invalidAnyOf[User].type -> must not be null",
-            "invalidAnyOf[User].username -> must not be null",
+            "invalidAnyOf[Admin].adminname_ -> must not be null",
+            "invalidAnyOf[Admin].id_ -> must not be null",
+            "invalidAnyOf[Admin].type_ -> must not be null",
+            "invalidAnyOf[User].id_ -> must not be null",
+            "invalidAnyOf[User].type_ -> must not be null",
+            "invalidAnyOf[User].username_ -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations));
     assertFalse(adminOrUserDto.isValid());
@@ -109,13 +109,13 @@ class ValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "adminOrUser.invalidAnyOf[Admin].adminname -> must not be null",
-            "adminOrUser.invalidAnyOf[Admin].id -> must not be null",
-            "adminOrUser.invalidAnyOf[Admin].type -> must not be null",
-            "adminOrUser.invalidAnyOf[User].id -> must not be null",
-            "adminOrUser.invalidAnyOf[User].type -> must not be null",
-            "adminOrUser.invalidAnyOf[User].username -> must not be null",
-            "adminOrUser.validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
+            "adminOrUser_.invalidAnyOf[Admin].adminname_ -> must not be null",
+            "adminOrUser_.invalidAnyOf[Admin].id_ -> must not be null",
+            "adminOrUser_.invalidAnyOf[Admin].type_ -> must not be null",
+            "adminOrUser_.invalidAnyOf[User].id_ -> must not be null",
+            "adminOrUser_.invalidAnyOf[User].type_ -> must not be null",
+            "adminOrUser_.invalidAnyOf[User].username_ -> must not be null",
+            "adminOrUser_.validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]"),
         formatViolations(violations));
     assertFalse(inlinedDto.isValid());
   }

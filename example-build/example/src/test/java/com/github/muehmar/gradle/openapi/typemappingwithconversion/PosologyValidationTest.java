@@ -38,8 +38,8 @@ public class PosologyValidationTest {
 
     assertEquals(
         list(
-            "itemsRaw[1].<list element> -> size must be between 1 and 2147483647",
-            "itemsRaw[3].<list element> -> size must be between 1 and 2147483647"),
+            "items_[1].<list element> -> size must be between 1 and 2147483647",
+            "items_[3].<list element> -> size must be between 1 and 2147483647"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(posologyDto.isValid());
@@ -55,7 +55,7 @@ public class PosologyValidationTest {
     final Set<ConstraintViolation<PosologyDto>> violations = validate(posologyDto);
 
     assertEquals(
-        list("itemsRaw -> size must be between 0 and 4"),
+        list("items_ -> size must be between 0 and 4"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(posologyDto.isValid());
