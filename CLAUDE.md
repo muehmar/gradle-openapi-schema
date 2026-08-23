@@ -187,6 +187,18 @@ tiny generators (see `ObjectPojoGenerator.content()`).
 `.append` the needed import ref, `.filter` so it only emits for array members with a
 uniqueItems constraint.
 
+### The design of the generated DTOs
+
+`doc/internal/dto_design.md` documents the structure of the generated classes:
+composed DTOs (`allOf`/`oneOf`/`anyOf`) are flat and hold no reference to their
+member DTOs, which they reconstruct on demand via `as<Member>Dto()`. It covers
+where serialisation happens (never delegated), where validation happens
+(delegated to the converted member DTOs, plus the parallel `isValid()`
+channel that works without a validation API on the classpath) and which getters
+are public — package-private on `oneOf`/`anyOf`. Read it before changing getters,
+Jackson annotations or validation of composed DTOs. It is internal documentation
+and deliberately not linked from the user-facing docs in `doc/`.
+
 ### Design conventions
 
 - **Rich domain models, not anemic data holders.** Types in `generator/model/`
