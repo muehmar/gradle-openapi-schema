@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.JavaTypeGenerators.deepAnnotatedParameterizedClassName;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.validationAnnotationsForMember;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
@@ -19,7 +18,6 @@ public class ValidationGetter {
   public static Generator<JavaPojoMember, PojoSettings> validationGetterGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(deprecatedJavaDocAndAnnotationForValidationMethod())
-        .append(jsonIgnore())
         .append(validationAnnotationsForMember())
         .append(getterMethod())
         .filter(Filters.isValidationEnabled());

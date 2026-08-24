@@ -1,15 +1,20 @@
 ## Change Log
 
 * next
+    * [#436](https://github.com/muehmar/gradle-openapi-schema/issues/436) - Annotate the generated DTOs and their
+      builders with `@JsonAutoDetect` and switch Jackson's auto-detection off, instead of annotating every method
+      which must not be serialized with `@JsonIgnore`. Every serialized member carries an explicit annotation
+      already, so only the explicitly annotated members take part in the (de)serialisation. The serialized JSON is
+      unchanged; a DTO simply carries far fewer Jackson annotations
     * [#415](https://github.com/muehmar/gradle-openapi-schema/issues/415) - Serialize every property through a
-      dedicated JSON getter instead of through the public getter where its shape allowed it. The public getter is
-      annotated with `@JsonIgnore` and no longer takes part in the (de)serialisation, hence adding a type mapping to a
-      property no longer relocates `@JsonProperty` between getters. The serialized JSON is unchanged, except for two
-      edge cases: a required not-nullable property holding `null` — a state only reachable through an invalid DTO — is
-      now uniformly omitted (previously it was either omitted or serialized as `null`, depending on the property's
-      container shape and type mapping), and a required not-nullable `date-time` property is now serialized as an
-      ISO-8601 string like all other `date-time` shapes, also with an `ObjectMapper` which writes dates as timestamps.
-      See the [migration guide](120_migration_guides.md#changes-in-runtime-behaviour)
+      dedicated JSON getter instead of through the public getter where its shape allowed it. The public getter no
+      longer takes part in the (de)serialisation, hence adding a type mapping to a property no longer relocates
+      `@JsonProperty` between getters. The serialized JSON is unchanged, except for two edge cases: a required
+      not-nullable property holding `null` — a state only reachable through an invalid DTO — is now uniformly omitted
+      (previously it was either omitted or serialized as `null`, depending on the property's container shape and type
+      mapping), and a required not-nullable `date-time` property is now serialized as an ISO-8601 string like all
+      other `date-time` shapes, also with an `ObjectMapper` which writes dates as timestamps. See the
+      [migration guide](120_migration_guides.md#changes-in-runtime-behaviour)
     * [#414](https://github.com/muehmar/gradle-openapi-schema/issues/414) - Generate a dedicated validation getter for
       every property instead of placing the constraint annotations on the public getter where its shape allowed it. The
       public getter serves the api, the validation getter carries the constraints and always returns the internal

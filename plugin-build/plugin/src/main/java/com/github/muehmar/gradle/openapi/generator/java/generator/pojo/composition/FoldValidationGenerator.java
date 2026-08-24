@@ -8,7 +8,6 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -44,7 +43,6 @@ public class FoldValidationGenerator {
     return DeprecatedMethodGenerator
         .<DiscriminatableJavaComposition>deprecatedJavaDocAndAnnotationForValidationMethod()
         .append(ValidationAnnotationGenerator.validAnnotation())
-        .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
   }
 

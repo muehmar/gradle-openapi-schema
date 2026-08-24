@@ -1,9 +1,7 @@
 members[optionalListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
-@JsonIgnore
 @Size(min = 5, max = 10)
 private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_() {
   return optionalListWithNullableItems;
@@ -12,11 +10,9 @@ private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_(
 
 
 members[optionalNullableListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
-@JsonIgnore
 @Size(min = 5, max = 10)
 private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_() {
   return optionalNullableListWithNullableItems;
@@ -25,10 +21,8 @@ private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullabl
 
 
 members[optionalNullableStringVal]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.Pattern
 
-@JsonIgnore
 @Pattern(regexp="Hello")
 private String getOptionalNullableStringVal_() {
   return optionalNullableStringVal;
@@ -37,10 +31,8 @@ private String getOptionalNullableStringVal_() {
 
 
 members[optionalStringVal]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.Pattern
 
-@JsonIgnore
 @Pattern(regexp="Hello")
 private String getOptionalStringVal_() {
   return optionalStringVal;
@@ -49,12 +41,10 @@ private String getOptionalStringVal_() {
 
 
 members[requiredListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
-@JsonIgnore
 @NotNull
 @Size(min = 5, max = 10)
 private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_() {
@@ -64,11 +54,9 @@ private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_(
 
 
 members[requiredNullableListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
-@JsonIgnore
 @Size(min = 5, max = 10)
 private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_() {
   return requiredNullableListWithNullableItems;
@@ -77,10 +65,8 @@ private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullabl
 
 
 members[requiredNullableStringVal]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.Pattern
 
-@JsonIgnore
 @Pattern(regexp="Hello")
 private String getRequiredNullableStringVal_() {
   return requiredNullableStringVal;
@@ -89,12 +75,10 @@ private String getRequiredNullableStringVal_() {
 
 
 members[requiredStringList]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
 
-@JsonIgnore
 @NotNull
 @Size(min = 1)
 private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList_() {
@@ -104,11 +88,9 @@ private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList_() 
 
 
 members[stringVal]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 
-@JsonIgnore
 @NotNull
 @Pattern(regexp="Hello")
 private String getStringVal_() {

@@ -31,19 +31,26 @@ import org.junit.jupiter.params.provider.MethodSource;
 class JacksonAnnotationGeneratorTest {
 
   @Test
-  void jsonIgnore_when_enabledJackson_then_correctOutputAndRefs() {
-    final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonIgnore();
+  void jsonAutoDetectNone_when_enabledJackson_then_correctOutputAndRefs() {
+    final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonAutoDetectNone();
 
     final Writer writer = generator.generate(noData(), defaultTestSettings(), javaWriter());
 
     assertEquals(1, writer.getRefs().size());
-    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_IGNORE::equals));
-    assertEquals("@JsonIgnore", writer.asString());
+    assertTrue(writer.getRefs().exists(JacksonRefs.JSON_AUTO_DETECT::equals));
+    assertEquals(
+        "@JsonAutoDetect(\n"
+            + "    getterVisibility = JsonAutoDetect.Visibility.NONE,\n"
+            + "    isGetterVisibility = JsonAutoDetect.Visibility.NONE,\n"
+            + "    setterVisibility = JsonAutoDetect.Visibility.NONE,\n"
+            + "    creatorVisibility = JsonAutoDetect.Visibility.NONE,\n"
+            + "    fieldVisibility = JsonAutoDetect.Visibility.NONE)",
+        writer.asString());
   }
 
   @Test
-  void jsonIgnore_when_disabledJackson_then_noOutput() {
-    final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonIgnore();
+  void jsonAutoDetectNone_when_disabledJackson_then_noOutput() {
+    final Generator<Void, PojoSettings> generator = JacksonAnnotationGenerator.jsonAutoDetectNone();
 
     final Writer writer =
         generator.generate(

@@ -1,9 +1,7 @@
 sampleObjectPojo1WithNonObjectValueType=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Objects
 javax.validation.constraints.AssertTrue
 
-@JsonIgnore
 @AssertTrue(message = "Not all additional properties are instances of String")
 private boolean isAllAdditionalPropertiesHaveCorrectType() {
   return additionalProperties.values()
@@ -15,11 +13,9 @@ private boolean isAllAdditionalPropertiesHaveCorrectType() {
 
 
 sampleObjectPojo1WithNullableNonObjectValueType=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Objects
 javax.validation.constraints.AssertTrue
 
-@JsonIgnore
 @AssertTrue(message = "Not all additional properties are instances of String")
 private boolean isAllAdditionalPropertiesHaveCorrectType() {
   return additionalProperties.values()
@@ -31,10 +27,8 @@ private boolean isAllAdditionalPropertiesHaveCorrectType() {
 
 
 validationDisabled=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Objects
 
-@JsonIgnore
 private boolean isAllAdditionalPropertiesHaveCorrectType() {
   return additionalProperties.values()
       .stream()

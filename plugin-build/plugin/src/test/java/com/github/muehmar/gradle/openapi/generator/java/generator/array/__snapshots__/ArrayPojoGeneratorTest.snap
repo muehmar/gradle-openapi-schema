@@ -1,8 +1,8 @@
 arrayPojo=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -19,6 +19,12 @@ import javax.validation.constraints.NotNull;
 /**
  * Doses to be taken
  */
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class PosologyDto {
   @JsonValue
   private final List<Double> items;
@@ -61,7 +67,6 @@ public class PosologyDto {
     return items;
   }
 
-  @JsonIgnore
   @NotNull
   private List<@NotNull Double> getItems_() {
     return items;
@@ -186,8 +191,8 @@ public class PosologyDto {
 arrayPojoWithEnumItem=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -202,6 +207,12 @@ import javax.validation.constraints.Pattern;
 /**
  * Direction array
  */
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class DirectionArrayDto {
   @JsonValue
   private final List<String> items;
@@ -225,6 +236,12 @@ public class DirectionArrayDto {
     );
   }
 
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public enum Direction {
     NORTH("north", ""),
     EAST("east", ""),
@@ -290,7 +307,6 @@ public class DirectionArrayDto {
     return items;
   }
 
-  @JsonIgnore
   @NotNull
   private List<@NotNull @Pattern(regexp="north|east|south|west") String> getItems_() {
     return items;

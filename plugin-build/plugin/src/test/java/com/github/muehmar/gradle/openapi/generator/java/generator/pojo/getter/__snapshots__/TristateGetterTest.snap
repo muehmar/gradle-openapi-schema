@@ -1,11 +1,9 @@
 genericType=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
 
 /**
  * List
  */
-@JsonIgnore
 public Tristate<List<String>> getRequiredStringList() {
   return Tristate.ofNullableAndNullFlag(requiredStringList, isRequiredStringListNull);
 }
@@ -13,13 +11,11 @@ public Tristate<List<String>> getRequiredStringList() {
 
 
 mappedString=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
 
 /**
  * OptionalNullableStringVal
  */
-@JsonIgnore
 public Tristate<CustomString> getOptionalNullableStringVal() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull).map(value -> CustomString.fromString(value));
 }
@@ -27,10 +23,8 @@ public Tristate<CustomString> getOptionalNullableStringVal() {
 
 
 visibility[PACKAGE_PRIVATE]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
 
-@JsonIgnore
 Tristate<String> getOptionalNullableStringVal() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull);
 }
@@ -38,13 +32,11 @@ Tristate<String> getOptionalNullableStringVal() {
 
 
 visibility[PUBLIC]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.github.muehmar.openapi.util.Tristate
 
 /**
  * OptionalNullableStringVal
  */
-@JsonIgnore
 public Tristate<String> getOptionalNullableStringVal() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull);
 }

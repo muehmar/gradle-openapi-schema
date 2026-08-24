@@ -1,9 +1,7 @@
 members[optionalStringVal]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 
 @AssertTrue(message = "optionalStringVal is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalStringValNotNull() {
   return isOptionalStringValNotNull;
 }
@@ -11,11 +9,9 @@ private boolean isOptionalStringValNotNull() {
 
 
 members[requiredNullableStringVal]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 
 @AssertTrue(message = "requiredNullableStringVal is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableStringValPresent() {
   return isRequiredNullableStringValPresent;
 }

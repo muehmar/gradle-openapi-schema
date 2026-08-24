@@ -16,8 +16,10 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static io.github.muehmar.codegenerator.java.ClassGen.Declaration.TOP_LEVEL;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -36,7 +38,7 @@ public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings
             .declaration(TOP_LEVEL)
             .packageGen(new PackageGenerator<>())
             .javaDoc(JavaDocGenerator.javaDoc((pojo, settings) -> pojo.getDescription()))
-            .noAnnotations()
+            .annotations(PList.single(JacksonAnnotationGenerator.jsonAutoDetectNone()))
             .modifiers(PUBLIC)
             .className(pojo -> pojo.getClassName().asString())
             .noSuperClass()

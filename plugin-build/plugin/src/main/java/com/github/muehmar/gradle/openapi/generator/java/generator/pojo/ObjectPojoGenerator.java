@@ -60,6 +60,7 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
             .annotations(
                 PList.of(
                     JacksonAnnotationGenerator.jsonDeserializeForBuilder(),
+                    JacksonAnnotationGenerator.jsonAutoDetectNone(),
                     JacksonAnnotationGenerator.jacksonXmlRootElement()))
             .modifiers(PUBLIC)
             .className(pojo -> pojo.getClassName().asString())

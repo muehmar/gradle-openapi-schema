@@ -8,7 +8,6 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
@@ -57,7 +56,6 @@ public class ValidCountValidationMethod {
     return DeprecatedMethodGenerator
         .<DiscriminatableJavaComposition>deprecatedJavaDocAndAnnotationForValidationMethod()
         .append(annotation)
-        .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
   }
 
@@ -85,7 +83,6 @@ public class ValidCountValidationMethod {
             .build();
     return DeprecatedMethodGenerator.<T>deprecatedJavaDocAndAnnotationForValidationMethod()
         .append(annotation)
-        .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method)
         .prependNewLine()
         .filter(DiscriminatableJavaComposition::validateExactlyOneMatch);

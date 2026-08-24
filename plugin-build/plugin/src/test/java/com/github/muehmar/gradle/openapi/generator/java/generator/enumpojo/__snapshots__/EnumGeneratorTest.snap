@@ -1,6 +1,7 @@
 com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGeneratorTest.generatePojo_when_enumPojoAndJacksonSupport_then_correctPojoGenerated=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.stream.Collectors;
@@ -9,6 +10,12 @@ import java.util.stream.Stream;
 /**
  * Gender of a user
  */
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public enum GenderDto {
   MALE("MALE", ""),
   FEMALE("FEMALE", "");

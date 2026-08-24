@@ -4,7 +4,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.NonEmptyList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -26,7 +25,7 @@ public class AllOfDtoGetterGenerator {
   }
 
   private static Generator<JavaObjectPojo, PojoSettings> annotatedAllOfGetter() {
-    return JacksonAnnotationGenerator.<JavaObjectPojo>jsonIgnore()
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(validAnnotation())
         .append(allOfGetter());
   }

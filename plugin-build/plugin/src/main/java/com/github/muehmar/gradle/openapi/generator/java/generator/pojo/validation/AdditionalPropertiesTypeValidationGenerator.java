@@ -6,7 +6,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA
 import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -25,7 +24,7 @@ public class AdditionalPropertiesTypeValidationGenerator {
   }
 
   private static Generator<JavaAdditionalProperties, PojoSettings> annotatedCorrectTypeMethod() {
-    return JacksonAnnotationGenerator.<JavaAdditionalProperties>jsonIgnore()
+    return Generator.<JavaAdditionalProperties, PojoSettings>emptyGen()
         .append(
             assertTrue(
                 props ->

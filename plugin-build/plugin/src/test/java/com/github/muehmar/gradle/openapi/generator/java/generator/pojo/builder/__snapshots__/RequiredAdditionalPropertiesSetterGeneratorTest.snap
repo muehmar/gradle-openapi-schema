@@ -1,7 +1,6 @@
 pojoWithRequiredEnumProperty=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
-@JsonIgnore
+.
+.
 private Builder setProp1(Color prop1) {
   return addAdditionalProperty("prop1", prop1);
 }
@@ -9,9 +8,8 @@ private Builder setProp1(Color prop1) {
 
 
 pojoWithRequiredMappedStringProperty=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
-@JsonIgnore
+.
+.
 private Builder setProp1(CustomString prop1) {
   return addAdditionalProperty("prop1", prop1);
 }
@@ -28,14 +26,12 @@ private Builder setProp1(String prop1) {
 
 
 pojoWithRequiredNullableAnyTypeProperty=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 
 private Builder setProp1(Object prop1) {
   return addAdditionalProperty("prop1", prop1);
 }
 
-@JsonIgnore
 private Builder setProp1(Optional<Object> prop1) {
   return addAdditionalProperty("prop1", prop1.orElse(null));
 }
@@ -43,15 +39,12 @@ private Builder setProp1(Optional<Object> prop1) {
 
 
 pojoWithRequiredNullableMappedStringProperty=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 
-@JsonIgnore
 private Builder setProp1(CustomString prop1) {
   return addAdditionalProperty("prop1", prop1);
 }
 
-@JsonIgnore
 private Builder setProp1(Optional<CustomString> prop1) {
   return addAdditionalProperty("prop1", prop1.orElse(null));
 }
@@ -59,14 +52,12 @@ private Builder setProp1(Optional<CustomString> prop1) {
 
 
 pojoWithRequiredNullableSpecificTypeProperty=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 
 private Builder setProp1(String prop1) {
   return addAdditionalProperty("prop1", prop1);
 }
 
-@JsonIgnore
 private Builder setProp1(Optional<String> prop1) {
   return addAdditionalProperty("prop1", prop1.orElse(null));
 }

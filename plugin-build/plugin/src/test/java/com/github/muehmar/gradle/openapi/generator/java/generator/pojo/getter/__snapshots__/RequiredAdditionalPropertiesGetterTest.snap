@@ -1,14 +1,11 @@
 requiredAdditionalAnyTypeProperties=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.NotNull
 
 @NotNull
-@JsonIgnore
 public Object getProp1() {
   return getProp1Internal();
 }
 
-@JsonIgnore
 private Object getProp1Internal() {
   return additionalProperties.get("prop1");
 }
@@ -17,17 +14,14 @@ private Object getProp1Internal() {
 
 
 requiredAdditionalEnumProperties=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 
-@JsonIgnore
 public Color getProp1() {
   final String value = getProp1Internal();
   return value != null ? Color.fromValue(value) : null;
 }
 
-@JsonIgnore
 private String getProp1Internal() {
   return (additionalProperties.get("prop1") instanceof String ? (String) additionalProperties.get("prop1") : null);
 }
@@ -47,18 +41,15 @@ private boolean isProp1CorrectType() {
 
 requiredAdditionalMappedObjectProperties=[
 com.custom.CustomAdmin
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.Valid
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 
-@JsonIgnore
 public CustomAdmin getProp1() {
   final AdminDto value = getProp1Internal();
   return value != null ? CustomAdmin.fromDto(value) : null;
 }
 
-@JsonIgnore
 private AdminDto getProp1Internal() {
   return (additionalProperties.get("prop1") instanceof AdminDto ? (AdminDto) additionalProperties.get("prop1") : null);
 }
@@ -68,7 +59,6 @@ private Object getProp1AsObject() {
   return additionalProperties.get("prop1");
 }
 
-@JsonIgnore
 @Valid
 private AdminDto getProp1_() {
   return getProp1Internal();
@@ -84,17 +74,14 @@ private boolean isProp1CorrectType() {
 
 requiredAdditionalMappedStringProperties=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 
-@JsonIgnore
 public CustomString getProp1() {
   final String value = getProp1Internal();
   return value != null ? CustomString.fromString(value) : null;
 }
 
-@JsonIgnore
 private String getProp1Internal() {
   return (additionalProperties.get("prop1") instanceof String ? (String) additionalProperties.get("prop1") : null);
 }
@@ -113,16 +100,13 @@ private boolean isProp1CorrectType() {
 
 
 requiredAdditionalNullableAnyTypeProperties=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 javax.validation.constraints.AssertTrue
 
-@JsonIgnore
 public Optional<Object> getProp1() {
   return Optional.ofNullable(getProp1Internal());
 }
 
-@JsonIgnore
 private Object getProp1Internal() {
   return additionalProperties.get("prop1");
 }
@@ -136,17 +120,14 @@ private boolean isProp1Present() {
 
 
 requiredAdditionalNullableEnumProperties=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 javax.validation.constraints.AssertTrue
 
-@JsonIgnore
 public Optional<Color> getProp1() {
   return Optional.ofNullable(getProp1Internal())
       .map(value -> Color.fromValue(value));
 }
 
-@JsonIgnore
 private String getProp1Internal() {
   return (additionalProperties.get("prop1") instanceof String ? (String) additionalProperties.get("prop1") : null);
 }
@@ -166,17 +147,14 @@ private boolean isProp1CorrectType() {
 
 requiredAdditionalNullableMappedStringProperties=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 javax.validation.constraints.AssertTrue
 
-@JsonIgnore
 public Optional<CustomString> getProp1() {
   return Optional.ofNullable(getProp1Internal())
       .map(value -> CustomString.fromString(value));
 }
 
-@JsonIgnore
 private String getProp1Internal() {
   return (additionalProperties.get("prop1") instanceof String ? (String) additionalProperties.get("prop1") : null);
 }
@@ -195,17 +173,14 @@ private boolean isProp1CorrectType() {
 
 
 requiredAdditionalNullableObjectProperties=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 javax.validation.Valid
 javax.validation.constraints.AssertTrue
 
-@JsonIgnore
 public Optional<UserDto> getProp1() {
   return Optional.ofNullable(getProp1Internal());
 }
 
-@JsonIgnore
 private UserDto getProp1Internal() {
   return (additionalProperties.get("prop1") instanceof UserDto ? (UserDto) additionalProperties.get("prop1") : null);
 }
@@ -215,7 +190,6 @@ private boolean isProp1Present() {
   return additionalProperties.containsKey("prop1");
 }
 
-@JsonIgnore
 @Valid
 private UserDto getProp1_() {
   return getProp1Internal();
@@ -230,17 +204,14 @@ private boolean isProp1CorrectType() {
 
 
 requiredAdditionalNullableStringListProperties=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.List
 java.util.Optional
 javax.validation.constraints.AssertTrue
 
-@JsonIgnore
 public Optional<List<String>> getProp1() {
   return Optional.ofNullable(getProp1Internal());
 }
 
-@JsonIgnore
 private List<String> getProp1Internal() {
   return (additionalProperties.get("prop1") instanceof List ? (List<String>) additionalProperties.get("prop1") : null);
 }
@@ -259,16 +230,13 @@ private boolean isProp1CorrectType() {
 
 
 requiredAdditionalNullableStringProperties=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 javax.validation.constraints.AssertTrue
 
-@JsonIgnore
 public Optional<String> getProp1() {
   return Optional.ofNullable(getProp1Internal());
 }
 
-@JsonIgnore
 private String getProp1Internal() {
   return (additionalProperties.get("prop1") instanceof String ? (String) additionalProperties.get("prop1") : null);
 }
@@ -287,18 +255,15 @@ private boolean isProp1CorrectType() {
 
 
 requiredAdditionalObjectProperties=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.Valid
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 
 @Valid
-@JsonIgnore
 public AdminDto getProp1() {
   return getProp1Internal();
 }
 
-@JsonIgnore
 private AdminDto getProp1Internal() {
   return (additionalProperties.get("prop1") instanceof AdminDto ? (AdminDto) additionalProperties.get("prop1") : null);
 }
@@ -317,18 +282,15 @@ private boolean isProp1CorrectType() {
 
 
 requiredAdditionalObjectPropertiesWithDeprecatedValidationMethod=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.Valid
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 
 @Valid
-@JsonIgnore
 public AdminDto getProp1() {
   return getProp1Internal();
 }
 
-@JsonIgnore
 private AdminDto getProp1Internal() {
   return (additionalProperties.get("prop1") instanceof AdminDto ? (AdminDto) additionalProperties.get("prop1") : null);
 }
@@ -357,16 +319,13 @@ boolean isProp1CorrectType() {
 
 
 requiredAdditionalStringProperties=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 
-@JsonIgnore
 public String getProp1() {
   return getProp1Internal();
 }
 
-@JsonIgnore
 private String getProp1Internal() {
   return (additionalProperties.get("prop1") instanceof String ? (String) additionalProperties.get("prop1") : null);
 }

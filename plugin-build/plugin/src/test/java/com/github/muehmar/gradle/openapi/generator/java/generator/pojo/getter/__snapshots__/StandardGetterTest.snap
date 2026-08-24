@@ -1,8 +1,6 @@
 arrayWithXmlDefinitions[PACKAGE_PRIVATE]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.List
 
-@JsonIgnore
 List<String> getListVal() {
   return listVal;
 }
@@ -10,13 +8,11 @@ List<String> getListVal() {
 
 
 arrayWithXmlDefinitions[PUBLIC]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.List
 
 /**
  * List
  */
-@JsonIgnore
 public List<String> getListVal() {
   return listVal;
 }
@@ -24,10 +20,8 @@ public List<String> getListVal() {
 
 
 genericType[PACKAGE_PRIVATE]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.List
 
-@JsonIgnore
 List<String> getListVal() {
   return listVal;
 }
@@ -35,13 +29,11 @@ List<String> getListVal() {
 
 
 genericType[PUBLIC]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.List
 
 /**
  * List
  */
-@JsonIgnore
 public List<String> getListVal() {
   return listVal;
 }
@@ -50,12 +42,10 @@ public List<String> getListVal() {
 
 mappedString=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 
 /**
  * stringVal
  */
-@JsonIgnore
 public CustomString getStringVal() {
   return stringVal != null ? CustomString.fromString(stringVal) : null;
 }
@@ -63,9 +53,8 @@ public CustomString getStringVal() {
 
 
 requiredString[PACKAGE_PRIVATE]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
-@JsonIgnore
+.
+.
 String getStringVal() {
   return stringVal;
 }
@@ -73,12 +62,11 @@ String getStringVal() {
 
 
 requiredString[PUBLIC]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
+.
+.
 /**
  * stringVal
  */
-@JsonIgnore
 public String getStringVal() {
   return stringVal;
 }

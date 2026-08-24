@@ -1,13 +1,11 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -40,9 +38,6 @@ public class RequiredAdditionalPropertiesSetterGenerator {
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings> normalSetter() {
     return Generator.<JavaRequiredAdditionalProperty, PojoSettings>emptyGen()
         .append(
-            JacksonAnnotationGenerator.<JavaRequiredAdditionalProperty>jsonIgnore()
-                .filter(JavaRequiredAdditionalProperty::hasApiType))
-        .append(
             MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
                 .modifiers((p, s) -> JavaModifiers.of(s.isEnableStagedBuilder() ? PRIVATE : PUBLIC))
                 .noGenericTypes()
@@ -63,7 +58,6 @@ public class RequiredAdditionalPropertiesSetterGenerator {
 
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings> optionalSetter() {
     return Generator.<JavaRequiredAdditionalProperty, PojoSettings>emptyGen()
-        .append(jsonIgnore())
         .append(
             MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
                 .modifiers((p, s) -> JavaModifiers.of(s.isEnableStagedBuilder() ? PRIVATE : PUBLIC))

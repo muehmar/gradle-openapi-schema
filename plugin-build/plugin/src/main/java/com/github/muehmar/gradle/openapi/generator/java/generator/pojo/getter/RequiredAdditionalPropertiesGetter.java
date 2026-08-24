@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NULL_SAFE;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.assertTrue;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.notNullAnnotation;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.validAnnotationForType;
@@ -44,7 +43,6 @@ public class RequiredAdditionalPropertiesGetter {
             notNullAnnotation(JavaRequiredAdditionalProperty.class)
                 .filter(JavaRequiredAdditionalProperty::isAnyType)
                 .filter(JavaRequiredAdditionalProperty::isNotNullable))
-        .append(jsonIgnore())
         .append(getter())
         .appendSingleBlankLine()
         .append(internalValueGetter())
@@ -145,7 +143,6 @@ public class RequiredAdditionalPropertiesGetter {
    */
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings> internalValueGetter() {
     return Generator.<JavaRequiredAdditionalProperty, PojoSettings>emptyGen()
-        .append(jsonIgnore())
         .append(
             MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()
                 .modifiers(PRIVATE)
@@ -220,7 +217,6 @@ public class RequiredAdditionalPropertiesGetter {
   private static Generator<JavaRequiredAdditionalProperty, PojoSettings> deepValidationGetter() {
     return DeprecatedMethodGenerator
         .<JavaRequiredAdditionalProperty>deprecatedJavaDocAndAnnotationForValidationMethod()
-        .append(jsonIgnore())
         .append(validAnnotationForType(), JavaRequiredAdditionalProperty::getJavaType)
         .append(
             MethodGenBuilder.<JavaRequiredAdditionalProperty, PojoSettings>create()

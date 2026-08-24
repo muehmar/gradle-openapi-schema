@@ -41,6 +41,7 @@ public class NormalBuilderGenerator {
             .build();
     return NormalBuilderGenerator.<JavaObjectPojo>factoryMethod()
         .append(JacksonAnnotationGenerator.jsonPojoBuilderWithPrefix("set"))
+        .append(JacksonAnnotationGenerator.jsonAutoDetectNone())
         .append(classGen);
   }
 

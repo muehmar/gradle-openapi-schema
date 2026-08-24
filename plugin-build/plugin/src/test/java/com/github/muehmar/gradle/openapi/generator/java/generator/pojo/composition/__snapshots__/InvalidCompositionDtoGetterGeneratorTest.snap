@@ -1,11 +1,9 @@
 anyOfAndOneOfPojo=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.HashMap
 java.util.Map
 javax.validation.Valid
 
 @Valid
-@JsonIgnore
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getOneOfValidCount() != 1) {
@@ -16,7 +14,6 @@ private Map<String, Object> getInvalidOneOf() {
 }
 
 @Valid
-@JsonIgnore
 private Map<String, Object> getInvalidAnyOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getAnyOfValidCount() == 0) {
@@ -29,13 +26,11 @@ private Map<String, Object> getInvalidAnyOf() {
 
 
 anyOfPojo=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.HashMap
 java.util.Map
 javax.validation.Valid
 
 @Valid
-@JsonIgnore
 private Map<String, Object> getInvalidAnyOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getAnyOfValidCount() == 0) {
@@ -48,13 +43,11 @@ private Map<String, Object> getInvalidAnyOf() {
 
 
 anyOfPojoWithDiscriminator=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.HashMap
 java.util.Map
 javax.validation.Valid
 
 @Valid
-@JsonIgnore
 private Map<String, Object> getInvalidAnyOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getAnyOfValidCount() == 0 || !isValidAgainstTheCorrectAnyOfSchema()) {
@@ -77,13 +70,11 @@ private Map<String, Object> getInvalidAnyOf() {
 
 
 oneOfPojo=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.HashMap
 java.util.Map
 javax.validation.Valid
 
 @Valid
-@JsonIgnore
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getOneOfValidCount() != 1) {
@@ -96,13 +87,11 @@ private Map<String, Object> getInvalidOneOf() {
 
 
 oneOfPojoWithDiscriminator=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.HashMap
 java.util.Map
 javax.validation.Valid
 
 @Valid
-@JsonIgnore
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getOneOfValidCount() != 1 || !isValidAgainstTheCorrectOneOfSchema()) {
@@ -125,13 +114,11 @@ private Map<String, Object> getInvalidOneOf() {
 
 
 oneOfPojoWithDiscriminatorAndNonStrictValidation=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.HashMap
 java.util.Map
 javax.validation.Valid
 
 @Valid
-@JsonIgnore
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getOneOfValidCount() == 0 || !isValidAgainstTheCorrectOneOfSchema()) {
@@ -154,13 +141,11 @@ private Map<String, Object> getInvalidOneOf() {
 
 
 oneOfPojoWithEnumDiscriminator=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.HashMap
 java.util.Map
 javax.validation.Valid
 
 @Valid
-@JsonIgnore
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getOneOfValidCount() != 1 || !isValidAgainstTheCorrectOneOfSchema()) {
@@ -183,7 +168,6 @@ private Map<String, Object> getInvalidOneOf() {
 
 
 oneOfPojoWithPublicDeprecatedValidationMethods=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.HashMap
 java.util.Map
 javax.validation.Valid
@@ -194,7 +178,6 @@ javax.validation.Valid
  */
 @Deprecated
 @Valid
-@JsonIgnore
 public Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
   if(getOneOfValidCount() != 1) {

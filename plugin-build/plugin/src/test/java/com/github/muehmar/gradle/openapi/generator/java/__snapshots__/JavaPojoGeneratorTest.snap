@@ -1,8 +1,8 @@
 arrayPojo=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -16,6 +16,12 @@ import javax.validation.constraints.NotNull;
 /**
  * Doses to be taken
  */
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class PosologyDto {
   @JsonValue
   private final List<Double> items;
@@ -50,7 +56,6 @@ public class PosologyDto {
     return items;
   }
 
-  @JsonIgnore
   @NotNull
   private List<@NotNull Double> getItems_() {
     return items;
@@ -163,6 +168,7 @@ public class PosologyDto {
 enumPojo=[
 package com.github.muehmar;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.stream.Collectors;
@@ -171,6 +177,12 @@ import java.util.stream.Stream;
 /**
  * Gender of person
  */
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public enum GenderDto {
   MALE("male", ""),
   FEMALE("female", ""),
@@ -224,7 +236,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
@@ -248,6 +260,12 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = SampleObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class SampleObjectPojo1Dto {
   private final String stringVal;
   private final Integer intVal;
@@ -269,7 +287,6 @@ public class SampleObjectPojo1Dto {
   /**
    * stringVal
    */
-  @JsonIgnore
   public String getStringVal() {
     return stringVal;
   }
@@ -280,7 +297,6 @@ public class SampleObjectPojo1Dto {
     return stringVal;
   }
 
-  @JsonIgnore
   @NotNull
   @Pattern(regexp="Hello")
   private String getStringVal_() {
@@ -291,7 +307,6 @@ public class SampleObjectPojo1Dto {
   /**
    * intVal
    */
-  @JsonIgnore
   public Integer getIntVal() {
     return intVal;
   }
@@ -302,7 +317,6 @@ public class SampleObjectPojo1Dto {
     return intVal;
   }
 
-  @JsonIgnore
   @NotNull
   @Min(value = 10L)
   @Max(value = 50L)
@@ -314,7 +328,6 @@ public class SampleObjectPojo1Dto {
   /**
    * doubleVal
    */
-  @JsonIgnore
   public Double getDoubleVal() {
     return doubleVal;
   }
@@ -325,7 +338,6 @@ public class SampleObjectPojo1Dto {
     return doubleVal;
   }
 
-  @JsonIgnore
   @NotNull
   @DecimalMin(value = "12.5", inclusive = true)
   @DecimalMax(value = "50.1", inclusive = false)
@@ -339,7 +351,6 @@ public class SampleObjectPojo1Dto {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -364,7 +375,6 @@ public class SampleObjectPojo1Dto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       (stringVal != null ? 1 : 0) +
@@ -495,6 +505,12 @@ public class SampleObjectPojo1Dto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -514,7 +530,6 @@ public class SampleObjectPojo1Dto {
     /**
      * stringVal
      */
-    @JsonIgnore
     private Builder setStringVal(String stringVal) {
       this.stringVal = stringVal;
       return this;
@@ -529,7 +544,6 @@ public class SampleObjectPojo1Dto {
     /**
      * intVal
      */
-    @JsonIgnore
     private Builder setIntVal(Integer intVal) {
       this.intVal = intVal;
       return this;
@@ -544,7 +558,6 @@ public class SampleObjectPojo1Dto {
     /**
      * doubleVal
      */
-    @JsonIgnore
     private Builder setDoubleVal(Double doubleVal) {
       this.doubleVal = doubleVal;
       return this;
