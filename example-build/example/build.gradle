@@ -151,10 +151,6 @@ openApiGenerator {
 
     validation {
         enabled = true
-
-        validationMethods {
-            getterSuffix = "Raw"
-        }
     }
 
     enumDescriptionExtraction {

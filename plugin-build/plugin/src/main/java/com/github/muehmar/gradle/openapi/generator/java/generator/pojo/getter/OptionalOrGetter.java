@@ -2,12 +2,11 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversionRenderer.toApiTypeConversion;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.AccessorProfile.Visibility;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -17,11 +16,9 @@ import io.github.muehmar.codegenerator.writer.Writer;
 public class OptionalOrGetter {
   private OptionalOrGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> optionalOrGetterGenerator(
-      GetterGeneratorSettings generatorSettings) {
+  public static Generator<JavaPojoMember, PojoSettings> optionalOrGetterGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(generatorSettings.javaDocGenerator())
-        .append(jsonIgnore())
+        .append(Visibility.PUBLIC.javaDocGenerator())
         .append(getterMethod());
   }
 

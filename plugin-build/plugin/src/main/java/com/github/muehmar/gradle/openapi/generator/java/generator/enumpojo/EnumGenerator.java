@@ -37,7 +37,7 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
             .packageGen(new PackageGenerator<>())
             .javaDoc(
                 JavaDocGenerator.<PojoSettings>javaDoc().contraMap(EnumContent::getDescription))
-            .noAnnotations()
+            .annotations(PList.single(JacksonAnnotationGenerator.jsonAutoDetectNone()))
             .modifiers(PUBLIC)
             .className(enumPojo -> enumPojo.getClassName().asString())
             .noSuperClass()
@@ -143,7 +143,6 @@ public class EnumGenerator implements Generator<EnumGenerator.EnumContent, PojoS
             .content("return description;")
             .build();
     return Generator.<T, PojoSettings>newLine()
-        .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(methodGen)
         .filter((data, settings) -> settings.getEnumDescriptionSettings().isEnabled());
   }

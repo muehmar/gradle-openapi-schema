@@ -43,7 +43,7 @@ class DiscriminatorValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[User].age -> must be less than or equal to 199",
+            "invalidAnyOf[User].age_ -> must be less than or equal to 199",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "validAgainstTheCorrectAnyOfSchema -> Not valid against the schema described by the anyOf-discriminator"),
         formatViolations(violations),
@@ -61,12 +61,12 @@ class DiscriminatorValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[Admin].adminname -> must not be null",
-            "invalidAnyOf[Admin].id -> must not be null",
-            "invalidAnyOf[Admin].type -> must not be null",
-            "invalidAnyOf[User].id -> must not be null",
-            "invalidAnyOf[User].type -> must not be null",
-            "invalidAnyOf[User].username -> must not be null",
+            "invalidAnyOf[Admin].adminname_ -> must not be null",
+            "invalidAnyOf[Admin].id_ -> must not be null",
+            "invalidAnyOf[Admin].type_ -> must not be null",
+            "invalidAnyOf[User].id_ -> must not be null",
+            "invalidAnyOf[User].type_ -> must not be null",
+            "invalidAnyOf[User].username_ -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "validAgainstTheCorrectAnyOfSchema -> Not valid against the schema described by the anyOf-discriminator"),
         formatViolations(violations));

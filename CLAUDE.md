@@ -25,9 +25,18 @@ builds everything.
 - **Plugin unit/snapshot tests:** `./gradlew -p plugin-build :plugin:test`
 - **A single test class:** `./gradlew -p plugin-build :plugin:test --tests "*ObjectPojoGeneratorTest"`
 - **Update snapshots** after an intended generator-output change:
-  `./gradlew -p plugin-build :plugin:test -PupdateSnapshot=<ClassName>` (or `-PupdateSnapshot=all`).
-  Prefer this over hand-editing `*.snap` files, though hand-editing works for a
-  known one-line change.
+  `./gradlew -p plugin-build :plugin:test -PupdateSnapshot=" "` regenerates **all**
+  of them in one run. The value is matched with `contains` against the snapshot
+  name, so a single space matches everything (Gradle discards a truly empty
+  value); pass a `@SnapshotName` — *not* a class name — to restrict it. There is no
+  `=all`. Prefer this over hand-editing `*.snap` files, though hand-editing works
+  for a known one-line change. Note an update run only rewrites the scenarios the
+  test still produces: it never deletes an orphaned one, so delete the whole
+  `*.snap` and regenerate it when scenarios disappear or get renamed. An update
+  run always reports the rewritten tests as FAILED — re-run without the property
+  to see the real state — and it can stop before reaching every class, so re-run
+  it until the reported failures stop shrinking, or pass the individual
+  `@SnapshotName`s that remain.
 - **Formatting:** Spotless with `googleJavaFormat`. `spotlessApply` runs
   automatically before `compileJava`, so formatting is applied on every build; no
   separate step is normally needed.
@@ -51,7 +60,7 @@ Testing has two layers with different purposes:
   (java-snapshot-testing). Marked with the shared `@SnapshotTest` fixture (defined in
   the `java-snapshot` module in `plugin-build`) and asserted via `expect.toMatchSnapshot(...)`. When a
   change intentionally alters generated output, regenerate with
-  `-PupdateSnapshot=<ClassName>` and review the `*.snap` diff as part of the change —
+  `-PupdateSnapshot=" "` and review the `*.snap` diff as part of the change —
   the snapshot *is* the assertion. Test models are built with helpers like
   `TestJavaPojoMembers`, `JavaPojos`, and `TestPojoSettings`.
 - **Example/consumer tests (all under `example-build/`: `example/`,

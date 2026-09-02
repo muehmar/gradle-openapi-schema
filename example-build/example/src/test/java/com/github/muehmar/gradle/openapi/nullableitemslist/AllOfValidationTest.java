@@ -37,10 +37,10 @@ public class AllOfValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "userDto.emails -> size must be between 5 and 6",
-            "userDto.idsRaw -> size must be between 1 and 2",
-            "userDto.phones -> size must be between 7 and 8",
-            "userDto.usernames -> size must be between 3 and 4"),
+            "userDto.emails_ -> size must be between 5 and 6",
+            "userDto.ids_ -> size must be between 1 and 2",
+            "userDto.phones_ -> size must be between 7 and 8",
+            "userDto.usernames_ -> size must be between 3 and 4"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(userDto.isValid());

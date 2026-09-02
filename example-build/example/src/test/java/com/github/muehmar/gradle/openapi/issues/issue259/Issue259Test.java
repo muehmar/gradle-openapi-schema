@@ -30,7 +30,7 @@ public class Issue259Test {
     final Set<ConstraintViolation<ArticleDto>> violations = validate(dto);
 
     assertEquals(
-        Collections.singletonList("gtin -> must be greater than or equal to 1000000000000"),
+        Collections.singletonList("gtin_ -> must be greater than or equal to 1000000000000"),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }

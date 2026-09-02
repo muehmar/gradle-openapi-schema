@@ -53,7 +53,7 @@ class NestedFullObjectValidationTest {
             "invalidAnyOf[FullObject].invalidOneOf[Admin].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
             "invalidAnyOf[FullObject].validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "invalidAnyOf[FullObject].validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator",
-            "invalidAnyOf[Member].membername -> must not be null",
+            "invalidAnyOf[Member].membername_ -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations));
     assertFalse(dto.isValid());
@@ -73,7 +73,7 @@ class NestedFullObjectValidationTest {
             "invalidAnyOf[FullObject].invalidOneOf[User].propertyCount -> must be less than or equal to 8",
             "invalidAnyOf[FullObject].validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "invalidAnyOf[FullObject].validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator",
-            "invalidAnyOf[Member].membername -> must not be null",
+            "invalidAnyOf[Member].membername_ -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations));
     assertFalse(dto.isValid());
@@ -90,10 +90,10 @@ class NestedFullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[FullObject].invalidOneOf[Admin].adminname -> must not be null",
+            "invalidAnyOf[FullObject].invalidOneOf[Admin].adminname_ -> must not be null",
             "invalidAnyOf[FullObject].invalidOneOf[Admin].allAdditionalPropertiesHaveCorrectType -> Not all additional properties are instances of String",
             "invalidAnyOf[FullObject].validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator",
-            "invalidAnyOf[Member].membername -> must not be null",
+            "invalidAnyOf[Member].membername_ -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations));
     assertFalse(dto.isValid());
@@ -110,8 +110,8 @@ class NestedFullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[FullObject].baseDataDto.colorRaw -> must not be null",
-            "invalidAnyOf[Member].membername -> must not be null",
+            "invalidAnyOf[FullObject].baseDataDto.color_ -> must not be null",
+            "invalidAnyOf[Member].membername_ -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
@@ -129,8 +129,8 @@ class NestedFullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[FullObject].message -> size must be between 0 and 10",
-            "invalidAnyOf[Member].membername -> must not be null",
+            "invalidAnyOf[FullObject].message_ -> size must be between 0 and 10",
+            "invalidAnyOf[Member].membername_ -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
@@ -148,10 +148,10 @@ class NestedFullObjectValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidAnyOf[FullObject].invalidOneOf[User].username -> size must be between 0 and 9",
+            "invalidAnyOf[FullObject].invalidOneOf[User].username_ -> size must be between 0 and 9",
             "invalidAnyOf[FullObject].validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "invalidAnyOf[FullObject].validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator",
-            "invalidAnyOf[Member].membername -> must not be null",
+            "invalidAnyOf[Member].membername_ -> must not be null",
             "validAgainstNoAnyOfSchema -> Is not valid against one of the schemas [FullObject, Member]"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));

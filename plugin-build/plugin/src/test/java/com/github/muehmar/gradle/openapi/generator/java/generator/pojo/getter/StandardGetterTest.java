@@ -1,23 +1,16 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.StandardGetter.standardGetterGenerator;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JAVA_DOC;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_JSON;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.NO_VALIDATION;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSetting.PACKAGE_PRIVATE;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings.getterGeneratorSettings;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.list;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.settings.ClassTypeMappings.STRING_MAPPING_WITH_CONVERSION;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
-import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.AccessorProfile.Visibility;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -42,11 +35,10 @@ class StandardGetterTest {
   private Expect expect;
 
   @ParameterizedTest
-  @MethodSource("generatorSettings")
+  @MethodSource("visibilities")
   @SnapshotName("requiredString")
-  void generate_when_requiredString_then_matchSnapshot(GetterGeneratorSettings generatorSettings) {
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        standardGetterGenerator(generatorSettings);
+  void generate_when_requiredString_then_matchSnapshot(Visibility visibility) {
+    final Generator<JavaPojoMember, PojoSettings> generator = standardGetterGenerator(visibility);
 
     final Writer writer;
     writer =
@@ -58,18 +50,14 @@ class StandardGetterTest {
             defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3),
             javaWriter());
 
-    expect
-        .scenario(generatorSettings.getSettings().mkString("|"))
-        .toMatchSnapshot(writerSnapshot(writer));
+    expect.scenario(visibility.name()).toMatchSnapshot(writerSnapshot(writer));
   }
 
   @ParameterizedTest
-  @MethodSource("generatorSettings")
+  @MethodSource("visibilities")
   @SnapshotName("arrayWithXmlDefinitions")
-  void generate_when_arrayWithXmlDefinitions_then_matchSnapshot(
-      GetterGeneratorSettings generatorSettings) {
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        standardGetterGenerator(generatorSettings);
+  void generate_when_arrayWithXmlDefinitions_then_matchSnapshot(Visibility visibility) {
+    final Generator<JavaPojoMember, PojoSettings> generator = standardGetterGenerator(visibility);
 
     final JavaPojoMember member =
         list(StringType.noFormat(), Necessity.REQUIRED, Nullability.NOT_NULLABLE)
@@ -88,16 +76,14 @@ class StandardGetterTest {
         generator.generate(
             member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3), javaWriter());
 
-    expect
-        .scenario(generatorSettings.getSettings().mkString("|"))
-        .toMatchSnapshot(writerSnapshot(writer));
+    expect.scenario(visibility.name()).toMatchSnapshot(writerSnapshot(writer));
   }
 
   @Test
   @SnapshotName("mappedString")
   void generate_when_mappedString_then_matchSnapshot() {
     final Generator<JavaPojoMember, PojoSettings> generator =
-        standardGetterGenerator(getterGeneratorSettings(NO_VALIDATION, NO_JSON));
+        standardGetterGenerator(Visibility.PUBLIC);
 
     final Writer writer;
     writer =
@@ -110,11 +96,10 @@ class StandardGetterTest {
   }
 
   @ParameterizedTest
-  @MethodSource("generatorSettings")
+  @MethodSource("visibilities")
   @SnapshotName("genericType")
-  void generate_when_genericType_then_matchSnapshot(GetterGeneratorSettings generatorSettings) {
-    final Generator<JavaPojoMember, PojoSettings> generator =
-        standardGetterGenerator(generatorSettings);
+  void generate_when_genericType_then_matchSnapshot(Visibility visibility) {
+    final Generator<JavaPojoMember, PojoSettings> generator = standardGetterGenerator(visibility);
 
     final JavaPojoMember genericType =
         list(
@@ -125,17 +110,10 @@ class StandardGetterTest {
     final Writer writer;
     writer = generator.generate(genericType, defaultTestSettings(), javaWriter());
 
-    expect
-        .scenario(generatorSettings.getSettings().mkString("|"))
-        .toMatchSnapshot(writerSnapshot(writer));
+    expect.scenario(visibility.name()).toMatchSnapshot(writerSnapshot(writer));
   }
 
-  public static Stream<Arguments> generatorSettings() {
-    return Stream.of(
-        arguments(GetterGeneratorSettings.empty()),
-        arguments(new GetterGeneratorSettings(PList.single(NO_VALIDATION))),
-        arguments(new GetterGeneratorSettings(PList.single(NO_JSON))),
-        arguments(new GetterGeneratorSettings(PList.single(NO_JAVA_DOC))),
-        arguments(new GetterGeneratorSettings(PList.single(PACKAGE_PRIVATE))));
+  private static Stream<Arguments> visibilities() {
+    return Stream.of(Visibility.values()).map(Arguments::arguments);
   }
 }

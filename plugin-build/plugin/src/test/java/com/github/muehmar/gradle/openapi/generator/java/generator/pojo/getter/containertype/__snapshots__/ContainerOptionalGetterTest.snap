@@ -1,13 +1,11 @@
 containerMembers[optionalListWithNullableItemsFullMapping]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableItemsFullMapping() {
   return mapList(
       optionalListWithNullableItemsFullMapping,
@@ -23,14 +21,12 @@ public Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableI
 containerMembers[optionalMapFullMapping]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 java.util.function.Function
 
 /**
  * RequiredNullableMap
  */
-@JsonIgnore
 public Optional<CustomMap<String, CustomString>> getOptionalMapFullMapping() {
   return mapMap(
       optionalMapFullMapping,
@@ -44,14 +40,12 @@ public Optional<CustomMap<String, CustomString>> getOptionalMapFullMapping() {
 
 
 containerMembers[requiredNullableListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 java.util.function.Function
 
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItems() {
   return mapList(
       requiredNullableListWithNullableItems,
@@ -65,14 +59,12 @@ public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItems
 
 
 containerMembers[requiredNullableMap]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 java.util.function.Function
 
 /**
  * RequiredNullableMap
  */
-@JsonIgnore
 public Optional<Map<String, String>> getRequiredNullableMap() {
   return mapMap(
       requiredNullableMap,
@@ -86,14 +78,12 @@ public Optional<Map<String, String>> getRequiredNullableMap() {
 
 
 containerMembers[requiredNullableStringList]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 java.util.Optional
 java.util.function.Function
 
 /**
  * List
  */
-@JsonIgnore
 public Optional<List<String>> getRequiredNullableStringList() {
   return mapList(
       requiredNullableStringList,
@@ -106,28 +96,21 @@ public Optional<List<String>> getRequiredNullableStringList() {
 ]
 
 
-generatorSettings[PACKAGE_PRIVATE]=[
-com.fasterxml.jackson.annotation.JsonIgnore
+visibility[PACKAGE_PRIVATE]=[
 java.util.Optional
 
-/**
- * stringVal
- */
-@JsonIgnore
 Optional<String> getStringVal() {
   return stringVal;
 }
 ]
 
 
-generatorSettings[]=[
-com.fasterxml.jackson.annotation.JsonIgnore
+visibility[PUBLIC]=[
 java.util.Optional
 
 /**
  * stringVal
  */
-@JsonIgnore
 public Optional<String> getStringVal() {
   return stringVal;
 }

@@ -46,8 +46,8 @@ public class PatientValidationTest {
 
     assertEquals(
         list(
-            "addressRaw.streetRaw -> size must be between 0 and 15",
-            "addressRaw.zipCode -> must be greater than or equal to 1000"),
+            "address_.street_ -> size must be between 0 and 15",
+            "address_.zipCode_ -> must be greater than or equal to 1000"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(patientDto.isValid());

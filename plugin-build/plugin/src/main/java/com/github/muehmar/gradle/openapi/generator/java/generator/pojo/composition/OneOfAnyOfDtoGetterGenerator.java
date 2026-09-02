@@ -1,7 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.composition;
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator.ref;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition.Type.ANY_OF;
 import static com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition.Type.ONE_OF;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.foldCompositionMethodName;
@@ -57,10 +56,7 @@ public class OneOfAnyOfDtoGetterGenerator {
             .doesNotThrow()
             .content(singleGetterContent())
             .build();
-    return JavaDocGenerator.<PojoSettings>javaDoc()
-        .contraMap(JAVA_DOC_FOR_POJO)
-        .append(jsonIgnore())
-        .append(method);
+    return JavaDocGenerator.<PojoSettings>javaDoc().contraMap(JAVA_DOC_FOR_POJO).append(method);
   }
 
   private static Generator<CompositionAndPojo, PojoSettings> singleGetterContent() {

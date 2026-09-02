@@ -1,133 +1,18 @@
-arrayWithXmlDefinitions[NO_JAVA_DOC]=[
-com.fasterxml.jackson.annotation.JsonProperty
-java.util.List
-javax.validation.constraints.NotNull
-tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
-tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
-
-@NotNull
-@JsonProperty("listVal")
-@JacksonXmlProperty(localName = "item-name")
-@JacksonXmlElementWrapper(localName = "array-name", useWrapping = true)
-public List<@NotNull String> getListVal() {
-  return listVal;
-}
-]
-
-
-arrayWithXmlDefinitions[NO_JSON]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-java.util.List
-javax.validation.constraints.NotNull
-
-/**
- * List
- */
-@NotNull
-@JsonIgnore
-public List<@NotNull String> getListVal() {
-  return listVal;
-}
-]
-
-
-arrayWithXmlDefinitions[NO_VALIDATION]=[
-com.fasterxml.jackson.annotation.JsonProperty
-java.util.List
-tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
-tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
-
-/**
- * List
- */
-@JsonProperty("listVal")
-@JacksonXmlProperty(localName = "item-name")
-@JacksonXmlElementWrapper(localName = "array-name", useWrapping = true)
-public List<String> getListVal() {
-  return listVal;
-}
-]
-
-
 arrayWithXmlDefinitions[PACKAGE_PRIVATE]=[
-com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
-javax.validation.constraints.NotNull
-tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
-tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
 
-/**
- * List
- */
-@NotNull
-@JsonProperty("listVal")
-@JacksonXmlProperty(localName = "item-name")
-@JacksonXmlElementWrapper(localName = "array-name", useWrapping = true)
-List<@NotNull String> getListVal() {
+List<String> getListVal() {
   return listVal;
 }
 ]
 
 
-arrayWithXmlDefinitions[]=[
-com.fasterxml.jackson.annotation.JsonProperty
-java.util.List
-javax.validation.constraints.NotNull
-tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
-tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
-
-/**
- * List
- */
-@NotNull
-@JsonProperty("listVal")
-@JacksonXmlProperty(localName = "item-name")
-@JacksonXmlElementWrapper(localName = "array-name", useWrapping = true)
-public List<@NotNull String> getListVal() {
-  return listVal;
-}
-]
-
-
-genericType[NO_JAVA_DOC]=[
-com.fasterxml.jackson.annotation.JsonProperty
-java.util.List
-javax.validation.constraints.Email
-javax.validation.constraints.NotNull
-
-@NotNull
-@JsonProperty("listVal")
-public List<@NotNull @Email String> getListVal() {
-  return listVal;
-}
-]
-
-
-genericType[NO_JSON]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-java.util.List
-javax.validation.constraints.Email
-javax.validation.constraints.NotNull
-
-/**
- * List
- */
-@NotNull
-@JsonIgnore
-public List<@NotNull @Email String> getListVal() {
-  return listVal;
-}
-]
-
-
-genericType[NO_VALIDATION]=[
-com.fasterxml.jackson.annotation.JsonProperty
+arrayWithXmlDefinitions[PUBLIC]=[
 java.util.List
 
 /**
  * List
  */
-@JsonProperty("listVal")
 public List<String> getListVal() {
   return listVal;
 }
@@ -135,34 +20,21 @@ public List<String> getListVal() {
 
 
 genericType[PACKAGE_PRIVATE]=[
-com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
-javax.validation.constraints.Email
-javax.validation.constraints.NotNull
 
-/**
- * List
- */
-@NotNull
-@JsonProperty("listVal")
-List<@NotNull @Email String> getListVal() {
+List<String> getListVal() {
   return listVal;
 }
 ]
 
 
-genericType[]=[
-com.fasterxml.jackson.annotation.JsonProperty
+genericType[PUBLIC]=[
 java.util.List
-javax.validation.constraints.Email
-javax.validation.constraints.NotNull
 
 /**
  * List
  */
-@NotNull
-@JsonProperty("listVal")
-public List<@NotNull @Email String> getListVal() {
+public List<String> getListVal() {
   return listVal;
 }
 ]
@@ -170,98 +42,31 @@ public List<@NotNull @Email String> getListVal() {
 
 mappedString=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 
 /**
  * stringVal
  */
-@JsonIgnore
 public CustomString getStringVal() {
   return stringVal != null ? CustomString.fromString(stringVal) : null;
 }
 ]
 
 
-requiredString[NO_JAVA_DOC]=[
-com.fasterxml.jackson.annotation.JsonProperty
-javax.validation.constraints.NotNull
-javax.validation.constraints.Pattern
-tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
-
-@NotNull
-@Pattern(regexp="Hello")
-@JsonProperty("stringVal")
-@JacksonXmlProperty(localName = "xml-name", isAttribute = true)
-public String getStringVal() {
-  return stringVal;
-}
-]
-
-
-requiredString[NO_JSON]=[
-com.fasterxml.jackson.annotation.JsonIgnore
-javax.validation.constraints.NotNull
-javax.validation.constraints.Pattern
-
-/**
- * stringVal
- */
-@NotNull
-@Pattern(regexp="Hello")
-@JsonIgnore
-public String getStringVal() {
-  return stringVal;
-}
-]
-
-
-requiredString[NO_VALIDATION]=[
-com.fasterxml.jackson.annotation.JsonProperty
-tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
-
-/**
- * stringVal
- */
-@JsonProperty("stringVal")
-@JacksonXmlProperty(localName = "xml-name", isAttribute = true)
-public String getStringVal() {
-  return stringVal;
-}
-]
-
-
 requiredString[PACKAGE_PRIVATE]=[
-com.fasterxml.jackson.annotation.JsonProperty
-javax.validation.constraints.NotNull
-javax.validation.constraints.Pattern
-tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
-
-/**
- * stringVal
- */
-@NotNull
-@Pattern(regexp="Hello")
-@JsonProperty("stringVal")
-@JacksonXmlProperty(localName = "xml-name", isAttribute = true)
+.
+.
 String getStringVal() {
   return stringVal;
 }
 ]
 
 
-requiredString[]=[
-com.fasterxml.jackson.annotation.JsonProperty
-javax.validation.constraints.NotNull
-javax.validation.constraints.Pattern
-tools.jackson.dataformat.xml.annotation.JacksonXmlProperty
-
+requiredString[PUBLIC]=[
+.
+.
 /**
  * stringVal
  */
-@NotNull
-@Pattern(regexp="Hello")
-@JsonProperty("stringVal")
-@JacksonXmlProperty(localName = "xml-name", isAttribute = true)
 public String getStringVal() {
   return stringVal;
 }

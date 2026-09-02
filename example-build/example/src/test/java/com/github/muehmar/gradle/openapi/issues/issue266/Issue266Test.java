@@ -53,7 +53,7 @@ class Issue266Test {
     final Set<ConstraintViolation<OrderDto>> violations = validate(dto);
 
     assertEquals(
-        Collections.singletonList("statusRaw -> must match \"pending|shipped|delivered\""),
+        Collections.singletonList("status_ -> must match \"pending|shipped|delivered\""),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }
@@ -89,7 +89,7 @@ class Issue266Test {
     final Set<ConstraintViolation<ReleaseDto>> violations = validate(dto);
 
     assertEquals(
-        Collections.singletonList("codename -> must match \"a\\(b\""),
+        Collections.singletonList("codename_ -> must match \"a\\(b\""),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }
@@ -113,7 +113,7 @@ class Issue266Test {
     final Set<ConstraintViolation<PaletteDto>> violations = validate(dto);
 
     assertEquals(
-        Collections.singletonList("colorRaw -> must match \"red|green|blue\""),
+        Collections.singletonList("color_ -> must match \"red|green|blue\""),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }
@@ -128,7 +128,7 @@ class Issue266Test {
     final Set<ConstraintViolation<ReleaseDto>> violations = validate(invalidDto);
 
     assertEquals(
-        Collections.singletonList("versionRaw -> must match \"1\\.5|2\\.5\""),
+        Collections.singletonList("version_ -> must match \"1\\.5|2\\.5\""),
         formatViolations(violations));
     assertFalse(invalidDto.isValid());
   }
@@ -204,7 +204,7 @@ class Issue266Test {
     final MatcherDto invalidDto = MAPPER.readValue("{\"pattern\":\"e\"}", MatcherDto.class);
 
     assertEquals(
-        Collections.singletonList("patternRaw -> must match \"a\\.b|c\\(d|e\\|f\""),
+        Collections.singletonList("pattern_ -> must match \"a\\.b|c\\(d|e\\|f\""),
         formatViolations(validate(invalidDto)));
     assertFalse(invalidDto.isValid());
   }
@@ -231,7 +231,7 @@ class Issue266Test {
             () -> MAPPER.readValue("{\"colors\":[\"red\",\"purple\"]}", CatalogDto.class));
 
     assertEquals(
-        Collections.singletonList("colors[1].<list element> -> must match \"red|green|blue\""),
+        Collections.singletonList("colors_[1].<list element> -> must match \"red|green|blue\""),
         formatViolations(validate(dto)));
     assertFalse(dto.isValid());
     assertThrows(IllegalArgumentException.class, dto::getColorsOpt);

@@ -38,10 +38,24 @@ public class JacksonAnnotationGenerator {
         .filter(isJacksonJson());
   }
 
-  public static <A> Generator<A, PojoSettings> jsonIgnore() {
+  /** Only explicitly annotated members take part in the (de)serialisation. */
+  public static <A> Generator<A, PojoSettings> jsonAutoDetectNone() {
     return Generator.<A, PojoSettings>emptyGen()
-        .append(w -> w.println("@JsonIgnore"))
-        .append(w -> w.ref(JacksonRefs.JSON_IGNORE))
+        .append(
+            (data, settings, writer) ->
+                writer
+                    .println("@JsonAutoDetect(")
+                    .tab(2)
+                    .println("getterVisibility = JsonAutoDetect.Visibility.NONE,")
+                    .tab(2)
+                    .println("isGetterVisibility = JsonAutoDetect.Visibility.NONE,")
+                    .tab(2)
+                    .println("setterVisibility = JsonAutoDetect.Visibility.NONE,")
+                    .tab(2)
+                    .println("creatorVisibility = JsonAutoDetect.Visibility.NONE,")
+                    .tab(2)
+                    .println("fieldVisibility = JsonAutoDetect.Visibility.NONE)"))
+        .append(w -> w.ref(JacksonRefs.JSON_AUTO_DETECT))
         .filter(isJacksonJson());
   }
 

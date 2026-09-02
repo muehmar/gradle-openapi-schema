@@ -49,7 +49,7 @@ class Issue266EnumArrayTest {
     final Set<ConstraintViolation<ShipmentDto>> violations = validate(dto);
 
     assertEquals(
-        Collections.singletonList("statuses[1].<list element> -> must match \"created|shipped\""),
+        Collections.singletonList("statuses_[1].<list element> -> must match \"created|shipped\""),
         formatViolations(violations));
     assertFalse(dto.isValid());
   }

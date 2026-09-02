@@ -12,7 +12,7 @@ public class JacksonRefs {
   public static final String JSON_CREATOR = "com.fasterxml.jackson.annotation.JsonCreator";
   public static final String JSON_ANY_GETTER = "com.fasterxml.jackson.annotation.JsonAnyGetter";
   public static final String JSON_ANY_SETTER = "com.fasterxml.jackson.annotation.JsonAnySetter";
-  public static final String JSON_IGNORE = "com.fasterxml.jackson.annotation.JsonIgnore";
+  public static final String JSON_AUTO_DETECT = "com.fasterxml.jackson.annotation.JsonAutoDetect";
   public static final String JSON_INCLUDE = "com.fasterxml.jackson.annotation.JsonInclude";
   public static final String JSON_PROPERTY = "com.fasterxml.jackson.annotation.JsonProperty";
   public static final String JSON_FORMAT = "com.fasterxml.jackson.annotation.JsonFormat";

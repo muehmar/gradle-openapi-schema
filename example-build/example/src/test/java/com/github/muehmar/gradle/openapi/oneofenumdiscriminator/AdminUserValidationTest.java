@@ -42,7 +42,7 @@ class AdminUserValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidOneOf[User].age -> must be less than or equal to 199",
+            "invalidOneOf[User].age_ -> must be less than or equal to 199",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations),
@@ -58,12 +58,12 @@ class AdminUserValidationTest {
 
     assertEquals(
         Arrays.asList(
-            "invalidOneOf[Admin].adminname -> must not be null",
-            "invalidOneOf[Admin].baseUserDto.typeRaw -> must not be null",
-            "invalidOneOf[Admin].id -> must not be null",
-            "invalidOneOf[User].baseUserDto.typeRaw -> must not be null",
-            "invalidOneOf[User].id -> must not be null",
-            "invalidOneOf[User].username -> must not be null",
+            "invalidOneOf[Admin].adminname_ -> must not be null",
+            "invalidOneOf[Admin].baseUserDto.type_ -> must not be null",
+            "invalidOneOf[Admin].id_ -> must not be null",
+            "invalidOneOf[User].baseUserDto.type_ -> must not be null",
+            "invalidOneOf[User].id_ -> must not be null",
+            "invalidOneOf[User].username_ -> must not be null",
             "validAgainstNoOneOfSchema -> Is not valid against one of the schemas [Admin, User]",
             "validAgainstTheCorrectOneOfSchema -> Not valid against the schema described by the oneOf-discriminator"),
         formatViolations(violations));

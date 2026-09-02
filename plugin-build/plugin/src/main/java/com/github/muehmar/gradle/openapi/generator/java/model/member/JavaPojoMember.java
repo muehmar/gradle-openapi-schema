@@ -175,17 +175,31 @@ public class JavaPojoMember {
     return IsNotNullFlagName.fromName(name).getName();
   }
 
+  public JavaName getFlagGetterName() {
+    return isRequiredAndNullable()
+        ? getIsPresentFlagName().startUpperCase().prefix("get")
+        : getIsNotNullFlagName().startUpperCase().prefix("get");
+  }
+
   public JavaName getGetterName() {
     return prefixedMethodName("get");
   }
 
+  /**
+   * The suffix is repeated until the name is free: a property whose name already ends in it -
+   * {@code point.} sanitized to {@code point_} - would otherwise yield the name of the api getter.
+   */
   public JavaName getValidationGetterName(PojoSettings settings) {
-    final String getterSuffix = determineSuffix(settings);
-    if (getterSuffix.isEmpty()) {
-      return getGetterName().append(settings.getValidationMethods().getGetterSuffix());
-    } else {
+    final String suffix = settings.getValidationMethods().getGetterSuffix();
+    if (suffix.isEmpty()) {
       return getGetterName();
     }
+    final JavaName apiGetterName = getGetterNameWithSuffix(settings);
+    JavaName validationGetterName = getGetterName().append(suffix);
+    while (validationGetterName.asString().equals(apiGetterName.asString())) {
+      validationGetterName = validationGetterName.append(suffix);
+    }
+    return validationGetterName;
   }
 
   public JavaName getGetterNameWithSuffix(PojoSettings settings) {
@@ -294,7 +308,6 @@ public class JavaPojoMember {
 
   public enum MemberType {
     OBJECT_MEMBER,
-    ADDITIONAL_PROPERTY_MEMBER,
     ALL_OF_MEMBER,
     ONE_OF_MEMBER,
     ANY_OF_MEMBER,

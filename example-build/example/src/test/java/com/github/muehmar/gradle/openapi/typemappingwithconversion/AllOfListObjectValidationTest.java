@@ -38,7 +38,7 @@ public class AllOfListObjectValidationTest {
     final Set<ConstraintViolation<AllOfListObjectDto>> violations = validate(allOfListObjectDto);
 
     assertEquals(
-        list("listObjectDto.idsRaw -> size must be between 1 and 2"),
+        list("listObjectDto.ids_ -> size must be between 1 and 2"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(allOfListObjectDto.isValid());
@@ -53,7 +53,7 @@ public class AllOfListObjectValidationTest {
     final Set<ConstraintViolation<AllOfListObjectDto>> violations = validate(allOfListObjectDto);
 
     assertEquals(
-        list("listObjectDto.usernames -> size must be between 3 and 4"),
+        list("listObjectDto.usernames_ -> size must be between 3 and 4"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(allOfListObjectDto.isValid());
@@ -68,7 +68,7 @@ public class AllOfListObjectValidationTest {
     final Set<ConstraintViolation<AllOfListObjectDto>> violations = validate(allOfListObjectDto);
 
     assertEquals(
-        list("listObjectDto.emails -> size must be between 5 and 6"),
+        list("listObjectDto.emails_ -> size must be between 5 and 6"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(allOfListObjectDto.isValid());
@@ -83,7 +83,7 @@ public class AllOfListObjectValidationTest {
     final Set<ConstraintViolation<AllOfListObjectDto>> violations = validate(allOfListObjectDto);
 
     assertEquals(
-        list("listObjectDto.phones -> size must be between 7 and 8"),
+        list("listObjectDto.phones_ -> size must be between 7 and 8"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(allOfListObjectDto.isValid());

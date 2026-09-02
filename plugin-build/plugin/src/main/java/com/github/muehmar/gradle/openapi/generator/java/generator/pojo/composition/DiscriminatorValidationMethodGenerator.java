@@ -7,7 +7,6 @@ import static io.github.muehmar.codegenerator.Generator.ofWriterFunction;
 import ch.bluecare.commons.data.NonEmptyList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
@@ -54,7 +53,6 @@ public class DiscriminatorValidationMethodGenerator {
     return DeprecatedMethodGenerator
         .<PojoAndDiscriminator>deprecatedJavaDocAndAnnotationForValidationMethod()
         .append(annotation)
-        .append(JacksonAnnotationGenerator.jsonIgnore())
         .append(method);
   }
 

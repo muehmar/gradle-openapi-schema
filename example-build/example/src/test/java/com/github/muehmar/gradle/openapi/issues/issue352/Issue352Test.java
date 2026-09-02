@@ -31,7 +31,8 @@ public class Issue352Test {
   void validate_when_nullableEnumValueOutOfRange_then_violationWithPlainPropertyPath()
       throws Exception {
     // Issue 266: an out-of-range value of a nullable enum deserializes without throwing and is
-    // reported as a violation. The violation path is the plain property name (no Raw suffix),
+    // reported as a violation. The violation path is the plain property name (no validation-getter
+    // suffix),
     // as the api getter of a nullable property carries the Tristate suffix instead.
     final PersonDto personDto =
         MAPPER.readValue(
@@ -41,7 +42,7 @@ public class Issue352Test {
     final Set<ConstraintViolation<PersonDto>> violations = validate(personDto);
 
     assertEquals(
-        Collections.singletonList("gender -> must match \"male|female|other|unknown\""),
+        Collections.singletonList("gender_ -> must match \"male|female|other|unknown\""),
         formatViolations(violations));
   }
 }

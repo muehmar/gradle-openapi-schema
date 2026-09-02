@@ -1,6 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.generator;
 
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.list.ListAssigmentWriterBuilder.fullListAssigmentWriterBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.map.MapAssignmentWriterBuilder.fullMapAssignmentWriterBuilder;
 import static io.github.muehmar.codegenerator.Generator.constant;
@@ -35,7 +34,6 @@ public class ContainerSetter {
       SetterGeneratorSettings settings) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(javaDoc(), JavaPojoMember::getDescription)
-        .append(jsonIgnore())
         .append(setterMethod(settings));
   }
 

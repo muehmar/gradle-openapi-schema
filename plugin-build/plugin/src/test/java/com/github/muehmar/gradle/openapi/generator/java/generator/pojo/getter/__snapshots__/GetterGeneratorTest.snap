@@ -1,16 +1,13 @@
 pojoMembers[optionalListWithNullableItemsAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public Optional<List<Optional<String>>> getOptionalListWithNullableItemsAllOf() {
   return mapList(
       optionalListWithNullableItemsAllOf,
@@ -24,7 +21,6 @@ public Optional<List<Optional<String>>> getOptionalListWithNullableItemsAllOf() 
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<String>> getOptionalListWithNullableItemsAllOfOr(List<Optional<String>> defaultValue) {
   return this.optionalListWithNullableItemsAllOf == null
       ? defaultValue
@@ -47,21 +43,12 @@ private List<String> getOptionalListWithNullableItemsAllOfJson() {
 
 
 pojoMembers[optionalListWithNullableItemsAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("optionalListWithNullableItemsAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalListWithNullableItemsAnyOfJson() {
-  return optionalListWithNullableItemsAnyOf;
-}
 
-@JsonIgnore
 Optional<List<Optional<String>>> getOptionalListWithNullableItemsAnyOf() {
   return mapList(
       optionalListWithNullableItemsAnyOf,
@@ -72,7 +59,12 @@ Optional<List<Optional<String>>> getOptionalListWithNullableItemsAnyOf() {
   );
 }
 
-@JsonIgnore
+@JsonProperty("optionalListWithNullableItemsAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalListWithNullableItemsAnyOfJson() {
+  return optionalListWithNullableItemsAnyOf;
+}
+
 boolean getIsOptionalListWithNullableItemsAnyOfNotNull() {
   return isOptionalListWithNullableItemsAnyOfNotNull;
 }
@@ -81,7 +73,6 @@ boolean getIsOptionalListWithNullableItemsAnyOfNotNull() {
 
 
 pojoMembers[optionalListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -90,12 +81,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public Optional<List<Optional<String>>> getOptionalListWithNullableItems() {
   return mapList(
       optionalListWithNullableItems,
@@ -109,7 +98,6 @@ public Optional<List<Optional<String>>> getOptionalListWithNullableItems() {
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<String>> getOptionalListWithNullableItemsOr(List<Optional<String>> defaultValue) {
   return this.optionalListWithNullableItems == null
       ? defaultValue
@@ -128,14 +116,12 @@ private List<String> getOptionalListWithNullableItemsJson() {
   return optionalListWithNullableItems;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_() {
   return optionalListWithNullableItems;
 }
 
 @AssertTrue(message = "optionalListWithNullableItems is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalListWithNullableItemsNotNull() {
   return isOptionalListWithNullableItemsNotNull;
 }
@@ -146,18 +132,15 @@ private boolean isOptionalListWithNullableItemsNotNull() {
 pojoMembers[optionalListWithNullableItems_FullyMappedAllOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableItems_FullyMappedAllOf() {
   return mapList(
       optionalListWithNullableItems_FullyMappedAllOf,
@@ -171,7 +154,6 @@ public Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableI
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<CustomString>> getOptionalListWithNullableItems_FullyMappedAllOfOr(CustomList<Optional<CustomString>> defaultValue) {
   return this.optionalListWithNullableItems_FullyMappedAllOf == null
       ? defaultValue
@@ -196,20 +178,11 @@ private List<String> getOptionalListWithNullableItems_FullyMappedAllOfJson() {
 pojoMembers[optionalListWithNullableItems_FullyMappedAnyOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
-.
-.
-@JsonProperty("optionalListWithNullableItems_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalListWithNullableItems_FullyMappedAnyOfJson() {
-  return optionalListWithNullableItems_FullyMappedAnyOf;
-}
 
-@JsonIgnore
 Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableItems_FullyMappedAnyOf() {
   return mapList(
       optionalListWithNullableItems_FullyMappedAnyOf,
@@ -220,7 +193,12 @@ Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableItems_Fu
   );
 }
 
-@JsonIgnore
+@JsonProperty("optionalListWithNullableItems_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalListWithNullableItems_FullyMappedAnyOfJson() {
+  return optionalListWithNullableItems_FullyMappedAnyOf;
+}
+
 boolean getIsOptionalListWithNullableItems_FullyMappedAnyOfNotNull() {
   return isOptionalListWithNullableItems_FullyMappedAnyOfNotNull;
 }
@@ -231,7 +209,6 @@ boolean getIsOptionalListWithNullableItems_FullyMappedAnyOfNotNull() {
 pojoMembers[optionalListWithNullableItems_FullyMapped]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -240,12 +217,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableItems_FullyMapped() {
   return mapList(
       optionalListWithNullableItems_FullyMapped,
@@ -259,7 +234,6 @@ public Optional<CustomList<Optional<CustomString>>> getOptionalListWithNullableI
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<CustomString>> getOptionalListWithNullableItems_FullyMappedOr(CustomList<Optional<CustomString>> defaultValue) {
   return this.optionalListWithNullableItems_FullyMapped == null
       ? defaultValue
@@ -278,14 +252,12 @@ private List<String> getOptionalListWithNullableItems_FullyMappedJson() {
   return optionalListWithNullableItems_FullyMapped;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_FullyMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_FullyMapped_() {
   return optionalListWithNullableItems_FullyMapped;
 }
 
 @AssertTrue(message = "optionalListWithNullableItems_FullyMapped is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalListWithNullableItems_FullyMappedNotNull() {
   return isOptionalListWithNullableItems_FullyMappedNotNull;
 }
@@ -295,18 +267,15 @@ private boolean isOptionalListWithNullableItems_FullyMappedNotNull() {
 
 pojoMembers[optionalListWithNullableItems_ListMappedAllOf]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public Optional<CustomList<Optional<String>>> getOptionalListWithNullableItems_ListMappedAllOf() {
   return mapList(
       optionalListWithNullableItems_ListMappedAllOf,
@@ -320,7 +289,6 @@ public Optional<CustomList<Optional<String>>> getOptionalListWithNullableItems_L
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<String>> getOptionalListWithNullableItems_ListMappedAllOfOr(CustomList<Optional<String>> defaultValue) {
   return this.optionalListWithNullableItems_ListMappedAllOf == null
       ? defaultValue
@@ -344,21 +312,12 @@ private List<String> getOptionalListWithNullableItems_ListMappedAllOfJson() {
 
 pojoMembers[optionalListWithNullableItems_ListMappedAnyOf]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("optionalListWithNullableItems_ListMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalListWithNullableItems_ListMappedAnyOfJson() {
-  return optionalListWithNullableItems_ListMappedAnyOf;
-}
 
-@JsonIgnore
 Optional<CustomList<Optional<String>>> getOptionalListWithNullableItems_ListMappedAnyOf() {
   return mapList(
       optionalListWithNullableItems_ListMappedAnyOf,
@@ -369,7 +328,12 @@ Optional<CustomList<Optional<String>>> getOptionalListWithNullableItems_ListMapp
   );
 }
 
-@JsonIgnore
+@JsonProperty("optionalListWithNullableItems_ListMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalListWithNullableItems_ListMappedAnyOfJson() {
+  return optionalListWithNullableItems_ListMappedAnyOf;
+}
+
 boolean getIsOptionalListWithNullableItems_ListMappedAnyOfNotNull() {
   return isOptionalListWithNullableItems_ListMappedAnyOfNotNull;
 }
@@ -379,7 +343,6 @@ boolean getIsOptionalListWithNullableItems_ListMappedAnyOfNotNull() {
 
 pojoMembers[optionalListWithNullableItems_ListMapped]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -388,12 +351,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public Optional<CustomList<Optional<String>>> getOptionalListWithNullableItems_ListMapped() {
   return mapList(
       optionalListWithNullableItems_ListMapped,
@@ -407,7 +368,6 @@ public Optional<CustomList<Optional<String>>> getOptionalListWithNullableItems_L
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<String>> getOptionalListWithNullableItems_ListMappedOr(CustomList<Optional<String>> defaultValue) {
   return this.optionalListWithNullableItems_ListMapped == null
       ? defaultValue
@@ -426,14 +386,12 @@ private List<String> getOptionalListWithNullableItems_ListMappedJson() {
   return optionalListWithNullableItems_ListMapped;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_ListMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_ListMapped_() {
   return optionalListWithNullableItems_ListMapped;
 }
 
 @AssertTrue(message = "optionalListWithNullableItems_ListMapped is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalListWithNullableItems_ListMappedNotNull() {
   return isOptionalListWithNullableItems_ListMappedNotNull;
 }
@@ -443,18 +401,15 @@ private boolean isOptionalListWithNullableItems_ListMappedNotNull() {
 
 pojoMembers[optionalListWithNullableItems_StringMappedAllOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public Optional<List<Optional<CustomString>>> getOptionalListWithNullableItems_StringMappedAllOf() {
   return mapList(
       optionalListWithNullableItems_StringMappedAllOf,
@@ -468,7 +423,6 @@ public Optional<List<Optional<CustomString>>> getOptionalListWithNullableItems_S
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<CustomString>> getOptionalListWithNullableItems_StringMappedAllOfOr(List<Optional<CustomString>> defaultValue) {
   return this.optionalListWithNullableItems_StringMappedAllOf == null
       ? defaultValue
@@ -492,21 +446,12 @@ private List<String> getOptionalListWithNullableItems_StringMappedAllOfJson() {
 
 pojoMembers[optionalListWithNullableItems_StringMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("optionalListWithNullableItems_StringMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalListWithNullableItems_StringMappedAnyOfJson() {
-  return optionalListWithNullableItems_StringMappedAnyOf;
-}
 
-@JsonIgnore
 Optional<List<Optional<CustomString>>> getOptionalListWithNullableItems_StringMappedAnyOf() {
   return mapList(
       optionalListWithNullableItems_StringMappedAnyOf,
@@ -517,7 +462,12 @@ Optional<List<Optional<CustomString>>> getOptionalListWithNullableItems_StringMa
   );
 }
 
-@JsonIgnore
+@JsonProperty("optionalListWithNullableItems_StringMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalListWithNullableItems_StringMappedAnyOfJson() {
+  return optionalListWithNullableItems_StringMappedAnyOf;
+}
+
 boolean getIsOptionalListWithNullableItems_StringMappedAnyOfNotNull() {
   return isOptionalListWithNullableItems_StringMappedAnyOfNotNull;
 }
@@ -527,7 +477,6 @@ boolean getIsOptionalListWithNullableItems_StringMappedAnyOfNotNull() {
 
 pojoMembers[optionalListWithNullableItems_StringMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -536,12 +485,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public Optional<List<Optional<CustomString>>> getOptionalListWithNullableItems_StringMapped() {
   return mapList(
       optionalListWithNullableItems_StringMapped,
@@ -555,7 +502,6 @@ public Optional<List<Optional<CustomString>>> getOptionalListWithNullableItems_S
 /**
  * OptionalListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<CustomString>> getOptionalListWithNullableItems_StringMappedOr(List<Optional<CustomString>> defaultValue) {
   return this.optionalListWithNullableItems_StringMapped == null
       ? defaultValue
@@ -574,14 +520,12 @@ private List<String> getOptionalListWithNullableItems_StringMappedJson() {
   return optionalListWithNullableItems_StringMapped;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_StringMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_StringMapped_() {
   return optionalListWithNullableItems_StringMapped;
 }
 
 @AssertTrue(message = "optionalListWithNullableItems_StringMapped is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalListWithNullableItems_StringMappedNotNull() {
   return isOptionalListWithNullableItems_StringMappedNotNull;
 }
@@ -590,18 +534,15 @@ private boolean isOptionalListWithNullableItems_StringMappedNotNull() {
 
 
 pojoMembers[optionalMapAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * OptionalMap
  */
-@JsonIgnore
 public Optional<Map<String, String>> getOptionalMapAllOf() {
   return mapMap(
       optionalMapAllOf,
@@ -615,7 +556,6 @@ public Optional<Map<String, String>> getOptionalMapAllOf() {
 /**
  * OptionalMap
  */
-@JsonIgnore
 public Map<String, String> getOptionalMapAllOfOr(Map<String, String> defaultValue) {
   return this.optionalMapAllOf == null
       ? defaultValue
@@ -632,21 +572,12 @@ private Map<String, String> getOptionalMapAllOfJson() {
 
 
 pojoMembers[optionalMapAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("optionalMapAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Map<String, String> getOptionalMapAnyOfJson() {
-  return optionalMapAnyOf;
-}
 
-@JsonIgnore
 Optional<Map<String, String>> getOptionalMapAnyOf() {
   return mapMap(
       optionalMapAnyOf,
@@ -657,7 +588,12 @@ Optional<Map<String, String>> getOptionalMapAnyOf() {
   );
 }
 
-@JsonIgnore
+@JsonProperty("optionalMapAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Map<String, String> getOptionalMapAnyOfJson() {
+  return optionalMapAnyOf;
+}
+
 boolean getIsOptionalMapAnyOfNotNull() {
   return isOptionalMapAnyOfNotNull;
 }
@@ -666,7 +602,6 @@ boolean getIsOptionalMapAnyOfNotNull() {
 
 
 pojoMembers[optionalMap]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
@@ -675,12 +610,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalMap
  */
-@JsonIgnore
 public Optional<Map<String, String>> getOptionalMap() {
   return mapMap(
       optionalMap,
@@ -694,7 +627,6 @@ public Optional<Map<String, String>> getOptionalMap() {
 /**
  * OptionalMap
  */
-@JsonIgnore
 public Map<String, String> getOptionalMapOr(Map<String, String> defaultValue) {
   return this.optionalMap == null
       ? defaultValue
@@ -707,13 +639,11 @@ private Map<String, String> getOptionalMapJson() {
   return optionalMap;
 }
 
-@JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMapRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMap_() {
   return optionalMap;
 }
 
 @AssertTrue(message = "optionalMap is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalMapNotNull() {
   return isOptionalMapNotNull;
 }
@@ -724,18 +654,15 @@ private boolean isOptionalMapNotNull() {
 pojoMembers[optionalMap_FullyMappedAllOf]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * OptionalMap
  */
-@JsonIgnore
 public Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMappedAllOf() {
   return mapMap(
       optionalMap_FullyMappedAllOf,
@@ -749,7 +676,6 @@ public Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMappedAllOf
 /**
  * OptionalMap
  */
-@JsonIgnore
 public CustomMap<String, CustomString> getOptionalMap_FullyMappedAllOfOr(CustomMap<String, CustomString> defaultValue) {
   return this.optionalMap_FullyMappedAllOf == null
       ? defaultValue
@@ -774,21 +700,12 @@ private Map<String, String> getOptionalMap_FullyMappedAllOfJson() {
 pojoMembers[optionalMap_FullyMappedAnyOf]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("optionalMap_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Map<String, String> getOptionalMap_FullyMappedAnyOfJson() {
-  return optionalMap_FullyMappedAnyOf;
-}
 
-@JsonIgnore
 Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMappedAnyOf() {
   return mapMap(
       optionalMap_FullyMappedAnyOf,
@@ -799,7 +716,12 @@ Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMappedAnyOf() {
   );
 }
 
-@JsonIgnore
+@JsonProperty("optionalMap_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Map<String, String> getOptionalMap_FullyMappedAnyOfJson() {
+  return optionalMap_FullyMappedAnyOf;
+}
+
 boolean getIsOptionalMap_FullyMappedAnyOfNotNull() {
   return isOptionalMap_FullyMappedAnyOfNotNull;
 }
@@ -810,7 +732,6 @@ boolean getIsOptionalMap_FullyMappedAnyOfNotNull() {
 pojoMembers[optionalMap_FullyMapped]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
@@ -819,12 +740,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalMap
  */
-@JsonIgnore
 public Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMapped() {
   return mapMap(
       optionalMap_FullyMapped,
@@ -838,7 +757,6 @@ public Optional<CustomMap<String, CustomString>> getOptionalMap_FullyMapped() {
 /**
  * OptionalMap
  */
-@JsonIgnore
 public CustomMap<String, CustomString> getOptionalMap_FullyMappedOr(CustomMap<String, CustomString> defaultValue) {
   return this.optionalMap_FullyMapped == null
       ? defaultValue
@@ -857,13 +775,11 @@ private Map<String, String> getOptionalMap_FullyMappedJson() {
   return optionalMap_FullyMapped;
 }
 
-@JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMap_FullyMappedRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMap_FullyMapped_() {
   return optionalMap_FullyMapped;
 }
 
 @AssertTrue(message = "optionalMap_FullyMapped is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalMap_FullyMappedNotNull() {
   return isOptionalMap_FullyMappedNotNull;
 }
@@ -872,7 +788,6 @@ private boolean isOptionalMap_FullyMappedNotNull() {
 
 
 pojoMembers[optionalNullableListWithNullableItemsAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -880,12 +795,10 @@ com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * OptionalNullableListWithNullableItems
  */
-@JsonIgnore
 public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItemsAllOf() {
   return mapList(
       optionalNullableListWithNullableItemsAllOf,
@@ -906,7 +819,6 @@ private Object getOptionalNullableListWithNullableItemsAllOfJson() {
 
 
 pojoMembers[optionalNullableListWithNullableItemsAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -914,15 +826,7 @@ com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("optionalNullableListWithNullableItemsAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableListWithNullableItemsAnyOfJson() {
-  return isOptionalNullableListWithNullableItemsAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItemsAnyOf) : optionalNullableListWithNullableItemsAnyOf;
-}
 
-@JsonIgnore
 Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItemsAnyOf() {
   return mapList(
       optionalNullableListWithNullableItemsAnyOf,
@@ -933,11 +837,16 @@ Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItemsAnyOf()
   );
 }
 
+@JsonProperty("optionalNullableListWithNullableItemsAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableListWithNullableItemsAnyOfJson() {
+  return isOptionalNullableListWithNullableItemsAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItemsAnyOf) : optionalNullableListWithNullableItemsAnyOf;
+}
+
 ]
 
 
 pojoMembers[optionalNullableListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -947,12 +856,10 @@ java.util.Optional
 java.util.function.Function
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * OptionalNullableListWithNullableItems
  */
-@JsonIgnore
 public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
   return mapList(
       optionalNullableListWithNullableItems,
@@ -969,9 +876,8 @@ private Object getOptionalNullableListWithNullableItemsJson() {
   return isOptionalNullableListWithNullableItemsNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems) : optionalNullableListWithNullableItems;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItemsRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_() {
   return optionalNullableListWithNullableItems;
 }
 
@@ -981,19 +887,16 @@ private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullabl
 pojoMembers[optionalNullableListWithNullableItems_FullyMappedAllOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
-.
-.
+
 /**
  * OptionalNullableListWithNullableItems
  */
-@JsonIgnore
 public Tristate<CustomList<Optional<CustomString>>> getOptionalNullableListWithNullableItems_FullyMappedAllOf() {
   return mapList(
       optionalNullableListWithNullableItems_FullyMappedAllOf,
@@ -1016,22 +919,13 @@ private Object getOptionalNullableListWithNullableItems_FullyMappedAllOfJson() {
 pojoMembers[optionalNullableListWithNullableItems_FullyMappedAnyOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
-.
-.
-@JsonProperty("optionalNullableListWithNullableItems_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableListWithNullableItems_FullyMappedAnyOfJson() {
-  return isOptionalNullableListWithNullableItems_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_FullyMappedAnyOf) : optionalNullableListWithNullableItems_FullyMappedAnyOf;
-}
 
-@JsonIgnore
 Tristate<CustomList<Optional<CustomString>>> getOptionalNullableListWithNullableItems_FullyMappedAnyOf() {
   return mapList(
       optionalNullableListWithNullableItems_FullyMappedAnyOf,
@@ -1042,13 +936,18 @@ Tristate<CustomList<Optional<CustomString>>> getOptionalNullableListWithNullable
   );
 }
 
+@JsonProperty("optionalNullableListWithNullableItems_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableListWithNullableItems_FullyMappedAnyOfJson() {
+  return isOptionalNullableListWithNullableItems_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_FullyMappedAnyOf) : optionalNullableListWithNullableItems_FullyMappedAnyOf;
+}
+
 ]
 
 
 pojoMembers[optionalNullableListWithNullableItems_FullyMapped]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -1057,12 +956,10 @@ java.util.List
 java.util.Optional
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * OptionalNullableListWithNullableItems
  */
-@JsonIgnore
 public Tristate<CustomList<Optional<CustomString>>> getOptionalNullableListWithNullableItems_FullyMapped() {
   return mapList(
       optionalNullableListWithNullableItems_FullyMapped,
@@ -1079,9 +976,8 @@ private Object getOptionalNullableListWithNullableItems_FullyMappedJson() {
   return isOptionalNullableListWithNullableItems_FullyMappedNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_FullyMapped) : optionalNullableListWithNullableItems_FullyMapped;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_FullyMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_FullyMapped_() {
   return optionalNullableListWithNullableItems_FullyMapped;
 }
 
@@ -1090,7 +986,6 @@ private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullabl
 
 pojoMembers[optionalNullableListWithNullableItems_ListMappedAllOf]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -1098,12 +993,10 @@ com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * OptionalNullableListWithNullableItems
  */
-@JsonIgnore
 public Tristate<CustomList<Optional<String>>> getOptionalNullableListWithNullableItems_ListMappedAllOf() {
   return mapList(
       optionalNullableListWithNullableItems_ListMappedAllOf,
@@ -1125,7 +1018,6 @@ private Object getOptionalNullableListWithNullableItems_ListMappedAllOfJson() {
 
 pojoMembers[optionalNullableListWithNullableItems_ListMappedAnyOf]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -1133,15 +1025,7 @@ com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("optionalNullableListWithNullableItems_ListMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableListWithNullableItems_ListMappedAnyOfJson() {
-  return isOptionalNullableListWithNullableItems_ListMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_ListMappedAnyOf) : optionalNullableListWithNullableItems_ListMappedAnyOf;
-}
 
-@JsonIgnore
 Tristate<CustomList<Optional<String>>> getOptionalNullableListWithNullableItems_ListMappedAnyOf() {
   return mapList(
       optionalNullableListWithNullableItems_ListMappedAnyOf,
@@ -1152,12 +1036,17 @@ Tristate<CustomList<Optional<String>>> getOptionalNullableListWithNullableItems_
   );
 }
 
+@JsonProperty("optionalNullableListWithNullableItems_ListMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableListWithNullableItems_ListMappedAnyOfJson() {
+  return isOptionalNullableListWithNullableItems_ListMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_ListMappedAnyOf) : optionalNullableListWithNullableItems_ListMappedAnyOf;
+}
+
 ]
 
 
 pojoMembers[optionalNullableListWithNullableItems_ListMapped]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -1167,12 +1056,10 @@ java.util.Optional
 java.util.function.Function
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * OptionalNullableListWithNullableItems
  */
-@JsonIgnore
 public Tristate<CustomList<Optional<String>>> getOptionalNullableListWithNullableItems_ListMapped() {
   return mapList(
       optionalNullableListWithNullableItems_ListMapped,
@@ -1189,9 +1076,8 @@ private Object getOptionalNullableListWithNullableItems_ListMappedJson() {
   return isOptionalNullableListWithNullableItems_ListMappedNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_ListMapped) : optionalNullableListWithNullableItems_ListMapped;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_ListMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_ListMapped_() {
   return optionalNullableListWithNullableItems_ListMapped;
 }
 
@@ -1200,7 +1086,6 @@ private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullabl
 
 pojoMembers[optionalNullableListWithNullableItems_StringMappedAllOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -1208,12 +1093,10 @@ com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * OptionalNullableListWithNullableItems
  */
-@JsonIgnore
 public Tristate<List<Optional<CustomString>>> getOptionalNullableListWithNullableItems_StringMappedAllOf() {
   return mapList(
       optionalNullableListWithNullableItems_StringMappedAllOf,
@@ -1235,7 +1118,6 @@ private Object getOptionalNullableListWithNullableItems_StringMappedAllOfJson() 
 
 pojoMembers[optionalNullableListWithNullableItems_StringMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -1243,15 +1125,7 @@ com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("optionalNullableListWithNullableItems_StringMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableListWithNullableItems_StringMappedAnyOfJson() {
-  return isOptionalNullableListWithNullableItems_StringMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_StringMappedAnyOf) : optionalNullableListWithNullableItems_StringMappedAnyOf;
-}
 
-@JsonIgnore
 Tristate<List<Optional<CustomString>>> getOptionalNullableListWithNullableItems_StringMappedAnyOf() {
   return mapList(
       optionalNullableListWithNullableItems_StringMappedAnyOf,
@@ -1262,12 +1136,17 @@ Tristate<List<Optional<CustomString>>> getOptionalNullableListWithNullableItems_
   );
 }
 
+@JsonProperty("optionalNullableListWithNullableItems_StringMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableListWithNullableItems_StringMappedAnyOfJson() {
+  return isOptionalNullableListWithNullableItems_StringMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_StringMappedAnyOf) : optionalNullableListWithNullableItems_StringMappedAnyOf;
+}
+
 ]
 
 
 pojoMembers[optionalNullableListWithNullableItems_StringMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -1277,12 +1156,10 @@ java.util.Optional
 java.util.function.Function
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * OptionalNullableListWithNullableItems
  */
-@JsonIgnore
 public Tristate<List<Optional<CustomString>>> getOptionalNullableListWithNullableItems_StringMapped() {
   return mapList(
       optionalNullableListWithNullableItems_StringMapped,
@@ -1299,9 +1176,8 @@ private Object getOptionalNullableListWithNullableItems_StringMappedJson() {
   return isOptionalNullableListWithNullableItems_StringMappedNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_StringMapped) : optionalNullableListWithNullableItems_StringMapped;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_StringMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_StringMapped_() {
   return optionalNullableListWithNullableItems_StringMapped;
 }
 
@@ -1309,19 +1185,16 @@ private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullabl
 
 
 pojoMembers[optionalNullableMapAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.Map
 java.util.function.Function
-.
-.
+
 /**
  * OptionalNullableMap
  */
-@JsonIgnore
 public Tristate<Map<String, String>> getOptionalNullableMapAllOf() {
   return mapMap(
       optionalNullableMapAllOf,
@@ -1342,22 +1215,13 @@ private Object getOptionalNullableMapAllOfJson() {
 
 
 pojoMembers[optionalNullableMapAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.Map
 java.util.function.Function
-.
-.
-@JsonProperty("optionalNullableMapAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableMapAnyOfJson() {
-  return isOptionalNullableMapAnyOfNull ? new JacksonNullContainer<>(optionalNullableMapAnyOf) : optionalNullableMapAnyOf;
-}
 
-@JsonIgnore
 Tristate<Map<String, String>> getOptionalNullableMapAnyOf() {
   return mapMap(
       optionalNullableMapAnyOf,
@@ -1368,11 +1232,16 @@ Tristate<Map<String, String>> getOptionalNullableMapAnyOf() {
   );
 }
 
+@JsonProperty("optionalNullableMapAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableMapAnyOfJson() {
+  return isOptionalNullableMapAnyOfNull ? new JacksonNullContainer<>(optionalNullableMapAnyOf) : optionalNullableMapAnyOf;
+}
+
 ]
 
 
 pojoMembers[optionalNullableMap]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -1381,12 +1250,10 @@ java.util.Map
 java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalNullableMap
  */
-@JsonIgnore
 public Tristate<Map<String, String>> getOptionalNullableMap() {
   return mapMap(
       optionalNullableMap,
@@ -1403,8 +1270,7 @@ private Object getOptionalNullableMapJson() {
   return isOptionalNullableMapNull ? new JacksonNullContainer<>(optionalNullableMap) : optionalNullableMap;
 }
 
-@JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMapRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMap_() {
   return optionalNullableMap;
 }
 
@@ -1414,19 +1280,16 @@ private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullabl
 pojoMembers[optionalNullableMap_FullyMappedAllOf]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.Map
 java.util.function.Function
-.
-.
+
 /**
  * OptionalNullableMap
  */
-@JsonIgnore
 public Tristate<CustomMap<String, CustomString>> getOptionalNullableMap_FullyMappedAllOf() {
   return mapMap(
       optionalNullableMap_FullyMappedAllOf,
@@ -1449,22 +1312,13 @@ private Object getOptionalNullableMap_FullyMappedAllOfJson() {
 pojoMembers[optionalNullableMap_FullyMappedAnyOf]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.Map
 java.util.function.Function
-.
-.
-@JsonProperty("optionalNullableMap_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableMap_FullyMappedAnyOfJson() {
-  return isOptionalNullableMap_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableMap_FullyMappedAnyOf) : optionalNullableMap_FullyMappedAnyOf;
-}
 
-@JsonIgnore
 Tristate<CustomMap<String, CustomString>> getOptionalNullableMap_FullyMappedAnyOf() {
   return mapMap(
       optionalNullableMap_FullyMappedAnyOf,
@@ -1475,13 +1329,18 @@ Tristate<CustomMap<String, CustomString>> getOptionalNullableMap_FullyMappedAnyO
   );
 }
 
+@JsonProperty("optionalNullableMap_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableMap_FullyMappedAnyOfJson() {
+  return isOptionalNullableMap_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableMap_FullyMappedAnyOf) : optionalNullableMap_FullyMappedAnyOf;
+}
+
 ]
 
 
 pojoMembers[optionalNullableMap_FullyMapped]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -1490,12 +1349,10 @@ java.util.Map
 java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalNullableMap
  */
-@JsonIgnore
 public Tristate<CustomMap<String, CustomString>> getOptionalNullableMap_FullyMapped() {
   return mapMap(
       optionalNullableMap_FullyMapped,
@@ -1512,8 +1369,7 @@ private Object getOptionalNullableMap_FullyMappedJson() {
   return isOptionalNullableMap_FullyMappedNull ? new JacksonNullContainer<>(optionalNullableMap_FullyMapped) : optionalNullableMap_FullyMapped;
 }
 
-@JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMap_FullyMappedRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMap_FullyMapped_() {
   return optionalNullableMap_FullyMapped;
 }
 
@@ -1521,19 +1377,16 @@ private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullabl
 
 
 pojoMembers[optionalNullableStringListAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.function.Function
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Tristate<List<String>> getOptionalNullableStringListAllOf() {
   return mapList(
       optionalNullableStringListAllOf,
@@ -1554,22 +1407,13 @@ private Object getOptionalNullableStringListAllOfJson() {
 
 
 pojoMembers[optionalNullableStringListAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.function.Function
-.
-.
-@JsonProperty("optionalNullableStringListAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableStringListAnyOfJson() {
-  return isOptionalNullableStringListAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringListAnyOf) : optionalNullableStringListAnyOf;
-}
 
-@JsonIgnore
 Tristate<List<String>> getOptionalNullableStringListAnyOf() {
   return mapList(
       optionalNullableStringListAnyOf,
@@ -1580,11 +1424,16 @@ Tristate<List<String>> getOptionalNullableStringListAnyOf() {
   );
 }
 
+@JsonProperty("optionalNullableStringListAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableStringListAnyOfJson() {
+  return isOptionalNullableStringListAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringListAnyOf) : optionalNullableStringListAnyOf;
+}
+
 ]
 
 
 pojoMembers[optionalNullableStringList]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -1594,12 +1443,10 @@ java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Tristate<List<String>> getOptionalNullableStringList() {
   return mapList(
       optionalNullableStringList,
@@ -1616,9 +1463,8 @@ private Object getOptionalNullableStringListJson() {
   return isOptionalNullableStringListNull ? new JacksonNullContainer<>(optionalNullableStringList) : optionalNullableStringList;
 }
 
-@JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getOptionalNullableStringListRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getOptionalNullableStringList_() {
   return optionalNullableStringList;
 }
 
@@ -1628,19 +1474,16 @@ private List<@NotNull @Pattern(regexp="Hello") String> getOptionalNullableString
 pojoMembers[optionalNullableStringList_FullyMappedAllOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.function.Function
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Tristate<CustomList<CustomString>> getOptionalNullableStringList_FullyMappedAllOf() {
   return mapList(
       optionalNullableStringList_FullyMappedAllOf,
@@ -1663,22 +1506,13 @@ private Object getOptionalNullableStringList_FullyMappedAllOfJson() {
 pojoMembers[optionalNullableStringList_FullyMappedAnyOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 java.util.List
 java.util.function.Function
-.
-.
-@JsonProperty("optionalNullableStringList_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getOptionalNullableStringList_FullyMappedAnyOfJson() {
-  return isOptionalNullableStringList_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringList_FullyMappedAnyOf) : optionalNullableStringList_FullyMappedAnyOf;
-}
 
-@JsonIgnore
 Tristate<CustomList<CustomString>> getOptionalNullableStringList_FullyMappedAnyOf() {
   return mapList(
       optionalNullableStringList_FullyMappedAnyOf,
@@ -1689,13 +1523,18 @@ Tristate<CustomList<CustomString>> getOptionalNullableStringList_FullyMappedAnyO
   );
 }
 
+@JsonProperty("optionalNullableStringList_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getOptionalNullableStringList_FullyMappedAnyOfJson() {
+  return isOptionalNullableStringList_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringList_FullyMappedAnyOf) : optionalNullableStringList_FullyMappedAnyOf;
+}
+
 ]
 
 
 pojoMembers[optionalNullableStringList_FullyMapped]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -1705,12 +1544,10 @@ java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Tristate<CustomList<CustomString>> getOptionalNullableStringList_FullyMapped() {
   return mapList(
       optionalNullableStringList_FullyMapped,
@@ -1727,9 +1564,8 @@ private Object getOptionalNullableStringList_FullyMappedJson() {
   return isOptionalNullableStringList_FullyMappedNull ? new JacksonNullContainer<>(optionalNullableStringList_FullyMapped) : optionalNullableStringList_FullyMapped;
 }
 
-@JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getOptionalNullableStringList_FullyMappedRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getOptionalNullableStringList_FullyMapped_() {
   return optionalNullableStringList_FullyMapped;
 }
 
@@ -1737,17 +1573,14 @@ private List<@NotNull @Pattern(regexp="Hello") String> getOptionalNullableString
 
 
 pojoMembers[optionalNullableStringValAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-.
-.
+
 /**
  * OptionalNullableStringVal
  */
-@JsonIgnore
 public Tristate<String> getOptionalNullableStringValAllOf() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringValAllOf, isOptionalNullableStringValAllOfNull);
 }
@@ -1762,40 +1595,34 @@ private Object getOptionalNullableStringValAllOfJson() {
 
 
 pojoMembers[optionalNullableStringValAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-.
-.
+
+Tristate<String> getOptionalNullableStringValAnyOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringValAnyOf, isOptionalNullableStringValAnyOfNull);
+}
+
 @JsonProperty("optionalNullableStringValAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableStringValAnyOfJson() {
   return isOptionalNullableStringValAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringValAnyOf) : optionalNullableStringValAnyOf;
 }
 
-@JsonIgnore
-Tristate<String> getOptionalNullableStringValAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringValAnyOf, isOptionalNullableStringValAnyOfNull);
-}
-
 ]
 
 
 pojoMembers[optionalNullableStringVal]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalNullableStringVal
  */
-@JsonIgnore
 public Tristate<String> getOptionalNullableStringVal() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull);
 }
@@ -1806,9 +1633,8 @@ private Object getOptionalNullableStringValJson() {
   return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalNullableStringValRaw() {
+private String getOptionalNullableStringVal_() {
   return optionalNullableStringVal;
 }
 
@@ -1817,17 +1643,14 @@ private String getOptionalNullableStringValRaw() {
 
 pojoMembers[optionalNullableStringVal_FullyMappedAllOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-.
-.
+
 /**
  * OptionalNullableStringVal
  */
-@JsonIgnore
 public Tristate<CustomString> getOptionalNullableStringVal_FullyMappedAllOf() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMappedAllOf, isOptionalNullableStringVal_FullyMappedAllOfNull).map(value -> CustomString.fromString(value));
 }
@@ -1843,22 +1666,19 @@ private Object getOptionalNullableStringVal_FullyMappedAllOfJson() {
 
 pojoMembers[optionalNullableStringVal_FullyMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-.
-.
+
+Tristate<CustomString> getOptionalNullableStringVal_FullyMappedAnyOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMappedAnyOf, isOptionalNullableStringVal_FullyMappedAnyOfNull).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("optionalNullableStringVal_FullyMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableStringVal_FullyMappedAnyOfJson() {
   return isOptionalNullableStringVal_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringVal_FullyMappedAnyOf) : optionalNullableStringVal_FullyMappedAnyOf;
-}
-
-@JsonIgnore
-Tristate<CustomString> getOptionalNullableStringVal_FullyMappedAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMappedAnyOf, isOptionalNullableStringVal_FullyMappedAnyOfNull).map(value -> CustomString.fromString(value));
 }
 
 ]
@@ -1866,18 +1686,15 @@ Tristate<CustomString> getOptionalNullableStringVal_FullyMappedAnyOf() {
 
 pojoMembers[optionalNullableStringVal_FullyMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalNullableStringVal
  */
-@JsonIgnore
 public Tristate<CustomString> getOptionalNullableStringVal_FullyMapped() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_FullyMapped, isOptionalNullableStringVal_FullyMappedNull).map(value -> CustomString.fromString(value));
 }
@@ -1888,9 +1705,8 @@ private Object getOptionalNullableStringVal_FullyMappedJson() {
   return isOptionalNullableStringVal_FullyMappedNull ? new JacksonNullContainer<>(optionalNullableStringVal_FullyMapped) : optionalNullableStringVal_FullyMapped;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalNullableStringVal_FullyMappedRaw() {
+private String getOptionalNullableStringVal_FullyMapped_() {
   return optionalNullableStringVal_FullyMapped;
 }
 
@@ -1898,17 +1714,14 @@ private String getOptionalNullableStringVal_FullyMappedRaw() {
 
 
 pojoMembers[optionalNullableStringVal_ListMappedAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-.
-.
+
 /**
  * OptionalNullableStringVal
  */
-@JsonIgnore
 public Tristate<String> getOptionalNullableStringVal_ListMappedAllOf() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_ListMappedAllOf, isOptionalNullableStringVal_ListMappedAllOfNull);
 }
@@ -1923,40 +1736,34 @@ private Object getOptionalNullableStringVal_ListMappedAllOfJson() {
 
 
 pojoMembers[optionalNullableStringVal_ListMappedAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-.
-.
+
+Tristate<String> getOptionalNullableStringVal_ListMappedAnyOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_ListMappedAnyOf, isOptionalNullableStringVal_ListMappedAnyOfNull);
+}
+
 @JsonProperty("optionalNullableStringVal_ListMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableStringVal_ListMappedAnyOfJson() {
   return isOptionalNullableStringVal_ListMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringVal_ListMappedAnyOf) : optionalNullableStringVal_ListMappedAnyOf;
 }
 
-@JsonIgnore
-Tristate<String> getOptionalNullableStringVal_ListMappedAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_ListMappedAnyOf, isOptionalNullableStringVal_ListMappedAnyOfNull);
-}
-
 ]
 
 
 pojoMembers[optionalNullableStringVal_ListMapped]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalNullableStringVal
  */
-@JsonIgnore
 public Tristate<String> getOptionalNullableStringVal_ListMapped() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_ListMapped, isOptionalNullableStringVal_ListMappedNull);
 }
@@ -1967,9 +1774,8 @@ private Object getOptionalNullableStringVal_ListMappedJson() {
   return isOptionalNullableStringVal_ListMappedNull ? new JacksonNullContainer<>(optionalNullableStringVal_ListMapped) : optionalNullableStringVal_ListMapped;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalNullableStringVal_ListMappedRaw() {
+private String getOptionalNullableStringVal_ListMapped_() {
   return optionalNullableStringVal_ListMapped;
 }
 
@@ -1978,17 +1784,14 @@ private String getOptionalNullableStringVal_ListMappedRaw() {
 
 pojoMembers[optionalNullableStringVal_StringMappedAllOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-.
-.
+
 /**
  * OptionalNullableStringVal
  */
-@JsonIgnore
 public Tristate<CustomString> getOptionalNullableStringVal_StringMappedAllOf() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMappedAllOf, isOptionalNullableStringVal_StringMappedAllOfNull).map(value -> CustomString.fromString(value));
 }
@@ -2004,22 +1807,19 @@ private Object getOptionalNullableStringVal_StringMappedAllOfJson() {
 
 pojoMembers[optionalNullableStringVal_StringMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-.
-.
+
+Tristate<CustomString> getOptionalNullableStringVal_StringMappedAnyOf() {
+  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMappedAnyOf, isOptionalNullableStringVal_StringMappedAnyOfNull).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("optionalNullableStringVal_StringMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableStringVal_StringMappedAnyOfJson() {
   return isOptionalNullableStringVal_StringMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringVal_StringMappedAnyOf) : optionalNullableStringVal_StringMappedAnyOf;
-}
-
-@JsonIgnore
-Tristate<CustomString> getOptionalNullableStringVal_StringMappedAnyOf() {
-  return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMappedAnyOf, isOptionalNullableStringVal_StringMappedAnyOfNull).map(value -> CustomString.fromString(value));
 }
 
 ]
@@ -2027,18 +1827,15 @@ Tristate<CustomString> getOptionalNullableStringVal_StringMappedAnyOf() {
 
 pojoMembers[optionalNullableStringVal_StringMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalNullableStringVal
  */
-@JsonIgnore
 public Tristate<CustomString> getOptionalNullableStringVal_StringMapped() {
   return Tristate.ofNullableAndNullFlag(optionalNullableStringVal_StringMapped, isOptionalNullableStringVal_StringMappedNull).map(value -> CustomString.fromString(value));
 }
@@ -2049,9 +1846,8 @@ private Object getOptionalNullableStringVal_StringMappedJson() {
   return isOptionalNullableStringVal_StringMappedNull ? new JacksonNullContainer<>(optionalNullableStringVal_StringMapped) : optionalNullableStringVal_StringMapped;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalNullableStringVal_StringMappedRaw() {
+private String getOptionalNullableStringVal_StringMapped_() {
   return optionalNullableStringVal_StringMapped;
 }
 
@@ -2059,18 +1855,15 @@ private String getOptionalNullableStringVal_StringMappedRaw() {
 
 
 pojoMembers[optionalStringListAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Optional<List<String>> getOptionalStringListAllOf() {
   return mapList(
       optionalStringListAllOf,
@@ -2084,7 +1877,6 @@ public Optional<List<String>> getOptionalStringListAllOf() {
 /**
  * List
  */
-@JsonIgnore
 public List<String> getOptionalStringListAllOfOr(List<String> defaultValue) {
   return this.optionalStringListAllOf == null
       ? defaultValue
@@ -2101,21 +1893,12 @@ private List<String> getOptionalStringListAllOfJson() {
 
 
 pojoMembers[optionalStringListAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("optionalStringListAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalStringListAnyOfJson() {
-  return optionalStringListAnyOf;
-}
 
-@JsonIgnore
 Optional<List<String>> getOptionalStringListAnyOf() {
   return mapList(
       optionalStringListAnyOf,
@@ -2126,7 +1909,12 @@ Optional<List<String>> getOptionalStringListAnyOf() {
   );
 }
 
-@JsonIgnore
+@JsonProperty("optionalStringListAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalStringListAnyOfJson() {
+  return optionalStringListAnyOf;
+}
+
 boolean getIsOptionalStringListAnyOfNotNull() {
   return isOptionalStringListAnyOfNotNull;
 }
@@ -2135,7 +1923,6 @@ boolean getIsOptionalStringListAnyOfNotNull() {
 
 
 pojoMembers[optionalStringList]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -2145,12 +1932,10 @@ javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Optional<List<String>> getOptionalStringList() {
   return mapList(
       optionalStringList,
@@ -2164,7 +1949,6 @@ public Optional<List<String>> getOptionalStringList() {
 /**
  * List
  */
-@JsonIgnore
 public List<String> getOptionalStringListOr(List<String> defaultValue) {
   return this.optionalStringList == null
       ? defaultValue
@@ -2177,14 +1961,12 @@ private List<String> getOptionalStringListJson() {
   return optionalStringList;
 }
 
-@JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getOptionalStringListRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getOptionalStringList_() {
   return optionalStringList;
 }
 
 @AssertTrue(message = "optionalStringList is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalStringListNotNull() {
   return isOptionalStringListNotNull;
 }
@@ -2195,18 +1977,15 @@ private boolean isOptionalStringListNotNull() {
 pojoMembers[optionalStringList_FullyMappedAllOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Optional<CustomList<CustomString>> getOptionalStringList_FullyMappedAllOf() {
   return mapList(
       optionalStringList_FullyMappedAllOf,
@@ -2220,7 +1999,6 @@ public Optional<CustomList<CustomString>> getOptionalStringList_FullyMappedAllOf
 /**
  * List
  */
-@JsonIgnore
 public CustomList<CustomString> getOptionalStringList_FullyMappedAllOfOr(CustomList<CustomString> defaultValue) {
   return this.optionalStringList_FullyMappedAllOf == null
       ? defaultValue
@@ -2245,21 +2023,12 @@ private List<String> getOptionalStringList_FullyMappedAllOfJson() {
 pojoMembers[optionalStringList_FullyMappedAnyOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("optionalStringList_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getOptionalStringList_FullyMappedAnyOfJson() {
-  return optionalStringList_FullyMappedAnyOf;
-}
 
-@JsonIgnore
 Optional<CustomList<CustomString>> getOptionalStringList_FullyMappedAnyOf() {
   return mapList(
       optionalStringList_FullyMappedAnyOf,
@@ -2270,7 +2039,12 @@ Optional<CustomList<CustomString>> getOptionalStringList_FullyMappedAnyOf() {
   );
 }
 
-@JsonIgnore
+@JsonProperty("optionalStringList_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getOptionalStringList_FullyMappedAnyOfJson() {
+  return optionalStringList_FullyMappedAnyOf;
+}
+
 boolean getIsOptionalStringList_FullyMappedAnyOfNotNull() {
   return isOptionalStringList_FullyMappedAnyOfNotNull;
 }
@@ -2281,7 +2055,6 @@ boolean getIsOptionalStringList_FullyMappedAnyOfNotNull() {
 pojoMembers[optionalStringList_FullyMapped]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -2291,12 +2064,10 @@ javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Optional<CustomList<CustomString>> getOptionalStringList_FullyMapped() {
   return mapList(
       optionalStringList_FullyMapped,
@@ -2310,7 +2081,6 @@ public Optional<CustomList<CustomString>> getOptionalStringList_FullyMapped() {
 /**
  * List
  */
-@JsonIgnore
 public CustomList<CustomString> getOptionalStringList_FullyMappedOr(CustomList<CustomString> defaultValue) {
   return this.optionalStringList_FullyMapped == null
       ? defaultValue
@@ -2329,14 +2099,12 @@ private List<String> getOptionalStringList_FullyMappedJson() {
   return optionalStringList_FullyMapped;
 }
 
-@JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getOptionalStringList_FullyMappedRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getOptionalStringList_FullyMapped_() {
   return optionalStringList_FullyMapped;
 }
 
 @AssertTrue(message = "optionalStringList_FullyMapped is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalStringList_FullyMappedNotNull() {
   return isOptionalStringList_FullyMappedNotNull;
 }
@@ -2345,16 +2113,13 @@ private boolean isOptionalStringList_FullyMappedNotNull() {
 
 
 pojoMembers[optionalStringValAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-.
-.
+
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public Optional<String> getOptionalStringValAllOf() {
   return Optional.ofNullable(optionalStringValAllOf);
 }
@@ -2362,7 +2127,6 @@ public Optional<String> getOptionalStringValAllOf() {
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public String getOptionalStringValAllOfOr(String defaultValue) {
   return this.optionalStringValAllOf == null
       ? defaultValue
@@ -2379,24 +2143,20 @@ private String getOptionalStringValAllOfJson() {
 
 
 pojoMembers[optionalStringValAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-.
-.
+
+Optional<String> getOptionalStringValAnyOf() {
+  return Optional.ofNullable(optionalStringValAnyOf);
+}
+
 @JsonProperty("optionalStringValAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getOptionalStringValAnyOfJson() {
   return optionalStringValAnyOf;
 }
 
-@JsonIgnore
-Optional<String> getOptionalStringValAnyOf() {
-  return Optional.ofNullable(optionalStringValAnyOf);
-}
-
-@JsonIgnore
 boolean getIsOptionalStringValAnyOfNotNull() {
   return isOptionalStringValAnyOfNotNull;
 }
@@ -2405,18 +2165,15 @@ boolean getIsOptionalStringValAnyOfNotNull() {
 
 
 pojoMembers[optionalStringVal]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public Optional<String> getOptionalStringVal() {
   return Optional.ofNullable(optionalStringVal);
 }
@@ -2424,7 +2181,6 @@ public Optional<String> getOptionalStringVal() {
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public String getOptionalStringValOr(String defaultValue) {
   return this.optionalStringVal == null
       ? defaultValue
@@ -2437,14 +2193,12 @@ private String getOptionalStringValJson() {
   return optionalStringVal;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalStringValRaw() {
+private String getOptionalStringVal_() {
   return optionalStringVal;
 }
 
 @AssertTrue(message = "optionalStringVal is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalStringValNotNull() {
   return isOptionalStringValNotNull;
 }
@@ -2454,16 +2208,13 @@ private boolean isOptionalStringValNotNull() {
 
 pojoMembers[optionalStringVal_FullyMappedAllOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-.
-.
+
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public Optional<CustomString> getOptionalStringVal_FullyMappedAllOf() {
   return Optional.ofNullable(optionalStringVal_FullyMappedAllOf).map(value -> CustomString.fromString(value));
 }
@@ -2471,7 +2222,6 @@ public Optional<CustomString> getOptionalStringVal_FullyMappedAllOf() {
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public CustomString getOptionalStringVal_FullyMappedAllOfOr(CustomString defaultValue) {
   return this.optionalStringVal_FullyMappedAllOf == null
       ? defaultValue
@@ -2489,24 +2239,20 @@ private String getOptionalStringVal_FullyMappedAllOfJson() {
 
 pojoMembers[optionalStringVal_FullyMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-.
-.
+
+Optional<CustomString> getOptionalStringVal_FullyMappedAnyOf() {
+  return Optional.ofNullable(optionalStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("optionalStringVal_FullyMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getOptionalStringVal_FullyMappedAnyOfJson() {
   return optionalStringVal_FullyMappedAnyOf;
 }
 
-@JsonIgnore
-Optional<CustomString> getOptionalStringVal_FullyMappedAnyOf() {
-  return Optional.ofNullable(optionalStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
-}
-
-@JsonIgnore
 boolean getIsOptionalStringVal_FullyMappedAnyOfNotNull() {
   return isOptionalStringVal_FullyMappedAnyOfNotNull;
 }
@@ -2516,18 +2262,15 @@ boolean getIsOptionalStringVal_FullyMappedAnyOfNotNull() {
 
 pojoMembers[optionalStringVal_FullyMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public Optional<CustomString> getOptionalStringVal_FullyMapped() {
   return Optional.ofNullable(optionalStringVal_FullyMapped).map(value -> CustomString.fromString(value));
 }
@@ -2535,7 +2278,6 @@ public Optional<CustomString> getOptionalStringVal_FullyMapped() {
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public CustomString getOptionalStringVal_FullyMappedOr(CustomString defaultValue) {
   return this.optionalStringVal_FullyMapped == null
       ? defaultValue
@@ -2548,14 +2290,12 @@ private String getOptionalStringVal_FullyMappedJson() {
   return optionalStringVal_FullyMapped;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalStringVal_FullyMappedRaw() {
+private String getOptionalStringVal_FullyMapped_() {
   return optionalStringVal_FullyMapped;
 }
 
 @AssertTrue(message = "optionalStringVal_FullyMapped is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalStringVal_FullyMappedNotNull() {
   return isOptionalStringVal_FullyMappedNotNull;
 }
@@ -2564,16 +2304,13 @@ private boolean isOptionalStringVal_FullyMappedNotNull() {
 
 
 pojoMembers[optionalStringVal_ListMappedAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-.
-.
+
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public Optional<String> getOptionalStringVal_ListMappedAllOf() {
   return Optional.ofNullable(optionalStringVal_ListMappedAllOf);
 }
@@ -2581,7 +2318,6 @@ public Optional<String> getOptionalStringVal_ListMappedAllOf() {
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public String getOptionalStringVal_ListMappedAllOfOr(String defaultValue) {
   return this.optionalStringVal_ListMappedAllOf == null
       ? defaultValue
@@ -2598,24 +2334,20 @@ private String getOptionalStringVal_ListMappedAllOfJson() {
 
 
 pojoMembers[optionalStringVal_ListMappedAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-.
-.
+
+Optional<String> getOptionalStringVal_ListMappedAnyOf() {
+  return Optional.ofNullable(optionalStringVal_ListMappedAnyOf);
+}
+
 @JsonProperty("optionalStringVal_ListMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getOptionalStringVal_ListMappedAnyOfJson() {
   return optionalStringVal_ListMappedAnyOf;
 }
 
-@JsonIgnore
-Optional<String> getOptionalStringVal_ListMappedAnyOf() {
-  return Optional.ofNullable(optionalStringVal_ListMappedAnyOf);
-}
-
-@JsonIgnore
 boolean getIsOptionalStringVal_ListMappedAnyOfNotNull() {
   return isOptionalStringVal_ListMappedAnyOfNotNull;
 }
@@ -2624,18 +2356,15 @@ boolean getIsOptionalStringVal_ListMappedAnyOfNotNull() {
 
 
 pojoMembers[optionalStringVal_ListMapped]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public Optional<String> getOptionalStringVal_ListMapped() {
   return Optional.ofNullable(optionalStringVal_ListMapped);
 }
@@ -2643,7 +2372,6 @@ public Optional<String> getOptionalStringVal_ListMapped() {
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public String getOptionalStringVal_ListMappedOr(String defaultValue) {
   return this.optionalStringVal_ListMapped == null
       ? defaultValue
@@ -2656,14 +2384,12 @@ private String getOptionalStringVal_ListMappedJson() {
   return optionalStringVal_ListMapped;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalStringVal_ListMappedRaw() {
+private String getOptionalStringVal_ListMapped_() {
   return optionalStringVal_ListMapped;
 }
 
 @AssertTrue(message = "optionalStringVal_ListMapped is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalStringVal_ListMappedNotNull() {
   return isOptionalStringVal_ListMappedNotNull;
 }
@@ -2673,16 +2399,13 @@ private boolean isOptionalStringVal_ListMappedNotNull() {
 
 pojoMembers[optionalStringVal_StringMappedAllOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-.
-.
+
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public Optional<CustomString> getOptionalStringVal_StringMappedAllOf() {
   return Optional.ofNullable(optionalStringVal_StringMappedAllOf).map(value -> CustomString.fromString(value));
 }
@@ -2690,7 +2413,6 @@ public Optional<CustomString> getOptionalStringVal_StringMappedAllOf() {
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public CustomString getOptionalStringVal_StringMappedAllOfOr(CustomString defaultValue) {
   return this.optionalStringVal_StringMappedAllOf == null
       ? defaultValue
@@ -2708,24 +2430,20 @@ private String getOptionalStringVal_StringMappedAllOfJson() {
 
 pojoMembers[optionalStringVal_StringMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
-.
-.
+
+Optional<CustomString> getOptionalStringVal_StringMappedAnyOf() {
+  return Optional.ofNullable(optionalStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("optionalStringVal_StringMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getOptionalStringVal_StringMappedAnyOfJson() {
   return optionalStringVal_StringMappedAnyOf;
 }
 
-@JsonIgnore
-Optional<CustomString> getOptionalStringVal_StringMappedAnyOf() {
-  return Optional.ofNullable(optionalStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
-}
-
-@JsonIgnore
 boolean getIsOptionalStringVal_StringMappedAnyOfNotNull() {
   return isOptionalStringVal_StringMappedAnyOfNotNull;
 }
@@ -2735,18 +2453,15 @@ boolean getIsOptionalStringVal_StringMappedAnyOfNotNull() {
 
 pojoMembers[optionalStringVal_StringMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Optional
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public Optional<CustomString> getOptionalStringVal_StringMapped() {
   return Optional.ofNullable(optionalStringVal_StringMapped).map(value -> CustomString.fromString(value));
 }
@@ -2754,7 +2469,6 @@ public Optional<CustomString> getOptionalStringVal_StringMapped() {
 /**
  * OptionalStringVal
  */
-@JsonIgnore
 public CustomString getOptionalStringVal_StringMappedOr(CustomString defaultValue) {
   return this.optionalStringVal_StringMapped == null
       ? defaultValue
@@ -2767,14 +2481,12 @@ private String getOptionalStringVal_StringMappedJson() {
   return optionalStringVal_StringMapped;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getOptionalStringVal_StringMappedRaw() {
+private String getOptionalStringVal_StringMapped_() {
   return optionalStringVal_StringMapped;
 }
 
 @AssertTrue(message = "optionalStringVal_StringMapped is required to be non-null but is null")
-@JsonIgnore
 private boolean isOptionalStringVal_StringMappedNotNull() {
   return isOptionalStringVal_StringMappedNotNull;
 }
@@ -2783,17 +2495,14 @@ private boolean isOptionalStringVal_StringMappedNotNull() {
 
 
 pojoMembers[point_]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-.
-.
+
 /**
  * Point
  */
-@JsonIgnore
 public Tristate<String> getPoint_() {
   return Tristate.ofNullableAndNullFlag(point_, isPoint_Null);
 }
@@ -2804,8 +2513,7 @@ private Object getPoint_Json() {
   return isPoint_Null ? new JacksonNullContainer<>(point_) : point_;
 }
 
-@JsonIgnore
-private String getPoint_Raw() {
+private String getPoint__() {
   return point_;
 }
 
@@ -2813,18 +2521,15 @@ private String getPoint_Raw() {
 
 
 pojoMembers[requiredListWithNullableItemsAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * RequiredListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<String>> getRequiredListWithNullableItemsAllOf() {
   return mapList(
       requiredListWithNullableItemsAllOf,
@@ -2845,21 +2550,12 @@ private List<String> getRequiredListWithNullableItemsAllOfJson() {
 
 
 pojoMembers[requiredListWithNullableItemsAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("requiredListWithNullableItemsAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredListWithNullableItemsAnyOfJson() {
-  return requiredListWithNullableItemsAnyOf;
-}
 
-@JsonIgnore
 List<Optional<String>> getRequiredListWithNullableItemsAnyOf() {
   return mapList(
       requiredListWithNullableItemsAnyOf,
@@ -2870,11 +2566,16 @@ List<Optional<String>> getRequiredListWithNullableItemsAnyOf() {
   );
 }
 
+@JsonProperty("requiredListWithNullableItemsAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredListWithNullableItemsAnyOfJson() {
+  return requiredListWithNullableItemsAnyOf;
+}
+
 ]
 
 
 pojoMembers[requiredListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -2883,12 +2584,10 @@ java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * RequiredListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<String>> getRequiredListWithNullableItems() {
   return mapList(
       requiredListWithNullableItems,
@@ -2905,10 +2604,9 @@ private List<String> getRequiredListWithNullableItemsJson() {
   return requiredListWithNullableItems;
 }
 
-@JsonIgnore
 @NotNull
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_() {
   return requiredListWithNullableItems;
 }
 
@@ -2918,18 +2616,15 @@ private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRa
 pojoMembers[requiredListWithNullableItems_FullyMappedAllOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * RequiredListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<CustomString>> getRequiredListWithNullableItems_FullyMappedAllOf() {
   return mapList(
       requiredListWithNullableItems_FullyMappedAllOf,
@@ -2952,21 +2647,12 @@ private List<String> getRequiredListWithNullableItems_FullyMappedAllOfJson() {
 pojoMembers[requiredListWithNullableItems_FullyMappedAnyOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("requiredListWithNullableItems_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredListWithNullableItems_FullyMappedAnyOfJson() {
-  return requiredListWithNullableItems_FullyMappedAnyOf;
-}
 
-@JsonIgnore
 CustomList<Optional<CustomString>> getRequiredListWithNullableItems_FullyMappedAnyOf() {
   return mapList(
       requiredListWithNullableItems_FullyMappedAnyOf,
@@ -2977,13 +2663,18 @@ CustomList<Optional<CustomString>> getRequiredListWithNullableItems_FullyMappedA
   );
 }
 
+@JsonProperty("requiredListWithNullableItems_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredListWithNullableItems_FullyMappedAnyOfJson() {
+  return requiredListWithNullableItems_FullyMappedAnyOf;
+}
+
 ]
 
 
 pojoMembers[requiredListWithNullableItems_FullyMapped]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -2992,12 +2683,10 @@ java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * RequiredListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<CustomString>> getRequiredListWithNullableItems_FullyMapped() {
   return mapList(
       requiredListWithNullableItems_FullyMapped,
@@ -3014,10 +2703,9 @@ private List<String> getRequiredListWithNullableItems_FullyMappedJson() {
   return requiredListWithNullableItems_FullyMapped;
 }
 
-@JsonIgnore
 @NotNull
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_FullyMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_FullyMapped_() {
   return requiredListWithNullableItems_FullyMapped;
 }
 
@@ -3026,18 +2714,15 @@ private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_F
 
 pojoMembers[requiredListWithNullableItems_ListMappedAllOf]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * RequiredListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<String>> getRequiredListWithNullableItems_ListMappedAllOf() {
   return mapList(
       requiredListWithNullableItems_ListMappedAllOf,
@@ -3059,21 +2744,12 @@ private List<String> getRequiredListWithNullableItems_ListMappedAllOfJson() {
 
 pojoMembers[requiredListWithNullableItems_ListMappedAnyOf]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("requiredListWithNullableItems_ListMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredListWithNullableItems_ListMappedAnyOfJson() {
-  return requiredListWithNullableItems_ListMappedAnyOf;
-}
 
-@JsonIgnore
 CustomList<Optional<String>> getRequiredListWithNullableItems_ListMappedAnyOf() {
   return mapList(
       requiredListWithNullableItems_ListMappedAnyOf,
@@ -3084,12 +2760,17 @@ CustomList<Optional<String>> getRequiredListWithNullableItems_ListMappedAnyOf() 
   );
 }
 
+@JsonProperty("requiredListWithNullableItems_ListMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredListWithNullableItems_ListMappedAnyOfJson() {
+  return requiredListWithNullableItems_ListMappedAnyOf;
+}
+
 ]
 
 
 pojoMembers[requiredListWithNullableItems_ListMapped]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -3098,12 +2779,10 @@ java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * RequiredListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<String>> getRequiredListWithNullableItems_ListMapped() {
   return mapList(
       requiredListWithNullableItems_ListMapped,
@@ -3120,10 +2799,9 @@ private List<String> getRequiredListWithNullableItems_ListMappedJson() {
   return requiredListWithNullableItems_ListMapped;
 }
 
-@JsonIgnore
 @NotNull
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_ListMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_ListMapped_() {
   return requiredListWithNullableItems_ListMapped;
 }
 
@@ -3132,18 +2810,15 @@ private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_L
 
 pojoMembers[requiredListWithNullableItems_StringMappedAllOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * RequiredListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<CustomString>> getRequiredListWithNullableItems_StringMappedAllOf() {
   return mapList(
       requiredListWithNullableItems_StringMappedAllOf,
@@ -3165,21 +2840,12 @@ private List<String> getRequiredListWithNullableItems_StringMappedAllOfJson() {
 
 pojoMembers[requiredListWithNullableItems_StringMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("requiredListWithNullableItems_StringMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredListWithNullableItems_StringMappedAnyOfJson() {
-  return requiredListWithNullableItems_StringMappedAnyOf;
-}
 
-@JsonIgnore
 List<Optional<CustomString>> getRequiredListWithNullableItems_StringMappedAnyOf() {
   return mapList(
       requiredListWithNullableItems_StringMappedAnyOf,
@@ -3190,12 +2856,17 @@ List<Optional<CustomString>> getRequiredListWithNullableItems_StringMappedAnyOf(
   );
 }
 
+@JsonProperty("requiredListWithNullableItems_StringMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredListWithNullableItems_StringMappedAnyOfJson() {
+  return requiredListWithNullableItems_StringMappedAnyOf;
+}
+
 ]
 
 
 pojoMembers[requiredListWithNullableItems_StringMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -3204,12 +2875,10 @@ java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * RequiredListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<CustomString>> getRequiredListWithNullableItems_StringMapped() {
   return mapList(
       requiredListWithNullableItems_StringMapped,
@@ -3226,10 +2895,9 @@ private List<String> getRequiredListWithNullableItems_StringMappedJson() {
   return requiredListWithNullableItems_StringMapped;
 }
 
-@JsonIgnore
 @NotNull
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_StringMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_StringMapped_() {
   return requiredListWithNullableItems_StringMapped;
 }
 
@@ -3237,16 +2905,13 @@ private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_S
 
 
 pojoMembers[requiredMapAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
-.
-.
+
 /**
  * RequiredMap
  */
-@JsonIgnore
 public Map<String, String> getRequiredMapAllOf() {
   return requiredMapAllOf;
 }
@@ -3261,20 +2926,17 @@ private Map<String, String> getRequiredMapAllOfJson() {
 
 
 pojoMembers[requiredMapAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
-.
-.
-@JsonProperty("requiredMapAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Map<String, String> getRequiredMapAnyOfJson() {
+
+Map<String, String> getRequiredMapAnyOf() {
   return requiredMapAnyOf;
 }
 
-@JsonIgnore
-Map<String, String> getRequiredMapAnyOf() {
+@JsonProperty("requiredMapAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Map<String, String> getRequiredMapAnyOfJson() {
   return requiredMapAnyOf;
 }
 
@@ -3282,18 +2944,27 @@ Map<String, String> getRequiredMapAnyOf() {
 
 
 pojoMembers[requiredMap]=[
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * RequiredMap
  */
-@NotNull
+public Map<String, String> getRequiredMap() {
+  return requiredMap;
+}
+
 @JsonProperty("requiredMap")
-public Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap() {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Map<String, String> getRequiredMapJson() {
+  return requiredMap;
+}
+
+@NotNull
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap_() {
   return requiredMap;
 }
 
@@ -3303,17 +2974,14 @@ public Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap() {
 pojoMembers[requiredMap_FullyMappedAllOf]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
 java.util.function.Function
-.
-.
+
 /**
  * RequiredMap
  */
-@JsonIgnore
 public CustomMap<String, CustomString> getRequiredMap_FullyMappedAllOf() {
   return mapMap(
       requiredMap_FullyMappedAllOf,
@@ -3336,20 +3004,11 @@ private Map<String, String> getRequiredMap_FullyMappedAllOfJson() {
 pojoMembers[requiredMap_FullyMappedAnyOf]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
 java.util.function.Function
-.
-.
-@JsonProperty("requiredMap_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Map<String, String> getRequiredMap_FullyMappedAnyOfJson() {
-  return requiredMap_FullyMappedAnyOf;
-}
 
-@JsonIgnore
 CustomMap<String, CustomString> getRequiredMap_FullyMappedAnyOf() {
   return mapMap(
       requiredMap_FullyMappedAnyOf,
@@ -3360,25 +3019,28 @@ CustomMap<String, CustomString> getRequiredMap_FullyMappedAnyOf() {
   );
 }
 
+@JsonProperty("requiredMap_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Map<String, String> getRequiredMap_FullyMappedAnyOfJson() {
+  return requiredMap_FullyMappedAnyOf;
+}
+
 ]
 
 
 pojoMembers[requiredMap_FullyMapped]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.Map
 java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * RequiredMap
  */
-@JsonIgnore
 public CustomMap<String, CustomString> getRequiredMap_FullyMapped() {
   return mapMap(
       requiredMap_FullyMapped,
@@ -3395,9 +3057,8 @@ private Map<String, String> getRequiredMap_FullyMappedJson() {
   return requiredMap_FullyMapped;
 }
 
-@JsonIgnore
 @NotNull
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap_FullyMappedRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap_FullyMapped_() {
   return requiredMap_FullyMapped;
 }
 
@@ -3405,19 +3066,16 @@ private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap_Ful
 
 
 pojoMembers[requiredNullableListWithNullableItemsAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItemsAllOf() {
   return mapList(
       requiredNullableListWithNullableItemsAllOf,
@@ -3431,7 +3089,6 @@ public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItems
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<String>> getRequiredNullableListWithNullableItemsAllOfOr(List<Optional<String>> defaultValue) {
   return this.requiredNullableListWithNullableItemsAllOf == null
       ? defaultValue
@@ -3454,22 +3111,13 @@ private Object getRequiredNullableListWithNullableItemsAllOfJson() {
 
 
 pojoMembers[requiredNullableListWithNullableItemsAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("requiredNullableListWithNullableItemsAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableListWithNullableItemsAnyOfJson() {
-  return isRequiredNullableListWithNullableItemsAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItemsAnyOf) : null;
-}
 
-@JsonIgnore
 Optional<List<Optional<String>>> getRequiredNullableListWithNullableItemsAnyOf() {
   return mapList(
       requiredNullableListWithNullableItemsAnyOf,
@@ -3480,7 +3128,12 @@ Optional<List<Optional<String>>> getRequiredNullableListWithNullableItemsAnyOf()
   );
 }
 
-@JsonIgnore
+@JsonProperty("requiredNullableListWithNullableItemsAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableListWithNullableItemsAnyOfJson() {
+  return isRequiredNullableListWithNullableItemsAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItemsAnyOf) : null;
+}
+
 boolean getIsRequiredNullableListWithNullableItemsAnyOfPresent() {
   return isRequiredNullableListWithNullableItemsAnyOfPresent;
 }
@@ -3489,7 +3142,6 @@ boolean getIsRequiredNullableListWithNullableItemsAnyOfPresent() {
 
 
 pojoMembers[requiredNullableListWithNullableItems]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -3499,12 +3151,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItems() {
   return mapList(
       requiredNullableListWithNullableItems,
@@ -3518,7 +3168,6 @@ public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItems
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<String>> getRequiredNullableListWithNullableItemsOr(List<Optional<String>> defaultValue) {
   return this.requiredNullableListWithNullableItems == null
       ? defaultValue
@@ -3537,14 +3186,12 @@ private Object getRequiredNullableListWithNullableItemsJson() {
   return isRequiredNullableListWithNullableItemsPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems) : null;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItemsRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_() {
   return requiredNullableListWithNullableItems;
 }
 
 @AssertTrue(message = "requiredNullableListWithNullableItems is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableListWithNullableItemsPresent() {
   return isRequiredNullableListWithNullableItemsPresent;
 }
@@ -3555,19 +3202,16 @@ private boolean isRequiredNullableListWithNullableItemsPresent() {
 pojoMembers[requiredNullableListWithNullableItems_FullyMappedAllOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public Optional<CustomList<Optional<CustomString>>> getRequiredNullableListWithNullableItems_FullyMappedAllOf() {
   return mapList(
       requiredNullableListWithNullableItems_FullyMappedAllOf,
@@ -3581,7 +3225,6 @@ public Optional<CustomList<Optional<CustomString>>> getRequiredNullableListWithN
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<CustomString>> getRequiredNullableListWithNullableItems_FullyMappedAllOfOr(CustomList<Optional<CustomString>> defaultValue) {
   return this.requiredNullableListWithNullableItems_FullyMappedAllOf == null
       ? defaultValue
@@ -3606,21 +3249,12 @@ private Object getRequiredNullableListWithNullableItems_FullyMappedAllOfJson() {
 pojoMembers[requiredNullableListWithNullableItems_FullyMappedAnyOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
-.
-.
-@JsonProperty("requiredNullableListWithNullableItems_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableListWithNullableItems_FullyMappedAnyOfJson() {
-  return isRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_FullyMappedAnyOf) : null;
-}
 
-@JsonIgnore
 Optional<CustomList<Optional<CustomString>>> getRequiredNullableListWithNullableItems_FullyMappedAnyOf() {
   return mapList(
       requiredNullableListWithNullableItems_FullyMappedAnyOf,
@@ -3631,7 +3265,12 @@ Optional<CustomList<Optional<CustomString>>> getRequiredNullableListWithNullable
   );
 }
 
-@JsonIgnore
+@JsonProperty("requiredNullableListWithNullableItems_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableListWithNullableItems_FullyMappedAnyOfJson() {
+  return isRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_FullyMappedAnyOf) : null;
+}
+
 boolean getIsRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent() {
   return isRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent;
 }
@@ -3642,7 +3281,6 @@ boolean getIsRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent() {
 pojoMembers[requiredNullableListWithNullableItems_FullyMapped]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -3652,12 +3290,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public Optional<CustomList<Optional<CustomString>>> getRequiredNullableListWithNullableItems_FullyMapped() {
   return mapList(
       requiredNullableListWithNullableItems_FullyMapped,
@@ -3671,7 +3307,6 @@ public Optional<CustomList<Optional<CustomString>>> getRequiredNullableListWithN
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<CustomString>> getRequiredNullableListWithNullableItems_FullyMappedOr(CustomList<Optional<CustomString>> defaultValue) {
   return this.requiredNullableListWithNullableItems_FullyMapped == null
       ? defaultValue
@@ -3690,14 +3325,12 @@ private Object getRequiredNullableListWithNullableItems_FullyMappedJson() {
   return isRequiredNullableListWithNullableItems_FullyMappedPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_FullyMapped) : null;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_FullyMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_FullyMapped_() {
   return requiredNullableListWithNullableItems_FullyMapped;
 }
 
 @AssertTrue(message = "requiredNullableListWithNullableItems_FullyMapped is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableListWithNullableItems_FullyMappedPresent() {
   return isRequiredNullableListWithNullableItems_FullyMappedPresent;
 }
@@ -3707,19 +3340,16 @@ private boolean isRequiredNullableListWithNullableItems_FullyMappedPresent() {
 
 pojoMembers[requiredNullableListWithNullableItems_ListMappedAllOf]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public Optional<CustomList<Optional<String>>> getRequiredNullableListWithNullableItems_ListMappedAllOf() {
   return mapList(
       requiredNullableListWithNullableItems_ListMappedAllOf,
@@ -3733,7 +3363,6 @@ public Optional<CustomList<Optional<String>>> getRequiredNullableListWithNullabl
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<String>> getRequiredNullableListWithNullableItems_ListMappedAllOfOr(CustomList<Optional<String>> defaultValue) {
   return this.requiredNullableListWithNullableItems_ListMappedAllOf == null
       ? defaultValue
@@ -3757,22 +3386,13 @@ private Object getRequiredNullableListWithNullableItems_ListMappedAllOfJson() {
 
 pojoMembers[requiredNullableListWithNullableItems_ListMappedAnyOf]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("requiredNullableListWithNullableItems_ListMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableListWithNullableItems_ListMappedAnyOfJson() {
-  return isRequiredNullableListWithNullableItems_ListMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_ListMappedAnyOf) : null;
-}
 
-@JsonIgnore
 Optional<CustomList<Optional<String>>> getRequiredNullableListWithNullableItems_ListMappedAnyOf() {
   return mapList(
       requiredNullableListWithNullableItems_ListMappedAnyOf,
@@ -3783,7 +3403,12 @@ Optional<CustomList<Optional<String>>> getRequiredNullableListWithNullableItems_
   );
 }
 
-@JsonIgnore
+@JsonProperty("requiredNullableListWithNullableItems_ListMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableListWithNullableItems_ListMappedAnyOfJson() {
+  return isRequiredNullableListWithNullableItems_ListMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_ListMappedAnyOf) : null;
+}
+
 boolean getIsRequiredNullableListWithNullableItems_ListMappedAnyOfPresent() {
   return isRequiredNullableListWithNullableItems_ListMappedAnyOfPresent;
 }
@@ -3793,7 +3418,6 @@ boolean getIsRequiredNullableListWithNullableItems_ListMappedAnyOfPresent() {
 
 pojoMembers[requiredNullableListWithNullableItems_ListMapped]=[
 com.custom.CustomList
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -3803,12 +3427,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public Optional<CustomList<Optional<String>>> getRequiredNullableListWithNullableItems_ListMapped() {
   return mapList(
       requiredNullableListWithNullableItems_ListMapped,
@@ -3822,7 +3444,6 @@ public Optional<CustomList<Optional<String>>> getRequiredNullableListWithNullabl
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public CustomList<Optional<String>> getRequiredNullableListWithNullableItems_ListMappedOr(CustomList<Optional<String>> defaultValue) {
   return this.requiredNullableListWithNullableItems_ListMapped == null
       ? defaultValue
@@ -3841,14 +3462,12 @@ private Object getRequiredNullableListWithNullableItems_ListMappedJson() {
   return isRequiredNullableListWithNullableItems_ListMappedPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_ListMapped) : null;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_ListMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_ListMapped_() {
   return requiredNullableListWithNullableItems_ListMapped;
 }
 
 @AssertTrue(message = "requiredNullableListWithNullableItems_ListMapped is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableListWithNullableItems_ListMappedPresent() {
   return isRequiredNullableListWithNullableItems_ListMappedPresent;
 }
@@ -3858,19 +3477,16 @@ private boolean isRequiredNullableListWithNullableItems_ListMappedPresent() {
 
 pojoMembers[requiredNullableListWithNullableItems_StringMappedAllOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public Optional<List<Optional<CustomString>>> getRequiredNullableListWithNullableItems_StringMappedAllOf() {
   return mapList(
       requiredNullableListWithNullableItems_StringMappedAllOf,
@@ -3884,7 +3500,6 @@ public Optional<List<Optional<CustomString>>> getRequiredNullableListWithNullabl
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<CustomString>> getRequiredNullableListWithNullableItems_StringMappedAllOfOr(List<Optional<CustomString>> defaultValue) {
   return this.requiredNullableListWithNullableItems_StringMappedAllOf == null
       ? defaultValue
@@ -3908,22 +3523,13 @@ private Object getRequiredNullableListWithNullableItems_StringMappedAllOfJson() 
 
 pojoMembers[requiredNullableListWithNullableItems_StringMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("requiredNullableListWithNullableItems_StringMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableListWithNullableItems_StringMappedAnyOfJson() {
-  return isRequiredNullableListWithNullableItems_StringMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_StringMappedAnyOf) : null;
-}
 
-@JsonIgnore
 Optional<List<Optional<CustomString>>> getRequiredNullableListWithNullableItems_StringMappedAnyOf() {
   return mapList(
       requiredNullableListWithNullableItems_StringMappedAnyOf,
@@ -3934,7 +3540,12 @@ Optional<List<Optional<CustomString>>> getRequiredNullableListWithNullableItems_
   );
 }
 
-@JsonIgnore
+@JsonProperty("requiredNullableListWithNullableItems_StringMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableListWithNullableItems_StringMappedAnyOfJson() {
+  return isRequiredNullableListWithNullableItems_StringMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_StringMappedAnyOf) : null;
+}
+
 boolean getIsRequiredNullableListWithNullableItems_StringMappedAnyOfPresent() {
   return isRequiredNullableListWithNullableItems_StringMappedAnyOfPresent;
 }
@@ -3944,7 +3555,6 @@ boolean getIsRequiredNullableListWithNullableItems_StringMappedAnyOfPresent() {
 
 pojoMembers[requiredNullableListWithNullableItems_StringMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -3954,12 +3564,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public Optional<List<Optional<CustomString>>> getRequiredNullableListWithNullableItems_StringMapped() {
   return mapList(
       requiredNullableListWithNullableItems_StringMapped,
@@ -3973,7 +3581,6 @@ public Optional<List<Optional<CustomString>>> getRequiredNullableListWithNullabl
 /**
  * RequiredNullableListWithNullableItems
  */
-@JsonIgnore
 public List<Optional<CustomString>> getRequiredNullableListWithNullableItems_StringMappedOr(List<Optional<CustomString>> defaultValue) {
   return this.requiredNullableListWithNullableItems_StringMapped == null
       ? defaultValue
@@ -3992,14 +3599,12 @@ private Object getRequiredNullableListWithNullableItems_StringMappedJson() {
   return isRequiredNullableListWithNullableItems_StringMappedPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_StringMapped) : null;
 }
 
-@JsonIgnore
 @Size(min = 5, max = 10)
-private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_StringMappedRaw() {
+private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_StringMapped_() {
   return requiredNullableListWithNullableItems_StringMapped;
 }
 
 @AssertTrue(message = "requiredNullableListWithNullableItems_StringMapped is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableListWithNullableItems_StringMappedPresent() {
   return isRequiredNullableListWithNullableItems_StringMappedPresent;
 }
@@ -4008,19 +3613,16 @@ private boolean isRequiredNullableListWithNullableItems_StringMappedPresent() {
 
 
 pojoMembers[requiredNullableMapAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Map
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * RequiredNullableMap
  */
-@JsonIgnore
 public Optional<Map<String, String>> getRequiredNullableMapAllOf() {
   return mapMap(
       requiredNullableMapAllOf,
@@ -4034,7 +3636,6 @@ public Optional<Map<String, String>> getRequiredNullableMapAllOf() {
 /**
  * RequiredNullableMap
  */
-@JsonIgnore
 public Map<String, String> getRequiredNullableMapAllOfOr(Map<String, String> defaultValue) {
   return this.requiredNullableMapAllOf == null
       ? defaultValue
@@ -4051,22 +3652,13 @@ private Object getRequiredNullableMapAllOfJson() {
 
 
 pojoMembers[requiredNullableMapAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Map
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("requiredNullableMapAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableMapAnyOfJson() {
-  return isRequiredNullableMapAnyOfPresent ? new JacksonNullContainer<>(requiredNullableMapAnyOf) : null;
-}
 
-@JsonIgnore
 Optional<Map<String, String>> getRequiredNullableMapAnyOf() {
   return mapMap(
       requiredNullableMapAnyOf,
@@ -4077,7 +3669,12 @@ Optional<Map<String, String>> getRequiredNullableMapAnyOf() {
   );
 }
 
-@JsonIgnore
+@JsonProperty("requiredNullableMapAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableMapAnyOfJson() {
+  return isRequiredNullableMapAnyOfPresent ? new JacksonNullContainer<>(requiredNullableMapAnyOf) : null;
+}
+
 boolean getIsRequiredNullableMapAnyOfPresent() {
   return isRequiredNullableMapAnyOfPresent;
 }
@@ -4086,7 +3683,6 @@ boolean getIsRequiredNullableMapAnyOfPresent() {
 
 
 pojoMembers[requiredNullableMap]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -4096,12 +3692,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * RequiredNullableMap
  */
-@JsonIgnore
 public Optional<Map<String, String>> getRequiredNullableMap() {
   return mapMap(
       requiredNullableMap,
@@ -4115,7 +3709,6 @@ public Optional<Map<String, String>> getRequiredNullableMap() {
 /**
  * RequiredNullableMap
  */
-@JsonIgnore
 public Map<String, String> getRequiredNullableMapOr(Map<String, String> defaultValue) {
   return this.requiredNullableMap == null
       ? defaultValue
@@ -4128,13 +3721,11 @@ private Object getRequiredNullableMapJson() {
   return isRequiredNullableMapPresent ? new JacksonNullContainer<>(requiredNullableMap) : null;
 }
 
-@JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMapRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMap_() {
   return requiredNullableMap;
 }
 
 @AssertTrue(message = "requiredNullableMap is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableMapPresent() {
   return isRequiredNullableMapPresent;
 }
@@ -4145,19 +3736,16 @@ private boolean isRequiredNullableMapPresent() {
 pojoMembers[requiredNullableMap_FullyMappedAllOf]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Map
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * RequiredNullableMap
  */
-@JsonIgnore
 public Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMappedAllOf() {
   return mapMap(
       requiredNullableMap_FullyMappedAllOf,
@@ -4171,7 +3759,6 @@ public Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMap
 /**
  * RequiredNullableMap
  */
-@JsonIgnore
 public CustomMap<String, CustomString> getRequiredNullableMap_FullyMappedAllOfOr(CustomMap<String, CustomString> defaultValue) {
   return this.requiredNullableMap_FullyMappedAllOf == null
       ? defaultValue
@@ -4196,22 +3783,13 @@ private Object getRequiredNullableMap_FullyMappedAllOfJson() {
 pojoMembers[requiredNullableMap_FullyMappedAnyOf]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Map
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("requiredNullableMap_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableMap_FullyMappedAnyOfJson() {
-  return isRequiredNullableMap_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableMap_FullyMappedAnyOf) : null;
-}
 
-@JsonIgnore
 Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMappedAnyOf() {
   return mapMap(
       requiredNullableMap_FullyMappedAnyOf,
@@ -4222,7 +3800,12 @@ Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMappedAnyO
   );
 }
 
-@JsonIgnore
+@JsonProperty("requiredNullableMap_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableMap_FullyMappedAnyOfJson() {
+  return isRequiredNullableMap_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableMap_FullyMappedAnyOf) : null;
+}
+
 boolean getIsRequiredNullableMap_FullyMappedAnyOfPresent() {
   return isRequiredNullableMap_FullyMappedAnyOfPresent;
 }
@@ -4233,7 +3816,6 @@ boolean getIsRequiredNullableMap_FullyMappedAnyOfPresent() {
 pojoMembers[requiredNullableMap_FullyMapped]=[
 com.custom.CustomMap
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -4243,12 +3825,10 @@ java.util.function.Function
 javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * RequiredNullableMap
  */
-@JsonIgnore
 public Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMapped() {
   return mapMap(
       requiredNullableMap_FullyMapped,
@@ -4262,7 +3842,6 @@ public Optional<CustomMap<String, CustomString>> getRequiredNullableMap_FullyMap
 /**
  * RequiredNullableMap
  */
-@JsonIgnore
 public CustomMap<String, CustomString> getRequiredNullableMap_FullyMappedOr(CustomMap<String, CustomString> defaultValue) {
   return this.requiredNullableMap_FullyMapped == null
       ? defaultValue
@@ -4281,13 +3860,11 @@ private Object getRequiredNullableMap_FullyMappedJson() {
   return isRequiredNullableMap_FullyMappedPresent ? new JacksonNullContainer<>(requiredNullableMap_FullyMapped) : null;
 }
 
-@JsonIgnore
-private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMap_FullyMappedRaw() {
+private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMap_FullyMapped_() {
   return requiredNullableMap_FullyMapped;
 }
 
 @AssertTrue(message = "requiredNullableMap_FullyMapped is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableMap_FullyMappedPresent() {
   return isRequiredNullableMap_FullyMappedPresent;
 }
@@ -4296,19 +3873,16 @@ private boolean isRequiredNullableMap_FullyMappedPresent() {
 
 
 pojoMembers[requiredNullableStringListAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Optional<List<String>> getRequiredNullableStringListAllOf() {
   return mapList(
       requiredNullableStringListAllOf,
@@ -4322,7 +3896,6 @@ public Optional<List<String>> getRequiredNullableStringListAllOf() {
 /**
  * List
  */
-@JsonIgnore
 public List<String> getRequiredNullableStringListAllOfOr(List<String> defaultValue) {
   return this.requiredNullableStringListAllOf == null
       ? defaultValue
@@ -4339,22 +3912,13 @@ private Object getRequiredNullableStringListAllOfJson() {
 
 
 pojoMembers[requiredNullableStringListAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("requiredNullableStringListAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableStringListAnyOfJson() {
-  return isRequiredNullableStringListAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringListAnyOf) : null;
-}
 
-@JsonIgnore
 Optional<List<String>> getRequiredNullableStringListAnyOf() {
   return mapList(
       requiredNullableStringListAnyOf,
@@ -4365,7 +3929,12 @@ Optional<List<String>> getRequiredNullableStringListAnyOf() {
   );
 }
 
-@JsonIgnore
+@JsonProperty("requiredNullableStringListAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableStringListAnyOfJson() {
+  return isRequiredNullableStringListAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringListAnyOf) : null;
+}
+
 boolean getIsRequiredNullableStringListAnyOfPresent() {
   return isRequiredNullableStringListAnyOfPresent;
 }
@@ -4374,7 +3943,6 @@ boolean getIsRequiredNullableStringListAnyOfPresent() {
 
 
 pojoMembers[requiredNullableStringList]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -4385,12 +3953,10 @@ javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Optional<List<String>> getRequiredNullableStringList() {
   return mapList(
       requiredNullableStringList,
@@ -4404,7 +3970,6 @@ public Optional<List<String>> getRequiredNullableStringList() {
 /**
  * List
  */
-@JsonIgnore
 public List<String> getRequiredNullableStringListOr(List<String> defaultValue) {
   return this.requiredNullableStringList == null
       ? defaultValue
@@ -4417,14 +3982,12 @@ private Object getRequiredNullableStringListJson() {
   return isRequiredNullableStringListPresent ? new JacksonNullContainer<>(requiredNullableStringList) : null;
 }
 
-@JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getRequiredNullableStringListRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getRequiredNullableStringList_() {
   return requiredNullableStringList;
 }
 
 @AssertTrue(message = "requiredNullableStringList is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableStringListPresent() {
   return isRequiredNullableStringListPresent;
 }
@@ -4435,19 +3998,16 @@ private boolean isRequiredNullableStringListPresent() {
 pojoMembers[requiredNullableStringList_FullyMappedAllOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Optional<CustomList<CustomString>> getRequiredNullableStringList_FullyMappedAllOf() {
   return mapList(
       requiredNullableStringList_FullyMappedAllOf,
@@ -4461,7 +4021,6 @@ public Optional<CustomList<CustomString>> getRequiredNullableStringList_FullyMap
 /**
  * List
  */
-@JsonIgnore
 public CustomList<CustomString> getRequiredNullableStringList_FullyMappedAllOfOr(CustomList<CustomString> defaultValue) {
   return this.requiredNullableStringList_FullyMappedAllOf == null
       ? defaultValue
@@ -4486,22 +4045,13 @@ private Object getRequiredNullableStringList_FullyMappedAllOfJson() {
 pojoMembers[requiredNullableStringList_FullyMappedAnyOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.List
 java.util.Optional
 java.util.function.Function
-.
-.
-@JsonProperty("requiredNullableStringList_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private Object getRequiredNullableStringList_FullyMappedAnyOfJson() {
-  return isRequiredNullableStringList_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringList_FullyMappedAnyOf) : null;
-}
 
-@JsonIgnore
 Optional<CustomList<CustomString>> getRequiredNullableStringList_FullyMappedAnyOf() {
   return mapList(
       requiredNullableStringList_FullyMappedAnyOf,
@@ -4512,7 +4062,12 @@ Optional<CustomList<CustomString>> getRequiredNullableStringList_FullyMappedAnyO
   );
 }
 
-@JsonIgnore
+@JsonProperty("requiredNullableStringList_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private Object getRequiredNullableStringList_FullyMappedAnyOfJson() {
+  return isRequiredNullableStringList_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringList_FullyMappedAnyOf) : null;
+}
+
 boolean getIsRequiredNullableStringList_FullyMappedAnyOfPresent() {
   return isRequiredNullableStringList_FullyMappedAnyOfPresent;
 }
@@ -4523,7 +4078,6 @@ boolean getIsRequiredNullableStringList_FullyMappedAnyOfPresent() {
 pojoMembers[requiredNullableStringList_FullyMapped]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -4534,12 +4088,10 @@ javax.validation.constraints.AssertTrue
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public Optional<CustomList<CustomString>> getRequiredNullableStringList_FullyMapped() {
   return mapList(
       requiredNullableStringList_FullyMapped,
@@ -4553,7 +4105,6 @@ public Optional<CustomList<CustomString>> getRequiredNullableStringList_FullyMap
 /**
  * List
  */
-@JsonIgnore
 public CustomList<CustomString> getRequiredNullableStringList_FullyMappedOr(CustomList<CustomString> defaultValue) {
   return this.requiredNullableStringList_FullyMapped == null
       ? defaultValue
@@ -4572,14 +4123,12 @@ private Object getRequiredNullableStringList_FullyMappedJson() {
   return isRequiredNullableStringList_FullyMappedPresent ? new JacksonNullContainer<>(requiredNullableStringList_FullyMapped) : null;
 }
 
-@JsonIgnore
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getRequiredNullableStringList_FullyMappedRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getRequiredNullableStringList_FullyMapped_() {
   return requiredNullableStringList_FullyMapped;
 }
 
 @AssertTrue(message = "requiredNullableStringList_FullyMapped is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableStringList_FullyMappedPresent() {
   return isRequiredNullableStringList_FullyMappedPresent;
 }
@@ -4588,17 +4137,14 @@ private boolean isRequiredNullableStringList_FullyMappedPresent() {
 
 
 pojoMembers[requiredNullableStringValAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
-.
-.
+
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public Optional<String> getRequiredNullableStringValAllOf() {
   return Optional.ofNullable(requiredNullableStringValAllOf);
 }
@@ -4606,7 +4152,6 @@ public Optional<String> getRequiredNullableStringValAllOf() {
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public String getRequiredNullableStringValAllOfOr(String defaultValue) {
   return this.requiredNullableStringValAllOf == null
       ? defaultValue
@@ -4623,25 +4168,21 @@ private Object getRequiredNullableStringValAllOfJson() {
 
 
 pojoMembers[requiredNullableStringValAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
-.
-.
+
+Optional<String> getRequiredNullableStringValAnyOf() {
+  return Optional.ofNullable(requiredNullableStringValAnyOf);
+}
+
 @JsonProperty("requiredNullableStringValAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getRequiredNullableStringValAnyOfJson() {
   return isRequiredNullableStringValAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringValAnyOf) : null;
 }
 
-@JsonIgnore
-Optional<String> getRequiredNullableStringValAnyOf() {
-  return Optional.ofNullable(requiredNullableStringValAnyOf);
-}
-
-@JsonIgnore
 boolean getIsRequiredNullableStringValAnyOfPresent() {
   return isRequiredNullableStringValAnyOfPresent;
 }
@@ -4650,7 +4191,6 @@ boolean getIsRequiredNullableStringValAnyOfPresent() {
 
 
 pojoMembers[requiredNullableStringVal]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -4661,7 +4201,6 @@ javax.validation.constraints.Pattern
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public Optional<String> getRequiredNullableStringVal() {
   return Optional.ofNullable(requiredNullableStringVal);
 }
@@ -4669,7 +4208,6 @@ public Optional<String> getRequiredNullableStringVal() {
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public String getRequiredNullableStringValOr(String defaultValue) {
   return this.requiredNullableStringVal == null
       ? defaultValue
@@ -4682,14 +4220,12 @@ private Object getRequiredNullableStringValJson() {
   return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getRequiredNullableStringValRaw() {
+private String getRequiredNullableStringVal_() {
   return requiredNullableStringVal;
 }
 
 @AssertTrue(message = "requiredNullableStringVal is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableStringValPresent() {
   return isRequiredNullableStringValPresent;
 }
@@ -4699,17 +4235,14 @@ private boolean isRequiredNullableStringValPresent() {
 
 pojoMembers[requiredNullableStringVal_FullyMappedAllOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
-.
-.
+
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public Optional<CustomString> getRequiredNullableStringVal_FullyMappedAllOf() {
   return Optional.ofNullable(requiredNullableStringVal_FullyMappedAllOf).map(value -> CustomString.fromString(value));
 }
@@ -4717,7 +4250,6 @@ public Optional<CustomString> getRequiredNullableStringVal_FullyMappedAllOf() {
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public CustomString getRequiredNullableStringVal_FullyMappedAllOfOr(CustomString defaultValue) {
   return this.requiredNullableStringVal_FullyMappedAllOf == null
       ? defaultValue
@@ -4735,25 +4267,21 @@ private Object getRequiredNullableStringVal_FullyMappedAllOfJson() {
 
 pojoMembers[requiredNullableStringVal_FullyMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
-.
-.
+
+Optional<CustomString> getRequiredNullableStringVal_FullyMappedAnyOf() {
+  return Optional.ofNullable(requiredNullableStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("requiredNullableStringVal_FullyMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getRequiredNullableStringVal_FullyMappedAnyOfJson() {
   return isRequiredNullableStringVal_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringVal_FullyMappedAnyOf) : null;
 }
 
-@JsonIgnore
-Optional<CustomString> getRequiredNullableStringVal_FullyMappedAnyOf() {
-  return Optional.ofNullable(requiredNullableStringVal_FullyMappedAnyOf).map(value -> CustomString.fromString(value));
-}
-
-@JsonIgnore
 boolean getIsRequiredNullableStringVal_FullyMappedAnyOfPresent() {
   return isRequiredNullableStringVal_FullyMappedAnyOfPresent;
 }
@@ -4763,7 +4291,6 @@ boolean getIsRequiredNullableStringVal_FullyMappedAnyOfPresent() {
 
 pojoMembers[requiredNullableStringVal_FullyMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -4774,7 +4301,6 @@ javax.validation.constraints.Pattern
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public Optional<CustomString> getRequiredNullableStringVal_FullyMapped() {
   return Optional.ofNullable(requiredNullableStringVal_FullyMapped).map(value -> CustomString.fromString(value));
 }
@@ -4782,7 +4308,6 @@ public Optional<CustomString> getRequiredNullableStringVal_FullyMapped() {
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public CustomString getRequiredNullableStringVal_FullyMappedOr(CustomString defaultValue) {
   return this.requiredNullableStringVal_FullyMapped == null
       ? defaultValue
@@ -4795,14 +4320,12 @@ private Object getRequiredNullableStringVal_FullyMappedJson() {
   return isRequiredNullableStringVal_FullyMappedPresent ? new JacksonNullContainer<>(requiredNullableStringVal_FullyMapped) : null;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getRequiredNullableStringVal_FullyMappedRaw() {
+private String getRequiredNullableStringVal_FullyMapped_() {
   return requiredNullableStringVal_FullyMapped;
 }
 
 @AssertTrue(message = "requiredNullableStringVal_FullyMapped is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableStringVal_FullyMappedPresent() {
   return isRequiredNullableStringVal_FullyMappedPresent;
 }
@@ -4811,17 +4334,14 @@ private boolean isRequiredNullableStringVal_FullyMappedPresent() {
 
 
 pojoMembers[requiredNullableStringVal_ListMappedAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
-.
-.
+
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public Optional<String> getRequiredNullableStringVal_ListMappedAllOf() {
   return Optional.ofNullable(requiredNullableStringVal_ListMappedAllOf);
 }
@@ -4829,7 +4349,6 @@ public Optional<String> getRequiredNullableStringVal_ListMappedAllOf() {
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public String getRequiredNullableStringVal_ListMappedAllOfOr(String defaultValue) {
   return this.requiredNullableStringVal_ListMappedAllOf == null
       ? defaultValue
@@ -4846,25 +4365,21 @@ private Object getRequiredNullableStringVal_ListMappedAllOfJson() {
 
 
 pojoMembers[requiredNullableStringVal_ListMappedAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
-.
-.
+
+Optional<String> getRequiredNullableStringVal_ListMappedAnyOf() {
+  return Optional.ofNullable(requiredNullableStringVal_ListMappedAnyOf);
+}
+
 @JsonProperty("requiredNullableStringVal_ListMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getRequiredNullableStringVal_ListMappedAnyOfJson() {
   return isRequiredNullableStringVal_ListMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringVal_ListMappedAnyOf) : null;
 }
 
-@JsonIgnore
-Optional<String> getRequiredNullableStringVal_ListMappedAnyOf() {
-  return Optional.ofNullable(requiredNullableStringVal_ListMappedAnyOf);
-}
-
-@JsonIgnore
 boolean getIsRequiredNullableStringVal_ListMappedAnyOfPresent() {
   return isRequiredNullableStringVal_ListMappedAnyOfPresent;
 }
@@ -4873,7 +4388,6 @@ boolean getIsRequiredNullableStringVal_ListMappedAnyOfPresent() {
 
 
 pojoMembers[requiredNullableStringVal_ListMapped]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -4884,7 +4398,6 @@ javax.validation.constraints.Pattern
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public Optional<String> getRequiredNullableStringVal_ListMapped() {
   return Optional.ofNullable(requiredNullableStringVal_ListMapped);
 }
@@ -4892,7 +4405,6 @@ public Optional<String> getRequiredNullableStringVal_ListMapped() {
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public String getRequiredNullableStringVal_ListMappedOr(String defaultValue) {
   return this.requiredNullableStringVal_ListMapped == null
       ? defaultValue
@@ -4905,14 +4417,12 @@ private Object getRequiredNullableStringVal_ListMappedJson() {
   return isRequiredNullableStringVal_ListMappedPresent ? new JacksonNullContainer<>(requiredNullableStringVal_ListMapped) : null;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getRequiredNullableStringVal_ListMappedRaw() {
+private String getRequiredNullableStringVal_ListMapped_() {
   return requiredNullableStringVal_ListMapped;
 }
 
 @AssertTrue(message = "requiredNullableStringVal_ListMapped is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableStringVal_ListMappedPresent() {
   return isRequiredNullableStringVal_ListMappedPresent;
 }
@@ -4922,17 +4432,14 @@ private boolean isRequiredNullableStringVal_ListMappedPresent() {
 
 pojoMembers[requiredNullableStringVal_StringMappedAllOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
-.
-.
+
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public Optional<CustomString> getRequiredNullableStringVal_StringMappedAllOf() {
   return Optional.ofNullable(requiredNullableStringVal_StringMappedAllOf).map(value -> CustomString.fromString(value));
 }
@@ -4940,7 +4447,6 @@ public Optional<CustomString> getRequiredNullableStringVal_StringMappedAllOf() {
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public CustomString getRequiredNullableStringVal_StringMappedAllOfOr(CustomString defaultValue) {
   return this.requiredNullableStringVal_StringMappedAllOf == null
       ? defaultValue
@@ -4958,25 +4464,21 @@ private Object getRequiredNullableStringVal_StringMappedAllOfJson() {
 
 pojoMembers[requiredNullableStringVal_StringMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 java.util.Optional
-.
-.
+
+Optional<CustomString> getRequiredNullableStringVal_StringMappedAnyOf() {
+  return Optional.ofNullable(requiredNullableStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
+}
+
 @JsonProperty("requiredNullableStringVal_StringMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getRequiredNullableStringVal_StringMappedAnyOfJson() {
   return isRequiredNullableStringVal_StringMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringVal_StringMappedAnyOf) : null;
 }
 
-@JsonIgnore
-Optional<CustomString> getRequiredNullableStringVal_StringMappedAnyOf() {
-  return Optional.ofNullable(requiredNullableStringVal_StringMappedAnyOf).map(value -> CustomString.fromString(value));
-}
-
-@JsonIgnore
 boolean getIsRequiredNullableStringVal_StringMappedAnyOfPresent() {
   return isRequiredNullableStringVal_StringMappedAnyOfPresent;
 }
@@ -4986,7 +4488,6 @@ boolean getIsRequiredNullableStringVal_StringMappedAnyOfPresent() {
 
 pojoMembers[requiredNullableStringVal_StringMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
@@ -4997,7 +4498,6 @@ javax.validation.constraints.Pattern
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public Optional<CustomString> getRequiredNullableStringVal_StringMapped() {
   return Optional.ofNullable(requiredNullableStringVal_StringMapped).map(value -> CustomString.fromString(value));
 }
@@ -5005,7 +4505,6 @@ public Optional<CustomString> getRequiredNullableStringVal_StringMapped() {
 /**
  * RequiredNullableStringVal
  */
-@JsonIgnore
 public CustomString getRequiredNullableStringVal_StringMappedOr(CustomString defaultValue) {
   return this.requiredNullableStringVal_StringMapped == null
       ? defaultValue
@@ -5018,14 +4517,12 @@ private Object getRequiredNullableStringVal_StringMappedJson() {
   return isRequiredNullableStringVal_StringMappedPresent ? new JacksonNullContainer<>(requiredNullableStringVal_StringMapped) : null;
 }
 
-@JsonIgnore
 @Pattern(regexp="Hello")
-private String getRequiredNullableStringVal_StringMappedRaw() {
+private String getRequiredNullableStringVal_StringMapped_() {
   return requiredNullableStringVal_StringMapped;
 }
 
 @AssertTrue(message = "requiredNullableStringVal_StringMapped is required but it is not present")
-@JsonIgnore
 private boolean isRequiredNullableStringVal_StringMappedPresent() {
   return isRequiredNullableStringVal_StringMappedPresent;
 }
@@ -5034,16 +4531,13 @@ private boolean isRequiredNullableStringVal_StringMappedPresent() {
 
 
 pojoMembers[requiredStringListAllOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public List<String> getRequiredStringListAllOf() {
   return requiredStringListAllOf;
 }
@@ -5058,20 +4552,17 @@ private List<String> getRequiredStringListAllOfJson() {
 
 
 pojoMembers[requiredStringListAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
-.
-.
-@JsonProperty("requiredStringListAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredStringListAnyOfJson() {
+
+List<String> getRequiredStringListAnyOf() {
   return requiredStringListAnyOf;
 }
 
-@JsonIgnore
-List<String> getRequiredStringListAnyOf() {
+@JsonProperty("requiredStringListAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredStringListAnyOfJson() {
   return requiredStringListAnyOf;
 }
 
@@ -5079,20 +4570,29 @@ List<String> getRequiredStringListAnyOf() {
 
 
 pojoMembers[requiredStringList]=[
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * List
  */
+public List<String> getRequiredStringList() {
+  return requiredStringList;
+}
+
+@JsonProperty("requiredStringList")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredStringListJson() {
+  return requiredStringList;
+}
+
 @NotNull
 @Size(min = 1)
-@JsonProperty("requiredStringList")
-public List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList() {
+private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList_() {
   return requiredStringList;
 }
 
@@ -5102,17 +4602,14 @@ public List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList() {
 pojoMembers[requiredStringList_FullyMappedAllOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.function.Function
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public CustomList<CustomString> getRequiredStringList_FullyMappedAllOf() {
   return mapList(
       requiredStringList_FullyMappedAllOf,
@@ -5135,20 +4632,11 @@ private List<String> getRequiredStringList_FullyMappedAllOfJson() {
 pojoMembers[requiredStringList_FullyMappedAnyOf]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
 java.util.function.Function
-.
-.
-@JsonProperty("requiredStringList_FullyMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private List<String> getRequiredStringList_FullyMappedAnyOfJson() {
-  return requiredStringList_FullyMappedAnyOf;
-}
 
-@JsonIgnore
 CustomList<CustomString> getRequiredStringList_FullyMappedAnyOf() {
   return mapList(
       requiredStringList_FullyMappedAnyOf,
@@ -5159,13 +4647,18 @@ CustomList<CustomString> getRequiredStringList_FullyMappedAnyOf() {
   );
 }
 
+@JsonProperty("requiredStringList_FullyMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private List<String> getRequiredStringList_FullyMappedAnyOfJson() {
+  return requiredStringList_FullyMappedAnyOf;
+}
+
 ]
 
 
 pojoMembers[requiredStringList_FullyMapped]=[
 com.custom.CustomList
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 java.util.List
@@ -5173,12 +4666,10 @@ java.util.function.Function
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
 javax.validation.constraints.Size
-.
-.
+
 /**
  * List
  */
-@JsonIgnore
 public CustomList<CustomString> getRequiredStringList_FullyMapped() {
   return mapList(
       requiredStringList_FullyMapped,
@@ -5195,77 +4686,29 @@ private List<String> getRequiredStringList_FullyMappedJson() {
   return requiredStringList_FullyMapped;
 }
 
-@JsonIgnore
 @NotNull
 @Size(min = 1)
-private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList_FullyMappedRaw() {
+private List<@NotNull @Pattern(regexp="Hello") String> getRequiredStringList_FullyMapped_() {
   return requiredStringList_FullyMapped;
 }
 
 ]
 
 
-pojoMembers[requiredStringValAllOf]=[
-.
-.
-
-/**
- * RequiredStringVal
- */
-public String getRequiredStringValAllOf() {
-  return requiredStringValAllOf;
-}
-
-]
-
-
-pojoMembers[requiredStringValAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
+pojoMembers[stringValAllOf]=[
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
-.
-.
-@JsonProperty("requiredStringValAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private String getRequiredStringValAnyOfJson() {
-  return requiredStringValAnyOf;
-}
 
-@JsonIgnore
-String getRequiredStringValAnyOf() {
-  return requiredStringValAnyOf;
-}
-
-]
-
-
-pojoMembers[requiredStringVal]=[
-com.fasterxml.jackson.annotation.JsonProperty
-javax.validation.constraints.NotNull
-javax.validation.constraints.Pattern
-
-/**
- * RequiredStringVal
- */
-@NotNull
-@Pattern(regexp="Hello")
-@JsonProperty("requiredStringVal")
-public String getRequiredStringVal() {
-  return requiredStringVal;
-}
-
-]
-
-
-pojoMembers[stringValAllOf]=[
-com.fasterxml.jackson.annotation.JsonProperty
-.
-.
 /**
  * stringVal
  */
-@JsonProperty("stringValAllOf")
 public String getStringValAllOf() {
+  return stringValAllOf;
+}
+
+@JsonProperty("stringValAllOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringValAllOfJson() {
   return stringValAllOf;
 }
 
@@ -5273,19 +4716,16 @@ public String getStringValAllOf() {
 
 
 pojoMembers[stringValAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
-.
-.
-@JsonProperty("stringValAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private String getStringValAnyOfJson() {
+
+String getStringValAnyOf() {
   return stringValAnyOf;
 }
 
-@JsonIgnore
-String getStringValAnyOf() {
+@JsonProperty("stringValAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringValAnyOfJson() {
   return stringValAnyOf;
 }
 
@@ -5293,18 +4733,27 @@ String getStringValAnyOf() {
 
 
 pojoMembers[stringVal]=[
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * stringVal
  */
+public String getStringVal() {
+  return stringVal;
+}
+
+@JsonProperty("stringVal")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringValJson() {
+  return stringVal;
+}
+
 @NotNull
 @Pattern(regexp="Hello")
-@JsonProperty("stringVal")
-public String getStringVal() {
+private String getStringVal_() {
   return stringVal;
 }
 
@@ -5313,15 +4762,20 @@ public String getStringVal() {
 
 pojoMembers[stringVal_FullyMappedAllOf]=[
 com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
-.
-.
+
 /**
  * stringVal
  */
-@JsonProperty("stringVal_FullyMappedAllOf")
 public CustomString getStringVal_FullyMappedAllOf() {
   return stringVal_FullyMappedAllOf != null ? CustomString.fromString(stringVal_FullyMappedAllOf) : null;
+}
+
+@JsonProperty("stringVal_FullyMappedAllOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_FullyMappedAllOfJson() {
+  return stringVal_FullyMappedAllOf;
 }
 
 ]
@@ -5329,20 +4783,17 @@ public CustomString getStringVal_FullyMappedAllOf() {
 
 pojoMembers[stringVal_FullyMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
-.
-.
+
+CustomString getStringVal_FullyMappedAnyOf() {
+  return stringVal_FullyMappedAnyOf != null ? CustomString.fromString(stringVal_FullyMappedAnyOf) : null;
+}
+
 @JsonProperty("stringVal_FullyMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getStringVal_FullyMappedAnyOfJson() {
   return stringVal_FullyMappedAnyOf;
-}
-
-@JsonIgnore
-CustomString getStringVal_FullyMappedAnyOf() {
-  return stringVal_FullyMappedAnyOf != null ? CustomString.fromString(stringVal_FullyMappedAnyOf) : null;
 }
 
 ]
@@ -5350,17 +4801,14 @@ CustomString getStringVal_FullyMappedAnyOf() {
 
 pojoMembers[stringVal_FullyMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * stringVal
  */
-@JsonIgnore
 public CustomString getStringVal_FullyMapped() {
   return stringVal_FullyMapped != null ? CustomString.fromString(stringVal_FullyMapped) : null;
 }
@@ -5371,10 +4819,9 @@ private String getStringVal_FullyMappedJson() {
   return stringVal_FullyMapped;
 }
 
-@JsonIgnore
 @NotNull
 @Pattern(regexp="Hello")
-private String getStringVal_FullyMappedRaw() {
+private String getStringVal_FullyMapped_() {
   return stringVal_FullyMapped;
 }
 
@@ -5382,14 +4829,19 @@ private String getStringVal_FullyMappedRaw() {
 
 
 pojoMembers[stringVal_ListMappedAllOf]=[
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
-.
-.
+
 /**
  * stringVal
  */
-@JsonProperty("stringVal_ListMappedAllOf")
 public String getStringVal_ListMappedAllOf() {
+  return stringVal_ListMappedAllOf;
+}
+
+@JsonProperty("stringVal_ListMappedAllOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_ListMappedAllOfJson() {
   return stringVal_ListMappedAllOf;
 }
 
@@ -5397,19 +4849,16 @@ public String getStringVal_ListMappedAllOf() {
 
 
 pojoMembers[stringVal_ListMappedAnyOf]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
-.
-.
-@JsonProperty("stringVal_ListMappedAnyOf")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-private String getStringVal_ListMappedAnyOfJson() {
+
+String getStringVal_ListMappedAnyOf() {
   return stringVal_ListMappedAnyOf;
 }
 
-@JsonIgnore
-String getStringVal_ListMappedAnyOf() {
+@JsonProperty("stringVal_ListMappedAnyOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_ListMappedAnyOfJson() {
   return stringVal_ListMappedAnyOf;
 }
 
@@ -5417,18 +4866,27 @@ String getStringVal_ListMappedAnyOf() {
 
 
 pojoMembers[stringVal_ListMapped]=[
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * stringVal
  */
+public String getStringVal_ListMapped() {
+  return stringVal_ListMapped;
+}
+
+@JsonProperty("stringVal-ListMapped")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_ListMappedJson() {
+  return stringVal_ListMapped;
+}
+
 @NotNull
 @Pattern(regexp="Hello")
-@JsonProperty("stringVal-ListMapped")
-public String getStringVal_ListMapped() {
+private String getStringVal_ListMapped_() {
   return stringVal_ListMapped;
 }
 
@@ -5437,15 +4895,20 @@ public String getStringVal_ListMapped() {
 
 pojoMembers[stringVal_StringMappedAllOf]=[
 com.custom.CustomString
+com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
-.
-.
+
 /**
  * stringVal
  */
-@JsonProperty("stringVal_StringMappedAllOf")
 public CustomString getStringVal_StringMappedAllOf() {
   return stringVal_StringMappedAllOf != null ? CustomString.fromString(stringVal_StringMappedAllOf) : null;
+}
+
+@JsonProperty("stringVal_StringMappedAllOf")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+private String getStringVal_StringMappedAllOfJson() {
+  return stringVal_StringMappedAllOf;
 }
 
 ]
@@ -5453,20 +4916,17 @@ public CustomString getStringVal_StringMappedAllOf() {
 
 pojoMembers[stringVal_StringMappedAnyOf]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
-.
-.
+
+CustomString getStringVal_StringMappedAnyOf() {
+  return stringVal_StringMappedAnyOf != null ? CustomString.fromString(stringVal_StringMappedAnyOf) : null;
+}
+
 @JsonProperty("stringVal_StringMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getStringVal_StringMappedAnyOfJson() {
   return stringVal_StringMappedAnyOf;
-}
-
-@JsonIgnore
-CustomString getStringVal_StringMappedAnyOf() {
-  return stringVal_StringMappedAnyOf != null ? CustomString.fromString(stringVal_StringMappedAnyOf) : null;
 }
 
 ]
@@ -5474,17 +4934,14 @@ CustomString getStringVal_StringMappedAnyOf() {
 
 pojoMembers[stringVal_StringMapped]=[
 com.custom.CustomString
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 javax.validation.constraints.NotNull
 javax.validation.constraints.Pattern
-.
-.
+
 /**
  * stringVal
  */
-@JsonIgnore
 public CustomString getStringVal_StringMapped() {
   return stringVal_StringMapped != null ? CustomString.fromString(stringVal_StringMapped) : null;
 }
@@ -5495,10 +4952,9 @@ private String getStringVal_StringMappedJson() {
   return stringVal_StringMapped;
 }
 
-@JsonIgnore
 @NotNull
 @Pattern(regexp="Hello")
-private String getStringVal_StringMappedRaw() {
+private String getStringVal_StringMapped_() {
   return stringVal_StringMapped;
 }
 
@@ -5506,17 +4962,14 @@ private String getStringVal_StringMappedRaw() {
 
 
 pojoMembers[switch_]=[
-com.fasterxml.jackson.annotation.JsonIgnore
 com.fasterxml.jackson.annotation.JsonInclude
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.JacksonNullContainer
 com.github.muehmar.openapi.util.Tristate
-.
-.
+
 /**
  * Switch
  */
-@JsonIgnore
 public Tristate<String> getSwitch() {
   return Tristate.ofNullableAndNullFlag(switch_, isSwitchNull);
 }
@@ -5527,8 +4980,7 @@ private Object getSwitchJson() {
   return isSwitchNull ? new JacksonNullContainer<>(switch_) : switch_;
 }
 
-@JsonIgnore
-private String getSwitchRaw() {
+private String getSwitch_() {
   return switch_;
 }
 

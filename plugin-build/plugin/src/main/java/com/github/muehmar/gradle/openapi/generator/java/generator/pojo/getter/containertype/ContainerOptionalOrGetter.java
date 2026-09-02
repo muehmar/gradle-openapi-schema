@@ -2,11 +2,10 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.c
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.ListMemberMappingWriterBuilder.fullListMemberMappingWriterBuilder;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.mapmapping.MapMemberMappingWriterBuilder.fullMapMemberMappingWriterBuilder;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterGeneratorSettings;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.AccessorProfile.Visibility;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -17,11 +16,9 @@ import io.github.muehmar.codegenerator.writer.Writer;
 public class ContainerOptionalOrGetter {
   private ContainerOptionalOrGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> containerOptionalOrGetterGenerator(
-      GetterGeneratorSettings generatorSettings) {
+  public static Generator<JavaPojoMember, PojoSettings> containerOptionalOrGetterGenerator() {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(generatorSettings.javaDocGenerator())
-        .append(jsonIgnore())
+        .append(Visibility.PUBLIC.javaDocGenerator())
         .append(method());
   }
 
@@ -29,9 +26,9 @@ public class ContainerOptionalOrGetter {
     return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
         .modifiers(PUBLIC)
         .noGenericTypes()
-        .returnType(ContainerOptionalOrGetter::getReturnType)
+        .returnType(ContainerRendering::returnType)
         .methodName(f -> String.format("%sOr", f.getGetterName()))
-        .singleArgument(f -> argument(getReturnType(f), "defaultValue"))
+        .singleArgument(f -> argument(ContainerRendering.returnType(f), "defaultValue"))
         .doesNotThrow()
         .content(methodContent())
         .build()
@@ -47,13 +44,6 @@ public class ContainerOptionalOrGetter {
           .println("? defaultValue")
           .append(2, memberMapWriter);
     };
-  }
-
-  private static Object getReturnType(JavaPojoMember member) {
-    return member
-        .getJavaType()
-        .getWriteableParameterizedClassName()
-        .asStringWrappingNullableValueType();
   }
 
   private static Writer methodWriter(JavaPojoMember member) {

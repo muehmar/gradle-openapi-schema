@@ -1,7 +1,5 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder;
 
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
-import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ONE_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.util.Booleans.not;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.Generator.newLine;
@@ -11,6 +9,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.AccessorProfile;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversionRenderer;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
@@ -236,16 +235,9 @@ public class DtoSetterGenerator {
     }
 
     String setterCondition() {
-      if (member.getType().equals(ONE_OF_MEMBER) || member.getType().equals(ANY_OF_MEMBER)) {
-        if (member.isRequiredAndNullable()) {
-          return String.format(
-              "if (dto.%s()) ", member.getIsPresentFlagName().prefixedMethodName("get"));
-        } else if (member.isOptionalAndNotNullable()) {
-          return String.format(
-              "if (dto.%s()) ", member.getIsNotNullFlagName().prefixedMethodName("get"));
-        }
-      }
-      return "";
+      return AccessorProfile.of(member).hasReadableFlagAccessor()
+          ? String.format("if (dto.%s()) ", member.getFlagGetterName())
+          : "";
     }
 
     private boolean isNotDiscriminatorAndNotNullableContainerValueMember() {

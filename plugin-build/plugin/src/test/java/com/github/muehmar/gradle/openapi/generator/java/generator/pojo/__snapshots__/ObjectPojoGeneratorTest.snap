@@ -3,7 +3,8 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
@@ -25,6 +26,12 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
  * person
  */
 @JsonDeserialize(builder = PersonDto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class PersonDto {
   private final String requiredStringVal;
   private final LocalDate birthdate;
@@ -46,10 +53,19 @@ public class PersonDto {
   /**
    * RequiredStringVal
    */
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringValJson() {
+    return requiredStringVal;
+  }
+
   @NotNull
   @Pattern(regexp="Hello")
-  @JsonProperty("requiredStringVal")
-  public String getRequiredStringVal() {
+  private String getRequiredStringVal_() {
     return requiredStringVal;
   }
 .
@@ -57,8 +73,13 @@ public class PersonDto {
   /**
    * Birthdate
    */
-  @JsonProperty("birthdate")
   public LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdateJson() {
     return birthdate;
   }
 .
@@ -66,18 +87,21 @@ public class PersonDto {
   /**
    * Username
    */
-  @JsonProperty("username")
   public String getUsername() {
     return username;
   }
 
-  @JsonIgnore
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsernameJson() {
+    return username;
+  }
+
   @Valid
   public AdminDto getAdminDto() {
     return asAdminDto();
   }
 
-  @JsonIgnore
   @Valid
   public UserDto getUserDto() {
     return asUserDto();
@@ -89,7 +113,6 @@ public class PersonDto {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -114,7 +137,6 @@ public class PersonDto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       (requiredStringVal != null ? 1 : 0) +
@@ -255,6 +277,12 @@ public class PersonDto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -274,7 +302,6 @@ public class PersonDto {
     /**
      * RequiredStringVal
      */
-    @JsonIgnore
     private Builder setRequiredStringVal(String requiredStringVal) {
       this.requiredStringVal = requiredStringVal;
       return this;
@@ -289,7 +316,6 @@ public class PersonDto {
     /**
      * Birthdate
      */
-    @JsonIgnore
     private Builder setBirthdate(LocalDate birthdate) {
       this.birthdate = birthdate;
       return this;
@@ -304,7 +330,6 @@ public class PersonDto {
     /**
      * Username
      */
-    @JsonIgnore
     private Builder setUsername(String username) {
       this.username = username;
       return this;
@@ -594,7 +619,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
@@ -620,6 +645,12 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
  * person
  */
 @JsonDeserialize(builder = PersonDto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class PersonDto {
   private final String requiredStringVal;
   private final LocalDate birthdate;
@@ -641,34 +672,41 @@ public class PersonDto {
   /**
    * RequiredStringVal
    */
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringValJson() {
+    return requiredStringVal;
+  }
+
   @NotNull
   @Pattern(regexp="Hello")
-  @JsonProperty("requiredStringVal")
-  public String getRequiredStringVal() {
+  private String getRequiredStringVal_() {
     return requiredStringVal;
   }
 .
 .
+  LocalDate getBirthdate() {
+    return birthdate;
+  }
+
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private LocalDate getBirthdateJson() {
     return birthdate;
   }
-
-  @JsonIgnore
-  LocalDate getBirthdate() {
-    return birthdate;
-  }
 .
 .
-  @JsonProperty("username")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsernameJson() {
+  String getUsername() {
     return username;
   }
 
-  @JsonIgnore
-  String getUsername() {
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsernameJson() {
     return username;
   }
 
@@ -678,7 +716,6 @@ public class PersonDto {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -704,7 +741,6 @@ public class PersonDto {
    * Returns {@link AdminDto} of the anyOf composition in case it is valid against
    * the schema Admin wrapped in an {@link Optional}, empty otherwise.
    */
-  @JsonIgnore
   public Optional<AdminDto> getAdminDto() {
     return this.<Optional<AdminDto>>foldAnyOf(Optional::of, ignore -> Optional.empty()).stream().findFirst().flatMap(Function.identity());
   }
@@ -713,7 +749,6 @@ public class PersonDto {
    * Returns {@link UserDto} of the anyOf composition in case it is valid against the
    * schema User wrapped in an {@link Optional}, empty otherwise.
    */
-  @JsonIgnore
   public Optional<UserDto> getUserDto() {
     return this.<Optional<UserDto>>foldAnyOf(ignore -> Optional.empty(), Optional::of).stream().findFirst().flatMap(Function.identity());
   }
@@ -721,7 +756,6 @@ public class PersonDto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       (requiredStringVal != null ? 1 : 0) +
@@ -799,7 +833,6 @@ public class PersonDto {
   }
 
   @Valid
-  @JsonIgnore
   private Map<String, Object> getInvalidAnyOf() {
     final Map<String, Object> dtos = new HashMap<>();
     if(getAnyOfValidCount() == 0) {
@@ -824,13 +857,11 @@ public class PersonDto {
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [Admin, User]")
-  @JsonIgnore
   private boolean isValidAgainstNoAnyOfSchema() {
     return getAnyOfValidCount() == 0;
   }
 
   @Valid
-  @JsonIgnore
   private Object getAnyOf() {
     if (getAnyOfValidCount() == 0) {
       return null;
@@ -902,6 +933,12 @@ public class PersonDto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -921,7 +958,6 @@ public class PersonDto {
     /**
      * RequiredStringVal
      */
-    @JsonIgnore
     private Builder setRequiredStringVal(String requiredStringVal) {
       this.requiredStringVal = requiredStringVal;
       return this;
@@ -936,7 +972,6 @@ public class PersonDto {
     /**
      * Birthdate
      */
-    @JsonIgnore
     private Builder setBirthdate(LocalDate birthdate) {
       this.birthdate = birthdate;
       return this;
@@ -951,7 +986,6 @@ public class PersonDto {
     /**
      * Username
      */
-    @JsonIgnore
     private Builder setUsername(String username) {
       this.username = username;
       return this;
@@ -1249,7 +1283,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
 import java.util.HashMap;
@@ -1264,6 +1298,12 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
@@ -1283,7 +1323,6 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<AdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> new AdditionalProperty<>(entry.getKey(), entry.getValue()))
@@ -1301,7 +1340,6 @@ public class ObjectPojo1Dto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       additionalProperties.size();
@@ -1353,6 +1391,12 @@ public class ObjectPojo1Dto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -1554,9 +1598,13 @@ public class UserDto {
   /**
    * ID of this user
    */
+  public Long getId() {
+    return id;
+  }
+
   @NotNull
   @Max(value = 50L)
-  public Long getId() {
+  private Long getId_() {
     return id;
   }
 .
@@ -1564,9 +1612,13 @@ public class UserDto {
   /**
    * Name of this user
    */
+  public String getName() {
+    return name;
+  }
+
   @NotNull
   @Size(min = 10, max = 15)
-  public String getName() {
+  private String getName_() {
     return name;
   }
 .
@@ -1574,9 +1626,13 @@ public class UserDto {
   /**
    * Lastname of this user
    */
+  public String getLastName() {
+    return lastName;
+  }
+
   @NotNull
   @Size(min = 10)
-  public String getLastName() {
+  private String getLastName_() {
     return lastName;
   }
 .
@@ -1584,9 +1640,13 @@ public class UserDto {
   /**
    * Nickname of this user
    */
+  public String getNickName() {
+    return nickName;
+  }
+
   @NotNull
   @Size(max = 50)
-  public String getNickName() {
+  private String getNickName_() {
     return nickName;
   }
 .
@@ -1594,9 +1654,13 @@ public class UserDto {
   /**
    * Email of this user
    */
+  public String getEmail() {
+    return email;
+  }
+
   @NotNull
   @Email
-  public String getEmail() {
+  private String getEmail_() {
     return email;
   }
 .
@@ -1604,10 +1668,14 @@ public class UserDto {
   /**
    * Height of this user
    */
+  public Double getHeight() {
+    return height;
+  }
+
   @NotNull
   @DecimalMin(value = "120.0", inclusive = true)
   @DecimalMax(value = "199", inclusive = false)
-  public Double getHeight() {
+  private Double getHeight_() {
     return height;
   }
 .
@@ -1629,7 +1697,7 @@ public class UserDto {
   }
 
   @Min(value = 5L)
-  private Long getLevelRaw() {
+  private Long getLevel_() {
     return level;
   }
 
@@ -1656,7 +1724,7 @@ public class UserDto {
   }
 
   @Pattern(regexp="^(\\d[A-Z]*)")
-  private String getUppercaseRaw() {
+  private String getUppercase_() {
     return uppercase;
   }
 
@@ -1682,7 +1750,7 @@ public class UserDto {
         : this.multipleOfValue;
   }
 
-  private Long getMultipleOfValueRaw() {
+  private Long getMultipleOfValue_() {
     return multipleOfValue;
   }
 
@@ -1709,7 +1777,7 @@ public class UserDto {
   }
 
   @Valid
-  private AnotherPojo getAnotherPojoRaw() {
+  private AnotherPojo getAnotherPojo_() {
     return anotherPojo;
   }
 
@@ -2547,9 +2615,13 @@ public class UserDto {
   /**
    * ID of this user
    */
+  public Long getId() {
+    return id;
+  }
+
   @NotNull
   @Max(value = 50L)
-  public Long getId() {
+  private Long getId_() {
     return id;
   }
 .
@@ -2557,9 +2629,13 @@ public class UserDto {
   /**
    * Name of this user
    */
+  public String getName() {
+    return name;
+  }
+
   @NotNull
   @Size(min = 10, max = 15)
-  public String getName() {
+  private String getName_() {
     return name;
   }
 .
@@ -2567,9 +2643,13 @@ public class UserDto {
   /**
    * Lastname of this user
    */
+  public String getLastName() {
+    return lastName;
+  }
+
   @NotNull
   @Size(min = 10)
-  public String getLastName() {
+  private String getLastName_() {
     return lastName;
   }
 .
@@ -2577,9 +2657,13 @@ public class UserDto {
   /**
    * Nickname of this user
    */
+  public String getNickName() {
+    return nickName;
+  }
+
   @NotNull
   @Size(max = 50)
-  public String getNickName() {
+  private String getNickName_() {
     return nickName;
   }
 .
@@ -2587,9 +2671,13 @@ public class UserDto {
   /**
    * Email of this user
    */
+  public String getEmail() {
+    return email;
+  }
+
   @NotNull
   @Email
-  public String getEmail() {
+  private String getEmail_() {
     return email;
   }
 .
@@ -2597,10 +2685,14 @@ public class UserDto {
   /**
    * Height of this user
    */
+  public Double getHeight() {
+    return height;
+  }
+
   @NotNull
   @DecimalMin(value = "120.0", inclusive = true)
   @DecimalMax(value = "199", inclusive = false)
-  public Double getHeight() {
+  private Double getHeight_() {
     return height;
   }
 .
@@ -2622,7 +2714,7 @@ public class UserDto {
   }
 
   @Min(value = 5L)
-  private Long getLevelRaw() {
+  private Long getLevel_() {
     return level;
   }
 
@@ -2649,7 +2741,7 @@ public class UserDto {
   }
 
   @Pattern(regexp="^(\\d[A-Z]*)")
-  private String getUppercaseRaw() {
+  private String getUppercase_() {
     return uppercase;
   }
 
@@ -2675,7 +2767,7 @@ public class UserDto {
         : this.multipleOfValue;
   }
 
-  private Long getMultipleOfValueRaw() {
+  private Long getMultipleOfValue_() {
     return multipleOfValue;
   }
 
@@ -2702,7 +2794,7 @@ public class UserDto {
   }
 
   @Valid
-  private AnotherPojo getAnotherPojoRaw() {
+  private AnotherPojo getAnotherPojo_() {
     return anotherPojo;
   }
 
@@ -3574,10 +3666,6 @@ public class UserDto {
         : LanguageEnum.fromValue(this.language);
   }
 
-  private String getLanguageRaw() {
-    return language;
-  }
-
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
@@ -4045,7 +4133,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
@@ -4063,6 +4151,12 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = Illegal_IdentifierDto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class Illegal_IdentifierDto {
   private final String switch_;
   private final boolean isSwitchNull;
@@ -4087,7 +4181,6 @@ public class Illegal_IdentifierDto {
   /**
    * Switch
    */
-  @JsonIgnore
   public Tristate<String> getSwitch() {
     return Tristate.ofNullableAndNullFlag(switch_, isSwitchNull);
   }
@@ -4098,8 +4191,7 @@ public class Illegal_IdentifierDto {
     return isSwitchNull ? new JacksonNullContainer<>(switch_) : switch_;
   }
 
-  @JsonIgnore
-  private String getSwitchRaw() {
+  private String getSwitch_() {
     return switch_;
   }
 .
@@ -4107,7 +4199,6 @@ public class Illegal_IdentifierDto {
   /**
    * Point
    */
-  @JsonIgnore
   public Tristate<String> getPoint_() {
     return Tristate.ofNullableAndNullFlag(point_, isPoint_Null);
   }
@@ -4118,8 +4209,7 @@ public class Illegal_IdentifierDto {
     return isPoint_Null ? new JacksonNullContainer<>(point_) : point_;
   }
 
-  @JsonIgnore
-  private String getPoint_Raw() {
+  private String getPoint__() {
     return point_;
   }
 
@@ -4129,7 +4219,6 @@ public class Illegal_IdentifierDto {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -4154,7 +4243,6 @@ public class Illegal_IdentifierDto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       ((isSwitchNull || switch_ != null) ? 1 : 0) +
@@ -4285,6 +4373,12 @@ public class Illegal_IdentifierDto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -4306,7 +4400,6 @@ public class Illegal_IdentifierDto {
     /**
      * Switch
      */
-    @JsonIgnore
     public Builder setSwitch(String switch_) {
       this.switch_ = switch_;
       this.isSwitchNull = switch_ == null;
@@ -4316,7 +4409,6 @@ public class Illegal_IdentifierDto {
     /**
      * Switch
      */
-    @JsonIgnore
     public Builder setSwitch(Tristate<String> switch_) {
       this.switch_ = switch_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isSwitchNull = switch_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -4333,7 +4425,6 @@ public class Illegal_IdentifierDto {
     /**
      * Point
      */
-    @JsonIgnore
     public Builder setPoint_(String point_) {
       this.point_ = point_;
       this.isPoint_Null = point_ == null;
@@ -4343,7 +4434,6 @@ public class Illegal_IdentifierDto {
     /**
      * Point
      */
-    @JsonIgnore
     public Builder setPoint_(Tristate<String> point_) {
       this.point_ = point_.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isPoint_Null = point_.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -4585,8 +4675,8 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
@@ -4605,6 +4695,12 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
@@ -4617,6 +4713,12 @@ public class ObjectPojo1Dto {
   /**
    * Additional property enum
    */
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public enum ColorEnum {
     GREEN("green", ""),
     YELLOW("yellow", ""),
@@ -4681,7 +4783,6 @@ public class ObjectPojo1Dto {
     return props;
   }
 
-  @JsonIgnore
   public List<AdditionalProperty<ColorEnum>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .flatMap(
@@ -4717,7 +4818,6 @@ public class ObjectPojo1Dto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       additionalProperties.size();
@@ -4751,7 +4851,6 @@ public class ObjectPojo1Dto {
     }
   }
 
-  @JsonIgnore
   @AssertTrue(message = "Not all additional properties are instances of String")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
     return additionalProperties.values()
@@ -4783,6 +4882,12 @@ public class ObjectPojo1Dto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -4913,7 +5018,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
 import java.util.HashMap;
@@ -4930,6 +5035,12 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
@@ -4958,7 +5069,6 @@ public class ObjectPojo1Dto {
     return props;
   }
 
-  @JsonIgnore
   public List<AdditionalProperty<Integer>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .flatMap(
@@ -4993,7 +5103,6 @@ public class ObjectPojo1Dto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       additionalProperties.size();
@@ -5023,7 +5132,6 @@ public class ObjectPojo1Dto {
     }
   }
 
-  @JsonIgnore
   @AssertTrue(message = "Not all additional properties are instances of Integer")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
     return additionalProperties.values()
@@ -5055,6 +5163,12 @@ public class ObjectPojo1Dto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -5179,8 +5293,8 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -5202,6 +5316,12 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
  * wrapped to a new line.
  */
 @JsonDeserialize(builder = UserDto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class UserDto {
   private final Long id;
   private final String name;
@@ -5226,6 +5346,12 @@ public class UserDto {
   /**
    * Preferred language of this user
    */
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public enum LanguageEnum {
     GERMAN("GERMAN", ""),
     ENGLISH("ENGLISH", "");
@@ -5273,8 +5399,13 @@ public class UserDto {
   /**
    * ID of this user
    */
-  @JsonProperty("id")
   public Long getId() {
+    return id;
+  }
+
+  @JsonProperty("id")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Long getIdJson() {
     return id;
   }
 .
@@ -5282,8 +5413,13 @@ public class UserDto {
   /**
    * Name of this user
    */
-  @JsonProperty("name")
   public String getName() {
+    return name;
+  }
+
+  @JsonProperty("name")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getNameJson() {
     return name;
   }
 .
@@ -5291,7 +5427,6 @@ public class UserDto {
   /**
    * Preferred language of this user
    */
-  @JsonIgnore
   public Optional<LanguageEnum> getLanguage() {
     return Optional.ofNullable(language).map(value -> LanguageEnum.fromValue(value));
   }
@@ -5299,7 +5434,6 @@ public class UserDto {
   /**
    * Preferred language of this user
    */
-  @JsonIgnore
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue
@@ -5312,17 +5446,11 @@ public class UserDto {
     return language;
   }
 
-  @JsonIgnore
-  private String getLanguageRaw() {
-    return language;
-  }
-
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -5347,7 +5475,6 @@ public class UserDto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       (id != null ? 1 : 0) +
@@ -5494,6 +5621,12 @@ public class UserDto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Long id;
@@ -5511,7 +5644,6 @@ public class UserDto {
     /**
      * ID of this user
      */
-    @JsonIgnore
     public Builder setId(Long id) {
       this.id = id;
       return this;
@@ -5526,7 +5658,6 @@ public class UserDto {
     /**
      * Name of this user
      */
-    @JsonIgnore
     public Builder setName(String name) {
       this.name = name;
       return this;
@@ -5542,7 +5673,6 @@ public class UserDto {
     /**
      * Preferred language of this user
      */
-    @JsonIgnore
     public Builder setLanguage(LanguageEnum language) {
       this.language = language != null ? language.getValue() : null;
       this.isLanguageNotNull = language != null;
@@ -5552,7 +5682,6 @@ public class UserDto {
     /**
      * Preferred language of this user
      */
-    @JsonIgnore
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.map(val -> val.getValue()).orElse(null);
       this.isLanguageNotNull = true;
@@ -5705,10 +5834,6 @@ public class UserDto {
     return this.language == null
         ? defaultValue
         : LanguageEnum.fromValue(this.language);
-  }
-
-  private String getLanguageRaw() {
-    return language;
   }
 
   private Map<String, Object> getAdditionalProperties_() {
@@ -5962,7 +6087,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.JacksonNullContainer;
@@ -5988,6 +6113,12 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
  * NecessityAndNullability
  */
 @JsonDeserialize(builder = NecessityAndNullabilityDto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class NecessityAndNullabilityDto {
   private final String requiredStringVal;
   private final String requiredNullableStringVal;
@@ -6084,10 +6215,19 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredStringVal
    */
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringValJson() {
+    return requiredStringVal;
+  }
+
   @NotNull
   @Pattern(regexp="Hello")
-  @JsonProperty("requiredStringVal")
-  public String getRequiredStringVal() {
+  private String getRequiredStringVal_() {
     return requiredStringVal;
   }
 .
@@ -6095,7 +6235,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableStringVal
    */
-  @JsonIgnore
   public Optional<String> getRequiredNullableStringVal() {
     return Optional.ofNullable(requiredNullableStringVal);
   }
@@ -6103,7 +6242,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableStringVal
    */
-  @JsonIgnore
   public String getRequiredNullableStringValOr(String defaultValue) {
     return this.requiredNullableStringVal == null
         ? defaultValue
@@ -6116,14 +6254,12 @@ public class NecessityAndNullabilityDto {
     return isRequiredNullableStringValPresent ? new JacksonNullContainer<>(requiredNullableStringVal) : null;
   }
 
-  @JsonIgnore
   @Pattern(regexp="Hello")
-  private String getRequiredNullableStringValRaw() {
+  private String getRequiredNullableStringVal_() {
     return requiredNullableStringVal;
   }
 
   @AssertTrue(message = "requiredNullableStringVal is required but it is not present")
-  @JsonIgnore
   private boolean isRequiredNullableStringValPresent() {
     return isRequiredNullableStringValPresent;
   }
@@ -6132,7 +6268,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalStringVal
    */
-  @JsonIgnore
   public Optional<String> getOptionalStringVal() {
     return Optional.ofNullable(optionalStringVal);
   }
@@ -6140,7 +6275,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalStringVal
    */
-  @JsonIgnore
   public String getOptionalStringValOr(String defaultValue) {
     return this.optionalStringVal == null
         ? defaultValue
@@ -6153,14 +6287,12 @@ public class NecessityAndNullabilityDto {
     return optionalStringVal;
   }
 
-  @JsonIgnore
   @Pattern(regexp="Hello")
-  private String getOptionalStringValRaw() {
+  private String getOptionalStringVal_() {
     return optionalStringVal;
   }
 
   @AssertTrue(message = "optionalStringVal is required to be non-null but is null")
-  @JsonIgnore
   private boolean isOptionalStringValNotNull() {
     return isOptionalStringValNotNull;
   }
@@ -6169,7 +6301,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalNullableStringVal
    */
-  @JsonIgnore
   public Tristate<String> getOptionalNullableStringVal() {
     return Tristate.ofNullableAndNullFlag(optionalNullableStringVal, isOptionalNullableStringValNull);
   }
@@ -6180,9 +6311,8 @@ public class NecessityAndNullabilityDto {
     return isOptionalNullableStringValNull ? new JacksonNullContainer<>(optionalNullableStringVal) : optionalNullableStringVal;
   }
 
-  @JsonIgnore
   @Pattern(regexp="Hello")
-  private String getOptionalNullableStringValRaw() {
+  private String getOptionalNullableStringVal_() {
     return optionalNullableStringVal;
   }
 .
@@ -6190,7 +6320,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredListWithNullableItems
    */
-  @JsonIgnore
   public List<Optional<String>> getRequiredListWithNullableItems() {
     return mapList(
         requiredListWithNullableItems,
@@ -6207,10 +6336,9 @@ public class NecessityAndNullabilityDto {
     return requiredListWithNullableItems;
   }
 
-  @JsonIgnore
   @NotNull
   @Size(min = 5, max = 10)
-  private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItemsRaw() {
+  private List<@Pattern(regexp="Hello") String> getRequiredListWithNullableItems_() {
     return requiredListWithNullableItems;
   }
 .
@@ -6218,7 +6346,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   public Optional<List<Optional<String>>> getRequiredNullableListWithNullableItems() {
     return mapList(
         requiredNullableListWithNullableItems,
@@ -6232,7 +6359,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   public List<Optional<String>> getRequiredNullableListWithNullableItemsOr(List<Optional<String>> defaultValue) {
     return this.requiredNullableListWithNullableItems == null
         ? defaultValue
@@ -6251,14 +6377,12 @@ public class NecessityAndNullabilityDto {
     return isRequiredNullableListWithNullableItemsPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems) : null;
   }
 
-  @JsonIgnore
   @Size(min = 5, max = 10)
-  private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItemsRaw() {
+  private List<@Pattern(regexp="Hello") String> getRequiredNullableListWithNullableItems_() {
     return requiredNullableListWithNullableItems;
   }
 
   @AssertTrue(message = "requiredNullableListWithNullableItems is required but it is not present")
-  @JsonIgnore
   private boolean isRequiredNullableListWithNullableItemsPresent() {
     return isRequiredNullableListWithNullableItemsPresent;
   }
@@ -6267,7 +6391,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public Optional<List<Optional<String>>> getOptionalListWithNullableItems() {
     return mapList(
         optionalListWithNullableItems,
@@ -6281,7 +6404,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public List<Optional<String>> getOptionalListWithNullableItemsOr(List<Optional<String>> defaultValue) {
     return this.optionalListWithNullableItems == null
         ? defaultValue
@@ -6300,14 +6422,12 @@ public class NecessityAndNullabilityDto {
     return optionalListWithNullableItems;
   }
 
-  @JsonIgnore
   @Size(min = 5, max = 10)
-  private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItemsRaw() {
+  private List<@Pattern(regexp="Hello") String> getOptionalListWithNullableItems_() {
     return optionalListWithNullableItems;
   }
 
   @AssertTrue(message = "optionalListWithNullableItems is required to be non-null but is null")
-  @JsonIgnore
   private boolean isOptionalListWithNullableItemsNotNull() {
     return isOptionalListWithNullableItemsNotNull;
   }
@@ -6316,7 +6436,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalNullableListWithNullableItems
    */
-  @JsonIgnore
   public Tristate<List<Optional<String>>> getOptionalNullableListWithNullableItems() {
     return mapList(
         optionalNullableListWithNullableItems,
@@ -6333,9 +6452,8 @@ public class NecessityAndNullabilityDto {
     return isOptionalNullableListWithNullableItemsNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems) : optionalNullableListWithNullableItems;
   }
 
-  @JsonIgnore
   @Size(min = 5, max = 10)
-  private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItemsRaw() {
+  private List<@Pattern(regexp="Hello") String> getOptionalNullableListWithNullableItems_() {
     return optionalNullableListWithNullableItems;
   }
 .
@@ -6343,9 +6461,18 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredMap
    */
-  @NotNull
+  public Map<String, String> getRequiredMap() {
+    return requiredMap;
+  }
+
   @JsonProperty("requiredMap")
-  public Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap() {
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Map<String, String> getRequiredMapJson() {
+    return requiredMap;
+  }
+
+  @NotNull
+  private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredMap_() {
     return requiredMap;
   }
 .
@@ -6353,7 +6480,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredMapWithNullableValues
    */
-  @JsonIgnore
   public Map<String, Optional<String>> getRequiredMapWithNullableValues() {
     return mapMap(
         requiredMapWithNullableValues,
@@ -6370,9 +6496,8 @@ public class NecessityAndNullabilityDto {
     return requiredMapWithNullableValues;
   }
 
-  @JsonIgnore
   @NotNull
-  private Map<String, @Pattern(regexp="Hello") String> getRequiredMapWithNullableValuesRaw() {
+  private Map<String, @Pattern(regexp="Hello") String> getRequiredMapWithNullableValues_() {
     return requiredMapWithNullableValues;
   }
 .
@@ -6380,7 +6505,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableMap
    */
-  @JsonIgnore
   public Optional<Map<String, String>> getRequiredNullableMap() {
     return mapMap(
         requiredNullableMap,
@@ -6394,7 +6518,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableMap
    */
-  @JsonIgnore
   public Map<String, String> getRequiredNullableMapOr(Map<String, String> defaultValue) {
     return this.requiredNullableMap == null
         ? defaultValue
@@ -6407,13 +6530,11 @@ public class NecessityAndNullabilityDto {
     return isRequiredNullableMapPresent ? new JacksonNullContainer<>(requiredNullableMap) : null;
   }
 
-  @JsonIgnore
-  private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMapRaw() {
+  private Map<String, @NotNull @Pattern(regexp="Hello") String> getRequiredNullableMap_() {
     return requiredNullableMap;
   }
 
   @AssertTrue(message = "requiredNullableMap is required but it is not present")
-  @JsonIgnore
   private boolean isRequiredNullableMapPresent() {
     return isRequiredNullableMapPresent;
   }
@@ -6422,7 +6543,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Optional<Map<String, Optional<String>>> getRequiredNullableMapWithNullableValues() {
     return mapMap(
         requiredNullableMapWithNullableValues,
@@ -6436,7 +6556,6 @@ public class NecessityAndNullabilityDto {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Map<String, Optional<String>> getRequiredNullableMapWithNullableValuesOr(Map<String, Optional<String>> defaultValue) {
     return this.requiredNullableMapWithNullableValues == null
         ? defaultValue
@@ -6455,13 +6574,11 @@ public class NecessityAndNullabilityDto {
     return isRequiredNullableMapWithNullableValuesPresent ? new JacksonNullContainer<>(requiredNullableMapWithNullableValues) : null;
   }
 
-  @JsonIgnore
-  private Map<String, @Pattern(regexp="Hello") String> getRequiredNullableMapWithNullableValuesRaw() {
+  private Map<String, @Pattern(regexp="Hello") String> getRequiredNullableMapWithNullableValues_() {
     return requiredNullableMapWithNullableValues;
   }
 
   @AssertTrue(message = "requiredNullableMapWithNullableValues is required but it is not present")
-  @JsonIgnore
   private boolean isRequiredNullableMapWithNullableValuesPresent() {
     return isRequiredNullableMapWithNullableValuesPresent;
   }
@@ -6470,7 +6587,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalMap
    */
-  @JsonIgnore
   public Optional<Map<String, String>> getOptionalMap() {
     return mapMap(
         optionalMap,
@@ -6484,7 +6600,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalMap
    */
-  @JsonIgnore
   public Map<String, String> getOptionalMapOr(Map<String, String> defaultValue) {
     return this.optionalMap == null
         ? defaultValue
@@ -6497,13 +6612,11 @@ public class NecessityAndNullabilityDto {
     return optionalMap;
   }
 
-  @JsonIgnore
-  private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMapRaw() {
+  private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalMap_() {
     return optionalMap;
   }
 
   @AssertTrue(message = "optionalMap is required to be non-null but is null")
-  @JsonIgnore
   private boolean isOptionalMapNotNull() {
     return isOptionalMapNotNull;
   }
@@ -6512,7 +6625,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Optional<Map<String, Optional<String>>> getOptionalMapWithNullableValues() {
     return mapMap(
         optionalMapWithNullableValues,
@@ -6526,7 +6638,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Map<String, Optional<String>> getOptionalMapWithNullableValuesOr(Map<String, Optional<String>> defaultValue) {
     return this.optionalMapWithNullableValues == null
         ? defaultValue
@@ -6545,13 +6656,11 @@ public class NecessityAndNullabilityDto {
     return optionalMapWithNullableValues;
   }
 
-  @JsonIgnore
-  private Map<String, @Pattern(regexp="Hello") String> getOptionalMapWithNullableValuesRaw() {
+  private Map<String, @Pattern(regexp="Hello") String> getOptionalMapWithNullableValues_() {
     return optionalMapWithNullableValues;
   }
 
   @AssertTrue(message = "optionalMapWithNullableValues is required to be non-null but is null")
-  @JsonIgnore
   private boolean isOptionalMapWithNullableValuesNotNull() {
     return isOptionalMapWithNullableValuesNotNull;
   }
@@ -6560,7 +6669,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalNullableMap
    */
-  @JsonIgnore
   public Tristate<Map<String, String>> getOptionalNullableMap() {
     return mapMap(
         optionalNullableMap,
@@ -6577,8 +6685,7 @@ public class NecessityAndNullabilityDto {
     return isOptionalNullableMapNull ? new JacksonNullContainer<>(optionalNullableMap) : optionalNullableMap;
   }
 
-  @JsonIgnore
-  private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMapRaw() {
+  private Map<String, @NotNull @Pattern(regexp="Hello") String> getOptionalNullableMap_() {
     return optionalNullableMap;
   }
 .
@@ -6586,7 +6693,6 @@ public class NecessityAndNullabilityDto {
   /**
    * OptionalNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Tristate<Map<String, Optional<String>>> getOptionalNullableMapWithNullableValues() {
     return mapMap(
         optionalNullableMapWithNullableValues,
@@ -6603,8 +6709,7 @@ public class NecessityAndNullabilityDto {
     return isOptionalNullableMapWithNullableValuesNull ? new JacksonNullContainer<>(optionalNullableMapWithNullableValues) : optionalNullableMapWithNullableValues;
   }
 
-  @JsonIgnore
-  private Map<String, @Pattern(regexp="Hello") String> getOptionalNullableMapWithNullableValuesRaw() {
+  private Map<String, @Pattern(regexp="Hello") String> getOptionalNullableMapWithNullableValues_() {
     return optionalNullableMapWithNullableValues;
   }
 
@@ -6614,7 +6719,6 @@ public class NecessityAndNullabilityDto {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -6639,7 +6743,6 @@ public class NecessityAndNullabilityDto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       (requiredStringVal != null ? 1 : 0) +
@@ -8514,6 +8617,12 @@ public class NecessityAndNullabilityDto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -8558,7 +8667,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredStringVal
      */
-    @JsonIgnore
     private Builder setRequiredStringVal(String requiredStringVal) {
       this.requiredStringVal = requiredStringVal;
       return this;
@@ -8574,7 +8682,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableStringVal
      */
-    @JsonIgnore
     private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
       this.requiredNullableStringVal = requiredNullableStringVal;
       this.isRequiredNullableStringValPresent = true;
@@ -8584,7 +8691,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableStringVal
      */
-    @JsonIgnore
     private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
       this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
       this.isRequiredNullableStringValPresent = true;
@@ -8601,7 +8707,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalStringVal
      */
-    @JsonIgnore
     public Builder setOptionalStringVal(String optionalStringVal) {
       this.optionalStringVal = optionalStringVal;
       this.isOptionalStringValNotNull = optionalStringVal != null;
@@ -8611,7 +8716,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalStringVal
      */
-    @JsonIgnore
     public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
       this.optionalStringVal = optionalStringVal.orElse(null);
       this.isOptionalStringValNotNull = true;
@@ -8628,7 +8732,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableStringVal
      */
-    @JsonIgnore
     public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
       this.optionalNullableStringVal = optionalNullableStringVal;
       this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
@@ -8638,7 +8741,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableStringVal
      */
-    @JsonIgnore
     public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
       this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -8654,7 +8756,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredListWithNullableItems
      */
-    @JsonIgnore
     private Builder setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
       this.requiredListWithNullableItems = requiredListWithNullableItems;
       return this;
@@ -8663,7 +8764,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredListWithNullableItems
      */
-    @JsonIgnore
     private Builder setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
       this.requiredListWithNullableItems =
           unmapList(
@@ -8686,7 +8786,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableListWithNullableItems
      */
-    @JsonIgnore
     private Builder setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
       this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
       this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -8696,7 +8795,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableListWithNullableItems
      */
-    @JsonIgnore
     private Builder setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
       this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.orElse(null);
       this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -8706,7 +8804,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableListWithNullableItems
      */
-    @JsonIgnore
     private Builder setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
       this.requiredNullableListWithNullableItems =
           unmapList(
@@ -8723,7 +8820,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableListWithNullableItems
      */
-    @JsonIgnore
     private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
       this.requiredNullableListWithNullableItems =
           unmapList(
@@ -8747,7 +8843,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalListWithNullableItems
      */
-    @JsonIgnore
     public Builder setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
       this.optionalListWithNullableItems = optionalListWithNullableItems;
       this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
@@ -8757,7 +8852,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalListWithNullableItems
      */
-    @JsonIgnore
     public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
       this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
       this.isOptionalListWithNullableItemsNotNull = true;
@@ -8767,7 +8861,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalListWithNullableItems
      */
-    @JsonIgnore
     public Builder setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
       this.optionalListWithNullableItems =
           unmapList(
@@ -8784,7 +8877,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalListWithNullableItems
      */
-    @JsonIgnore
     public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
       this.optionalListWithNullableItems =
           unmapList(
@@ -8808,7 +8900,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableListWithNullableItems
      */
-    @JsonIgnore
     public Builder setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
       this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
       this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
@@ -8818,7 +8909,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableListWithNullableItems
      */
-    @JsonIgnore
     public Builder setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
       this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -8828,7 +8918,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableListWithNullableItems
      */
-    @JsonIgnore
     public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
       this.optionalNullableListWithNullableItems =
           unmapList(
@@ -8845,7 +8934,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableListWithNullableItems
      */
-    @JsonIgnore
     public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
       this.optionalNullableListWithNullableItems =
           unmapList(
@@ -8868,7 +8956,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredMap
      */
-    @JsonIgnore
     private Builder setRequiredMap(Map<String, String> requiredMap) {
       this.requiredMap = requiredMap;
       return this;
@@ -8883,7 +8970,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredMapWithNullableValues
      */
-    @JsonIgnore
     private Builder setRequiredMapWithNullableValues(Map<String, String> requiredMapWithNullableValues) {
       this.requiredMapWithNullableValues = requiredMapWithNullableValues;
       return this;
@@ -8892,7 +8978,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredMapWithNullableValues
      */
-    @JsonIgnore
     private Builder setRequiredMapWithNullableValues_(Map<String, Optional<String>> requiredMapWithNullableValues) {
       this.requiredMapWithNullableValues =
           unmapMap(
@@ -8915,7 +9000,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableMap
      */
-    @JsonIgnore
     private Builder setRequiredNullableMap(Map<String, String> requiredNullableMap) {
       this.requiredNullableMap = requiredNullableMap;
       this.isRequiredNullableMapPresent = true;
@@ -8925,7 +9009,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableMap
      */
-    @JsonIgnore
     private Builder setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
       this.requiredNullableMap = requiredNullableMap.orElse(null);
       this.isRequiredNullableMapPresent = true;
@@ -8942,7 +9025,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableMapWithNullableValues
      */
-    @JsonIgnore
     private Builder setRequiredNullableMapWithNullableValues(Map<String, String> requiredNullableMapWithNullableValues) {
       this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues;
       this.isRequiredNullableMapWithNullableValuesPresent = true;
@@ -8952,7 +9034,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableMapWithNullableValues
      */
-    @JsonIgnore
     private Builder setRequiredNullableMapWithNullableValues(Optional<Map<String, String>> requiredNullableMapWithNullableValues) {
       this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues.orElse(null);
       this.isRequiredNullableMapWithNullableValuesPresent = true;
@@ -8962,7 +9043,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableMapWithNullableValues
      */
-    @JsonIgnore
     private Builder setRequiredNullableMapWithNullableValues_(Map<String, Optional<String>> requiredNullableMapWithNullableValues) {
       this.requiredNullableMapWithNullableValues =
           unmapMap(
@@ -8979,7 +9059,6 @@ public class NecessityAndNullabilityDto {
     /**
      * RequiredNullableMapWithNullableValues
      */
-    @JsonIgnore
     private Builder setRequiredNullableMapWithNullableValues_(Optional<Map<String, Optional<String>>> requiredNullableMapWithNullableValues) {
       this.requiredNullableMapWithNullableValues =
           unmapMap(
@@ -9003,7 +9082,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalMap
      */
-    @JsonIgnore
     public Builder setOptionalMap(Map<String, String> optionalMap) {
       this.optionalMap = optionalMap;
       this.isOptionalMapNotNull = optionalMap != null;
@@ -9013,7 +9091,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalMap
      */
-    @JsonIgnore
     public Builder setOptionalMap(Optional<Map<String, String>> optionalMap) {
       this.optionalMap = optionalMap.orElse(null);
       this.isOptionalMapNotNull = true;
@@ -9030,7 +9107,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalMapWithNullableValues
      */
-    @JsonIgnore
     public Builder setOptionalMapWithNullableValues(Map<String, String> optionalMapWithNullableValues) {
       this.optionalMapWithNullableValues = optionalMapWithNullableValues;
       this.isOptionalMapWithNullableValuesNotNull = optionalMapWithNullableValues != null;
@@ -9040,7 +9116,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalMapWithNullableValues
      */
-    @JsonIgnore
     public Builder setOptionalMapWithNullableValues(Optional<Map<String, String>> optionalMapWithNullableValues) {
       this.optionalMapWithNullableValues = optionalMapWithNullableValues.orElse(null);
       this.isOptionalMapWithNullableValuesNotNull = true;
@@ -9050,7 +9125,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalMapWithNullableValues
      */
-    @JsonIgnore
     public Builder setOptionalMapWithNullableValues_(Map<String, Optional<String>> optionalMapWithNullableValues) {
       this.optionalMapWithNullableValues =
           unmapMap(
@@ -9067,7 +9141,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalMapWithNullableValues
      */
-    @JsonIgnore
     public Builder setOptionalMapWithNullableValues_(Optional<Map<String, Optional<String>>> optionalMapWithNullableValues) {
       this.optionalMapWithNullableValues =
           unmapMap(
@@ -9091,7 +9164,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableMap
      */
-    @JsonIgnore
     public Builder setOptionalNullableMap(Map<String, String> optionalNullableMap) {
       this.optionalNullableMap = optionalNullableMap;
       this.isOptionalNullableMapNull = optionalNullableMap == null;
@@ -9101,7 +9173,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableMap
      */
-    @JsonIgnore
     public Builder setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
       this.optionalNullableMap = optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isOptionalNullableMapNull = optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -9118,7 +9189,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableMapWithNullableValues
      */
-    @JsonIgnore
     public Builder setOptionalNullableMapWithNullableValues(Map<String, String> optionalNullableMapWithNullableValues) {
       this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues;
       this.isOptionalNullableMapWithNullableValuesNull = optionalNullableMapWithNullableValues == null;
@@ -9128,7 +9198,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableMapWithNullableValues
      */
-    @JsonIgnore
     public Builder setOptionalNullableMapWithNullableValues(Tristate<Map<String, String>> optionalNullableMapWithNullableValues) {
       this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
       this.isOptionalNullableMapWithNullableValuesNull = optionalNullableMapWithNullableValues.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -9138,7 +9207,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableMapWithNullableValues
      */
-    @JsonIgnore
     public Builder setOptionalNullableMapWithNullableValues_(Map<String, Optional<String>> optionalNullableMapWithNullableValues) {
       this.optionalNullableMapWithNullableValues =
           unmapMap(
@@ -9155,7 +9223,6 @@ public class NecessityAndNullabilityDto {
     /**
      * OptionalNullableMapWithNullableValues
      */
-    @JsonIgnore
     public Builder setOptionalNullableMapWithNullableValues_(Tristate<Map<String, Optional<String>>> optionalNullableMapWithNullableValues) {
       this.optionalNullableMapWithNullableValues =
           unmapMap(
@@ -10193,7 +10260,7 @@ noAdditionalPropertiesAllowed=[
 package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.github.muehmar.openapi.util.Tristate;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10204,6 +10271,12 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
@@ -10216,7 +10289,6 @@ public class ObjectPojo1Dto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       additionalProperties.size();
@@ -10261,6 +10333,12 @@ public class ObjectPojo1Dto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -10359,7 +10437,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10376,6 +10454,12 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
@@ -10404,7 +10488,6 @@ public class ObjectPojo1Dto {
     return props;
   }
 
-  @JsonIgnore
   public List<AdditionalProperty<HelloDto>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .flatMap(
@@ -10439,7 +10522,6 @@ public class ObjectPojo1Dto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       additionalProperties.size();
@@ -10473,7 +10555,6 @@ public class ObjectPojo1Dto {
     }
   }
 
-  @JsonIgnore
   @AssertTrue(message = "Not all additional properties are instances of HelloDto")
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
     return additionalProperties.values()
@@ -10505,6 +10586,12 @@ public class ObjectPojo1Dto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -10629,7 +10716,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.github.muehmar.openapi.util.AdditionalProperty;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10643,6 +10730,12 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final Map<String, Object> additionalProperties;
 
@@ -10670,7 +10763,6 @@ public class ObjectPojo1Dto {
     return props;
   }
 
-  @JsonIgnore
   public List<AdditionalProperty<HelloDto>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .flatMap(
@@ -10705,7 +10797,6 @@ public class ObjectPojo1Dto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       additionalProperties.size();
@@ -10739,7 +10830,6 @@ public class ObjectPojo1Dto {
     }
   }
 
-  @JsonIgnore
   private boolean isAllAdditionalPropertiesHaveCorrectType() {
     return additionalProperties.values()
         .stream()
@@ -10770,6 +10860,12 @@ public class ObjectPojo1Dto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -11152,7 +11248,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
@@ -11175,6 +11271,12 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final List<String> listVal;
   private final Map<String, Object> additionalProperties;
@@ -11190,7 +11292,6 @@ public class ObjectPojo1Dto {
   /**
    * List
    */
-  @JsonIgnore
   public Set<String> getListVal() {
     return mapList(
         listVal,
@@ -11207,9 +11308,8 @@ public class ObjectPojo1Dto {
     return listVal;
   }
 
-  @JsonIgnore
   @NotNull
-  private List<@NotNull String> getListValRaw() {
+  private List<@NotNull String> getListVal_() {
     return listVal;
   }
 
@@ -11219,7 +11319,6 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -11244,7 +11343,6 @@ public class ObjectPojo1Dto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       (listVal != null ? 1 : 0) +
@@ -11382,6 +11480,12 @@ public class ObjectPojo1Dto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -11399,7 +11503,6 @@ public class ObjectPojo1Dto {
     /**
      * List
      */
-    @JsonIgnore
     private Builder setListVal(Set<String> listVal) {
       this.listVal =
           unmapList(
@@ -11595,7 +11698,8 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
 import com.github.muehmar.openapi.util.Tristate;
@@ -11615,6 +11719,12 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final Map<String, UUID> mapVal;
   private final Map<String, Object> additionalProperties;
@@ -11630,10 +11740,19 @@ public class ObjectPojo1Dto {
   /**
    * Map
    */
+  public Map<String, UUID> getMapVal() {
+    return mapVal;
+  }
+
+  @JsonProperty("mapVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Map<String, UUID> getMapValJson() {
+    return mapVal;
+  }
+
   @NotNull
   @Size(min = 3, max = 8)
-  @JsonProperty("mapVal")
-  public Map<String, @NotNull UUID> getMapVal() {
+  private Map<String, @NotNull UUID> getMapVal_() {
     return mapVal;
   }
 
@@ -11643,7 +11762,6 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -11668,7 +11786,6 @@ public class ObjectPojo1Dto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       (mapVal != null ? 1 : 0) +
@@ -11806,6 +11923,12 @@ public class ObjectPojo1Dto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -11823,7 +11946,6 @@ public class ObjectPojo1Dto {
     /**
      * Map
      */
-    @JsonIgnore
     private Builder setMapVal(Map<String, UUID> mapVal) {
       this.mapVal = mapVal;
       return this;
@@ -12012,7 +12134,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.NullableAdditionalProperty;
@@ -12038,6 +12160,12 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
  * person
  */
 @JsonDeserialize(builder = PersonDto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class PersonDto {
   private final String requiredStringVal;
   private final LocalDate birthdate;
@@ -12059,34 +12187,41 @@ public class PersonDto {
   /**
    * RequiredStringVal
    */
+  public String getRequiredStringVal() {
+    return requiredStringVal;
+  }
+
+  @JsonProperty("requiredStringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getRequiredStringValJson() {
+    return requiredStringVal;
+  }
+
   @NotNull
   @Pattern(regexp="Hello")
-  @JsonProperty("requiredStringVal")
-  public String getRequiredStringVal() {
+  private String getRequiredStringVal_() {
     return requiredStringVal;
   }
 .
 .
+  LocalDate getBirthdate() {
+    return birthdate;
+  }
+
   @JsonProperty("birthdate")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private LocalDate getBirthdateJson() {
     return birthdate;
   }
-
-  @JsonIgnore
-  LocalDate getBirthdate() {
-    return birthdate;
-  }
 .
 .
-  @JsonProperty("username")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String getUsernameJson() {
+  String getUsername() {
     return username;
   }
 
-  @JsonIgnore
-  String getUsername() {
+  @JsonProperty("username")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getUsernameJson() {
     return username;
   }
 
@@ -12096,7 +12231,6 @@ public class PersonDto {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -12122,7 +12256,6 @@ public class PersonDto {
    * Returns {@link AdminDto} of the oneOf composition in case it is valid against
    * the schema Admin wrapped in an {@link Optional}, empty otherwise.
    */
-  @JsonIgnore
   public Optional<AdminDto> getAdminDto() {
     return foldOneOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
   }
@@ -12131,7 +12264,6 @@ public class PersonDto {
    * Returns {@link UserDto} of the oneOf composition in case it is valid against the
    * schema User wrapped in an {@link Optional}, empty otherwise.
    */
-  @JsonIgnore
   public Optional<UserDto> getUserDto() {
     return foldOneOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
   }
@@ -12139,7 +12271,6 @@ public class PersonDto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       (requiredStringVal != null ? 1 : 0) +
@@ -12237,7 +12368,6 @@ public class PersonDto {
   }
 
   @Valid
-  @JsonIgnore
   private Map<String, Object> getInvalidOneOf() {
     final Map<String, Object> dtos = new HashMap<>();
     if(getOneOfValidCount() != 1) {
@@ -12262,19 +12392,16 @@ public class PersonDto {
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [Admin, User]")
-  @JsonIgnore
   private boolean isValidAgainstNoOneOfSchema() {
     return getOneOfValidCount() == 0;
   }
 
   @AssertFalse(message = "Is valid against more than one of the schemas [Admin, User]")
-  @JsonIgnore
   private boolean isValidAgainstMoreThanOneSchema() {
     return getOneOfValidCount() > 1;
   }
 
   @Valid
-  @JsonIgnore
   private Object getOneOf() {
     if (getOneOfValidCount() != 1) {
       return null;
@@ -12346,6 +12473,12 @@ public class PersonDto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -12365,7 +12498,6 @@ public class PersonDto {
     /**
      * RequiredStringVal
      */
-    @JsonIgnore
     private Builder setRequiredStringVal(String requiredStringVal) {
       this.requiredStringVal = requiredStringVal;
       return this;
@@ -12380,7 +12512,6 @@ public class PersonDto {
     /**
      * Birthdate
      */
-    @JsonIgnore
     private Builder setBirthdate(LocalDate birthdate) {
       this.birthdate = birthdate;
       return this;
@@ -12395,7 +12526,6 @@ public class PersonDto {
     /**
      * Username
      */
-    @JsonIgnore
     private Builder setUsername(String username) {
       this.username = username;
       return this;
@@ -12747,7 +12877,7 @@ public class UserDto {
   }
 
   @Pattern(regexp="GERMAN|ENGLISH")
-  private String getLanguageRaw() {
+  private String getLanguage_() {
     return language;
   }
 
@@ -12944,8 +13074,8 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -12969,6 +13099,12 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
  * User of the Application
  */
 @JsonDeserialize(builder = UserDto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class UserDto {
   private final String language;
   private final boolean isLanguageNotNull;
@@ -12989,6 +13125,12 @@ public class UserDto {
    * * `GERMAN`: German language<br>
    * * `ENGLISH`: English language
    */
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public enum LanguageEnum {
     GERMAN("GERMAN", "German language"),
     ENGLISH("ENGLISH", "English language");
@@ -13006,7 +13148,6 @@ public class UserDto {
       return value;
     }
 
-    @JsonIgnore
     public String getDescription() {
       return description;
     }
@@ -13043,7 +13184,6 @@ public class UserDto {
    * * `GERMAN`: German language<br>
    * * `ENGLISH`: English language
    */
-  @JsonIgnore
   public Optional<LanguageEnum> getLanguage() {
     return Optional.ofNullable(language).map(value -> LanguageEnum.fromValue(value));
   }
@@ -13053,7 +13193,6 @@ public class UserDto {
    * * `GERMAN`: German language<br>
    * * `ENGLISH`: English language
    */
-  @JsonIgnore
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue
@@ -13066,14 +13205,12 @@ public class UserDto {
     return language;
   }
 
-  @JsonIgnore
   @Pattern(regexp="GERMAN|ENGLISH")
-  private String getLanguageRaw() {
+  private String getLanguage_() {
     return language;
   }
 
   @AssertTrue(message = "language is required to be non-null but is null")
-  @JsonIgnore
   private boolean isLanguageNotNull() {
     return isLanguageNotNull;
   }
@@ -13084,7 +13221,6 @@ public class UserDto {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -13109,7 +13245,6 @@ public class UserDto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       (language != null ? 1 : 0) +
@@ -13208,6 +13343,12 @@ public class UserDto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private String language;
@@ -13226,7 +13367,6 @@ public class UserDto {
      * * `GERMAN`: German language<br>
      * * `ENGLISH`: English language
      */
-    @JsonIgnore
     public Builder setLanguage(LanguageEnum language) {
       this.language = language != null ? language.getValue() : null;
       this.isLanguageNotNull = language != null;
@@ -13238,7 +13378,6 @@ public class UserDto {
      * * `GERMAN`: German language<br>
      * * `ENGLISH`: English language
      */
-    @JsonIgnore
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.map(val -> val.getValue()).orElse(null);
       this.isLanguageNotNull = true;
@@ -13280,7 +13419,7 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.muehmar.openapi.util.EmailValidator;
@@ -13302,6 +13441,12 @@ import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final String email;
   private final LocalDate birthdate;
@@ -13323,10 +13468,19 @@ public class ObjectPojo1Dto {
   /**
    * email
    */
+  public String getEmail() {
+    return email;
+  }
+
+  @JsonProperty("email")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getEmailJson() {
+    return email;
+  }
+
   @NotNull
   @Email
-  @JsonProperty("email")
-  public String getEmail() {
+  private String getEmail_() {
     return email;
   }
 .
@@ -13334,7 +13488,6 @@ public class ObjectPojo1Dto {
   /**
    * Birthdate
    */
-  @JsonIgnore
   public Optional<LocalDate> getBirthdate() {
     return Optional.ofNullable(birthdate);
   }
@@ -13342,7 +13495,6 @@ public class ObjectPojo1Dto {
   /**
    * Birthdate
    */
-  @JsonIgnore
   public LocalDate getBirthdateOr(LocalDate defaultValue) {
     return this.birthdate == null
         ? defaultValue
@@ -13355,23 +13507,19 @@ public class ObjectPojo1Dto {
     return birthdate;
   }
 
-  @JsonIgnore
-  private LocalDate getBirthdateRaw() {
+  private LocalDate getBirthdate_() {
     return birthdate;
   }
 
   @AssertTrue(message = "birthdate is required to be non-null but is null")
-  @JsonIgnore
   private boolean isBirthdateNotNull() {
     return isBirthdateNotNull;
   }
 
-  @JsonIgnore
   public String getName() {
     return getNameInternal();
   }
 
-  @JsonIgnore
   private String getNameInternal() {
     return (additionalProperties.get("name") instanceof String ? (String) additionalProperties.get("name") : null);
   }
@@ -13393,7 +13541,6 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -13418,7 +13565,6 @@ public class ObjectPojo1Dto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       (email != null ? 1 : 0) +
@@ -13538,6 +13684,12 @@ public class ObjectPojo1Dto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Builder() {
@@ -13557,7 +13709,6 @@ public class ObjectPojo1Dto {
     /**
      * email
      */
-    @JsonIgnore
     private Builder setEmail(String email) {
       this.email = email;
       return this;
@@ -13573,7 +13724,6 @@ public class ObjectPojo1Dto {
     /**
      * Birthdate
      */
-    @JsonIgnore
     public Builder setBirthdate(LocalDate birthdate) {
       this.birthdate = birthdate;
       this.isBirthdateNotNull = birthdate != null;
@@ -13583,7 +13733,6 @@ public class ObjectPojo1Dto {
     /**
      * Birthdate
      */
-    @JsonIgnore
     public Builder setBirthdate(Optional<LocalDate> birthdate) {
       this.birthdate = birthdate.orElse(null);
       this.isBirthdateNotNull = true;
@@ -13847,8 +13996,8 @@ package com.github.muehmar;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -13871,6 +14020,12 @@ import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
  * wrapped to a new line.
  */
 @JsonDeserialize(builder = UserDto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 @JacksonXmlRootElement(localName = "root-name")
 public class UserDto {
   private final Long id;
@@ -13896,6 +14051,12 @@ public class UserDto {
   /**
    * Preferred language of this user
    */
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public enum LanguageEnum {
     GERMAN("GERMAN", ""),
     ENGLISH("ENGLISH", "");
@@ -13943,8 +14104,13 @@ public class UserDto {
   /**
    * ID of this user
    */
-  @JsonProperty("id")
   public Long getId() {
+    return id;
+  }
+
+  @JsonProperty("id")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Long getIdJson() {
     return id;
   }
 .
@@ -13952,8 +14118,13 @@ public class UserDto {
   /**
    * Name of this user
    */
-  @JsonProperty("name")
   public String getName() {
+    return name;
+  }
+
+  @JsonProperty("name")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getNameJson() {
     return name;
   }
 .
@@ -13961,7 +14132,6 @@ public class UserDto {
   /**
    * Preferred language of this user
    */
-  @JsonIgnore
   public Optional<LanguageEnum> getLanguage() {
     return Optional.ofNullable(language).map(value -> LanguageEnum.fromValue(value));
   }
@@ -13969,7 +14139,6 @@ public class UserDto {
   /**
    * Preferred language of this user
    */
-  @JsonIgnore
   public LanguageEnum getLanguageOr(LanguageEnum defaultValue) {
     return this.language == null
         ? defaultValue
@@ -13982,17 +14151,11 @@ public class UserDto {
     return language;
   }
 
-  @JsonIgnore
-  private String getLanguageRaw() {
-    return language;
-  }
-
   @JsonAnyGetter
   private Map<String, Object> getAdditionalProperties_() {
     return additionalProperties;
   }
 
-  @JsonIgnore
   public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
@@ -14017,7 +14180,6 @@ public class UserDto {
   /**
    * Returns the number of present properties of this object.
    */
-  @JsonIgnore
   public int getPropertyCount() {
     return
       (id != null ? 1 : 0) +
@@ -14164,6 +14326,12 @@ public class UserDto {
   }
 
   @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
   public static final class Builder {
 
     private Long id;
@@ -14181,7 +14349,6 @@ public class UserDto {
     /**
      * ID of this user
      */
-    @JsonIgnore
     public Builder setId(Long id) {
       this.id = id;
       return this;
@@ -14196,7 +14363,6 @@ public class UserDto {
     /**
      * Name of this user
      */
-    @JsonIgnore
     public Builder setName(String name) {
       this.name = name;
       return this;
@@ -14212,7 +14378,6 @@ public class UserDto {
     /**
      * Preferred language of this user
      */
-    @JsonIgnore
     public Builder setLanguage(LanguageEnum language) {
       this.language = language != null ? language.getValue() : null;
       this.isLanguageNotNull = language != null;
@@ -14222,7 +14387,6 @@ public class UserDto {
     /**
      * Preferred language of this user
      */
-    @JsonIgnore
     public Builder setLanguage(Optional<LanguageEnum> language) {
       this.language = language.map(val -> val.getValue()).orElse(null);
       this.isLanguageNotNull = true;

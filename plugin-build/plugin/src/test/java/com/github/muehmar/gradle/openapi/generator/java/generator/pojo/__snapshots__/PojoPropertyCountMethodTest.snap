@@ -1,10 +1,9 @@
 illegalIdentifierPojo=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
+.
+.
 /**
  * Returns the number of present properties of this object.
  */
-@JsonIgnore
 public int getPropertyCount() {
   return
     ((isSwitchNull || switch_ != null) ? 1 : 0) +
@@ -15,12 +14,11 @@ public int getPropertyCount() {
 
 
 oneOfPojo=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
+.
+.
 /**
  * Returns the number of present properties of this object.
  */
-@JsonIgnore
 public int getPropertyCount() {
   return
     (requiredStringVal != null ? 1 : 0) +
@@ -48,7 +46,6 @@ public int getPropertyCount() {
 
 
 pojoPropertyCountMethodDefaultSettings=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.Max
 javax.validation.constraints.Min
 
@@ -57,7 +54,6 @@ javax.validation.constraints.Min
  */
 @Min(1)
 @Max(2)
-@JsonIgnore
 public int getPropertyCount() {
   return
     (requiredStringVal != null ? 1 : 0) +
@@ -114,12 +110,11 @@ public int getPropertyCount() {
 
 
 pojoPropertyCountMethodWithValidationDisabled=[
-com.fasterxml.jackson.annotation.JsonIgnore
-
+.
+.
 /**
  * Returns the number of present properties of this object.
  */
-@JsonIgnore
 public int getPropertyCount() {
   return
     (requiredStringVal != null ? 1 : 0) +

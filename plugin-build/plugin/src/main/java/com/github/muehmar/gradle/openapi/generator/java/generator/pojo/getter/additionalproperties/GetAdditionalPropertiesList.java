@@ -14,7 +14,6 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.additionalproperties.AdditionalPropertyClassGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.additionalproperties.NullableAdditionalPropertyClassGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversionRenderer;
-import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -25,7 +24,7 @@ class GetAdditionalPropertiesList {
   private GetAdditionalPropertiesList() {}
 
   public static Generator<JavaObjectPojo, PojoSettings> getAdditionalPropertiesListGenerator() {
-    return JacksonAnnotationGenerator.<JavaObjectPojo>jsonIgnore()
+    return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
         .append(method(), JavaObjectPojo::getAdditionalProperties)
         .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
   }

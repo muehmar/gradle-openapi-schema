@@ -1,9 +1,7 @@
 DiscriminatorWithMapping=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 
 @AssertTrue(message = "Not valid against the schema described by the oneOf-discriminator")
-@JsonIgnore
 private boolean isValidAgainstTheCorrectOneOfSchema() {
   if (stringVal == null) {
     return false;
@@ -19,11 +17,9 @@ private boolean isValidAgainstTheCorrectOneOfSchema() {
 
 
 DiscriminatorWithoutMapping=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 
 @AssertTrue(message = "Not valid against the schema described by the oneOf-discriminator")
-@JsonIgnore
 private boolean isValidAgainstTheCorrectOneOfSchema() {
   if (stringVal == null) {
     return false;
@@ -39,7 +35,6 @@ private boolean isValidAgainstTheCorrectOneOfSchema() {
 
 
 DiscriminatorWithoutMappingWithProtectedAndDeprecatedValidationSettings=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 
 /**
@@ -48,7 +43,6 @@ javax.validation.constraints.AssertTrue
  */
 @Deprecated
 @AssertTrue(message = "Not valid against the schema described by the oneOf-discriminator")
-@JsonIgnore
 protected boolean isValidAgainstTheCorrectOneOfSchema() {
   if (stringVal == null) {
     return false;
@@ -64,11 +58,9 @@ protected boolean isValidAgainstTheCorrectOneOfSchema() {
 
 
 EnumDiscriminator=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 
 @AssertTrue(message = "Not valid against the schema described by the oneOf-discriminator")
-@JsonIgnore
 private boolean isValidAgainstTheCorrectOneOfSchema() {
   if (color == null) {
     return false;
@@ -84,11 +76,9 @@ private boolean isValidAgainstTheCorrectOneOfSchema() {
 
 
 IllegalIdentifierPojoDiscriminatorWithoutMapping=[
-com.fasterxml.jackson.annotation.JsonIgnore
 javax.validation.constraints.AssertTrue
 
 @AssertTrue(message = "Not valid against the schema described by the oneOf-discriminator")
-@JsonIgnore
 private boolean isValidAgainstTheCorrectOneOfSchema() {
   if (switch_ == null) {
     return false;

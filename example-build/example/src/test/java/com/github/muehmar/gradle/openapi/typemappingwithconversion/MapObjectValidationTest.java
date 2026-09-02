@@ -72,7 +72,7 @@ public class MapObjectValidationTest {
     final Set<ConstraintViolation<MapObjectDto>> violations = validate(mapObjectDto);
 
     assertEquals(
-        list("idsMapRaw[ids-k-1].<map value> -> size must be between 6 and 10"),
+        list("idsMap_[ids-k-1].<map value> -> size must be between 6 and 10"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(mapObjectDto.isValid());
@@ -87,7 +87,7 @@ public class MapObjectValidationTest {
     final Set<ConstraintViolation<MapObjectDto>> violations = validate(mapObjectDto);
 
     assertEquals(
-        list("usernamesMap[usernames-k-1].<map value> -> size must be between 9 and 12"),
+        list("usernamesMap_[usernames-k-1].<map value> -> size must be between 9 and 12"),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(mapObjectDto.isValid());
@@ -103,7 +103,7 @@ public class MapObjectValidationTest {
     final Set<ConstraintViolation<MapObjectDto>> violations = validate(mapObjectDto);
 
     assertEquals(
-        list("emailsMap[mail-k-1].<map value> -> must match \"[a-z]+-[0-9]{4}\""),
+        list("emailsMap_[mail-k-1].<map value> -> must match \"[a-z]+-[0-9]{4}\""),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(mapObjectDto.isValid());
@@ -119,7 +119,7 @@ public class MapObjectValidationTest {
     final Set<ConstraintViolation<MapObjectDto>> violations = validate(mapObjectDto);
 
     assertEquals(
-        list("phonesMap[mail-k-1].<map value> -> must match \"phone-[0-9]{4}\""),
+        list("phonesMap_[mail-k-1].<map value> -> must match \"phone-[0-9]{4}\""),
         formatViolations(violations),
         String.join("\n", formatViolations(violations)));
     assertFalse(mapObjectDto.isValid());

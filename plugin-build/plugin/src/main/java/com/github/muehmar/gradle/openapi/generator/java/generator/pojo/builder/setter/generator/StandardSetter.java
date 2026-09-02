@@ -2,7 +2,6 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.
 
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.FromApiTypeConversionRenderer.fromApiTypeConversion;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.jsonIgnore;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
 
@@ -32,7 +31,6 @@ public class StandardSetter {
       SetterGeneratorSettings settings) {
     return Generator.<JavaPojoMember, PojoSettings>emptyGen()
         .append(javaDoc(), JavaPojoMember::getDescription)
-        .append(jsonIgnore())
         .append(setterMethod(settings));
   }
 

@@ -1,6 +1,6 @@
 allNecessityAndNullabilityVariants=[
 com.fasterxml.jackson.annotation.JsonAnySetter
-com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonAutoDetect
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
@@ -11,6 +11,12 @@ java.util.function.Function
 tools.jackson.databind.annotation.JsonPOJOBuilder
 
 @JsonPOJOBuilder(withPrefix = "set")
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public static final class Builder {
 
   private Builder() {
@@ -55,7 +61,6 @@ public static final class Builder {
   /**
    * RequiredStringVal
    */
-  @JsonIgnore
   private Builder setRequiredStringVal(String requiredStringVal) {
     this.requiredStringVal = requiredStringVal;
     return this;
@@ -71,7 +76,6 @@ public static final class Builder {
   /**
    * RequiredNullableStringVal
    */
-  @JsonIgnore
   private Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal;
     this.isRequiredNullableStringValPresent = true;
@@ -81,7 +85,6 @@ public static final class Builder {
   /**
    * RequiredNullableStringVal
    */
-  @JsonIgnore
   private Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
     this.isRequiredNullableStringValPresent = true;
@@ -98,7 +101,6 @@ public static final class Builder {
   /**
    * OptionalStringVal
    */
-  @JsonIgnore
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
     this.isOptionalStringValNotNull = optionalStringVal != null;
@@ -108,7 +110,6 @@ public static final class Builder {
   /**
    * OptionalStringVal
    */
-  @JsonIgnore
   public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
     this.optionalStringVal = optionalStringVal.orElse(null);
     this.isOptionalStringValNotNull = true;
@@ -125,7 +126,6 @@ public static final class Builder {
   /**
    * OptionalNullableStringVal
    */
-  @JsonIgnore
   public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
@@ -135,7 +135,6 @@ public static final class Builder {
   /**
    * OptionalNullableStringVal
    */
-  @JsonIgnore
   public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -151,7 +150,6 @@ public static final class Builder {
   /**
    * RequiredListWithNullableItems
    */
-  @JsonIgnore
   private Builder setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     this.requiredListWithNullableItems = requiredListWithNullableItems;
     return this;
@@ -160,7 +158,6 @@ public static final class Builder {
   /**
    * RequiredListWithNullableItems
    */
-  @JsonIgnore
   private Builder setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
     this.requiredListWithNullableItems =
         unmapList(
@@ -183,7 +180,6 @@ public static final class Builder {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   private Builder setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
     this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -193,7 +189,6 @@ public static final class Builder {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   private Builder setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.orElse(null);
     this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -203,7 +198,6 @@ public static final class Builder {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   private Builder setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems =
         unmapList(
@@ -220,7 +214,6 @@ public static final class Builder {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   private Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems =
         unmapList(
@@ -244,7 +237,6 @@ public static final class Builder {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems;
     this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
@@ -254,7 +246,6 @@ public static final class Builder {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
     this.isOptionalListWithNullableItemsNotNull = true;
@@ -264,7 +255,6 @@ public static final class Builder {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
     this.optionalListWithNullableItems =
         unmapList(
@@ -281,7 +271,6 @@ public static final class Builder {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
     this.optionalListWithNullableItems =
         unmapList(
@@ -305,7 +294,6 @@ public static final class Builder {
   /**
    * OptionalNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
     this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
@@ -315,7 +303,6 @@ public static final class Builder {
   /**
    * OptionalNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -325,7 +312,6 @@ public static final class Builder {
   /**
    * OptionalNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems =
         unmapList(
@@ -342,7 +328,6 @@ public static final class Builder {
   /**
    * OptionalNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems =
         unmapList(
@@ -365,7 +350,6 @@ public static final class Builder {
   /**
    * RequiredMap
    */
-  @JsonIgnore
   private Builder setRequiredMap(Map<String, String> requiredMap) {
     this.requiredMap = requiredMap;
     return this;
@@ -380,7 +364,6 @@ public static final class Builder {
   /**
    * RequiredMapWithNullableValues
    */
-  @JsonIgnore
   private Builder setRequiredMapWithNullableValues(Map<String, String> requiredMapWithNullableValues) {
     this.requiredMapWithNullableValues = requiredMapWithNullableValues;
     return this;
@@ -389,7 +372,6 @@ public static final class Builder {
   /**
    * RequiredMapWithNullableValues
    */
-  @JsonIgnore
   private Builder setRequiredMapWithNullableValues_(Map<String, Optional<String>> requiredMapWithNullableValues) {
     this.requiredMapWithNullableValues =
         unmapMap(
@@ -412,7 +394,6 @@ public static final class Builder {
   /**
    * RequiredNullableMap
    */
-  @JsonIgnore
   private Builder setRequiredNullableMap(Map<String, String> requiredNullableMap) {
     this.requiredNullableMap = requiredNullableMap;
     this.isRequiredNullableMapPresent = true;
@@ -422,7 +403,6 @@ public static final class Builder {
   /**
    * RequiredNullableMap
    */
-  @JsonIgnore
   private Builder setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
     this.requiredNullableMap = requiredNullableMap.orElse(null);
     this.isRequiredNullableMapPresent = true;
@@ -439,7 +419,6 @@ public static final class Builder {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   private Builder setRequiredNullableMapWithNullableValues(Map<String, String> requiredNullableMapWithNullableValues) {
     this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues;
     this.isRequiredNullableMapWithNullableValuesPresent = true;
@@ -449,7 +428,6 @@ public static final class Builder {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   private Builder setRequiredNullableMapWithNullableValues(Optional<Map<String, String>> requiredNullableMapWithNullableValues) {
     this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues.orElse(null);
     this.isRequiredNullableMapWithNullableValuesPresent = true;
@@ -459,7 +437,6 @@ public static final class Builder {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   private Builder setRequiredNullableMapWithNullableValues_(Map<String, Optional<String>> requiredNullableMapWithNullableValues) {
     this.requiredNullableMapWithNullableValues =
         unmapMap(
@@ -476,7 +453,6 @@ public static final class Builder {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   private Builder setRequiredNullableMapWithNullableValues_(Optional<Map<String, Optional<String>>> requiredNullableMapWithNullableValues) {
     this.requiredNullableMapWithNullableValues =
         unmapMap(
@@ -500,7 +476,6 @@ public static final class Builder {
   /**
    * OptionalMap
    */
-  @JsonIgnore
   public Builder setOptionalMap(Map<String, String> optionalMap) {
     this.optionalMap = optionalMap;
     this.isOptionalMapNotNull = optionalMap != null;
@@ -510,7 +485,6 @@ public static final class Builder {
   /**
    * OptionalMap
    */
-  @JsonIgnore
   public Builder setOptionalMap(Optional<Map<String, String>> optionalMap) {
     this.optionalMap = optionalMap.orElse(null);
     this.isOptionalMapNotNull = true;
@@ -527,7 +501,6 @@ public static final class Builder {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalMapWithNullableValues(Map<String, String> optionalMapWithNullableValues) {
     this.optionalMapWithNullableValues = optionalMapWithNullableValues;
     this.isOptionalMapWithNullableValuesNotNull = optionalMapWithNullableValues != null;
@@ -537,7 +510,6 @@ public static final class Builder {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalMapWithNullableValues(Optional<Map<String, String>> optionalMapWithNullableValues) {
     this.optionalMapWithNullableValues = optionalMapWithNullableValues.orElse(null);
     this.isOptionalMapWithNullableValuesNotNull = true;
@@ -547,7 +519,6 @@ public static final class Builder {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalMapWithNullableValues_(Map<String, Optional<String>> optionalMapWithNullableValues) {
     this.optionalMapWithNullableValues =
         unmapMap(
@@ -564,7 +535,6 @@ public static final class Builder {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalMapWithNullableValues_(Optional<Map<String, Optional<String>>> optionalMapWithNullableValues) {
     this.optionalMapWithNullableValues =
         unmapMap(
@@ -588,7 +558,6 @@ public static final class Builder {
   /**
    * OptionalNullableMap
    */
-  @JsonIgnore
   public Builder setOptionalNullableMap(Map<String, String> optionalNullableMap) {
     this.optionalNullableMap = optionalNullableMap;
     this.isOptionalNullableMapNull = optionalNullableMap == null;
@@ -598,7 +567,6 @@ public static final class Builder {
   /**
    * OptionalNullableMap
    */
-  @JsonIgnore
   public Builder setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
     this.optionalNullableMap = optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableMapNull = optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -615,7 +583,6 @@ public static final class Builder {
   /**
    * OptionalNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalNullableMapWithNullableValues(Map<String, String> optionalNullableMapWithNullableValues) {
     this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues;
     this.isOptionalNullableMapWithNullableValuesNull = optionalNullableMapWithNullableValues == null;
@@ -625,7 +592,6 @@ public static final class Builder {
   /**
    * OptionalNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalNullableMapWithNullableValues(Tristate<Map<String, String>> optionalNullableMapWithNullableValues) {
     this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableMapWithNullableValuesNull = optionalNullableMapWithNullableValues.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -635,7 +601,6 @@ public static final class Builder {
   /**
    * OptionalNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalNullableMapWithNullableValues_(Map<String, Optional<String>> optionalNullableMapWithNullableValues) {
     this.optionalNullableMapWithNullableValues =
         unmapMap(
@@ -652,7 +617,6 @@ public static final class Builder {
   /**
    * OptionalNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalNullableMapWithNullableValues_(Tristate<Map<String, Optional<String>>> optionalNullableMapWithNullableValues) {
     this.optionalNullableMapWithNullableValues =
         unmapMap(
@@ -1270,7 +1234,7 @@ public static final class Builder {
 
 allNecessityAndNullabilityVariantsDisabledStagedBuilder=[
 com.fasterxml.jackson.annotation.JsonAnySetter
-com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonAutoDetect
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
 java.util.HashMap
@@ -1285,6 +1249,12 @@ public static Builder newBuilder() {
 }
 
 @JsonPOJOBuilder(withPrefix = "set")
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public static final class Builder {
 
   private String requiredStringVal;
@@ -1326,7 +1296,6 @@ public static final class Builder {
   /**
    * RequiredStringVal
    */
-  @JsonIgnore
   public Builder setRequiredStringVal(String requiredStringVal) {
     this.requiredStringVal = requiredStringVal;
     return this;
@@ -1342,7 +1311,6 @@ public static final class Builder {
   /**
    * RequiredNullableStringVal
    */
-  @JsonIgnore
   public Builder setRequiredNullableStringVal(String requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal;
     this.isRequiredNullableStringValPresent = true;
@@ -1352,7 +1320,6 @@ public static final class Builder {
   /**
    * RequiredNullableStringVal
    */
-  @JsonIgnore
   public Builder setRequiredNullableStringVal(Optional<String> requiredNullableStringVal) {
     this.requiredNullableStringVal = requiredNullableStringVal.orElse(null);
     this.isRequiredNullableStringValPresent = true;
@@ -1369,7 +1336,6 @@ public static final class Builder {
   /**
    * OptionalStringVal
    */
-  @JsonIgnore
   public Builder setOptionalStringVal(String optionalStringVal) {
     this.optionalStringVal = optionalStringVal;
     this.isOptionalStringValNotNull = optionalStringVal != null;
@@ -1379,7 +1345,6 @@ public static final class Builder {
   /**
    * OptionalStringVal
    */
-  @JsonIgnore
   public Builder setOptionalStringVal(Optional<String> optionalStringVal) {
     this.optionalStringVal = optionalStringVal.orElse(null);
     this.isOptionalStringValNotNull = true;
@@ -1396,7 +1361,6 @@ public static final class Builder {
   /**
    * OptionalNullableStringVal
    */
-  @JsonIgnore
   public Builder setOptionalNullableStringVal(String optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal;
     this.isOptionalNullableStringValNull = optionalNullableStringVal == null;
@@ -1406,7 +1370,6 @@ public static final class Builder {
   /**
    * OptionalNullableStringVal
    */
-  @JsonIgnore
   public Builder setOptionalNullableStringVal(Tristate<String> optionalNullableStringVal) {
     this.optionalNullableStringVal = optionalNullableStringVal.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableStringValNull = optionalNullableStringVal.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -1422,7 +1385,6 @@ public static final class Builder {
   /**
    * RequiredListWithNullableItems
    */
-  @JsonIgnore
   public Builder setRequiredListWithNullableItems(List<String> requiredListWithNullableItems) {
     this.requiredListWithNullableItems = requiredListWithNullableItems;
     return this;
@@ -1431,7 +1393,6 @@ public static final class Builder {
   /**
    * RequiredListWithNullableItems
    */
-  @JsonIgnore
   public Builder setRequiredListWithNullableItems_(List<Optional<String>> requiredListWithNullableItems) {
     this.requiredListWithNullableItems =
         unmapList(
@@ -1454,7 +1415,6 @@ public static final class Builder {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setRequiredNullableListWithNullableItems(List<String> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems;
     this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -1464,7 +1424,6 @@ public static final class Builder {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setRequiredNullableListWithNullableItems(Optional<List<String>> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems = requiredNullableListWithNullableItems.orElse(null);
     this.isRequiredNullableListWithNullableItemsPresent = true;
@@ -1474,7 +1433,6 @@ public static final class Builder {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setRequiredNullableListWithNullableItems_(List<Optional<String>> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems =
         unmapList(
@@ -1491,7 +1449,6 @@ public static final class Builder {
   /**
    * RequiredNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setRequiredNullableListWithNullableItems_(Optional<List<Optional<String>>> requiredNullableListWithNullableItems) {
     this.requiredNullableListWithNullableItems =
         unmapList(
@@ -1515,7 +1472,6 @@ public static final class Builder {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalListWithNullableItems(List<String> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems;
     this.isOptionalListWithNullableItemsNotNull = optionalListWithNullableItems != null;
@@ -1525,7 +1481,6 @@ public static final class Builder {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalListWithNullableItems(Optional<List<String>> optionalListWithNullableItems) {
     this.optionalListWithNullableItems = optionalListWithNullableItems.orElse(null);
     this.isOptionalListWithNullableItemsNotNull = true;
@@ -1535,7 +1490,6 @@ public static final class Builder {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalListWithNullableItems_(List<Optional<String>> optionalListWithNullableItems) {
     this.optionalListWithNullableItems =
         unmapList(
@@ -1552,7 +1506,6 @@ public static final class Builder {
   /**
    * OptionalListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalListWithNullableItems_(Optional<List<Optional<String>>> optionalListWithNullableItems) {
     this.optionalListWithNullableItems =
         unmapList(
@@ -1576,7 +1529,6 @@ public static final class Builder {
   /**
    * OptionalNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems(List<String> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems;
     this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems == null;
@@ -1586,7 +1538,6 @@ public static final class Builder {
   /**
    * OptionalNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems(Tristate<List<String>> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems = optionalNullableListWithNullableItems.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableListWithNullableItemsNull = optionalNullableListWithNullableItems.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -1596,7 +1547,6 @@ public static final class Builder {
   /**
    * OptionalNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems_(List<Optional<String>> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems =
         unmapList(
@@ -1613,7 +1563,6 @@ public static final class Builder {
   /**
    * OptionalNullableListWithNullableItems
    */
-  @JsonIgnore
   public Builder setOptionalNullableListWithNullableItems_(Tristate<List<Optional<String>>> optionalNullableListWithNullableItems) {
     this.optionalNullableListWithNullableItems =
         unmapList(
@@ -1636,7 +1585,6 @@ public static final class Builder {
   /**
    * RequiredMap
    */
-  @JsonIgnore
   public Builder setRequiredMap(Map<String, String> requiredMap) {
     this.requiredMap = requiredMap;
     return this;
@@ -1651,7 +1599,6 @@ public static final class Builder {
   /**
    * RequiredMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setRequiredMapWithNullableValues(Map<String, String> requiredMapWithNullableValues) {
     this.requiredMapWithNullableValues = requiredMapWithNullableValues;
     return this;
@@ -1660,7 +1607,6 @@ public static final class Builder {
   /**
    * RequiredMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setRequiredMapWithNullableValues_(Map<String, Optional<String>> requiredMapWithNullableValues) {
     this.requiredMapWithNullableValues =
         unmapMap(
@@ -1683,7 +1629,6 @@ public static final class Builder {
   /**
    * RequiredNullableMap
    */
-  @JsonIgnore
   public Builder setRequiredNullableMap(Map<String, String> requiredNullableMap) {
     this.requiredNullableMap = requiredNullableMap;
     this.isRequiredNullableMapPresent = true;
@@ -1693,7 +1638,6 @@ public static final class Builder {
   /**
    * RequiredNullableMap
    */
-  @JsonIgnore
   public Builder setRequiredNullableMap(Optional<Map<String, String>> requiredNullableMap) {
     this.requiredNullableMap = requiredNullableMap.orElse(null);
     this.isRequiredNullableMapPresent = true;
@@ -1710,7 +1654,6 @@ public static final class Builder {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setRequiredNullableMapWithNullableValues(Map<String, String> requiredNullableMapWithNullableValues) {
     this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues;
     this.isRequiredNullableMapWithNullableValuesPresent = true;
@@ -1720,7 +1663,6 @@ public static final class Builder {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setRequiredNullableMapWithNullableValues(Optional<Map<String, String>> requiredNullableMapWithNullableValues) {
     this.requiredNullableMapWithNullableValues = requiredNullableMapWithNullableValues.orElse(null);
     this.isRequiredNullableMapWithNullableValuesPresent = true;
@@ -1730,7 +1672,6 @@ public static final class Builder {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setRequiredNullableMapWithNullableValues_(Map<String, Optional<String>> requiredNullableMapWithNullableValues) {
     this.requiredNullableMapWithNullableValues =
         unmapMap(
@@ -1747,7 +1688,6 @@ public static final class Builder {
   /**
    * RequiredNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setRequiredNullableMapWithNullableValues_(Optional<Map<String, Optional<String>>> requiredNullableMapWithNullableValues) {
     this.requiredNullableMapWithNullableValues =
         unmapMap(
@@ -1771,7 +1711,6 @@ public static final class Builder {
   /**
    * OptionalMap
    */
-  @JsonIgnore
   public Builder setOptionalMap(Map<String, String> optionalMap) {
     this.optionalMap = optionalMap;
     this.isOptionalMapNotNull = optionalMap != null;
@@ -1781,7 +1720,6 @@ public static final class Builder {
   /**
    * OptionalMap
    */
-  @JsonIgnore
   public Builder setOptionalMap(Optional<Map<String, String>> optionalMap) {
     this.optionalMap = optionalMap.orElse(null);
     this.isOptionalMapNotNull = true;
@@ -1798,7 +1736,6 @@ public static final class Builder {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalMapWithNullableValues(Map<String, String> optionalMapWithNullableValues) {
     this.optionalMapWithNullableValues = optionalMapWithNullableValues;
     this.isOptionalMapWithNullableValuesNotNull = optionalMapWithNullableValues != null;
@@ -1808,7 +1745,6 @@ public static final class Builder {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalMapWithNullableValues(Optional<Map<String, String>> optionalMapWithNullableValues) {
     this.optionalMapWithNullableValues = optionalMapWithNullableValues.orElse(null);
     this.isOptionalMapWithNullableValuesNotNull = true;
@@ -1818,7 +1754,6 @@ public static final class Builder {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalMapWithNullableValues_(Map<String, Optional<String>> optionalMapWithNullableValues) {
     this.optionalMapWithNullableValues =
         unmapMap(
@@ -1835,7 +1770,6 @@ public static final class Builder {
   /**
    * OptionalMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalMapWithNullableValues_(Optional<Map<String, Optional<String>>> optionalMapWithNullableValues) {
     this.optionalMapWithNullableValues =
         unmapMap(
@@ -1859,7 +1793,6 @@ public static final class Builder {
   /**
    * OptionalNullableMap
    */
-  @JsonIgnore
   public Builder setOptionalNullableMap(Map<String, String> optionalNullableMap) {
     this.optionalNullableMap = optionalNullableMap;
     this.isOptionalNullableMapNull = optionalNullableMap == null;
@@ -1869,7 +1802,6 @@ public static final class Builder {
   /**
    * OptionalNullableMap
    */
-  @JsonIgnore
   public Builder setOptionalNullableMap(Tristate<Map<String, String>> optionalNullableMap) {
     this.optionalNullableMap = optionalNullableMap.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableMapNull = optionalNullableMap.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -1886,7 +1818,6 @@ public static final class Builder {
   /**
    * OptionalNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalNullableMapWithNullableValues(Map<String, String> optionalNullableMapWithNullableValues) {
     this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues;
     this.isOptionalNullableMapWithNullableValuesNull = optionalNullableMapWithNullableValues == null;
@@ -1896,7 +1827,6 @@ public static final class Builder {
   /**
    * OptionalNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalNullableMapWithNullableValues(Tristate<Map<String, String>> optionalNullableMapWithNullableValues) {
     this.optionalNullableMapWithNullableValues = optionalNullableMapWithNullableValues.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
     this.isOptionalNullableMapWithNullableValuesNull = optionalNullableMapWithNullableValues.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
@@ -1906,7 +1836,6 @@ public static final class Builder {
   /**
    * OptionalNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalNullableMapWithNullableValues_(Map<String, Optional<String>> optionalNullableMapWithNullableValues) {
     this.optionalNullableMapWithNullableValues =
         unmapMap(
@@ -1923,7 +1852,6 @@ public static final class Builder {
   /**
    * OptionalNullableMapWithNullableValues
    */
-  @JsonIgnore
   public Builder setOptionalNullableMapWithNullableValues_(Tristate<Map<String, Optional<String>>> optionalNullableMapWithNullableValues) {
     this.optionalNullableMapWithNullableValues =
         unmapMap(
@@ -1982,12 +1910,19 @@ public static final class Builder {
 
 com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.NormalBuilderGeneratorTest.generate_when_additionalPropertyTypeIsContainerValuePojo_then_containsPojoInRefs=[
 com.fasterxml.jackson.annotation.JsonAnySetter
+com.fasterxml.jackson.annotation.JsonAutoDetect
 java.util.HashMap
 java.util.Map
 java.util.Optional
 tools.jackson.databind.annotation.JsonPOJOBuilder
 
 @JsonPOJOBuilder(withPrefix = "set")
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public static final class Builder {
 
   private Builder() {
@@ -2020,7 +1955,7 @@ public static final class Builder {
 
 nestedRequiredAdditionalPropertiesInAllOfSubPojos=[
 com.fasterxml.jackson.annotation.JsonAnySetter
-com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonAutoDetect
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
 java.time.LocalDate
@@ -2029,6 +1964,12 @@ java.util.Map
 tools.jackson.databind.annotation.JsonPOJOBuilder
 
 @JsonPOJOBuilder(withPrefix = "set")
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public static final class Builder {
 
   private Builder() {
@@ -2050,7 +1991,6 @@ public static final class Builder {
   /**
    * stringVal
    */
-  @JsonIgnore
   private Builder setStringVal(String stringVal) {
     this.stringVal = stringVal;
     return this;
@@ -2065,7 +2005,6 @@ public static final class Builder {
   /**
    * intVal
    */
-  @JsonIgnore
   private Builder setIntVal(Integer intVal) {
     this.intVal = intVal;
     return this;
@@ -2080,7 +2019,6 @@ public static final class Builder {
   /**
    * doubleVal
    */
-  @JsonIgnore
   private Builder setDoubleVal(Double doubleVal) {
     this.doubleVal = doubleVal;
     return this;
@@ -2095,7 +2033,6 @@ public static final class Builder {
   /**
    * Birthdate
    */
-  @JsonIgnore
   private Builder setBirthdate(LocalDate birthdate) {
     this.birthdate = birthdate;
     return this;
@@ -2110,7 +2047,6 @@ public static final class Builder {
   /**
    * email
    */
-  @JsonIgnore
   private Builder setEmail(String email) {
     this.email = email;
     return this;
@@ -2167,7 +2103,7 @@ public static final class Builder {
 
 oneOfPojo=[
 com.fasterxml.jackson.annotation.JsonAnySetter
-com.fasterxml.jackson.annotation.JsonIgnore
+com.fasterxml.jackson.annotation.JsonAutoDetect
 com.fasterxml.jackson.annotation.JsonProperty
 com.github.muehmar.openapi.util.Tristate
 java.time.LocalDate
@@ -2176,6 +2112,12 @@ java.util.Map
 tools.jackson.databind.annotation.JsonPOJOBuilder
 
 @JsonPOJOBuilder(withPrefix = "set")
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public static final class Builder {
 
   private Builder() {
@@ -2197,7 +2139,6 @@ public static final class Builder {
   /**
    * stringVal
    */
-  @JsonIgnore
   private Builder setStringVal(String stringVal) {
     this.stringVal = stringVal;
     return this;
@@ -2212,7 +2153,6 @@ public static final class Builder {
   /**
    * intVal
    */
-  @JsonIgnore
   private Builder setIntVal(Integer intVal) {
     this.intVal = intVal;
     return this;
@@ -2227,7 +2167,6 @@ public static final class Builder {
   /**
    * doubleVal
    */
-  @JsonIgnore
   private Builder setDoubleVal(Double doubleVal) {
     this.doubleVal = doubleVal;
     return this;
@@ -2242,7 +2181,6 @@ public static final class Builder {
   /**
    * Birthdate
    */
-  @JsonIgnore
   private Builder setBirthdate(LocalDate birthdate) {
     this.birthdate = birthdate;
     return this;
@@ -2257,7 +2195,6 @@ public static final class Builder {
   /**
    * email
    */
-  @JsonIgnore
   private Builder setEmail(String email) {
     this.email = email;
     return this;
