@@ -19,15 +19,23 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.de
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Which getters are generated for a property, derived from its {@link AccessorProfile}. */
 public class GetterGroupsDefinition {
+
+  /** The chain per profile, built on first use: the same chain is asked for once per property. */
+  private static final Map<AccessorProfile, Generator<JavaPojoMember, PojoSettings>> CHAINS =
+      new ConcurrentHashMap<>();
 
   private GetterGroupsDefinition() {}
 
   public static Generator<JavaPojoMember, PojoSettings> create() {
     return (member, settings, writer) ->
-        chainOf(AccessorProfile.of(member)).generate(member, settings, writer);
+        CHAINS
+            .computeIfAbsent(AccessorProfile.of(member), GetterGroupsDefinition::chainOf)
+            .generate(member, settings, writer);
   }
 
   private static Generator<JavaPojoMember, PojoSettings> chainOf(AccessorProfile profile) {

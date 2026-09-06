@@ -5,7 +5,6 @@ import static com.github.muehmar.gradle.openapi.generator.java.model.composition
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
@@ -60,7 +59,7 @@ public class JavaOneOfComposition implements DiscriminatableJavaComposition {
   }
 
   public JavaPojoMembers getMembers() {
-    return javaComposition.getMembers(JavaPojoMember::asOneOfMember);
+    return javaComposition.getMembers(member -> tagDiscriminatorMember(member.asOneOfMember()));
   }
 
   @Override

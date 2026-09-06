@@ -610,6 +610,30 @@ class ObjectPojoGeneratorTest {
   }
 
   @Test
+  @SnapshotName("oneOfCompositionWithDiscriminator")
+  void generate_when_oneOfCompositionWithDiscriminator_then_correctOutput() {
+    final JavaObjectPojo javaPojo = JavaPojos.oneOfPojoWithEnumDiscriminator();
+
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    final Writer writer = generator.generate(javaPojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
+  @SnapshotName("anyOfCompositionWithDiscriminator")
+  void generate_when_anyOfCompositionWithDiscriminator_then_correctOutput() {
+    final JavaObjectPojo javaPojo = JavaPojos.anyOfPojoWithDiscriminator();
+
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    final Writer writer = generator.generate(javaPojo, defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writer.asString());
+  }
+
+  @Test
   @SnapshotName("pojoWithRequiredAdditionalProperties")
   void generate_when_pojoWithRequiredAdditionalProperties_then_correctOutput() {
     final JavaObjectPojo pojo =

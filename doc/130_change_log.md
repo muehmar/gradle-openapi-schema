@@ -1,6 +1,16 @@
 ## Change Log
 
 * next
+    * [#437](https://github.com/muehmar/gradle-openapi-schema/issues/437) - Reject a nullable discriminator property
+      with a descriptive error instead of generating a DTO for it. The OpenAPI specification requires the
+      discriminator property to be listed in `required`, and a `null` value can never resolve the schema of the
+      composition, so such a schema was never usable. Previously it generated silently and reconstructed an absent
+      discriminator as present-and-null when converting between composed DTOs. A spec with a `nullable` discriminator
+      now fails generation and has to drop the nullability
+    * [#437](https://github.com/muehmar/gradle-openapi-schema/issues/437) - Make the getter of the discriminator
+      property public on a generated oneOf/anyOf composition DTO. Unlike any other flat property of such a DTO, the
+      discriminator is guaranteed to be present on every variant, so reading the tag no longer requires
+      `foldOneOf(...)` or the deprecated framework getter. All other flat getters remain package-private
     * [#436](https://github.com/muehmar/gradle-openapi-schema/issues/436) - Annotate the generated DTOs and their
       builders with `@JsonAutoDetect` and switch Jackson's auto-detection off, instead of annotating every method
       which must not be serialized with `@JsonIgnore`. Every serialized member carries an explicit annotation
