@@ -1,0 +1,100 @@
+openapi: "3.0.0"
+
+info: { }
+
+paths: { }
+
+# The discriminator property is the one property guaranteed to be present on every variant of a
+# discriminated oneOf/anyOf composition, hence its getter is public on the composition DTO. The
+# schemas cover the three declaration shapes: a string discriminator declared inline in every
+# variant, an enum discriminator inherited from a shared allOf base with an explicit mapping, and
+# a discriminated anyOf composition.
+components:
+  schemas:
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: petType
+    Cat:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+        meows:
+          type: boolean
+    Dog:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+        barks:
+          type: boolean
+
+    Event:
+      oneOf:
+        - $ref: '#/components/schemas/UserEvent'
+        - $ref: '#/components/schemas/SystemEvent'
+      discriminator:
+        propertyName: eventType
+        mapping:
+          user: '#/components/schemas/UserEvent'
+          system: '#/components/schemas/SystemEvent'
+    EventBase:
+      type: object
+      required:
+        - eventType
+      properties:
+        eventType:
+          type: string
+          enum:
+            - user
+            - system
+    UserEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventBase'
+        - type: object
+          required:
+            - username
+          properties:
+            username:
+              type: string
+    SystemEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventBase'
+        - type: object
+          properties:
+            component:
+              type: string
+
+    Message:
+      anyOf:
+        - $ref: '#/components/schemas/EmailMessage'
+        - $ref: '#/components/schemas/SmsMessage'
+      discriminator:
+        propertyName: messageType
+    EmailMessage:
+      type: object
+      required:
+        - messageType
+        - email
+      properties:
+        messageType:
+          type: string
+        email:
+          type: string
+    SmsMessage:
+      type: object
+      required:
+        - messageType
+        - phoneNumber
+      properties:
+        messageType:
+          type: string
+        phoneNumber:
+          type: string
