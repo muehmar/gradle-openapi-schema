@@ -4,6 +4,7 @@ import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.ofTy
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.optionalString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredBirthdate;
+import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredNullableString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredString;
 import static com.github.muehmar.gradle.openapi.generator.model.PojoMembers.requiredUsername;
 import static com.github.muehmar.gradle.openapi.generator.model.name.PojoNames.pojoName;
@@ -221,6 +222,25 @@ class DiscriminatorDeterminatorTest {
     final NonEmptyList<Pojo> pojos = NonEmptyList.of(pojo1, pojo2);
     final Optional<UntypedDiscriminator> discriminator =
         Optional.of(UntypedDiscriminator.fromPropertyName(optionalNullableString().getName()));
+
+    final DiscriminatorDeterminator discriminatorDeterminator =
+        new DiscriminatorDeterminator(pojos);
+
+    // Method call
+    assertThrows(
+        OpenApiGeneratorException.class,
+        () -> discriminatorDeterminator.determineDiscriminator(discriminator));
+  }
+
+  @Test
+  void determineDiscriminator_when_discriminatorPropertyIsNullable_then_exception() {
+    final ObjectPojo pojo1 =
+        Pojos.objectPojo(PList.of(requiredNullableString(), requiredBirthdate()));
+    final ObjectPojo pojo2 = Pojos.objectPojo(PList.of(requiredNullableString(), optionalString()));
+
+    final NonEmptyList<Pojo> pojos = NonEmptyList.of(pojo1, pojo2);
+    final Optional<UntypedDiscriminator> discriminator =
+        Optional.of(UntypedDiscriminator.fromPropertyName(requiredNullableString().getName()));
 
     final DiscriminatorDeterminator discriminatorDeterminator =
         new DiscriminatorDeterminator(pojos);

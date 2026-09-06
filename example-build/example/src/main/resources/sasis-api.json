@@ -1856,8 +1856,7 @@
         ],
         "properties": {
           "__typename": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false,
@@ -2427,8 +2426,7 @@
         ],
         "properties": {
           "__typename": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "key": {
             "type": "string",
@@ -2751,8 +2749,7 @@
         ],
         "properties": {
           "__typename": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "organizationIdentificationNumber": {
             "type": "string",

@@ -102,6 +102,7 @@ class DiscriminatorDeterminator {
             .getMembers()
             .filter(pojoMember -> pojoMember.getName().equals(propertyName))
             .map(member -> assertNecessity(schemaName, member))
+            .map(member -> assertNotNullable(schemaName, member))
             .map(member -> extractType(objectPojo, schemaName, member));
 
     final PList<PojoDiscriminatorType> allOfDiscriminatorTypes =
@@ -146,6 +147,16 @@ class DiscriminatorDeterminator {
     if (member.isOptional()) {
       throw new OpenApiGeneratorException(
           "Invalid schema: Property %s of schema %s is not required.",
+          member.getName(), schemaName);
+    }
+    return member;
+  }
+
+  private static PojoMember assertNotNullable(SchemaName schemaName, PojoMember member) {
+    if (member.isNullable()) {
+      throw new OpenApiGeneratorException(
+          "Invalid schema: Property %s of schema %s is nullable. A discriminator property must not "
+              + "be nullable, as a null value cannot resolve the schema of the composition.",
           member.getName(), schemaName);
     }
     return member;
