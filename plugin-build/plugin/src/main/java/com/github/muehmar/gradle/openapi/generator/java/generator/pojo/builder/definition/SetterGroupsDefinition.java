@@ -17,6 +17,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.bu
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ALL_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ANY_OF_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ARRAY_VALUE;
+import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.DISCRIMINATOR_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.OBJECT_MEMBER;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember.MemberType.ONE_OF_MEMBER;
 
@@ -30,7 +31,7 @@ public class SetterGroupsDefinition {
   public static SetterGroups create() {
     return new SetterGroups(
         groups(
-            nested(isStandardMemberType().or(isAllOfMemberType()), standardAndAllOfMemberType()),
+            nested(isStandardOrAllOfMemberType(), standardAndAllOfMemberType()),
             nested(isOneOfOrAnyOfMemberType(), oneOfAnyOfMemberType())));
   }
 
@@ -188,17 +189,35 @@ public class SetterGroupsDefinition {
                         generator(CONTAINER_NULLABLE_VALUE_TRISTATE_SETTER))))));
   }
 
-  private static Predicate<JavaPojoMember> isStandardMemberType() {
-    return member -> member.getType().equals(OBJECT_MEMBER) || member.getType().equals(ARRAY_VALUE);
+  /**
+   * Assigns each member type to the setter variant it uses. Every {@link JavaPojoMember.MemberType}
+   * must be mapped here: a member matching no variant would silently get no setters at all.
+   */
+  private static SetterVariant setterVariantOf(JavaPojoMember member) {
+    switch (member.getType()) {
+      case OBJECT_MEMBER:
+      case ARRAY_VALUE:
+      case ALL_OF_MEMBER:
+        return SetterVariant.STANDARD_AND_ALL_OF;
+      case ONE_OF_MEMBER:
+      case ANY_OF_MEMBER:
+      case DISCRIMINATOR_MEMBER:
+        return SetterVariant.ONE_OF_AND_ANY_OF;
+    }
+    throw new IllegalStateException("Unhandled member type " + member.getType());
   }
 
-  private static Predicate<JavaPojoMember> isAllOfMemberType() {
-    return member -> member.getType().equals(ALL_OF_MEMBER);
+  private enum SetterVariant {
+    STANDARD_AND_ALL_OF,
+    ONE_OF_AND_ANY_OF
+  }
+
+  private static Predicate<JavaPojoMember> isStandardOrAllOfMemberType() {
+    return member -> setterVariantOf(member).equals(SetterVariant.STANDARD_AND_ALL_OF);
   }
 
   private static Predicate<JavaPojoMember> isOneOfOrAnyOfMemberType() {
-    return member ->
-        member.getType().equals(ONE_OF_MEMBER) || member.getType().equals(ANY_OF_MEMBER);
+    return member -> setterVariantOf(member).equals(SetterVariant.ONE_OF_AND_ANY_OF);
   }
 
   private static Predicate<JavaPojoMember> isNullableValueContainerType() {

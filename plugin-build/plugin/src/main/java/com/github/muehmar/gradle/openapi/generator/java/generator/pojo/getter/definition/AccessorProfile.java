@@ -87,6 +87,7 @@ public class AccessorProfile {
         return Visibility.PACKAGE_PRIVATE;
       case OBJECT_MEMBER:
       case ALL_OF_MEMBER:
+      case DISCRIMINATOR_MEMBER:
       case ARRAY_VALUE:
         return Visibility.PUBLIC;
     }
@@ -101,6 +102,7 @@ public class AccessorProfile {
       case ALL_OF_MEMBER:
       case ONE_OF_MEMBER:
       case ANY_OF_MEMBER:
+      case DISCRIMINATOR_MEMBER:
         return Constraints.DELEGATED_TO_MEMBER_DTO;
     }
     throw new IllegalStateException("Unhandled member type " + member.getType());

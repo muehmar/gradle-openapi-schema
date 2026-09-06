@@ -1278,6 +1278,684 @@ public class PersonDto {
 ]
 
 
+anyOfCompositionWithDiscriminator=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = AnyOfPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
+public class AnyOfPojo1Dto {
+  private final String stringVal;
+  private final Integer intVal;
+  private final Double doubleVal;
+  private final LocalDate birthdate;
+  private final String email;
+  private final Map<String, Object> additionalProperties;
+
+  AnyOfPojo1Dto(
+      String stringVal,
+      Integer intVal,
+      Double doubleVal,
+      LocalDate birthdate,
+      String email,
+      Map<String, Object> additionalProperties
+    ) {
+    this.stringVal = stringVal;
+    this.intVal = intVal;
+    this.doubleVal = doubleVal;
+    this.birthdate = birthdate;
+    this.email = email;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * stringVal
+   */
+  public String getStringVal() {
+    return stringVal;
+  }
+
+  @JsonProperty("stringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getStringValJson() {
+    return stringVal;
+  }
+.
+.
+  Integer getIntVal() {
+    return intVal;
+  }
+
+  @JsonProperty("intVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Integer getIntValJson() {
+    return intVal;
+  }
+.
+.
+  Double getDoubleVal() {
+    return doubleVal;
+  }
+
+  @JsonProperty("doubleVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Double getDoubleValJson() {
+    return doubleVal;
+  }
+.
+.
+  LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdateJson() {
+    return birthdate;
+  }
+.
+.
+  String getEmail() {
+    return email;
+  }
+
+  @JsonProperty("email")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getEmailJson() {
+    return email;
+  }
+
+  @Valid
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  /**
+   * Returns {@link SampleObjectPojo1Dto} of the anyOf composition in case it is
+   * valid against the schema SampleObjectPojo1 wrapped in an {@link Optional}, empty
+   * otherwise.
+   */
+  public Optional<SampleObjectPojo1Dto> getSampleObjectPojo1Dto() {
+    return foldAnyOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
+  }
+
+  /**
+   * Returns {@link SampleObjectPojo2Dto} of the anyOf composition in case it is
+   * valid against the schema SampleObjectPojo2 wrapped in an {@link Optional}, empty
+   * otherwise.
+   */
+  public Optional<SampleObjectPojo2Dto> getSampleObjectPojo2Dto() {
+    return foldAnyOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (stringVal != null ? 1 : 0) +
+      (intVal != null ? 1 : 0) +
+      (doubleVal != null ? 1 : 0) +
+      (birthdate != null ? 1 : 0) +
+      (email != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * Folds the anyOf part of this instance using the given mapping functions for the
+   * DTO's. If this instance is valid against the schema described by the
+   * discriminator, its corresponding mapping function gets executed with the DTO as
+   * input and its result is returned.<br>
+   * <br>
+   * I.e. if the JSON was valid against the schema 'SampleObjectPojo1' and the
+   * discriminator points to this schema, the mapping method {@code
+   * onSampleObjectPojo1Dto} gets executed with the {@link SampleObjectPojo1Dto} as
+   * argument.<br>
+   * <br>
+   * Unlike {@link AnyOfPojo1Dto#foldAnyOf(Function, Function)}, this method accepts
+   * as last parameter a {@link Supplier} which gets called in case this instance is
+   * not valid against the schema described by the discriminator and its value is
+   * returned.
+   */
+  public <T> T foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
+    if ("SampleObjectPojo1".equals(stringVal) && isValidAgainstSampleObjectPojo1Dto()) {
+      return onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto());
+    }
+    else if ("SampleObjectPojo2".equals(stringVal) && isValidAgainstSampleObjectPojo2Dto()) {
+      return onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto());
+    }
+    else {
+      return onInvalid.get();
+    }
+  }
+
+  /**
+   * Folds the anyOf part of this instance using the given mapping functions for the
+   * DTO's. If this instance is valid against the schema described by the
+   * discriminator, its corresponding mapping function gets executed with the DTO as
+   * input and its result is returned.<br>
+   * <br>
+   * I.e. if the JSON was valid against the schema 'SampleObjectPojo1' and the
+   * discriminator points to this schema, the mapping method {@code
+   * onSampleObjectPojo1Dto} gets executed with the {@link SampleObjectPojo1Dto} as
+   * argument.<br>
+   * <br>
+   * This method assumes this instance is either manually or automatically validated,
+   * i.e. it is valid against the schema described by the discriminator. If not, it
+   * will throw an {@link IllegalStateException}
+   */
+  public <T> T foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
+    return foldAnyOf(
+      onSampleObjectPojo1Dto,
+      onSampleObjectPojo2Dto,
+      () -> {throw new IllegalStateException("Unable to fold the anyOf part of AnyOfPojo1Dto: Not valid against one of the schemas [SampleObjectPojo1Dto, SampleObjectPojo2Dto] or not valid against the schema described by the discriminator.");}
+    );
+  }
+
+  private SampleObjectPojo1Dto asSampleObjectPojo1Dto() {
+    Map<String, Object> props = new HashMap<>(additionalProperties);
+    if (birthdate != null) {
+      props.put("birthdate", birthdate);
+    }
+    if (email != null) {
+      props.put("email", email);
+    }
+    return new SampleObjectPojo1Dto(
+      stringVal,
+      intVal,
+      doubleVal,
+      props
+    );
+  }
+
+  private SampleObjectPojo2Dto asSampleObjectPojo2Dto() {
+    Map<String, Object> props = new HashMap<>(additionalProperties);
+    if (intVal != null) {
+      props.put("intVal", intVal);
+    }
+    if (doubleVal != null) {
+      props.put("doubleVal", doubleVal);
+    }
+    return new SampleObjectPojo2Dto(
+      stringVal,
+      birthdate,
+      email,
+      props
+    );
+  }
+
+  @Valid
+  private Map<String, Object> getInvalidAnyOf() {
+    final Map<String, Object> dtos = new HashMap<>();
+    if(getAnyOfValidCount() == 0 || !isValidAgainstTheCorrectAnyOfSchema()) {
+      if(stringVal != null) {
+        switch(stringVal) {
+          case "SampleObjectPojo1":
+            dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
+            return dtos;
+          case "SampleObjectPojo2":
+            dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
+            return dtos;
+        }
+      }
+      dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
+      dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
+    }
+    return dtos;
+  }
+
+  private boolean isValidAgainstSampleObjectPojo1Dto() {
+    return asSampleObjectPojo1Dto().isValid();
+  }
+
+  private boolean isValidAgainstSampleObjectPojo2Dto() {
+    return asSampleObjectPojo2Dto().isValid();
+  }
+
+  private int getAnyOfValidCount() {
+    return
+      (isValidAgainstSampleObjectPojo1Dto() ? 1 : 0) +
+      (isValidAgainstSampleObjectPojo2Dto() ? 1 : 0);
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [SampleObjectPojo1, SampleObjectPojo2]")
+  private boolean isValidAgainstNoAnyOfSchema() {
+    return getAnyOfValidCount() == 0;
+  }
+
+  @Valid
+  private Object getAnyOf() {
+    if (getAnyOfValidCount() == 0) {
+      return null;
+    }
+    return foldAnyOf(dto -> dto, dto -> dto);
+  }
+
+  @AssertTrue(message = "Not valid against the schema described by the anyOf-discriminator")
+  private boolean isValidAgainstTheCorrectAnyOfSchema() {
+    if (stringVal == null) {
+      return false;
+    }
+    switch(stringVal) {
+      case "SampleObjectPojo1": return isValidAgainstSampleObjectPojo1Dto();
+      case "SampleObjectPojo2": return isValidAgainstSampleObjectPojo2Dto();
+    }
+    return false;
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return getAnyOfValidCount() >= 1
+          && isValidAgainstTheCorrectAnyOfSchema()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final AnyOfPojo1Dto other = (AnyOfPojo1Dto) obj;
+    return Objects.deepEquals(this.stringVal, other.stringVal)
+        && Objects.deepEquals(this.intVal, other.intVal)
+        && Objects.deepEquals(this.doubleVal, other.doubleVal)
+        && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.email, other.email)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      stringVal,
+      intVal,
+      doubleVal,
+      birthdate,
+      email,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "AnyOfPojo1Dto{" +
+      "stringVal=" + "'" + stringVal + "'" + ", " +
+      "intVal=" + intVal + ", " +
+      "doubleVal=" + doubleVal + ", " +
+      "birthdate=" + birthdate + ", " +
+      "email=" + "'" + email + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String stringVal;
+    private Integer intVal;
+    private Double doubleVal;
+    private LocalDate birthdate;
+    private String email;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("stringVal")
+    private Builder setStringValJson(String stringVal) {
+      this.stringVal = stringVal;
+      return this;
+    }
+
+    /**
+     * stringVal
+     */
+    private Builder setStringVal(String stringVal) {
+      this.stringVal = stringVal;
+      return this;
+    }
+
+    @JsonProperty("intVal")
+    private Builder setIntValJson(Integer intVal) {
+      this.intVal = intVal;
+      return this;
+    }
+
+    /**
+     * intVal
+     */
+    private Builder setIntVal(Integer intVal) {
+      this.intVal = intVal;
+      return this;
+    }
+
+    @JsonProperty("doubleVal")
+    private Builder setDoubleValJson(Double doubleVal) {
+      this.doubleVal = doubleVal;
+      return this;
+    }
+
+    /**
+     * doubleVal
+     */
+    private Builder setDoubleVal(Double doubleVal) {
+      this.doubleVal = doubleVal;
+      return this;
+    }
+
+    @JsonProperty("birthdate")
+    private Builder setBirthdateJson(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    private Builder setBirthdate(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    @JsonProperty("email")
+    private Builder setEmailJson(String email) {
+      this.email = email;
+      return this;
+    }
+
+    /**
+     * email
+     */
+    private Builder setEmail(String email) {
+      this.email = email;
+      return this;
+    }
+
+    private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+      setStringVal("SampleObjectPojo1");
+      setIntVal(dto.getIntVal());
+      setDoubleVal(dto.getDoubleVal());
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+      return this;
+    }
+
+    private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+      setStringVal("SampleObjectPojo2");
+      setBirthdate(dto.getBirthdate());
+      setEmail(dto.getEmail());
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public AnyOfPojo1Dto build() {
+      additionalProperties.remove("stringVal");
+      additionalProperties.remove("intVal");
+      additionalProperties.remove("doubleVal");
+      additionalProperties.remove("birthdate");
+      additionalProperties.remove("email");
+
+      return new AnyOfPojo1Dto(stringVal, intVal, doubleVal, birthdate, email, additionalProperties);
+    }
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullAnyOfBuilder0 fullBuilder() {
+    return new BuilderStages.FullAnyOfBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullAnyOfBuilder0 fullAnyOfPojo1DtoBuilder() {
+    return new BuilderStages.FullAnyOfBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.AnyOfBuilder0 builder() {
+    return new BuilderStages.AnyOfBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.AnyOfBuilder0 anyOfPojo1DtoBuilder() {
+    return new BuilderStages.AnyOfBuilder0(new Builder());
+  }
+
+  public static final class BuilderStages {
+    private BuilderStages() {}
+
+    public static final class FullAnyOfBuilder0 {
+      private final Builder builder;
+
+      private FullAnyOfBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+        return new FullOptPropertyBuilder0(builder.setSampleObjectPojo1Dto(dto));
+      }
+
+      public FullOptPropertyBuilder0 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+        return new FullOptPropertyBuilder0(builder.setSampleObjectPojo2Dto(dto));
+      }
+
+      public FullOptPropertyBuilder0 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+        if (container.getSampleObjectPojo1Dto() != null) {
+          builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
+        }
+
+        if (container.getSampleObjectPojo2Dto() != null) {
+          builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
+        }
+        return new FullOptPropertyBuilder0(builder);
+      }
+    }
+
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public AnyOfPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class AnyOfBuilder0 {
+      private final Builder builder;
+
+      private AnyOfBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public PropertyBuilder0 setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
+        return new PropertyBuilder0(builder.setSampleObjectPojo1Dto(dto));
+      }
+
+      public PropertyBuilder0 setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
+        return new PropertyBuilder0(builder.setSampleObjectPojo2Dto(dto));
+      }
+
+      public PropertyBuilder0 setAnyOfContainer(AnyOfPojo1AnyOfContainerDto container) {
+        if (container.getSampleObjectPojo1Dto() != null) {
+          builder.setSampleObjectPojo1Dto(container.getSampleObjectPojo1Dto());
+        }
+
+        if (container.getSampleObjectPojo2Dto() != null) {
+          builder.setSampleObjectPojo2Dto(container.getSampleObjectPojo2Dto());
+        }
+        return new PropertyBuilder0(builder);
+      }
+    }
+
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public AnyOfPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public AnyOfPojo1Dto build(){
+        return builder.build();
+      }
+    }
+  }
+}
+]
+
+
 anyTypeMap=[
 package com.github.muehmar;
 
@@ -12762,6 +13440,608 @@ public class PersonDto {
       }
 
       public PersonDto build(){
+        return builder.build();
+      }
+    }
+  }
+}
+]
+
+
+oneOfCompositionWithDiscriminator=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = OneOfDto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
+public class OneOfDto {
+  private final String stringVal;
+  private final String color;
+  private final LocalDate birthdate;
+  private final Map<String, Object> additionalProperties;
+
+  OneOfDto(
+      String stringVal,
+      String color,
+      LocalDate birthdate,
+      Map<String, Object> additionalProperties
+    ) {
+    this.stringVal = stringVal;
+    this.color = color;
+    this.birthdate = birthdate;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  String getStringVal() {
+    return stringVal;
+  }
+
+  @JsonProperty("stringVal")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getStringValJson() {
+    return stringVal;
+  }
+.
+.
+  /**
+   * Color
+   */
+  public BaseDto.Color getColor() {
+    return color != null ? BaseDto.Color.fromValue(color) : null;
+  }
+
+  @JsonProperty("color")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getColorJson() {
+    return color;
+  }
+.
+.
+  LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  @JsonProperty("birthdate")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private LocalDate getBirthdateJson() {
+    return birthdate;
+  }
+
+  @Valid
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  /**
+   * Returns {@link YellowDto} of the oneOf composition in case it is valid against
+   * the schema Yellow wrapped in an {@link Optional}, empty otherwise.
+   */
+  public Optional<YellowDto> getYellowDto() {
+    return foldOneOf(Optional::of, ignore -> Optional.empty(), Optional::empty);
+  }
+
+  /**
+   * Returns {@link OrangeDto} of the oneOf composition in case it is valid against
+   * the schema Orange wrapped in an {@link Optional}, empty otherwise.
+   */
+  public Optional<OrangeDto> getOrangeDto() {
+    return foldOneOf(ignore -> Optional.empty(), Optional::of, Optional::empty);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (stringVal != null ? 1 : 0) +
+      (color != null ? 1 : 0) +
+      (birthdate != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * Folds the oneOf part of this instance using the given mapping functions for the
+   * DTO's. If this instance is valid against exactly one of the specified schemas,
+   * its corresponding mapping function gets executed with the DTO as input and its
+   * result is returned.<br>
+   * <br>
+   * I.e. if the JSON was valid against the schema 'Yellow' and the discriminator
+   * points to this schema, the mapping method {@code onYellowDto} gets executed with
+   * the {@link YellowDto} as argument.<br>
+   * <br>
+   * Unlike {@link OneOfDto#foldOneOf(Function, Function)}, this method accepts as
+   * last parameter a {@link Supplier} which gets called in case this instance is not
+   * valid against exactly one of the defined oneOf schemas and not valid against the
+   * schema described by the discriminator and its value is returned.
+   */
+  public <T> T foldOneOf(Function<YellowDto, T> onYellowDto, Function<OrangeDto, T> onOrangeDto, Supplier<T> onInvalid) {
+    if ("yellow".equals(color) && isValidAgainstYellowDto()) {
+      return onYellowDto.apply(asYellowDto());
+    }
+    else if ("orange".equals(color) && isValidAgainstOrangeDto()) {
+      return onOrangeDto.apply(asOrangeDto());
+    }
+    else {
+      return onInvalid.get();
+    }
+  }
+
+  /**
+   * Folds the oneOf part of this instance using the given mapping functions for the
+   * DTO's. If this instance is valid against exactly one of the specified schemas,
+   * its corresponding mapping function gets executed with the DTO as input and its
+   * result is returned.<br>
+   * <br>
+   * I.e. if the JSON was valid against the schema 'Yellow' and the discriminator
+   * points to this schema, the mapping method {@code onYellowDto} gets executed with
+   * the {@link YellowDto} as argument.<br>
+   * <br>
+   * This method assumes this instance is either manually or automatically validated,
+   * i.e. it is valid against exactly one of the defined oneOf schemas and valid
+   * against the schema described by the discriminator. If not, it will throw an
+   * {@link IllegalStateException}
+   */
+  public <T> T foldOneOf(Function<YellowDto, T> onYellowDto, Function<OrangeDto, T> onOrangeDto) {
+    return foldOneOf(
+      onYellowDto,
+      onOrangeDto,
+      () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfDto: Not valid against one of the schemas [YellowDto, OrangeDto] or not valid against the schema described by the discriminator.");}
+    );
+  }
+
+  private YellowDto asYellowDto() {
+    Map<String, Object> props = new HashMap<>(additionalProperties);
+    if (birthdate != null) {
+      props.put("birthdate", birthdate);
+    }
+    return new YellowDto(
+      stringVal,
+      color,
+      props
+    );
+  }
+
+  private OrangeDto asOrangeDto() {
+    Map<String, Object> props = new HashMap<>(additionalProperties);
+    if (stringVal != null) {
+      props.put("stringVal", stringVal);
+    }
+    return new OrangeDto(
+      birthdate,
+      color,
+      props
+    );
+  }
+
+  @Valid
+  private Map<String, Object> getInvalidOneOf() {
+    final Map<String, Object> dtos = new HashMap<>();
+    if(getOneOfValidCount() != 1 || !isValidAgainstTheCorrectOneOfSchema()) {
+      if(color != null) {
+        switch(color) {
+          case "yellow":
+            dtos.put("Yellow", asYellowDto());
+            return dtos;
+          case "orange":
+            dtos.put("Orange", asOrangeDto());
+            return dtos;
+        }
+      }
+      dtos.put("Yellow", asYellowDto());
+      dtos.put("Orange", asOrangeDto());
+    }
+    return dtos;
+  }
+
+  private boolean isValidAgainstYellowDto() {
+    return asYellowDto().isValid();
+  }
+
+  private boolean isValidAgainstOrangeDto() {
+    return asOrangeDto().isValid();
+  }
+
+  private int getOneOfValidCount() {
+    return
+      (isValidAgainstYellowDto() ? 1 : 0) +
+      (isValidAgainstOrangeDto() ? 1 : 0);
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [Yellow, Orange]")
+  private boolean isValidAgainstNoOneOfSchema() {
+    return getOneOfValidCount() == 0;
+  }
+
+  @AssertFalse(message = "Is valid against more than one of the schemas [Yellow, Orange]")
+  private boolean isValidAgainstMoreThanOneSchema() {
+    return getOneOfValidCount() > 1;
+  }
+
+  @Valid
+  private Object getOneOf() {
+    if (getOneOfValidCount() != 1) {
+      return null;
+    }
+    return foldOneOf(dto -> dto, dto -> dto, () -> null);
+  }
+
+  @AssertTrue(message = "Not valid against the schema described by the oneOf-discriminator")
+  private boolean isValidAgainstTheCorrectOneOfSchema() {
+    if (color == null) {
+      return false;
+    }
+    switch(color) {
+      case "yellow": return isValidAgainstYellowDto();
+      case "orange": return isValidAgainstOrangeDto();
+    }
+    return false;
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return getOneOfValidCount() == 1
+          && isValidAgainstTheCorrectOneOfSchema()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final OneOfDto other = (OneOfDto) obj;
+    return Objects.deepEquals(this.stringVal, other.stringVal)
+        && Objects.deepEquals(this.color, other.color)
+        && Objects.deepEquals(this.birthdate, other.birthdate)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      stringVal,
+      color,
+      birthdate,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "OneOfDto{" +
+      "stringVal=" + "'" + stringVal + "'" + ", " +
+      "color=" + "'" + color + "'" + ", " +
+      "birthdate=" + birthdate + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String stringVal;
+    private String color;
+    private LocalDate birthdate;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("stringVal")
+    private Builder setStringValJson(String stringVal) {
+      this.stringVal = stringVal;
+      return this;
+    }
+
+    /**
+     * stringVal
+     */
+    private Builder setStringVal(String stringVal) {
+      this.stringVal = stringVal;
+      return this;
+    }
+
+    @JsonProperty("color")
+    private Builder setColorJson(String color) {
+      this.color = color;
+      return this;
+    }
+
+    /**
+     * Color
+     */
+    private Builder setColor(BaseDto.Color color) {
+      this.color = color != null ? color.getValue() : null;
+      return this;
+    }
+
+    @JsonProperty("birthdate")
+    private Builder setBirthdateJson(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    /**
+     * Birthdate
+     */
+    private Builder setBirthdate(LocalDate birthdate) {
+      this.birthdate = birthdate;
+      return this;
+    }
+
+    private Builder setYellowDto(YellowDto dto) {
+      setStringVal(dto.getStringVal());
+      setColor(BaseDto.Color.fromValue("yellow"));
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+      return this;
+    }
+
+    private Builder setOrangeDto(OrangeDto dto) {
+      setBirthdate(dto.getBirthdate());
+      setColor(BaseDto.Color.fromValue("orange"));
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public OneOfDto build() {
+      additionalProperties.remove("stringVal");
+      additionalProperties.remove("color");
+      additionalProperties.remove("birthdate");
+
+      return new OneOfDto(stringVal, color, birthdate, additionalProperties);
+    }
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullOneOfBuilder fullBuilder() {
+    return new BuilderStages.FullOneOfBuilder(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullOneOfBuilder fullOneOfDtoBuilder() {
+    return new BuilderStages.FullOneOfBuilder(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.OneOfBuilder builder() {
+    return new BuilderStages.OneOfBuilder(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.OneOfBuilder oneOfDtoBuilder() {
+    return new BuilderStages.OneOfBuilder(new Builder());
+  }
+
+  public static final class BuilderStages {
+    private BuilderStages() {}
+
+    public static final class FullOneOfBuilder {
+      private final Builder builder;
+
+      private FullOneOfBuilder(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 setYellowDto(YellowDto dto) {
+        return new FullOptPropertyBuilder0(builder.setYellowDto(dto));
+      }
+
+      public FullOptPropertyBuilder0 setOrangeDto(OrangeDto dto) {
+        return new FullOptPropertyBuilder0(builder.setOrangeDto(dto));
+      }
+
+      public FullOptPropertyBuilder0 setOneOfContainer(OneOfOneOfContainerDto container) {
+        if (container.getYellowDto() != null) {
+          builder.setYellowDto(container.getYellowDto());
+        }
+
+        if (container.getOrangeDto() != null) {
+          builder.setOrangeDto(container.getOrangeDto());
+        }
+        return new FullOptPropertyBuilder0(builder);
+      }
+    }
+
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public OneOfDto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OneOfBuilder {
+      private final Builder builder;
+
+      private OneOfBuilder(Builder builder) {
+        this.builder = builder;
+      }
+
+      public PropertyBuilder0 setYellowDto(YellowDto dto) {
+        return new PropertyBuilder0(builder.setYellowDto(dto));
+      }
+
+      public PropertyBuilder0 setOrangeDto(OrangeDto dto) {
+        return new PropertyBuilder0(builder.setOrangeDto(dto));
+      }
+
+      public PropertyBuilder0 setOneOfContainer(OneOfOneOfContainerDto container) {
+        if (container.getYellowDto() != null) {
+          builder.setYellowDto(container.getYellowDto());
+        }
+
+        if (container.getOrangeDto() != null) {
+          builder.setOrangeDto(container.getOrangeDto());
+        }
+        return new PropertyBuilder0(builder);
+      }
+    }
+
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public OneOfDto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public OneOfDto build(){
         return builder.build();
       }
     }

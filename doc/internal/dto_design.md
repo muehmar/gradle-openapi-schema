@@ -13,8 +13,8 @@ The user-facing counterparts are [Compositions](../040_compositions.md) (how to 
 |----------|--------------------|-------------------------------------------|-------------------------------------------|--------------------|
 | simple   | own getters        | own annotations                           | –                                         | public             |
 | `allOf`  | own flat getters   | none on itself, delegated to member DTO's | implicit (must be valid against all)      | public             |
-| `oneOf`  | own flat getters   | none on itself, delegated to member DTO's | valid against exactly one member schema   | package-private    |
-| `anyOf`  | own flat getters   | none on itself, delegated to member DTO's | valid against at least one member schema  | package-private    |
+| `oneOf`  | own flat getters   | none on itself, delegated to member DTO's | valid against exactly one member schema   | package-private (discriminator: public) |
+| `anyOf`  | own flat getters   | none on itself, delegated to member DTO's | valid against at least one member schema  | package-private (discriminator: public) |
 
 The three concepts behind this table are described below.
 
@@ -64,6 +64,11 @@ level of the composition a property has no well-defined meaning: it belongs to *
 match, and the object may match none. The public API is therefore the decomposition itself — the `foldOneOf(...)` /
 `foldAnyOf(...)` methods and the `get<Member>Dto()` accessors — and properties become public again on the member DTO
 one obtains from it.
+
+The discriminator property is the exception: it is by specification present on every variant, so its value is
+well-defined on the composition itself, and reading it carries none of the preconditions of the fold (it does not
+require the instance to be valid against exactly one schema). Its getter is therefore public on the composition DTO
+— but it still carries no constraints and gets no wither, like every other flat field of the composition.
 
 In nested compositions the visibility follows the composition kind at each level, not the nesting depth.
 

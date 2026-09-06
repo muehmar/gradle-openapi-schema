@@ -1,6 +1,10 @@
 ## Change Log
 
 * next
+    * [#437](https://github.com/muehmar/gradle-openapi-schema/issues/437) - Make the getter of the discriminator
+      property public on a generated oneOf/anyOf composition DTO. Unlike any other flat property of such a DTO, the
+      discriminator is guaranteed to be present on every variant, so reading the tag no longer requires
+      `foldOneOf(...)` or the deprecated framework getter. All other flat getters remain package-private
     * [#436](https://github.com/muehmar/gradle-openapi-schema/issues/436) - Annotate the generated DTOs and their
       builders with `@JsonAutoDetect` and switch Jackson's auto-detection off, instead of annotating every method
       which must not be serialized with `@JsonIgnore`. Every serialized member carries an explicit annotation

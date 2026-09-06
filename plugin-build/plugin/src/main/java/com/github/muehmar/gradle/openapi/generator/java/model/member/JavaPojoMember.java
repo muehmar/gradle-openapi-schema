@@ -127,6 +127,10 @@ public class JavaPojoMember {
     return withType(MemberType.ANY_OF_MEMBER);
   }
 
+  public JavaPojoMember asDiscriminatorMember() {
+    return withType(MemberType.DISCRIMINATOR_MEMBER);
+  }
+
   public boolean isOptional() {
     return necessity.isOptional();
   }
@@ -311,6 +315,7 @@ public class JavaPojoMember {
     ALL_OF_MEMBER,
     ONE_OF_MEMBER,
     ANY_OF_MEMBER,
+    DISCRIMINATOR_MEMBER,
     ARRAY_VALUE
   }
 }
