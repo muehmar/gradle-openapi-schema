@@ -122,9 +122,24 @@ public class AccessorProfile {
     return visibility == Visibility.PACKAGE_PRIVATE;
   }
 
-  /** The flag accessor readable from outside the dto, as opposed to the validation assertion. */
-  public boolean hasReadableFlagAccessor() {
-    return hasPresenceFlag() && !hasOwnConstraints() && isPackagePrivate();
+  /**
+   * Whether a composed dto reads this property's value across classes when this dto is used as its
+   * member. The parent assigns the value straight into its own field, hence the accessor returns
+   * the internal representation and no api conversion runs on either side.
+   */
+  public boolean hasCrossDtoValueAccessor() {
+    return isPackagePrivate();
+  }
+
+  /**
+   * Whether a composed dto reads this property's companion flag across classes when this dto is
+   * used as its member. Every shape but the required and not-nullable one carries such a flag, and
+   * the internal value accessor alone would not tell an absent property from a {@code null} one.
+   * Both the declaration and the call site in the parent derive this from the member's type within
+   * the same composed pojo, hence the two always agree.
+   */
+  public boolean hasCrossDtoFlagAccessor() {
+    return hasCrossDtoValueAccessor() && shape != Shape.STANDARD;
   }
 
   /**
@@ -138,9 +153,7 @@ public class AccessorProfile {
             ? PList.of(
                 member.getGetterNameWithSuffix(settings), member.getGetterName().append("Or"))
             : PList.single(member.getGetterNameWithSuffix(settings));
-    return hasReadableFlagAccessor()
-        ? apiGetterNames.cons(member.getFlagGetterName())
-        : apiGetterNames;
+    return apiGetterNames;
   }
 
   /**

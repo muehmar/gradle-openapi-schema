@@ -150,25 +150,25 @@ private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
 }
 
 private Builder setOneOfPojo1Dto(OneOfPojo1Dto dto) {
-  setRequiredStringVal(dto.getRequiredStringVal());
-  if (dto.getIsRequiredNullableStringValPresent()) setRequiredNullableStringVal(dto.getRequiredNullableStringVal());
-  if (dto.getIsOptionalStringValNotNull()) setOptionalStringVal(dto.getOptionalStringVal());
-  setOptionalNullableStringVal(dto.getOptionalNullableStringVal());
-  setRequiredListWithNullableItems_(dto.getRequiredListWithNullableItems());
-  if (dto.getIsRequiredNullableListWithNullableItemsPresent()) setRequiredNullableListWithNullableItems_(dto.getRequiredNullableListWithNullableItems());
-  if (dto.getIsOptionalListWithNullableItemsNotNull()) setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItems());
-  setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItems());
-  setRequiredMap(dto.getRequiredMap());
-  setRequiredMapWithNullableValues_(dto.getRequiredMapWithNullableValues());
-  if (dto.getIsRequiredNullableMapPresent()) setRequiredNullableMap(dto.getRequiredNullableMap());
-  if (dto.getIsRequiredNullableMapWithNullableValuesPresent()) setRequiredNullableMapWithNullableValues_(dto.getRequiredNullableMapWithNullableValues());
-  if (dto.getIsOptionalMapNotNull()) setOptionalMap(dto.getOptionalMap());
-  if (dto.getIsOptionalMapWithNullableValuesNotNull()) setOptionalMapWithNullableValues_(dto.getOptionalMapWithNullableValues());
-  setOptionalNullableMap(dto.getOptionalNullableMap());
-  setOptionalNullableMapWithNullableValues_(dto.getOptionalNullableMapWithNullableValues());
-  setStringVal(dto.getStringVal());
-  setBirthdate(dto.getBirthdate());
-  setEmail(dto.getEmail());
+  setRequiredStringVal(dto.getRequiredStringValInternal2741988768());
+  if (dto.getRequiredNullableStringValInternal2741988768Flag()) setRequiredNullableStringVal(dto.getRequiredNullableStringValInternal2741988768());
+  if (dto.getOptionalStringValInternal2741988768Flag()) setOptionalStringVal(dto.getOptionalStringValInternal2741988768());
+  if (dto.getOptionalNullableStringValInternal2741988768Flag()) setOptionalNullableStringVal(dto.getOptionalNullableStringValInternal2741988768());
+  setRequiredListWithNullableItems_(dto.getRequiredListWithNullableItemsInternal2741988768());
+  if (dto.getRequiredNullableListWithNullableItemsInternal2741988768Flag()) setRequiredNullableListWithNullableItems_(dto.getRequiredNullableListWithNullableItemsInternal2741988768());
+  if (dto.getOptionalListWithNullableItemsInternal2741988768Flag()) setOptionalListWithNullableItems_(dto.getOptionalListWithNullableItemsInternal2741988768());
+  if (dto.getOptionalNullableListWithNullableItemsInternal2741988768Flag()) setOptionalNullableListWithNullableItems_(dto.getOptionalNullableListWithNullableItemsInternal2741988768());
+  setRequiredMap(dto.getRequiredMapInternal2741988768());
+  setRequiredMapWithNullableValues_(dto.getRequiredMapWithNullableValuesInternal2741988768());
+  if (dto.getRequiredNullableMapInternal2741988768Flag()) setRequiredNullableMap(dto.getRequiredNullableMapInternal2741988768());
+  if (dto.getRequiredNullableMapWithNullableValuesInternal2741988768Flag()) setRequiredNullableMapWithNullableValues_(dto.getRequiredNullableMapWithNullableValuesInternal2741988768());
+  if (dto.getOptionalMapInternal2741988768Flag()) setOptionalMap(dto.getOptionalMapInternal2741988768());
+  if (dto.getOptionalMapWithNullableValuesInternal2741988768Flag()) setOptionalMapWithNullableValues_(dto.getOptionalMapWithNullableValuesInternal2741988768());
+  if (dto.getOptionalNullableMapInternal2741988768Flag()) setOptionalNullableMap(dto.getOptionalNullableMapInternal2741988768());
+  if (dto.getOptionalNullableMapWithNullableValuesInternal2741988768Flag()) setOptionalNullableMapWithNullableValues_(dto.getOptionalNullableMapWithNullableValuesInternal2741988768());
+  setStringVal(dto.getStringValInternal2741988768());
+  setBirthdate(dto.getBirthdateInternal2741988768());
+  setEmail(dto.getEmailInternal2741988768());
   dto.getAdditionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;

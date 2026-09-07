@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaDiscriminator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -74,7 +75,7 @@ public class DtoSetterGenerator {
                     "%s%s(dto.%s());",
                     member.setterCondition(),
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
-                    member.getGetterNameWithSuffix(s)))
+                    member.valueAccessorName(s)))
         .filter(PojosAndMember::isNotDiscriminatorAndNotNullableContainerValueMember);
   }
 
@@ -86,7 +87,7 @@ public class DtoSetterGenerator {
                     "%s%s_(dto.%s());",
                     member.setterCondition(),
                     member.prefixedMethodName(s.getBuilderMethodPrefix()),
-                    member.getGetterNameWithSuffix(s)))
+                    member.valueAccessorName(s)))
         .filter(PojosAndMember::isNullableContainerValueType);
   }
 
@@ -234,10 +235,26 @@ public class DtoSetterGenerator {
                           member.getName(), schemaName)));
     }
 
+    /**
+     * Reads the presence flag of the member dto. Both this call site and the declaration derive the
+     * accessor from the member's type within {@code composedPojo}, hence they always agree.
+     */
     String setterCondition() {
-      return AccessorProfile.of(member).hasReadableFlagAccessor()
-          ? String.format("if (dto.%s()) ", member.getFlagGetterName())
+      return AccessorProfile.of(member).hasCrossDtoFlagAccessor()
+          ? String.format("if (dto.%s()) ", MethodNames.CrossDto.flagAccessorName(member))
           : "";
+    }
+
+    /**
+     * Reads the value of the member dto. The cross-dto accessor returns the internal
+     * representation, which is assigned straight into the field of the parent, so no api conversion
+     * runs on either side - a round trip through a user-defined conversion is not guaranteed to be
+     * lossless.
+     */
+    JavaName valueAccessorName(PojoSettings settings) {
+      return AccessorProfile.of(member).hasCrossDtoValueAccessor()
+          ? MethodNames.CrossDto.valueAccessorName(member)
+          : member.getGetterNameWithSuffix(settings);
     }
 
     private boolean isNotDiscriminatorAndNotNullableContainerValueMember() {

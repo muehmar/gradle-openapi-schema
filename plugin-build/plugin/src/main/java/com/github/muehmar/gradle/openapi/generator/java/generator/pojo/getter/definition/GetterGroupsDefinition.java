@@ -4,7 +4,8 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ge
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.CONTAINER_OPTIONAL_OR_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.CONTAINER_STANDARD_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.CONTAINER_TRISTATE_GETTER;
-import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.FLAG_GETTER;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.CROSS_DTO_FLAG_ACCESSOR;
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.CROSS_DTO_VALUE_ACCESSOR;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.FLAG_VALIDATION_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.JSON_GETTER;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.OPTIONAL_GETTER;
@@ -45,7 +46,8 @@ public class GetterGroupsDefinition {
     return apiAccessors(profile)
         .add(generator(JSON_GETTER, profile))
         .concat(validationGetter(profile))
-        .concat(flagAccessor(profile));
+        .concat(flagAccessor(profile))
+        .concat(crossDtoAccessors(profile));
   }
 
   private static PList<GetterGenerator> apiAccessors(AccessorProfile profile) {
@@ -75,13 +77,20 @@ public class GetterGroupsDefinition {
   }
 
   private static PList<GetterGenerator> flagAccessor(AccessorProfile profile) {
-    if (profile.hasPresenceFlag() && profile.hasOwnConstraints()) {
-      return PList.single(generator(FLAG_VALIDATION_GETTER, profile));
-    } else if (profile.hasReadableFlagAccessor()) {
-      return PList.single(generator(FLAG_GETTER, profile));
-    } else {
-      return PList.empty();
-    }
+    return profile.hasPresenceFlag() && profile.hasOwnConstraints()
+        ? PList.single(generator(FLAG_VALIDATION_GETTER, profile))
+        : PList.empty();
+  }
+
+  /** The accessors read by a composed dto on this dto when it is used as one of its members. */
+  private static PList<GetterGenerator> crossDtoAccessors(AccessorProfile profile) {
+    final PList<GetterGenerator> valueAccessor =
+        profile.hasCrossDtoValueAccessor()
+            ? PList.single(generator(CROSS_DTO_VALUE_ACCESSOR, profile))
+            : PList.empty();
+    return profile.hasCrossDtoFlagAccessor()
+        ? valueAccessor.add(generator(CROSS_DTO_FLAG_ACCESSOR, profile))
+        : valueAccessor;
   }
 
   private static GetterGenerator generator(GetterMethod getterMethod, AccessorProfile profile) {

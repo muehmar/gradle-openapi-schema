@@ -1,3 +1,527 @@
+dtoSetterReadingTheFlagAccessorAcrossClasses=[
+.
+.
+private Builder setVariantDto(VariantDto dto) {
+  setName(dto.getName());
+  setIsNameNotNull(dto.getIsNameNotNull());
+  dto.getAdditionalProperties()
+      .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+  return this;
+}
+]
+
+
+flagAccessorCollidingWithApiAccessorOfSiblingOnComposedDto=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertFalse;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = OneOfPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
+public class OneOfPojo1Dto {
+  private final String name;
+  private final boolean isNameNotNull;
+  private final String isNameNotNull;
+  private final Map<String, Object> additionalProperties;
+
+  OneOfPojo1Dto(
+      String name,
+      boolean isNameNotNull,
+      String isNameNotNull,
+      Map<String, Object> additionalProperties
+    ) {
+    this.name = name;
+    this.isNameNotNull = isNameNotNull;
+    this.isNameNotNull = isNameNotNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  Optional<String> getName() {
+    return Optional.ofNullable(name);
+  }
+
+  @JsonProperty("name")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getNameJson() {
+    return name;
+  }
+
+  String getNameInternal2741988768() {
+    return name;
+  }
+
+  boolean getNameInternal2741988768Flag() {
+    return isNameNotNull;
+  }
+.
+.
+  String getIsNameNotNull() {
+    return isNameNotNull;
+  }
+
+  @JsonProperty("isNameNotNull")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getIsNameNotNullJson() {
+    return isNameNotNull;
+  }
+
+  String getIsNameNotNullInternal2741988768() {
+    return isNameNotNull;
+  }
+
+  @Valid
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  /**
+   * Returns {@link VariantDto} of the oneOf composition in case it is valid against
+   * the schema ObjectPojo1 wrapped in an {@link Optional}, empty otherwise.
+   */
+  public Optional<VariantDto> getVariantDto() {
+    return foldOneOf(Optional::of, Optional::empty);
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (name != null ? 1 : 0) +
+      (isNameNotNull != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * Folds the oneOf part of this instance using the given mapping functions for the
+   * DTO's. If this instance is valid against exactly one of the specified schemas,
+   * its corresponding mapping function gets executed with the DTO as input and its
+   * result is returned.<br>
+   * <br>
+   * I.e. if the JSON was valid against the schema 'ObjectPojo1', the mapping method
+   * {@code onVariantDto} gets executed with the {@link VariantDto} as argument.<br>
+   * <br>
+   * Unlike {@link OneOfPojo1Dto#foldOneOf(Function)}, this method accepts as last
+   * parameter a {@link Supplier} which gets called in case this instance is not
+   * valid against exactly one of the defined oneOf schemas and its value is
+   * returned.
+   */
+  public <T> T foldOneOf(Function<VariantDto, T> onVariantDto, Supplier<T> onInvalid) {
+    if (isValidAgainstVariantDto()) {
+      return onVariantDto.apply(asVariantDto());
+    }
+    else {
+      return onInvalid.get();
+    }
+  }
+
+  /**
+   * Folds the oneOf part of this instance using the given mapping functions for the
+   * DTO's. If this instance is valid against exactly one of the specified schemas,
+   * its corresponding mapping function gets executed with the DTO as input and its
+   * result is returned.<br>
+   * <br>
+   * I.e. if the JSON was valid against the schema 'ObjectPojo1', the mapping method
+   * {@code onVariantDto} gets executed with the {@link VariantDto} as argument.<br>
+   * <br>
+   * This method assumes this instance is either manually or automatically validated,
+   * i.e. it is valid against exactly one of the defined oneOf schemas. If not, it
+   * will throw an {@link IllegalStateException}
+   */
+  public <T> T foldOneOf(Function<VariantDto, T> onVariantDto) {
+    return foldOneOf(
+      onVariantDto,
+      () -> {throw new IllegalStateException("Unable to fold the oneOf part of OneOfPojo1Dto: Not valid against one of the schemas [VariantDto] or not valid against the schema described by the discriminator.");}
+    );
+  }
+
+  private VariantDto asVariantDto() {
+    Map<String, Object> props = new HashMap<>(additionalProperties);
+    return new VariantDto(
+      name,
+      isNameNotNull,
+      isNameNotNull,
+      props
+    );
+  }
+
+  @Valid
+  private Map<String, Object> getInvalidOneOf() {
+    final Map<String, Object> dtos = new HashMap<>();
+    if(getOneOfValidCount() != 1) {
+      dtos.put("ObjectPojo1", asVariantDto());
+    }
+    return dtos;
+  }
+
+  private boolean isValidAgainstVariantDto() {
+    return asVariantDto().isValid();
+  }
+
+  private int getOneOfValidCount() {
+    return
+      (isValidAgainstVariantDto() ? 1 : 0);
+  }
+
+  @AssertFalse(message = "Is not valid against one of the schemas [ObjectPojo1]")
+  private boolean isValidAgainstNoOneOfSchema() {
+    return getOneOfValidCount() == 0;
+  }
+
+  @AssertFalse(message = "Is valid against more than one of the schemas [ObjectPojo1]")
+  private boolean isValidAgainstMoreThanOneSchema() {
+    return getOneOfValidCount() > 1;
+  }
+
+  @Valid
+  private Object getOneOf() {
+    if (getOneOfValidCount() != 1) {
+      return null;
+    }
+    return foldOneOf(dto -> dto, () -> null);
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return getOneOfValidCount() == 1
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final OneOfPojo1Dto other = (OneOfPojo1Dto) obj;
+    return Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.isNameNotNull, other.isNameNotNull)
+        && Objects.deepEquals(this.isNameNotNull, other.isNameNotNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      name,
+      isNameNotNull,
+      isNameNotNull,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "OneOfPojo1Dto{" +
+      "name=" + "'" + name + "'" + ", " +
+      "isNameNotNull=" + isNameNotNull + ", " +
+      "isNameNotNull=" + "'" + isNameNotNull + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String name;
+    private boolean isNameNotNull = true;
+    private String isNameNotNull;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("name")
+    private Builder setNameJson(String name) {
+      this.name = name;
+      this.isNameNotNull = name != null;
+      return this;
+    }
+
+    /**
+     * name
+     */
+    public Builder setName(String name) {
+      this.name = name;
+      this.isNameNotNull = name != null;
+      return this;
+    }
+
+    /**
+     * name
+     */
+    public Builder setName(Optional<String> name) {
+      this.name = name.orElse(null);
+      this.isNameNotNull = true;
+      return this;
+    }
+
+    @JsonProperty("isNameNotNull")
+    private Builder setIsNameNotNullJson(String isNameNotNull) {
+      this.isNameNotNull = isNameNotNull;
+      return this;
+    }
+
+    /**
+     * isNameNotNull
+     */
+    private Builder setIsNameNotNull(String isNameNotNull) {
+      this.isNameNotNull = isNameNotNull;
+      return this;
+    }
+
+    private Builder setVariantDto(VariantDto dto) {
+      setName(dto.getName());
+      setIsNameNotNull(dto.getIsNameNotNull());
+      dto.getAdditionalProperties()
+          .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public OneOfPojo1Dto build() {
+      additionalProperties.remove("name");
+      additionalProperties.remove("isNameNotNull");
+
+      return new OneOfPojo1Dto(name, isNameNotNull, isNameNotNull, additionalProperties);
+    }
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullOneOfBuilder fullBuilder() {
+    return new BuilderStages.FullOneOfBuilder(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullOneOfBuilder fullOneOfPojo1DtoBuilder() {
+    return new BuilderStages.FullOneOfBuilder(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.OneOfBuilder builder() {
+    return new BuilderStages.OneOfBuilder(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.OneOfBuilder oneOfPojo1DtoBuilder() {
+    return new BuilderStages.OneOfBuilder(new Builder());
+  }
+
+  public static final class BuilderStages {
+    private BuilderStages() {}
+
+    public static final class FullOneOfBuilder {
+      private final Builder builder;
+
+      private FullOneOfBuilder(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 setVariantDto(VariantDto dto) {
+        return new FullOptPropertyBuilder0(builder.setVariantDto(dto));
+      }
+
+      public FullOptPropertyBuilder0 setOneOfContainer(OneOfPojo1OneOfContainerDto container) {
+        if (container.getVariantDto() != null) {
+          builder.setVariantDto(container.getVariantDto());
+        }
+        return new FullOptPropertyBuilder0(builder);
+      }
+    }
+
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public OneOfPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OneOfBuilder {
+      private final Builder builder;
+
+      private OneOfBuilder(Builder builder) {
+        this.builder = builder;
+      }
+
+      public PropertyBuilder0 setVariantDto(VariantDto dto) {
+        return new PropertyBuilder0(builder.setVariantDto(dto));
+      }
+
+      public PropertyBuilder0 setOneOfContainer(OneOfPojo1OneOfContainerDto container) {
+        if (container.getVariantDto() != null) {
+          builder.setVariantDto(container.getVariantDto());
+        }
+        return new PropertyBuilder0(builder);
+      }
+    }
+
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public OneOfPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public OneOfPojo1Dto build(){
+        return builder.build();
+      }
+    }
+  }
+}
+]
+
+
 jsonAnchorCollidingWithApiAccessorOfSibling=[
 package com.github.muehmar;
 

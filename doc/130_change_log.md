@@ -1,6 +1,13 @@
 ## Change Log
 
 * next
+    * [#438](https://github.com/muehmar/gradle-openapi-schema/issues/438) - Read the properties of a member DTO through
+      dedicated internal accessors when a composed DTO reconstructs itself from it, instead of through the public
+      getters. The accessors carry a fixed, improbable suffix, so that both the declaration in the member DTO and the
+      call site in the composed DTO derive the same name without knowing each other's properties - a property named
+      after the previous flag accessor, e.g. `isNameNotNull` next to `name`, no longer produces two identical
+      declarations. As the accessors return the internal representation, the value no longer makes a round trip
+      through a configured type conversion, which is not guaranteed to be lossless
     * [#438](https://github.com/muehmar/gradle-openapi-schema/issues/438) - Keep the JSON getter and the JSON setter of
       a property free of the names generated for its siblings. These anchors are declaration-only - they are never
       referenced by generated code - hence a collision with the api of a sibling, e.g. the properties `name` and

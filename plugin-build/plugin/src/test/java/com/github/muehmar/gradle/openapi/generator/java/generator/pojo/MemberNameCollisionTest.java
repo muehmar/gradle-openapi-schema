@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
+import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.DtoSetterGenerator.dtoSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.requiredStringNamed;
 import static com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers.stringNamed;
 import static com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos.objectPojo;
@@ -8,13 +9,18 @@ import static com.github.muehmar.gradle.openapi.generator.model.Necessity.REQUIR
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NOT_NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULLABLE;
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
+import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
+import io.github.muehmar.codegenerator.Generator;
+import io.github.muehmar.codegenerator.writer.Writer;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -118,5 +124,43 @@ class MemberNameCollisionTest {
     final String content = generator.generate(pojo, defaultTestSettings(), javaWriter()).asString();
 
     expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  @SnapshotName("flagAccessorCollidingWithApiAccessorOfSiblingOnComposedDto")
+  void generatePojo_when_siblingNamedAfterTheFlagAccessor_then_accessorsDoNotCollide() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    // On a oneOf member the optional 'name' exposes the package-private flag accessor
+    // getIsNameNotNull(), which is also the api getter of the sibling 'isNameNotNull'. The parent's
+    // builder reads that accessor across classes, hence it cannot simply be renamed per class.
+    final JavaObjectPojo variant =
+        objectPojo(
+                stringNamed("name", OPTIONAL, NOT_NULLABLE), requiredStringNamed("isNameNotNull"))
+            .withName(JavaPojoNames.fromNameAndSuffix("Variant", "Dto"));
+
+    final JavaObjectPojo pojo = JavaPojos.oneOfPojo(variant);
+
+    final String content = generator.generate(pojo, defaultTestSettings(), javaWriter()).asString();
+
+    expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  @SnapshotName("dtoSetterReadingTheFlagAccessorAcrossClasses")
+  void generateDtoSetter_when_siblingNamedAfterTheFlagAccessor_then_callSiteMatchesDeclaration() {
+    final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
+
+    // The call site of the flag accessor, generated into the parent from a different
+    // JavaPojoMember instance than the declaration in the member dto.
+    final JavaObjectPojo variant =
+        objectPojo(
+                stringNamed("name", OPTIONAL, NOT_NULLABLE), requiredStringNamed("isNameNotNull"))
+            .withName(JavaPojoNames.fromNameAndSuffix("Variant", "Dto"));
+
+    final Writer writer =
+        generator.generate(JavaPojos.oneOfPojo(variant), defaultTestSettings(), javaWriter());
+
+    expect.toMatchSnapshot(writerSnapshot(writer));
   }
 }

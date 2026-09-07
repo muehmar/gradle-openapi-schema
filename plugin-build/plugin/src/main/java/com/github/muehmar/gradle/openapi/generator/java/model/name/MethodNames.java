@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.model.name;
 
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaRequiredAdditionalProperty;
 import com.github.muehmar.gradle.openapi.generator.model.name.Name;
@@ -39,6 +40,36 @@ public class MethodNames {
     public static JavaName internalValueGetterName(
         JavaRequiredAdditionalProperty additionalProperty) {
       return additionalProperty.getName().startUpperCase().prefix("get").append("Internal");
+    }
+  }
+
+  /**
+   * Names of the accessors a composed dto reads on its member dtos. Both the declaration in the
+   * member dto and the call site in the parent must derive the very same name, but they do so from
+   * different {@link com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember}
+   * instances which know nothing of each other's siblings. The names are therefore context-free:
+   * they carry a fixed, improbable suffix instead of being resolved against a name scope, so that a
+   * property of the member dto practically never collides with them.
+   */
+  public static class CrossDto {
+    private CrossDto() {}
+
+    /**
+     * Frozen suffix of the accessors read across classes. Changing it changes the contract between
+     * a composed dto and its member dtos, hence it must stay stable.
+     */
+    public static final String SUFFIX = "Internal2741988768";
+
+    /**
+     * Reads the value of a property in its internal representation, i.e. without api conversion.
+     */
+    public static JavaName valueAccessorName(JavaPojoMember member) {
+      return member.getGetterName().append(SUFFIX);
+    }
+
+    /** Reads whether a property carrying a presence flag is set. */
+    public static JavaName flagAccessorName(JavaPojoMember member) {
+      return member.getGetterName().append(SUFFIX).append("Flag");
     }
   }
 

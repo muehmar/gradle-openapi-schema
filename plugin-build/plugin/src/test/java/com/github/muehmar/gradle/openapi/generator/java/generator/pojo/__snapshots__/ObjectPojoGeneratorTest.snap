@@ -698,6 +698,10 @@ public class PersonDto {
   private LocalDate getBirthdateJson() {
     return birthdate;
   }
+
+  LocalDate getBirthdateInternal2741988768() {
+    return birthdate;
+  }
 .
 .
   String getUsername() {
@@ -707,6 +711,10 @@ public class PersonDto {
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String getUsernameJson() {
+    return username;
+  }
+
+  String getUsernameInternal2741988768() {
     return username;
   }
 
@@ -12213,6 +12221,10 @@ public class PersonDto {
   private LocalDate getBirthdateJson() {
     return birthdate;
   }
+
+  LocalDate getBirthdateInternal2741988768() {
+    return birthdate;
+  }
 .
 .
   String getUsername() {
@@ -12222,6 +12234,10 @@ public class PersonDto {
   @JsonProperty("username")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String getUsernameJson() {
+    return username;
+  }
+
+  String getUsernameInternal2741988768() {
     return username;
   }
 

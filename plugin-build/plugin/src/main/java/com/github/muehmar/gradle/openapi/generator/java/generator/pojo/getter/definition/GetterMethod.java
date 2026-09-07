@@ -1,7 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
-import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.FlagGetter;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.CrossDtoAccessor;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.FlagValidationGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.JsonGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.OptionalGetter;
@@ -32,7 +32,8 @@ enum GetterMethod {
   JSON_GETTER(GetterMethod.NameScopeAware.JSON),
   VALIDATION_GETTER(GetterMethod.NameScopeAware.VALIDATION),
   FLAG_VALIDATION_GETTER(FlagValidationGetter::flagValidationGetterGenerator),
-  FLAG_GETTER(FlagGetter::flagGetterGenerator);
+  CROSS_DTO_VALUE_ACCESSOR(CrossDtoAccessor::valueAccessorGenerator),
+  CROSS_DTO_FLAG_ACCESSOR(CrossDtoAccessor::flagAccessorGenerator);
 
   private final Function<Visibility, Generator<MemberAndNameScope, PojoSettings>> generator;
 

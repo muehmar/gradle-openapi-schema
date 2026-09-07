@@ -176,12 +176,6 @@ public class JavaPojoMember {
     return IsNotNullFlagName.fromName(name).getName();
   }
 
-  public JavaName getFlagGetterName() {
-    return isRequiredAndNullable()
-        ? getIsPresentFlagName().startUpperCase().prefix("get")
-        : getIsNotNullFlagName().startUpperCase().prefix("get");
-  }
-
   public JavaName getGetterName() {
     return prefixedMethodName("get");
   }

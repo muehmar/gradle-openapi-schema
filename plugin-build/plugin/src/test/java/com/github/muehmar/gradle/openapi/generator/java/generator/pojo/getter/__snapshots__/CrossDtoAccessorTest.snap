@@ -1,0 +1,70 @@
+flagAccessor[optionalNullableStringVal]=[
+.
+.
+boolean getOptionalNullableStringValInternal2741988768Flag() {
+  return optionalNullableStringVal != null || isOptionalNullableStringValNull;
+}
+]
+
+
+flagAccessor[optionalStringVal]=[
+.
+.
+boolean getOptionalStringValInternal2741988768Flag() {
+  return isOptionalStringValNotNull;
+}
+]
+
+
+flagAccessor[requiredNullableStringVal]=[
+.
+.
+boolean getRequiredNullableStringValInternal2741988768Flag() {
+  return isRequiredNullableStringValPresent;
+}
+]
+
+
+flagAccessor[stringVal]=[
+.
+.
+boolean getStringValInternal2741988768Flag() {
+  return stringVal != null || isStringValNull;
+}
+]
+
+
+valueAccessor[optionalNullableStringVal]=[
+.
+.
+String getOptionalNullableStringValInternal2741988768() {
+  return optionalNullableStringVal;
+}
+]
+
+
+valueAccessor[optionalStringVal]=[
+.
+.
+String getOptionalStringValInternal2741988768() {
+  return optionalStringVal;
+}
+]
+
+
+valueAccessor[requiredNullableStringVal]=[
+.
+.
+String getRequiredNullableStringValInternal2741988768() {
+  return requiredNullableStringVal;
+}
+]
+
+
+valueAccessor[stringVal]=[
+.
+.
+String getStringValInternal2741988768() {
+  return stringVal;
+}
+]

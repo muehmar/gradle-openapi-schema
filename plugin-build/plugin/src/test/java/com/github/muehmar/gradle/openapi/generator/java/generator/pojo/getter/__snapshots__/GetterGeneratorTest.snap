@@ -65,7 +65,11 @@ private List<String> getOptionalListWithNullableItemsAnyOfJson() {
   return optionalListWithNullableItemsAnyOf;
 }
 
-boolean getIsOptionalListWithNullableItemsAnyOfNotNull() {
+List<String> getOptionalListWithNullableItemsAnyOfInternal2741988768() {
+  return optionalListWithNullableItemsAnyOf;
+}
+
+boolean getOptionalListWithNullableItemsAnyOfInternal2741988768Flag() {
   return isOptionalListWithNullableItemsAnyOfNotNull;
 }
 
@@ -199,7 +203,11 @@ private List<String> getOptionalListWithNullableItems_FullyMappedAnyOfJson() {
   return optionalListWithNullableItems_FullyMappedAnyOf;
 }
 
-boolean getIsOptionalListWithNullableItems_FullyMappedAnyOfNotNull() {
+List<String> getOptionalListWithNullableItems_FullyMappedAnyOfInternal2741988768() {
+  return optionalListWithNullableItems_FullyMappedAnyOf;
+}
+
+boolean getOptionalListWithNullableItems_FullyMappedAnyOfInternal2741988768Flag() {
   return isOptionalListWithNullableItems_FullyMappedAnyOfNotNull;
 }
 
@@ -334,7 +342,11 @@ private List<String> getOptionalListWithNullableItems_ListMappedAnyOfJson() {
   return optionalListWithNullableItems_ListMappedAnyOf;
 }
 
-boolean getIsOptionalListWithNullableItems_ListMappedAnyOfNotNull() {
+List<String> getOptionalListWithNullableItems_ListMappedAnyOfInternal2741988768() {
+  return optionalListWithNullableItems_ListMappedAnyOf;
+}
+
+boolean getOptionalListWithNullableItems_ListMappedAnyOfInternal2741988768Flag() {
   return isOptionalListWithNullableItems_ListMappedAnyOfNotNull;
 }
 
@@ -468,7 +480,11 @@ private List<String> getOptionalListWithNullableItems_StringMappedAnyOfJson() {
   return optionalListWithNullableItems_StringMappedAnyOf;
 }
 
-boolean getIsOptionalListWithNullableItems_StringMappedAnyOfNotNull() {
+List<String> getOptionalListWithNullableItems_StringMappedAnyOfInternal2741988768() {
+  return optionalListWithNullableItems_StringMappedAnyOf;
+}
+
+boolean getOptionalListWithNullableItems_StringMappedAnyOfInternal2741988768Flag() {
   return isOptionalListWithNullableItems_StringMappedAnyOfNotNull;
 }
 
@@ -594,7 +610,11 @@ private Map<String, String> getOptionalMapAnyOfJson() {
   return optionalMapAnyOf;
 }
 
-boolean getIsOptionalMapAnyOfNotNull() {
+Map<String, String> getOptionalMapAnyOfInternal2741988768() {
+  return optionalMapAnyOf;
+}
+
+boolean getOptionalMapAnyOfInternal2741988768Flag() {
   return isOptionalMapAnyOfNotNull;
 }
 
@@ -722,7 +742,11 @@ private Map<String, String> getOptionalMap_FullyMappedAnyOfJson() {
   return optionalMap_FullyMappedAnyOf;
 }
 
-boolean getIsOptionalMap_FullyMappedAnyOfNotNull() {
+Map<String, String> getOptionalMap_FullyMappedAnyOfInternal2741988768() {
+  return optionalMap_FullyMappedAnyOf;
+}
+
+boolean getOptionalMap_FullyMappedAnyOfInternal2741988768Flag() {
   return isOptionalMap_FullyMappedAnyOfNotNull;
 }
 
@@ -843,6 +867,14 @@ private Object getOptionalNullableListWithNullableItemsAnyOfJson() {
   return isOptionalNullableListWithNullableItemsAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItemsAnyOf) : optionalNullableListWithNullableItemsAnyOf;
 }
 
+List<String> getOptionalNullableListWithNullableItemsAnyOfInternal2741988768() {
+  return optionalNullableListWithNullableItemsAnyOf;
+}
+
+boolean getOptionalNullableListWithNullableItemsAnyOfInternal2741988768Flag() {
+  return optionalNullableListWithNullableItemsAnyOf != null || isOptionalNullableListWithNullableItemsAnyOfNull;
+}
+
 ]
 
 
@@ -940,6 +972,14 @@ Tristate<CustomList<Optional<CustomString>>> getOptionalNullableListWithNullable
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableListWithNullableItems_FullyMappedAnyOfJson() {
   return isOptionalNullableListWithNullableItems_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_FullyMappedAnyOf) : optionalNullableListWithNullableItems_FullyMappedAnyOf;
+}
+
+List<String> getOptionalNullableListWithNullableItems_FullyMappedAnyOfInternal2741988768() {
+  return optionalNullableListWithNullableItems_FullyMappedAnyOf;
+}
+
+boolean getOptionalNullableListWithNullableItems_FullyMappedAnyOfInternal2741988768Flag() {
+  return optionalNullableListWithNullableItems_FullyMappedAnyOf != null || isOptionalNullableListWithNullableItems_FullyMappedAnyOfNull;
 }
 
 ]
@@ -1042,6 +1082,14 @@ private Object getOptionalNullableListWithNullableItems_ListMappedAnyOfJson() {
   return isOptionalNullableListWithNullableItems_ListMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_ListMappedAnyOf) : optionalNullableListWithNullableItems_ListMappedAnyOf;
 }
 
+List<String> getOptionalNullableListWithNullableItems_ListMappedAnyOfInternal2741988768() {
+  return optionalNullableListWithNullableItems_ListMappedAnyOf;
+}
+
+boolean getOptionalNullableListWithNullableItems_ListMappedAnyOfInternal2741988768Flag() {
+  return optionalNullableListWithNullableItems_ListMappedAnyOf != null || isOptionalNullableListWithNullableItems_ListMappedAnyOfNull;
+}
+
 ]
 
 
@@ -1142,6 +1190,14 @@ private Object getOptionalNullableListWithNullableItems_StringMappedAnyOfJson() 
   return isOptionalNullableListWithNullableItems_StringMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableListWithNullableItems_StringMappedAnyOf) : optionalNullableListWithNullableItems_StringMappedAnyOf;
 }
 
+List<String> getOptionalNullableListWithNullableItems_StringMappedAnyOfInternal2741988768() {
+  return optionalNullableListWithNullableItems_StringMappedAnyOf;
+}
+
+boolean getOptionalNullableListWithNullableItems_StringMappedAnyOfInternal2741988768Flag() {
+  return optionalNullableListWithNullableItems_StringMappedAnyOf != null || isOptionalNullableListWithNullableItems_StringMappedAnyOfNull;
+}
+
 ]
 
 
@@ -1236,6 +1292,14 @@ Tristate<Map<String, String>> getOptionalNullableMapAnyOf() {
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableMapAnyOfJson() {
   return isOptionalNullableMapAnyOfNull ? new JacksonNullContainer<>(optionalNullableMapAnyOf) : optionalNullableMapAnyOf;
+}
+
+Map<String, String> getOptionalNullableMapAnyOfInternal2741988768() {
+  return optionalNullableMapAnyOf;
+}
+
+boolean getOptionalNullableMapAnyOfInternal2741988768Flag() {
+  return optionalNullableMapAnyOf != null || isOptionalNullableMapAnyOfNull;
 }
 
 ]
@@ -1335,6 +1399,14 @@ private Object getOptionalNullableMap_FullyMappedAnyOfJson() {
   return isOptionalNullableMap_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableMap_FullyMappedAnyOf) : optionalNullableMap_FullyMappedAnyOf;
 }
 
+Map<String, String> getOptionalNullableMap_FullyMappedAnyOfInternal2741988768() {
+  return optionalNullableMap_FullyMappedAnyOf;
+}
+
+boolean getOptionalNullableMap_FullyMappedAnyOfInternal2741988768Flag() {
+  return optionalNullableMap_FullyMappedAnyOf != null || isOptionalNullableMap_FullyMappedAnyOfNull;
+}
+
 ]
 
 
@@ -1428,6 +1500,14 @@ Tristate<List<String>> getOptionalNullableStringListAnyOf() {
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableStringListAnyOfJson() {
   return isOptionalNullableStringListAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringListAnyOf) : optionalNullableStringListAnyOf;
+}
+
+List<String> getOptionalNullableStringListAnyOfInternal2741988768() {
+  return optionalNullableStringListAnyOf;
+}
+
+boolean getOptionalNullableStringListAnyOfInternal2741988768Flag() {
+  return optionalNullableStringListAnyOf != null || isOptionalNullableStringListAnyOfNull;
 }
 
 ]
@@ -1529,6 +1609,14 @@ private Object getOptionalNullableStringList_FullyMappedAnyOfJson() {
   return isOptionalNullableStringList_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringList_FullyMappedAnyOf) : optionalNullableStringList_FullyMappedAnyOf;
 }
 
+List<String> getOptionalNullableStringList_FullyMappedAnyOfInternal2741988768() {
+  return optionalNullableStringList_FullyMappedAnyOf;
+}
+
+boolean getOptionalNullableStringList_FullyMappedAnyOfInternal2741988768Flag() {
+  return optionalNullableStringList_FullyMappedAnyOf != null || isOptionalNullableStringList_FullyMappedAnyOfNull;
+}
+
 ]
 
 
@@ -1610,6 +1698,14 @@ private Object getOptionalNullableStringValAnyOfJson() {
   return isOptionalNullableStringValAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringValAnyOf) : optionalNullableStringValAnyOf;
 }
 
+String getOptionalNullableStringValAnyOfInternal2741988768() {
+  return optionalNullableStringValAnyOf;
+}
+
+boolean getOptionalNullableStringValAnyOfInternal2741988768Flag() {
+  return optionalNullableStringValAnyOf != null || isOptionalNullableStringValAnyOfNull;
+}
+
 ]
 
 
@@ -1679,6 +1775,14 @@ Tristate<CustomString> getOptionalNullableStringVal_FullyMappedAnyOf() {
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableStringVal_FullyMappedAnyOfJson() {
   return isOptionalNullableStringVal_FullyMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringVal_FullyMappedAnyOf) : optionalNullableStringVal_FullyMappedAnyOf;
+}
+
+String getOptionalNullableStringVal_FullyMappedAnyOfInternal2741988768() {
+  return optionalNullableStringVal_FullyMappedAnyOf;
+}
+
+boolean getOptionalNullableStringVal_FullyMappedAnyOfInternal2741988768Flag() {
+  return optionalNullableStringVal_FullyMappedAnyOf != null || isOptionalNullableStringVal_FullyMappedAnyOfNull;
 }
 
 ]
@@ -1751,6 +1855,14 @@ private Object getOptionalNullableStringVal_ListMappedAnyOfJson() {
   return isOptionalNullableStringVal_ListMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringVal_ListMappedAnyOf) : optionalNullableStringVal_ListMappedAnyOf;
 }
 
+String getOptionalNullableStringVal_ListMappedAnyOfInternal2741988768() {
+  return optionalNullableStringVal_ListMappedAnyOf;
+}
+
+boolean getOptionalNullableStringVal_ListMappedAnyOfInternal2741988768Flag() {
+  return optionalNullableStringVal_ListMappedAnyOf != null || isOptionalNullableStringVal_ListMappedAnyOfNull;
+}
+
 ]
 
 
@@ -1820,6 +1932,14 @@ Tristate<CustomString> getOptionalNullableStringVal_StringMappedAnyOf() {
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Object getOptionalNullableStringVal_StringMappedAnyOfJson() {
   return isOptionalNullableStringVal_StringMappedAnyOfNull ? new JacksonNullContainer<>(optionalNullableStringVal_StringMappedAnyOf) : optionalNullableStringVal_StringMappedAnyOf;
+}
+
+String getOptionalNullableStringVal_StringMappedAnyOfInternal2741988768() {
+  return optionalNullableStringVal_StringMappedAnyOf;
+}
+
+boolean getOptionalNullableStringVal_StringMappedAnyOfInternal2741988768Flag() {
+  return optionalNullableStringVal_StringMappedAnyOf != null || isOptionalNullableStringVal_StringMappedAnyOfNull;
 }
 
 ]
@@ -1915,7 +2035,11 @@ private List<String> getOptionalStringListAnyOfJson() {
   return optionalStringListAnyOf;
 }
 
-boolean getIsOptionalStringListAnyOfNotNull() {
+List<String> getOptionalStringListAnyOfInternal2741988768() {
+  return optionalStringListAnyOf;
+}
+
+boolean getOptionalStringListAnyOfInternal2741988768Flag() {
   return isOptionalStringListAnyOfNotNull;
 }
 
@@ -2045,7 +2169,11 @@ private List<String> getOptionalStringList_FullyMappedAnyOfJson() {
   return optionalStringList_FullyMappedAnyOf;
 }
 
-boolean getIsOptionalStringList_FullyMappedAnyOfNotNull() {
+List<String> getOptionalStringList_FullyMappedAnyOfInternal2741988768() {
+  return optionalStringList_FullyMappedAnyOf;
+}
+
+boolean getOptionalStringList_FullyMappedAnyOfInternal2741988768Flag() {
   return isOptionalStringList_FullyMappedAnyOfNotNull;
 }
 
@@ -2157,7 +2285,11 @@ private String getOptionalStringValAnyOfJson() {
   return optionalStringValAnyOf;
 }
 
-boolean getIsOptionalStringValAnyOfNotNull() {
+String getOptionalStringValAnyOfInternal2741988768() {
+  return optionalStringValAnyOf;
+}
+
+boolean getOptionalStringValAnyOfInternal2741988768Flag() {
   return isOptionalStringValAnyOfNotNull;
 }
 
@@ -2253,7 +2385,11 @@ private String getOptionalStringVal_FullyMappedAnyOfJson() {
   return optionalStringVal_FullyMappedAnyOf;
 }
 
-boolean getIsOptionalStringVal_FullyMappedAnyOfNotNull() {
+String getOptionalStringVal_FullyMappedAnyOfInternal2741988768() {
+  return optionalStringVal_FullyMappedAnyOf;
+}
+
+boolean getOptionalStringVal_FullyMappedAnyOfInternal2741988768Flag() {
   return isOptionalStringVal_FullyMappedAnyOfNotNull;
 }
 
@@ -2348,7 +2484,11 @@ private String getOptionalStringVal_ListMappedAnyOfJson() {
   return optionalStringVal_ListMappedAnyOf;
 }
 
-boolean getIsOptionalStringVal_ListMappedAnyOfNotNull() {
+String getOptionalStringVal_ListMappedAnyOfInternal2741988768() {
+  return optionalStringVal_ListMappedAnyOf;
+}
+
+boolean getOptionalStringVal_ListMappedAnyOfInternal2741988768Flag() {
   return isOptionalStringVal_ListMappedAnyOfNotNull;
 }
 
@@ -2444,7 +2584,11 @@ private String getOptionalStringVal_StringMappedAnyOfJson() {
   return optionalStringVal_StringMappedAnyOf;
 }
 
-boolean getIsOptionalStringVal_StringMappedAnyOfNotNull() {
+String getOptionalStringVal_StringMappedAnyOfInternal2741988768() {
+  return optionalStringVal_StringMappedAnyOf;
+}
+
+boolean getOptionalStringVal_StringMappedAnyOfInternal2741988768Flag() {
   return isOptionalStringVal_StringMappedAnyOfNotNull;
 }
 
@@ -2572,6 +2716,10 @@ private List<String> getRequiredListWithNullableItemsAnyOfJson() {
   return requiredListWithNullableItemsAnyOf;
 }
 
+List<String> getRequiredListWithNullableItemsAnyOfInternal2741988768() {
+  return requiredListWithNullableItemsAnyOf;
+}
+
 ]
 
 
@@ -2666,6 +2814,10 @@ CustomList<Optional<CustomString>> getRequiredListWithNullableItems_FullyMappedA
 @JsonProperty("requiredListWithNullableItems_FullyMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private List<String> getRequiredListWithNullableItems_FullyMappedAnyOfJson() {
+  return requiredListWithNullableItems_FullyMappedAnyOf;
+}
+
+List<String> getRequiredListWithNullableItems_FullyMappedAnyOfInternal2741988768() {
   return requiredListWithNullableItems_FullyMappedAnyOf;
 }
 
@@ -2766,6 +2918,10 @@ private List<String> getRequiredListWithNullableItems_ListMappedAnyOfJson() {
   return requiredListWithNullableItems_ListMappedAnyOf;
 }
 
+List<String> getRequiredListWithNullableItems_ListMappedAnyOfInternal2741988768() {
+  return requiredListWithNullableItems_ListMappedAnyOf;
+}
+
 ]
 
 
@@ -2862,6 +3018,10 @@ private List<String> getRequiredListWithNullableItems_StringMappedAnyOfJson() {
   return requiredListWithNullableItems_StringMappedAnyOf;
 }
 
+List<String> getRequiredListWithNullableItems_StringMappedAnyOfInternal2741988768() {
+  return requiredListWithNullableItems_StringMappedAnyOf;
+}
+
 ]
 
 
@@ -2937,6 +3097,10 @@ Map<String, String> getRequiredMapAnyOf() {
 @JsonProperty("requiredMapAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Map<String, String> getRequiredMapAnyOfJson() {
+  return requiredMapAnyOf;
+}
+
+Map<String, String> getRequiredMapAnyOfInternal2741988768() {
   return requiredMapAnyOf;
 }
 
@@ -3022,6 +3186,10 @@ CustomMap<String, CustomString> getRequiredMap_FullyMappedAnyOf() {
 @JsonProperty("requiredMap_FullyMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private Map<String, String> getRequiredMap_FullyMappedAnyOfJson() {
+  return requiredMap_FullyMappedAnyOf;
+}
+
+Map<String, String> getRequiredMap_FullyMappedAnyOfInternal2741988768() {
   return requiredMap_FullyMappedAnyOf;
 }
 
@@ -3134,7 +3302,11 @@ private Object getRequiredNullableListWithNullableItemsAnyOfJson() {
   return isRequiredNullableListWithNullableItemsAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItemsAnyOf) : null;
 }
 
-boolean getIsRequiredNullableListWithNullableItemsAnyOfPresent() {
+List<String> getRequiredNullableListWithNullableItemsAnyOfInternal2741988768() {
+  return requiredNullableListWithNullableItemsAnyOf;
+}
+
+boolean getRequiredNullableListWithNullableItemsAnyOfInternal2741988768Flag() {
   return isRequiredNullableListWithNullableItemsAnyOfPresent;
 }
 
@@ -3271,7 +3443,11 @@ private Object getRequiredNullableListWithNullableItems_FullyMappedAnyOfJson() {
   return isRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_FullyMappedAnyOf) : null;
 }
 
-boolean getIsRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent() {
+List<String> getRequiredNullableListWithNullableItems_FullyMappedAnyOfInternal2741988768() {
+  return requiredNullableListWithNullableItems_FullyMappedAnyOf;
+}
+
+boolean getRequiredNullableListWithNullableItems_FullyMappedAnyOfInternal2741988768Flag() {
   return isRequiredNullableListWithNullableItems_FullyMappedAnyOfPresent;
 }
 
@@ -3409,7 +3585,11 @@ private Object getRequiredNullableListWithNullableItems_ListMappedAnyOfJson() {
   return isRequiredNullableListWithNullableItems_ListMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_ListMappedAnyOf) : null;
 }
 
-boolean getIsRequiredNullableListWithNullableItems_ListMappedAnyOfPresent() {
+List<String> getRequiredNullableListWithNullableItems_ListMappedAnyOfInternal2741988768() {
+  return requiredNullableListWithNullableItems_ListMappedAnyOf;
+}
+
+boolean getRequiredNullableListWithNullableItems_ListMappedAnyOfInternal2741988768Flag() {
   return isRequiredNullableListWithNullableItems_ListMappedAnyOfPresent;
 }
 
@@ -3546,7 +3726,11 @@ private Object getRequiredNullableListWithNullableItems_StringMappedAnyOfJson() 
   return isRequiredNullableListWithNullableItems_StringMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableListWithNullableItems_StringMappedAnyOf) : null;
 }
 
-boolean getIsRequiredNullableListWithNullableItems_StringMappedAnyOfPresent() {
+List<String> getRequiredNullableListWithNullableItems_StringMappedAnyOfInternal2741988768() {
+  return requiredNullableListWithNullableItems_StringMappedAnyOf;
+}
+
+boolean getRequiredNullableListWithNullableItems_StringMappedAnyOfInternal2741988768Flag() {
   return isRequiredNullableListWithNullableItems_StringMappedAnyOfPresent;
 }
 
@@ -3675,7 +3859,11 @@ private Object getRequiredNullableMapAnyOfJson() {
   return isRequiredNullableMapAnyOfPresent ? new JacksonNullContainer<>(requiredNullableMapAnyOf) : null;
 }
 
-boolean getIsRequiredNullableMapAnyOfPresent() {
+Map<String, String> getRequiredNullableMapAnyOfInternal2741988768() {
+  return requiredNullableMapAnyOf;
+}
+
+boolean getRequiredNullableMapAnyOfInternal2741988768Flag() {
   return isRequiredNullableMapAnyOfPresent;
 }
 
@@ -3806,7 +3994,11 @@ private Object getRequiredNullableMap_FullyMappedAnyOfJson() {
   return isRequiredNullableMap_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableMap_FullyMappedAnyOf) : null;
 }
 
-boolean getIsRequiredNullableMap_FullyMappedAnyOfPresent() {
+Map<String, String> getRequiredNullableMap_FullyMappedAnyOfInternal2741988768() {
+  return requiredNullableMap_FullyMappedAnyOf;
+}
+
+boolean getRequiredNullableMap_FullyMappedAnyOfInternal2741988768Flag() {
   return isRequiredNullableMap_FullyMappedAnyOfPresent;
 }
 
@@ -3935,7 +4127,11 @@ private Object getRequiredNullableStringListAnyOfJson() {
   return isRequiredNullableStringListAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringListAnyOf) : null;
 }
 
-boolean getIsRequiredNullableStringListAnyOfPresent() {
+List<String> getRequiredNullableStringListAnyOfInternal2741988768() {
+  return requiredNullableStringListAnyOf;
+}
+
+boolean getRequiredNullableStringListAnyOfInternal2741988768Flag() {
   return isRequiredNullableStringListAnyOfPresent;
 }
 
@@ -4068,7 +4264,11 @@ private Object getRequiredNullableStringList_FullyMappedAnyOfJson() {
   return isRequiredNullableStringList_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringList_FullyMappedAnyOf) : null;
 }
 
-boolean getIsRequiredNullableStringList_FullyMappedAnyOfPresent() {
+List<String> getRequiredNullableStringList_FullyMappedAnyOfInternal2741988768() {
+  return requiredNullableStringList_FullyMappedAnyOf;
+}
+
+boolean getRequiredNullableStringList_FullyMappedAnyOfInternal2741988768Flag() {
   return isRequiredNullableStringList_FullyMappedAnyOfPresent;
 }
 
@@ -4183,7 +4383,11 @@ private Object getRequiredNullableStringValAnyOfJson() {
   return isRequiredNullableStringValAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringValAnyOf) : null;
 }
 
-boolean getIsRequiredNullableStringValAnyOfPresent() {
+String getRequiredNullableStringValAnyOfInternal2741988768() {
+  return requiredNullableStringValAnyOf;
+}
+
+boolean getRequiredNullableStringValAnyOfInternal2741988768Flag() {
   return isRequiredNullableStringValAnyOfPresent;
 }
 
@@ -4282,7 +4486,11 @@ private Object getRequiredNullableStringVal_FullyMappedAnyOfJson() {
   return isRequiredNullableStringVal_FullyMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringVal_FullyMappedAnyOf) : null;
 }
 
-boolean getIsRequiredNullableStringVal_FullyMappedAnyOfPresent() {
+String getRequiredNullableStringVal_FullyMappedAnyOfInternal2741988768() {
+  return requiredNullableStringVal_FullyMappedAnyOf;
+}
+
+boolean getRequiredNullableStringVal_FullyMappedAnyOfInternal2741988768Flag() {
   return isRequiredNullableStringVal_FullyMappedAnyOfPresent;
 }
 
@@ -4380,7 +4588,11 @@ private Object getRequiredNullableStringVal_ListMappedAnyOfJson() {
   return isRequiredNullableStringVal_ListMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringVal_ListMappedAnyOf) : null;
 }
 
-boolean getIsRequiredNullableStringVal_ListMappedAnyOfPresent() {
+String getRequiredNullableStringVal_ListMappedAnyOfInternal2741988768() {
+  return requiredNullableStringVal_ListMappedAnyOf;
+}
+
+boolean getRequiredNullableStringVal_ListMappedAnyOfInternal2741988768Flag() {
   return isRequiredNullableStringVal_ListMappedAnyOfPresent;
 }
 
@@ -4479,7 +4691,11 @@ private Object getRequiredNullableStringVal_StringMappedAnyOfJson() {
   return isRequiredNullableStringVal_StringMappedAnyOfPresent ? new JacksonNullContainer<>(requiredNullableStringVal_StringMappedAnyOf) : null;
 }
 
-boolean getIsRequiredNullableStringVal_StringMappedAnyOfPresent() {
+String getRequiredNullableStringVal_StringMappedAnyOfInternal2741988768() {
+  return requiredNullableStringVal_StringMappedAnyOf;
+}
+
+boolean getRequiredNullableStringVal_StringMappedAnyOfInternal2741988768Flag() {
   return isRequiredNullableStringVal_StringMappedAnyOfPresent;
 }
 
@@ -4563,6 +4779,10 @@ List<String> getRequiredStringListAnyOf() {
 @JsonProperty("requiredStringListAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private List<String> getRequiredStringListAnyOfJson() {
+  return requiredStringListAnyOf;
+}
+
+List<String> getRequiredStringListAnyOfInternal2741988768() {
   return requiredStringListAnyOf;
 }
 
@@ -4653,6 +4873,10 @@ private List<String> getRequiredStringList_FullyMappedAnyOfJson() {
   return requiredStringList_FullyMappedAnyOf;
 }
 
+List<String> getRequiredStringList_FullyMappedAnyOfInternal2741988768() {
+  return requiredStringList_FullyMappedAnyOf;
+}
+
 ]
 
 
@@ -4729,6 +4953,10 @@ private String getStringValAnyOfJson() {
   return stringValAnyOf;
 }
 
+String getStringValAnyOfInternal2741988768() {
+  return stringValAnyOf;
+}
+
 ]
 
 
@@ -4793,6 +5021,10 @@ CustomString getStringVal_FullyMappedAnyOf() {
 @JsonProperty("stringVal_FullyMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getStringVal_FullyMappedAnyOfJson() {
+  return stringVal_FullyMappedAnyOf;
+}
+
+String getStringVal_FullyMappedAnyOfInternal2741988768() {
   return stringVal_FullyMappedAnyOf;
 }
 
@@ -4862,6 +5094,10 @@ private String getStringVal_ListMappedAnyOfJson() {
   return stringVal_ListMappedAnyOf;
 }
 
+String getStringVal_ListMappedAnyOfInternal2741988768() {
+  return stringVal_ListMappedAnyOf;
+}
+
 ]
 
 
@@ -4926,6 +5162,10 @@ CustomString getStringVal_StringMappedAnyOf() {
 @JsonProperty("stringVal_StringMappedAnyOf")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 private String getStringVal_StringMappedAnyOfJson() {
+  return stringVal_StringMappedAnyOf;
+}
+
+String getStringVal_StringMappedAnyOfInternal2741988768() {
   return stringVal_StringMappedAnyOf;
 }
 
