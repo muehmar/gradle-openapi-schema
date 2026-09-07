@@ -13,3 +13,4 @@ The plugin generates the following warnings:
 |----------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | UNSUPPORTED_VALIDATION     | Mappings can be defined without conversions. For custom types without conversion, no validation annotations will be generated which will produce this warning.                                        |
 | MISSING_MAPPING_CONVERSION | Mappings without conversion may lead to serialisation or validations issues (see [Conversions for mappings](010_configuration.md#conversions-for-mappings)). This warning is generated for each mapping without conversion. |
+| NAME_COLLISION | A property forced a public method of the generated DTO to be renamed, i.e. the api of the DTO changed. See [Name Collisions](115_name_collisions.md). |

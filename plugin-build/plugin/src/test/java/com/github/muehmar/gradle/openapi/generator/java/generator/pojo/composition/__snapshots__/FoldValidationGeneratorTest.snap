@@ -3,7 +3,7 @@ javax.validation.Valid
 
 @Valid
 private Object getAnyOf() {
-  if (getAnyOfValidCount() == 0) {
+  if (anyOfValidCount() == 0) {
     return null;
   }
   return foldAnyOf(dto -> dto, dto -> dto);
@@ -21,7 +21,7 @@ javax.validation.Valid
 @Deprecated
 @Valid
 protected Object getAnyOf() {
-  if (getAnyOfValidCount() == 0) {
+  if (anyOfValidCount() == 0) {
     return null;
   }
   return foldAnyOf(dto -> dto, dto -> dto);
@@ -34,7 +34,7 @@ javax.validation.Valid
 
 @Valid
 private Object getOneOf() {
-  if (getOneOfValidCount() != 1) {
+  if (oneOfValidCount() != 1) {
     return null;
   }
   return foldOneOf(dto -> dto, dto -> dto, () -> null);
@@ -52,7 +52,7 @@ javax.validation.Valid
 @Deprecated
 @Valid
 protected Object getOneOf() {
-  if (getOneOfValidCount() != 1) {
+  if (oneOfValidCount() != 1) {
     return null;
   }
   return foldOneOf(dto -> dto, dto -> dto, () -> null);
@@ -65,7 +65,7 @@ javax.validation.Valid
 
 @Valid
 private Object getOneOf() {
-  if (getOneOfValidCount() == 0) {
+  if (oneOfValidCount() == 0) {
     return null;
   }
   return foldOneOf(dto -> dto, dto -> dto, () -> null);

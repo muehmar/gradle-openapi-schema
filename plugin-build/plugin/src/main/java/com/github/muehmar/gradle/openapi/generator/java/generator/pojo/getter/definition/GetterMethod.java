@@ -23,17 +23,17 @@ import java.util.function.Supplier;
 enum GetterMethod {
   STANDARD_GETTER(StandardGetter::standardGetterGenerator),
   OPTIONAL_GETTER(OptionalGetter::optionalGetterGenerator),
-  TRISTATE_GETTER(TristateGetter::tristateGetterGenerator),
+  TRISTATE_GETTER(GetterMethod.NameScopeAware.TRISTATE),
   CONTAINER_STANDARD_GETTER(ContainerStandardGetter::containerStandardGetterGenerator),
   CONTAINER_OPTIONAL_GETTER(ContainerOptionalGetter::containerOptionalGetterGenerator),
-  CONTAINER_TRISTATE_GETTER(ContainerTristateGetter::containerTristateGetterGenerator),
+  CONTAINER_TRISTATE_GETTER(GetterMethod.NameScopeAware.CONTAINER_TRISTATE),
   OPTIONAL_OR_GETTER(OptionalOrGetter::optionalOrGetterGenerator),
   CONTAINER_OPTIONAL_OR_GETTER(ContainerOptionalOrGetter::containerOptionalOrGetterGenerator),
   JSON_GETTER(GetterMethod.NameScopeAware.JSON),
   VALIDATION_GETTER(GetterMethod.NameScopeAware.VALIDATION),
-  FLAG_VALIDATION_GETTER(FlagValidationGetter::flagValidationGetterGenerator),
-  CROSS_DTO_VALUE_ACCESSOR(CrossDtoAccessor::valueAccessorGenerator),
-  CROSS_DTO_FLAG_ACCESSOR(CrossDtoAccessor::flagAccessorGenerator);
+  FLAG_VALIDATION_GETTER(GetterMethod.NameScopeAware.FLAG_VALIDATION),
+  CROSS_DTO_VALUE_ACCESSOR(GetterMethod.NameScopeAware.CROSS_DTO_VALUE),
+  CROSS_DTO_FLAG_ACCESSOR(GetterMethod.NameScopeAware.CROSS_DTO_FLAG);
 
   private final Function<Visibility, Generator<MemberAndNameScope, PojoSettings>> generator;
 
@@ -51,20 +51,22 @@ enum GetterMethod {
   }
 
   GetterMethod(NameScopeAware nameScopeAware) {
-    this.generator = ignoredVisibility -> nameScopeAware.generator;
+    this.generator = nameScopeAware.generator;
   }
 
-  /**
-   * Holder for the getters needing the sibling names: an enum constant cannot reference a generator
-   * of its own enum before the enum is initialised.
-   */
+  /** An enum constant cannot reference a generator of its own enum before it is initialised. */
   private enum NameScopeAware {
-    JSON(JsonGetter.jsonGetterGenerator()),
-    VALIDATION(ValidationGetter.validationGetterGenerator());
+    JSON(ignoredVisibility -> JsonGetter.jsonGetterGenerator()),
+    VALIDATION(ignoredVisibility -> ValidationGetter.validationGetterGenerator()),
+    TRISTATE(TristateGetter::tristateGetterGenerator),
+    CONTAINER_TRISTATE(ContainerTristateGetter::containerTristateGetterGenerator),
+    FLAG_VALIDATION(ignoredVisibility -> FlagValidationGetter.flagValidationGetterGenerator()),
+    CROSS_DTO_VALUE(ignoredVisibility -> CrossDtoAccessor.valueAccessorGenerator()),
+    CROSS_DTO_FLAG(ignoredVisibility -> CrossDtoAccessor.flagAccessorGenerator());
 
-    private final Generator<MemberAndNameScope, PojoSettings> generator;
+    private final Function<Visibility, Generator<MemberAndNameScope, PojoSettings>> generator;
 
-    NameScopeAware(Generator<MemberAndNameScope, PojoSettings> generator) {
+    NameScopeAware(Function<Visibility, Generator<MemberAndNameScope, PojoSettings>> generator) {
       this.generator = generator;
     }
   }

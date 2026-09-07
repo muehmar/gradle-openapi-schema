@@ -29,7 +29,7 @@ class Issue421Test {
 
     assertEquals(
         Optional.of(Arrays.asList(ColorEnumDto.RED, ColorEnumDto.GREEN)),
-        dto.getAdditionalProperty("warm").map(PalettePropertyDto::getItems));
+        dto.additionalProperty("warm").map(PalettePropertyDto::getItems));
   }
 
   @Test
@@ -50,7 +50,7 @@ class Issue421Test {
 
     assertEquals(
         Optional.of(Collections.singletonList(InlinePalettePropertyDto.ValueEnum.NORTH)),
-        dto.getAdditionalProperty("axis").map(InlinePalettePropertyDto::getItems));
+        dto.additionalProperty("axis").map(InlinePalettePropertyDto::getItems));
   }
 
   @Test
@@ -60,8 +60,7 @@ class Issue421Test {
 
     assertEquals(
         Optional.of(InventoryPropertyDto.PropertyEnum.SOLD_OUT),
-        dto.getAdditionalProperty("store")
-            .flatMap(property -> property.getAdditionalProperty("apple")));
+        dto.additionalProperty("store").flatMap(property -> property.additionalProperty("apple")));
   }
 
   @Test
@@ -82,7 +81,7 @@ class Issue421Test {
   void deserialize_when_nullableContainerValueTypeIsNull_then_tristateIsNull() throws Exception {
     final NullablePaletteDto dto = MAPPER.readValue("{\"warm\":null}", NullablePaletteDto.class);
 
-    assertEquals(Tristate.ofNull(), dto.getAdditionalProperty("warm"));
+    assertEquals(Tristate.ofNull(), dto.additionalProperty("warm"));
   }
 
   @Test
@@ -92,7 +91,7 @@ class Issue421Test {
 
     assertEquals(
         Optional.of(Collections.singletonList(ColorEnumDto.BLUE)),
-        dto.getAdditionalProperty("colors").map(TicketPropertyDto::getItems));
+        dto.additionalProperty("colors").map(TicketPropertyDto::getItems));
 
     final Set<ConstraintViolation<TicketDto>> violations = validate(dto);
 
@@ -104,6 +103,6 @@ class Issue421Test {
   void deserialize_when_enumValueTypeWithoutContainer_then_enumConverted() throws Exception {
     final FlagsDto dto = MAPPER.readValue("{\"primary\":\"green\"}", FlagsDto.class);
 
-    assertEquals(Optional.of(ColorEnumDto.GREEN), dto.getAdditionalProperty("primary"));
+    assertEquals(Optional.of(ColorEnumDto.GREEN), dto.additionalProperty("primary"));
   }
 }

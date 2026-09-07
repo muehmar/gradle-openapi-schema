@@ -24,8 +24,8 @@ public class Issue307Test {
             .build();
 
     final List<AdditionalProperty<CustomString>> additionalProperties =
-        dto.getAdditionalProperty("data")
-            .map(MapAdditionalPropertiesPropertyDto::getAdditionalProperties)
+        dto.additionalProperty("data")
+            .map(MapAdditionalPropertiesPropertyDto::additionalProperties)
             .orElse(Collections.emptyList());
 
     assertEquals(

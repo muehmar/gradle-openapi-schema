@@ -60,14 +60,14 @@ class NestedFullObjectSerialisationTest {
             "{\"adminname\":\"adminname\",\"amount\":15,\"code\":\"code\",\"color\":\"red\",\"message\":\"message\",\"type\":\"Admin\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",
             NestedFullObjectDto.class);
 
-    assertEquals(Tristate.ofValue("world!"), dto.getAdditionalProperty("hello"));
+    assertEquals(Tristate.ofValue("world!"), dto.additionalProperty("hello"));
 
     final HashMap<String, String> additionalProperties = new HashMap<>();
     additionalProperties.put("hello", "world!");
     additionalProperties.put("admin-prop", "value");
     assertEquals(
         additionalProperties,
-        dto.getAdditionalProperties().stream()
+        dto.additionalProperties().stream()
             .collect(
                 toMap(NullableAdditionalProperty::getName, prop -> prop.getValue().orElse(null))));
     assertEquals(15, dto.getAmount());

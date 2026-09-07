@@ -11,9 +11,12 @@ import static com.github.muehmar.gradle.openapi.generator.model.Nullability.NULL
 import static com.github.muehmar.gradle.openapi.generator.settings.TestPojoSettings.defaultTestSettings;
 import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnapshot;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
+import com.github.muehmar.gradle.openapi.exception.OpenApiGeneratorException;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -37,8 +40,6 @@ class MemberNameCollisionTest {
   void generatePojo_when_siblingNamedAfterTheJsonAnchor_then_anchorsDoNotCollide() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
-    // 'name' anchors serialization at getNameJson()/setNameJson(), which is also the api getter and
-    // the standard builder setter of the sibling 'nameJson'.
     final JavaObjectPojo pojo =
         objectPojo(requiredStringNamed("name"), requiredStringNamed("nameJson"));
 
@@ -54,8 +55,7 @@ class MemberNameCollisionTest {
   void generatePojo_when_builderPrefixIsGet_then_dtoAndBuilderAnchorsResolvedIndependently() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
-    // With this prefix the builder setters are named like the getters, so the dto and the builder
-    // would share a name scope if they were not kept apart.
+    // With this prefix the setters are named like the getters, so both scopes must stay apart.
     final JavaObjectPojo pojo =
         objectPojo(requiredStringNamed("name"), requiredStringNamed("nameJson"));
 
@@ -72,8 +72,6 @@ class MemberNameCollisionTest {
   void generatePojo_when_siblingNamedAfterTheValidationGetter_then_anchorsDoNotCollide() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
-    // The constraints of 'name' are carried by getName_(), which is also the api getter of the
-    // sibling 'name_'.
     final JavaObjectPojo pojo =
         objectPojo(requiredStringNamed("name"), requiredStringNamed("name_"));
 
@@ -87,8 +85,6 @@ class MemberNameCollisionTest {
   void generatePojo_when_siblingNamedAfterThePresenceFlag_then_fieldsDoNotCollide() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
-    // A required and nullable 'name' carries the companion field isNamePresent, which is also the
-    // field of the sibling property 'isNamePresent'.
     final JavaObjectPojo pojo =
         objectPojo(stringNamed("name", REQUIRED, NULLABLE), requiredStringNamed("isNamePresent"));
 
@@ -102,7 +98,6 @@ class MemberNameCollisionTest {
   void generatePojo_when_siblingNamedAfterTheNotNullFlag_then_fieldsDoNotCollide() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
-    // An optional and not-nullable 'name' carries the companion field isNameNotNull.
     final JavaObjectPojo pojo =
         objectPojo(
             stringNamed("name", OPTIONAL, NOT_NULLABLE), requiredStringNamed("isNameNotNull"));
@@ -117,7 +112,6 @@ class MemberNameCollisionTest {
   void generatePojo_when_siblingNamedAfterTheNullFlag_then_fieldsDoNotCollide() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
-    // An optional and nullable 'name' carries the companion field isNameNull.
     final JavaObjectPojo pojo =
         objectPojo(stringNamed("name", OPTIONAL, NULLABLE), requiredStringNamed("isNameNull"));
 
@@ -131,9 +125,7 @@ class MemberNameCollisionTest {
   void generatePojo_when_siblingNamedAfterTheFlagAccessor_then_accessorsDoNotCollide() {
     final ObjectPojoGenerator generator = new ObjectPojoGenerator();
 
-    // On a oneOf member the optional 'name' exposes the package-private flag accessor
-    // getIsNameNotNull(), which is also the api getter of the sibling 'isNameNotNull'. The parent's
-    // builder reads that accessor across classes, hence it cannot simply be renamed per class.
+    // The parent's builder reads the flag accessor across classes, so it cannot be renamed.
     final JavaObjectPojo variant =
         objectPojo(
                 stringNamed("name", OPTIONAL, NOT_NULLABLE), requiredStringNamed("isNameNotNull"))
@@ -147,12 +139,41 @@ class MemberNameCollisionTest {
   }
 
   @Test
+  @SnapshotName("frameworkMethodCollidingWithProperty")
+  void generatePojo_when_propertyNamedAfterFrameworkMethod_then_frameworkMethodRenamed() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    // getPropertyCount() must stay getter-shaped for bean validation, hence it is renamed and the
+    // validation getter of the property has to avoid it in turn.
+    final JavaObjectPojo pojo = objectPojo(requiredStringNamed("propertyCount"));
+
+    final String content = generator.generate(pojo, defaultTestSettings(), javaWriter()).asString();
+
+    expect.toMatchSnapshot(content);
+  }
+
+  @Test
+  void generatePojo_when_apiGettersOfTwoPropertiesCollide_then_generationFails() {
+    final ObjectPojoGenerator generator = new ObjectPojoGenerator();
+
+    // A property name is normalised before the getter name is derived from it.
+    final JavaObjectPojo pojo =
+        objectPojo(requiredStringNamed("propertyName"), requiredStringNamed("PropertyName"));
+
+    final OpenApiGeneratorException exception =
+        assertThrows(
+            OpenApiGeneratorException.class,
+            () -> generator.generate(pojo, defaultTestSettings(), javaWriter()));
+
+    assertTrue(exception.getMessage().contains("getPropertyName()"), exception.getMessage());
+  }
+
+  @Test
   @SnapshotName("dtoSetterReadingTheFlagAccessorAcrossClasses")
   void generateDtoSetter_when_siblingNamedAfterTheFlagAccessor_then_callSiteMatchesDeclaration() {
     final Generator<JavaObjectPojo, PojoSettings> generator = dtoSetterGenerator();
 
-    // The call site of the flag accessor, generated into the parent from a different
-    // JavaPojoMember instance than the declaration in the member dto.
+    // The call site derives the name from a different JavaPojoMember than the declaration.
     final JavaObjectPojo variant =
         objectPojo(
                 stringNamed("name", OPTIONAL, NOT_NULLABLE), requiredStringNamed("isNameNotNull"))

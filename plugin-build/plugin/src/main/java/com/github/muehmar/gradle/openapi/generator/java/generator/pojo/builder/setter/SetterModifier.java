@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -20,6 +21,12 @@ public class SetterModifier {
                 member.getJavaType().hasApiTypeDeep()
                     ? SetterModifier.SetterJavaType.API
                     : SetterModifier.SetterJavaType.DEFAULT));
+  }
+
+  /** The same modifiers, for the generators which carry the name scope along with the member. */
+  public static BiFunction<MemberAndNameScope, PojoSettings, JavaModifiers> scopedModifiers() {
+    final BiFunction<JavaPojoMember, PojoSettings, JavaModifiers> modifiers = modifiers();
+    return (mas, settings) -> modifiers.apply(mas.getMember(), settings);
   }
 
   public static JavaModifier forMember(

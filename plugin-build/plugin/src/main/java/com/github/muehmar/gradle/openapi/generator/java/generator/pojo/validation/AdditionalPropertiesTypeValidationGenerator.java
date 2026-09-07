@@ -7,6 +7,7 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -39,7 +40,7 @@ public class AdditionalPropertiesTypeValidationGenerator {
         .modifiers(SettingsFunctions::validationMethodModifiers)
         .noGenericTypes()
         .returnType("boolean")
-        .methodName("isAllAdditionalPropertiesHaveCorrectType")
+        .methodName(MethodNames.Framework.allAdditionalPropertiesHaveCorrectType().asString())
         .noArguments()
         .doesNotThrow()
         .content(correctTypeMethodContent())

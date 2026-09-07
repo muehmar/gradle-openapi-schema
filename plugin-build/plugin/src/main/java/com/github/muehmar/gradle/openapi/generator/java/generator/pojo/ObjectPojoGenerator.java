@@ -72,6 +72,7 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
 
   @Override
   public Writer generate(JavaObjectPojo data, PojoSettings settings, Writer writer) {
+    data.assertApiGettersDoNotCollide(settings);
     return delegate.generate(data, settings, writer);
   }
 
@@ -114,7 +115,11 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         Generator.<JavaObjectPojo, PojoSettings>emptyGen()
             .appendList(
                 getterGenerator,
-                ignore -> MemberAndNameScope.forMembers(pojo.getAllMembers(), settings),
+                ignore ->
+                    MemberAndNameScope.forMembers(
+                        pojo.getAllMembers(),
+                        settings,
+                        pojo.getFrameworkMethodNames(settings).allNames(settings)),
                 newLine())
             .generate(pojo, settings, writer);
   }

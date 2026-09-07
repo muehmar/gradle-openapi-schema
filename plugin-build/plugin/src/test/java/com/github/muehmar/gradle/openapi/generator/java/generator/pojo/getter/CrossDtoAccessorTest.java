@@ -12,6 +12,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.snapshot.SnapshotTest;
@@ -30,9 +31,13 @@ class CrossDtoAccessorTest {
   @MethodSource("pojoMembers")
   @SnapshotName("valueAccessor")
   void generateValueAccessor_when_pojoMembers_then_matchSnapshot(JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = valueAccessorGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = valueAccessorGenerator();
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(member, defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
@@ -41,9 +46,13 @@ class CrossDtoAccessorTest {
   @MethodSource("pojoMembers")
   @SnapshotName("flagAccessor")
   void generateFlagAccessor_when_pojoMembers_then_matchSnapshot(JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = flagAccessorGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = flagAccessorGenerator();
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(member, defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }

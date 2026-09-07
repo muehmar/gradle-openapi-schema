@@ -164,6 +164,23 @@ public class JavaPojoMember {
     return prefixedMethodName("with");
   }
 
+  /**
+   * The companion flag field, renamed if a property of the class carries its name. The scope is
+   * threaded in rather than stored, as {@code withNecessity} even changes which flag applies.
+   */
+  public JavaName getIsPresentFlagName(FlagFieldNameScope nameScope) {
+    return nameScope.resolveFlagFieldName(getIsPresentFlagName());
+  }
+
+  public JavaName getIsNullFlagName(FlagFieldNameScope nameScope) {
+    return nameScope.resolveFlagFieldName(getIsNullFlagName());
+  }
+
+  public JavaName getIsNotNullFlagName(FlagFieldNameScope nameScope) {
+    return nameScope.resolveFlagFieldName(getIsNotNullFlagName());
+  }
+
+  /** The plain flag name, for a class without siblings. */
   public JavaName getIsPresentFlagName() {
     return IsPresentFlagName.fromName(name).getName();
   }
@@ -180,27 +197,20 @@ public class JavaPojoMember {
     return prefixedMethodName("get");
   }
 
-  /**
-   * The name of the getter anchoring the serialization of this member, free of the names of the
-   * given siblings.
-   */
+  /** The getter anchoring the serialization, free of the names of the siblings. */
   public JavaName getJsonGetterName(MemberNameScope nameScope) {
     return nameScope.resolveAnchorName(getGetterName().append("Json"));
   }
 
-  /**
-   * The name of the setter anchoring the deserialization of this member, free of the names of the
-   * given siblings.
-   */
+  /** The setter anchoring the deserialization, free of the names of the siblings. */
   public JavaName getJsonSetterName(PojoSettings settings, MemberNameScope nameScope) {
     return nameScope.resolveAnchorName(
         prefixedMethodName(settings.getBuilderMethodPrefix()).append("Json"));
   }
 
   /**
-   * The name of the getter carrying the constraints of this member, free of the names of the given
-   * siblings. An empty suffix is the explicit request to validate the api getter itself, hence its
-   * name is used unchanged.
+   * The getter carrying the constraints, free of the names of the siblings. An empty suffix
+   * requests the api getter itself to be validated, hence its name is used unchanged.
    */
   public JavaName getValidationGetterName(PojoSettings settings, MemberNameScope nameScope) {
     final String suffix = settings.getValidationMethods().getGetterSuffix();
@@ -230,17 +240,19 @@ public class JavaPojoMember {
     return name.prefixedMethodName(prefix);
   }
 
-  public PList<TechnicalPojoMember> getTechnicalMembers() {
+  public PList<TechnicalPojoMember> getTechnicalMembers(FlagFieldNameScope nameScope) {
     final TechnicalPojoMember technicalPojoMember = TechnicalPojoMember.wrapPojoMember(this);
     if (isRequiredAndNullable()) {
       return PList.of(
-          technicalPojoMember, TechnicalPojoMember.isPresentFlagMember(getIsPresentFlagName()));
+          technicalPojoMember,
+          TechnicalPojoMember.isPresentFlagMember(getIsPresentFlagName(nameScope)));
     } else if (isOptionalAndNotNullable()) {
       return PList.of(
-          technicalPojoMember, TechnicalPojoMember.isNotNullFlagMember(getIsNotNullFlagName()));
+          technicalPojoMember,
+          TechnicalPojoMember.isNotNullFlagMember(getIsNotNullFlagName(nameScope)));
     } else if (isOptionalAndNullable()) {
       return PList.of(
-          technicalPojoMember, TechnicalPojoMember.isNullFlagMember(getIsNullFlagName()));
+          technicalPojoMember, TechnicalPojoMember.isNullFlagMember(getIsNullFlagName(nameScope)));
     } else {
       return PList.single(technicalPojoMember);
     }

@@ -11,6 +11,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversionRenderer;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -40,7 +41,7 @@ class SingleAdditionalPropertyGetter {
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(SingleAdditionalPropertyGetter::methodReturnType)
-        .methodName("getAdditionalProperty")
+        .methodName(MethodNames.Framework.additionalProperty().asString())
         .singleArgument(ignore -> new MethodGen.Argument("String", "key"))
         .doesNotThrow()
         .content(getterMethodContent())

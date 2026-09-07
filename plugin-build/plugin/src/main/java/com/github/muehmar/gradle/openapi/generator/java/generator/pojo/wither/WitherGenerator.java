@@ -5,6 +5,7 @@ import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -53,5 +54,11 @@ public class WitherGenerator {
     JavaName className;
     PList<JavaPojoMember> membersForWithers;
     PList<TechnicalPojoMember> technicalPojoMembers;
+
+    /**
+     * The scope the {@code technicalPojoMembers} were resolved in: a wither recognises the
+     * companion flags among them by name, hence it has to derive the very same names.
+     */
+    FlagFieldNameScope flagFieldNameScope;
   }
 }

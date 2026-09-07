@@ -65,13 +65,13 @@ public class NullableObjectPropertiesTest {
             .build();
 
     assertEquals(expectedDto, dto);
-    assertEquals(Tristate.ofNull(), dto.getAdditionalProperty("hi"));
+    assertEquals(Tristate.ofNull(), dto.additionalProperty("hi"));
     assertEquals(
         Tristate.ofValue(nullableObjectPropertiesPropertyDtoBuilder().setBar("bar").build()),
-        dto.getAdditionalProperty("hello"));
-    assertEquals(Tristate.ofAbsent(), dto.getAdditionalProperty("notPresent"));
+        dto.additionalProperty("hello"));
+    assertEquals(Tristate.ofAbsent(), dto.additionalProperty("notPresent"));
     final String joinedProperties =
-        dto.getAdditionalProperties().stream()
+        dto.additionalProperties().stream()
             .sorted(Comparator.comparing(NullableAdditionalProperty::getName))
             .map(prop -> String.format("%s: %s", prop.getName(), prop.getValue().orElse(null)))
             .collect(Collectors.joining(", "));
@@ -150,7 +150,7 @@ public class NullableObjectPropertiesTest {
     final NullableObjectPropertiesDto dto = builder.build();
 
     final List<NullableAdditionalProperty<NullableObjectPropertiesPropertyDto>>
-        additionalProperties = dto.getAdditionalProperties();
+        additionalProperties = dto.additionalProperties();
 
     assertEquals(Collections.emptyList(), additionalProperties);
   }

@@ -2,6 +2,18 @@
 
 ### Breaking Changes
 
+* [#438](https://github.com/muehmar/gradle-openapi-schema/issues/438) - **The two public framework methods on a DTO
+  which are reachable by a property name lost their `get` prefix:** `getAdditionalProperties()` is now
+  `additionalProperties()` and `getAdditionalProperty(String)` is now `additionalProperty(String)`. Every method name
+  derived from a property carries the prefix `get`, `with` or `is`, so an unprefixed framework method cannot collide
+  with a property - a schema with a property named `additionalProperties` previously generated two methods of the same
+  name and did not compile. Code calling these two methods has to be adapted.
+
+  `getPropertyCount()` keeps its name: it carries the `@Min`/`@Max` constraints of `minProperties`/`maxProperties`, and
+  bean validation only discovers constrained methods which follow the JavaBeans getter convention. The same holds for
+  every generated method carrying a constraint annotation. See
+  [Name Collisions](115_name_collisions.md) for the full picture.
+
 * [#414](https://github.com/muehmar/gradle-openapi-schema/issues/414) - **The property path of constraint violations
   gains the validation-method getter suffix, whose default changed from `Raw` to `_`.** Every property now carries its
   constraints on a dedicated validation getter instead of on the public getter where that happened to be possible, so

@@ -54,14 +54,14 @@ class FullObjectSerialisationTest {
             "{\"color\":\"red\",\"type\":\"User\",\"username\":\"username\",\"message\":\"message\",\"admin-prop\":\"value\",\"hello\":\"world!\"}",
             FullObjectDto.class);
 
-    assertEquals(Tristate.ofValue("world!"), dto.getAdditionalProperty("hello"));
+    assertEquals(Tristate.ofValue("world!"), dto.additionalProperty("hello"));
 
     final HashMap<String, String> additionalProperties = new HashMap<>();
     additionalProperties.put("hello", "world!");
     additionalProperties.put("admin-prop", "value");
     assertEquals(
         additionalProperties,
-        dto.getAdditionalProperties().stream()
+        dto.additionalProperties().stream()
             .collect(
                 toMap(NullableAdditionalProperty::getName, prop -> prop.getValue().orElse(null))));
 

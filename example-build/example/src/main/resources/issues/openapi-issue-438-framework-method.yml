@@ -1,0 +1,21 @@
+openapi: "3.0.0"
+
+info: { }
+
+paths: { }
+
+# A property colliding with a public framework method of the generated dto. Kept in its own
+# specification because it emits a NAME_COLLISION warning, which the example project otherwise lets
+# the build fail on.
+components:
+  schemas:
+    # A property named after the public framework method getPropertyCount(). The method carries the
+    # @Min/@Max constraints of minProperties/maxProperties and must stay getter-shaped, hence it is
+    # renamed - which changes the api of the dto and emits a NAME_COLLISION warning.
+    FrameworkMethodCollision:
+      type: object
+      required:
+        - propertyCount
+      properties:
+        propertyCount:
+          type: string

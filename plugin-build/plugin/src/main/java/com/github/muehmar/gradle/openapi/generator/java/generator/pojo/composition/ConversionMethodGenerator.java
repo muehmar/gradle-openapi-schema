@@ -70,41 +70,45 @@ public class ConversionMethodGenerator {
         .append(ref(JavaRefs.JAVA_UTIL_HASH_MAP));
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> addPropertyToMap() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+  private static Generator<PojoAndMember, PojoSettings> addPropertyToMap() {
+    return Generator.<PojoAndMember, PojoSettings>emptyGen()
         .append(addPropertyToMapCondition())
         .append(
-            (m, s, w) ->
-                w.println("props.put(\"%s\", %s);", m.getName().getOriginalName(), m.getName()),
+            (pam, s, w) ->
+                w.println(
+                    "props.put(\"%s\", %s);",
+                    pam.getMember().getName().getOriginalName(), pam.getMember().getName()),
             1)
         .append(constant("}"));
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> addPropertyToMapCondition() {
-    return addPropertyToMapNotNullableCondition()
+  private static Generator<PojoAndMember, PojoSettings> addPropertyToMapCondition() {
+    return ConversionMethodGenerator.addPropertyToMapNotNullableCondition()
         .append(addPropertyToMapRequiredNullableCondition())
         .append(addPropertyToMapOptionalNullableCondition());
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> addPropertyToMapNotNullableCondition() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append((m, s, w) -> w.println("if (%s != null) {", m.getName()))
-        .filter(JavaPojoMember::isNotNullable);
+  private static Generator<PojoAndMember, PojoSettings> addPropertyToMapNotNullableCondition() {
+    return Generator.<PojoAndMember, PojoSettings>emptyGen()
+        .append((pam, s, w) -> w.println("if (%s != null) {", pam.getMember().getName()))
+        .filter(pam -> pam.getMember().isNotNullable());
   }
 
-  private static Generator<JavaPojoMember, PojoSettings>
+  private static Generator<PojoAndMember, PojoSettings>
       addPropertyToMapRequiredNullableCondition() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append((m, s, w) -> w.println("if (%s) {", m.getIsPresentFlagName()))
-        .filter(JavaPojoMember::isRequiredAndNullable);
+    return Generator.<PojoAndMember, PojoSettings>emptyGen()
+        .append((pam, s, w) -> w.println("if (%s) {", pam.getIsPresentFlagName()))
+        .filter(pam -> pam.getMember().isRequiredAndNullable());
   }
 
-  private static Generator<JavaPojoMember, PojoSettings>
+  private static Generator<PojoAndMember, PojoSettings>
       addPropertyToMapOptionalNullableCondition() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+    return Generator.<PojoAndMember, PojoSettings>emptyGen()
         .append(
-            (m, s, w) -> w.println("if (%s != null || %s) {", m.getName(), m.getIsNullFlagName()))
-        .filter(JavaPojoMember::isOptionalAndNullable);
+            (pam, s, w) ->
+                w.println(
+                    "if (%s != null || %s) {", pam.getMember().getName(), pam.getIsNullFlagName()))
+        .filter(pam -> pam.getMember().isOptionalAndNullable());
   }
 
   @Value
@@ -112,15 +116,13 @@ public class ConversionMethodGenerator {
     JavaObjectPojo parentPojo;
     JavaObjectPojo composedPojo;
 
-    PList<JavaPojoMember> getAdditionalPropertiesMembers() {
+    PList<PojoAndMember> getAdditionalPropertiesMembers() {
       return parentPojo
           .getAllMembers()
           .filter(
               m1 ->
-                  not(
-                      composedPojo
-                          .getAllMembers()
-                          .exists(m2 -> m1.getName().equals(m2.getName()))));
+                  not(composedPojo.getAllMembers().exists(m2 -> m1.getName().equals(m2.getName()))))
+          .map(m -> new PojoAndMember(parentPojo, m));
     }
 
     PList<PojoAndMember> getComposedPojoAndMembers() {
@@ -134,7 +136,17 @@ public class ConversionMethodGenerator {
     JavaPojoMember member;
 
     private PList<JavaName> getFieldNames() {
-      return member.getTechnicalMembers().map(TechnicalPojoMember::getName);
+      return member
+          .getTechnicalMembers(pojo.getFlagFieldNameScope())
+          .map(TechnicalPojoMember::getName);
+    }
+
+    private JavaName getIsPresentFlagName() {
+      return member.getIsPresentFlagName(pojo.getFlagFieldNameScope());
+    }
+
+    private JavaName getIsNullFlagName() {
+      return member.getIsNullFlagName(pojo.getFlagFieldNameScope());
     }
   }
 }

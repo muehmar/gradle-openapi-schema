@@ -13,6 +13,7 @@ import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnap
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaArrayType;
@@ -83,7 +84,7 @@ class ListMemberMappingWriterTest {
             .mapListItemTypeNotNecessary()
             .wrapListItemNotNecessary()
             .mapListTypeNotNecessary()
-            .wrapTristateList()
+            .wrapTristateList(FlagFieldNameScope.empty())
             .noTrailingSemicolon()
             .build();
 
@@ -136,7 +137,7 @@ class ListMemberMappingWriterTest {
             .autoMapListItemType()
             .autoWrapListItem()
             .autoMapListType()
-            .autoWrapList()
+            .autoWrapList(FlagFieldNameScope.empty())
             .trailingSemicolon()
             .build();
 

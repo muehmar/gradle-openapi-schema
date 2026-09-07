@@ -139,13 +139,13 @@ public class UsersApiTest {
             .addAdditionalProperty("key-2", opt(customString("value-2")))
             .build();
 
-    assertEquals(opt(customString("value-0")), listObjectDto.getAdditionalProperty("key-0"));
+    assertEquals(opt(customString("value-0")), listObjectDto.additionalProperty("key-0"));
     assertEquals(
         Arrays.asList(
             new AdditionalProperty<>("key-0", customString("value-0")),
             new AdditionalProperty<>("key-1", customString("value-1")),
             new AdditionalProperty<>("key-2", customString("value-2"))),
-        listObjectDto.getAdditionalProperties().stream()
+        listObjectDto.additionalProperties().stream()
             .sorted(comparing(AdditionalProperty::getName))
             .collect(toList()));
   }

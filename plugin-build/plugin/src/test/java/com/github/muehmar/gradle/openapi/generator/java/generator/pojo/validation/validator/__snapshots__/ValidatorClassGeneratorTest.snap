@@ -46,7 +46,7 @@ private class Validator {
   }
 
   private boolean isValid() {
-    return getAnyOfValidCount() >= 1
+    return anyOfValidCount() >= 1
         && isValidAgainstTheCorrectAnyOfSchema()
         && isAdditionalPropertiesValid();
   }
@@ -78,7 +78,7 @@ private class Validator {
 
   private boolean isValid() {
     return isColorValid()
-        && getAnyOfValidCount() >= 1
+        && anyOfValidCount() >= 1
         && isAdditionalPropertiesValid();
   }
 }
@@ -1012,7 +1012,7 @@ private class Validator {
   }
 
   private boolean isValid() {
-    return getOneOfValidCount() == 1
+    return oneOfValidCount() == 1
         && isValidAgainstTheCorrectOneOfSchema()
         && isAdditionalPropertiesValid();
   }
@@ -1067,7 +1067,7 @@ private class Validator {
 
   private boolean isValid() {
     return isColorValid()
-        && getOneOfValidCount() == 1
+        && oneOfValidCount() == 1
         && isAdditionalPropertiesValid();
   }
 }

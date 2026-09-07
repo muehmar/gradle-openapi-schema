@@ -6,6 +6,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.ref.JavaRefs.JAVA
 import static com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs.TRISTATE;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.FlagAssignments;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -32,7 +33,7 @@ public class SetterGeneratorSettings {
     return settings.exists(SetterGeneratorSetting.S_TRISTATE_SETTER::equals);
   }
 
-  public Generator<JavaPojoMember, PojoSettings> flagAssigment() {
+  public Generator<MemberAndNameScope, PojoSettings> flagAssigment() {
     return (isOptionalSetter() || isTristateSetter())
         ? FlagAssignments.forWrappedMemberSetter()
         : FlagAssignments.forStandardMemberSetter();

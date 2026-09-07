@@ -5,15 +5,11 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * The names already taken within a single generated class, used to keep the declaration-only
- * anchors of a property free of the names generated for its siblings (issue #438).
+ * The names already taken within a single generated class, used to rename the declaration-only
+ * names of a property which would collide with them. See {@code doc/115_name_collisions.md}.
  *
- * <p>A name which is part of the api of the generated class - an api getter, a builder setter or a
- * framework method - is a <i>contract</i> name: it is referenced by hand-written or by generated
- * code and must never be renamed. The anchors, on the other hand, are only ever declared and never
- * referenced, hence a collision is resolved by renaming the anchor: the plain name is tried first,
- * then the counter {@code 1}, {@code 2}, ... is appended until the name is free. A specification
- * without a collision therefore keeps generating the plain name.
+ * <p>A scope holds one kind of name at a time - getters, setters or fields - as a method and a
+ * field of the same name do not collide in Java.
  */
 @EqualsAndHashCode
 @ToString
@@ -35,16 +31,38 @@ public class MemberNameScope {
     return new MemberNameScope(names.map(JavaName::asString));
   }
 
-  /**
-   * Resolves the name of an anchor: {@code plainName} if it is not taken by a contract name,
-   * otherwise the name suffixed with the lowest free counter.
-   */
+  /** The same scope with the given names additionally taken. */
+  public MemberNameScope add(PList<JavaName> names) {
+    return new MemberNameScope(takenNames.concat(names.map(JavaName::asString)));
+  }
+
+  /** {@code plainName}, or the name suffixed with the lowest free counter if it is taken. */
   public JavaName resolveAnchorName(JavaName plainName) {
     if (isFree(plainName)) {
       return plainName;
     }
     for (int counter = 1; ; counter++) {
       final JavaName candidate = plainName.append(String.valueOf(counter));
+      if (isFree(candidate)) {
+        return candidate;
+      }
+    }
+  }
+
+  /**
+   * {@code plainName}, or the name suffixed with an underscore and then the lowest free counter if
+   * it is taken, e.g. {@code isNamePresent_} next to the property {@code isNamePresent}.
+   */
+  public JavaName resolveFieldName(JavaName plainName) {
+    if (isFree(plainName)) {
+      return plainName;
+    }
+    final JavaName underscored = plainName.append("_");
+    if (isFree(underscored)) {
+      return underscored;
+    }
+    for (int counter = 1; ; counter++) {
+      final JavaName candidate = underscored.append(String.valueOf(counter));
       if (isFree(candidate)) {
         return candidate;
       }

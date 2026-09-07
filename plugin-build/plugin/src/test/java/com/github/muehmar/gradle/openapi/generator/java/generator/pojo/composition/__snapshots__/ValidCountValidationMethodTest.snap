@@ -3,7 +3,7 @@ javax.validation.constraints.AssertFalse
 
 @AssertFalse(message = "Is not valid against one of the schemas [SampleObjectPojo1, SampleObjectPojo2]")
 private boolean isValidAgainstNoAnyOfSchema() {
-  return getAnyOfValidCount() == 0;
+  return anyOfValidCount() == 0;
 }
 ]
 
@@ -13,12 +13,12 @@ javax.validation.constraints.AssertFalse
 
 @AssertFalse(message = "Is not valid against one of the schemas [SampleObjectPojo1, SampleObjectPojo2]")
 private boolean isValidAgainstNoOneOfSchema() {
-  return getOneOfValidCount() == 0;
+  return oneOfValidCount() == 0;
 }
 
 @AssertFalse(message = "Is valid against more than one of the schemas [SampleObjectPojo1, SampleObjectPojo2]")
 private boolean isValidAgainstMoreThanOneSchema() {
-  return getOneOfValidCount() > 1;
+  return oneOfValidCount() > 1;
 }
 ]
 
@@ -28,6 +28,6 @@ javax.validation.constraints.AssertFalse
 
 @AssertFalse(message = "Is not valid against one of the schemas [Yellow, Orange]")
 private boolean isValidAgainstNoOneOfSchema() {
-  return getOneOfValidCount() == 0;
+  return oneOfValidCount() == 0;
 }
 ]

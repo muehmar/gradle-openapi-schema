@@ -5,7 +5,7 @@ java.util.Optional
  * Returns the additional property with {@code key} wrapped in an {@link Optional}
  * if present, {@link Optional#empty()} otherwise
  */
-public Optional<Object> getAdditionalProperty(String key) {
+public Optional<Object> additionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key));
 }
 ]
@@ -18,7 +18,7 @@ java.util.Optional
  * Returns the additional property with {@code key} wrapped in an {@link Optional}
  * if present, {@link Optional#empty()} otherwise
  */
-public Optional<UserPropertyDto> getAdditionalProperty(String key) {
+public Optional<UserPropertyDto> additionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key))
       .flatMap(this::castAdditionalProperty);
 }
@@ -32,7 +32,7 @@ java.util.Optional
  * Returns the additional property with {@code key} wrapped in an {@link Optional}
  * if present, {@link Optional#empty()} otherwise
  */
-public Optional<ObjectDto> getAdditionalProperty(String key) {
+public Optional<ObjectDto> additionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key))
       .flatMap(this::castAdditionalProperty);
 }
@@ -47,7 +47,7 @@ java.util.Optional
  * Returns the additional property with {@code key} wrapped in an {@link Optional}
  * if present, {@link Optional#empty()} otherwise
  */
-public Optional<CustomString> getAdditionalProperty(String key) {
+public Optional<CustomString> additionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key))
       .flatMap(this::castAdditionalProperty).map(val -> CustomString.fromString(val));
 }
@@ -63,7 +63,7 @@ java.util.Optional
  * class represents the possible three states of the property: present and
  * non-null, present and null, absent.
  */
-public Tristate<Object> getAdditionalProperty(String key) {
+public Tristate<Object> additionalProperty(String key) {
   if (additionalProperties.containsKey(key)) {
     return Optional.ofNullable(additionalProperties.get(key))
         .map(Tristate::ofValue)
@@ -83,7 +83,7 @@ com.github.muehmar.openapi.util.Tristate
  * class represents the possible three states of the property: present and
  * non-null, present and null, absent.
  */
-public Tristate<UserPropertyDto> getAdditionalProperty(String key) {
+public Tristate<UserPropertyDto> additionalProperty(String key) {
   if (additionalProperties.containsKey(key)) {
     return castAdditionalProperty(additionalProperties.get(key));
   } else {
@@ -101,7 +101,7 @@ com.github.muehmar.openapi.util.Tristate
  * class represents the possible three states of the property: present and
  * non-null, present and null, absent.
  */
-public Tristate<ObjectDto> getAdditionalProperty(String key) {
+public Tristate<ObjectDto> additionalProperty(String key) {
   if (additionalProperties.containsKey(key)) {
     return castAdditionalProperty(additionalProperties.get(key));
   } else {
@@ -120,7 +120,7 @@ com.github.muehmar.openapi.util.Tristate
  * class represents the possible three states of the property: present and
  * non-null, present and null, absent.
  */
-public Tristate<CustomString> getAdditionalProperty(String key) {
+public Tristate<CustomString> additionalProperty(String key) {
   if (additionalProperties.containsKey(key)) {
     return castAdditionalProperty(additionalProperties.get(key)).map(val -> CustomString.fromString(val));
   } else {

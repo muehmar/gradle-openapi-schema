@@ -5,7 +5,7 @@ private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal(dto.getStringVal());
   setIntVal(dto.getIntVal());
   setDoubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -27,7 +27,7 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setOptionalMapWithNullableValues_(dto.getOptionalMapWithNullableValues());
   setOptionalNullableMap(dto.getOptionalNullableMap());
   setOptionalNullableMapWithNullableValues_(dto.getOptionalNullableMapWithNullableValues());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -41,7 +41,7 @@ private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal(dto.getStringVal());
   setIntVal(dto.getIntVal());
   setDoubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -63,7 +63,7 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setOptionalMapWithNullableValues_(dto.getOptionalMapWithNullableValues());
   setOptionalNullableMap(dto.getOptionalNullableMap());
   setOptionalNullableMapWithNullableValues_(dto.getOptionalNullableMapWithNullableValues());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -77,7 +77,7 @@ private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal("SampleObjectPojo1");
   setIntVal(dto.getIntVal());
   setDoubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -86,7 +86,7 @@ private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   setStringVal("SampleObjectPojo2");
   setBirthdate(dto.getBirthdate());
   setEmail(dto.getEmail());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -107,7 +107,7 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   stringVal(dto.getStringVal());
   birthdate(dto.getBirthdate());
   email(dto.getEmail());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -121,7 +121,7 @@ private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   stringVal(dto.getStringVal());
   intVal(dto.getIntVal());
   doubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue()));
   return this;
 }
@@ -130,7 +130,7 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   stringVal(dto.getStringVal());
   birthdate(dto.getBirthdate());
   email(dto.getEmail());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -144,7 +144,7 @@ private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal(dto.getStringVal());
   setIntVal(dto.getIntVal());
   setDoubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -169,7 +169,7 @@ private Builder setOneOfPojo1Dto(OneOfPojo1Dto dto) {
   setStringVal(dto.getStringValInternal2741988768());
   setBirthdate(dto.getBirthdateInternal2741988768());
   setEmail(dto.getEmailInternal2741988768());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -183,7 +183,7 @@ private Builder sampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   stringVal(dto.getStringVal());
   intVal(dto.getIntVal());
   doubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -192,7 +192,7 @@ private Builder sampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   stringVal(dto.getStringVal());
   birthdate(dto.getBirthdate());
   email(dto.getEmail());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -206,7 +206,7 @@ private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal(dto.getStringVal());
   setIntVal(dto.getIntVal());
   setDoubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -228,7 +228,7 @@ private Builder setNecessityAndNullabilityDto(NecessityAndNullabilityDto dto) {
   setOptionalMapWithNullableValues_(dto.getOptionalMapWithNullableValuesOpt2());
   setOptionalNullableMap(dto.getOptionalNullableMapTristate());
   setOptionalNullableMapWithNullableValues_(dto.getOptionalNullableMapWithNullableValuesTristate());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -242,7 +242,7 @@ private Builder setSampleObjectPojo1Dto(SampleObjectPojo1Dto dto) {
   setStringVal("SampleObjectPojo1");
   setIntVal(dto.getIntVal());
   setDoubleVal(dto.getDoubleVal());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -251,7 +251,7 @@ private Builder setSampleObjectPojo2Dto(SampleObjectPojo2Dto dto) {
   setStringVal("SampleObjectPojo2");
   setBirthdate(dto.getBirthdate());
   setEmail(dto.getEmail());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -264,7 +264,7 @@ oneOfPojoWithEnumDiscriminator=[
 private Builder setYellowDto(YellowDto dto) {
   setStringVal(dto.getStringVal());
   setColor(BaseDto.Color.fromValue("yellow"));
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -272,7 +272,7 @@ private Builder setYellowDto(YellowDto dto) {
 private Builder setOrangeDto(OrangeDto dto) {
   setBirthdate(dto.getBirthdate());
   setColor(BaseDto.Color.fromValue("orange"));
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -285,7 +285,7 @@ com.custom.CustomColor
 private Builder setYellowDto(YellowDto dto) {
   setStringVal(dto.getStringVal());
   setColor(CustomColor.fromColor(BaseDto.Color.fromValue("yellow")));
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -293,7 +293,7 @@ private Builder setYellowDto(YellowDto dto) {
 private Builder setOrangeDto(OrangeDto dto) {
   setBirthdate(dto.getBirthdate());
   setColor(CustomColor.fromColor(BaseDto.Color.fromValue("orange")));
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -306,7 +306,7 @@ com.custom.ColorConverters
 private Builder setYellowDto(YellowDto dto) {
   setStringVal(dto.getStringVal());
   setColor(ColorConverters.fromColor(BaseDto.Color.fromValue("yellow")));
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -314,7 +314,7 @@ private Builder setYellowDto(YellowDto dto) {
 private Builder setOrangeDto(OrangeDto dto) {
   setBirthdate(dto.getBirthdate());
   setColor(ColorConverters.fromColor(BaseDto.Color.fromValue("orange")));
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }

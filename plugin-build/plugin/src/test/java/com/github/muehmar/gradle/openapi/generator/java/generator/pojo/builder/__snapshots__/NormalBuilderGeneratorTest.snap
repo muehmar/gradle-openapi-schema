@@ -2056,7 +2056,7 @@ public static final class Builder {
     setStringVal(dto.getStringVal());
     setBirthdate(dto.getBirthdate());
     setEmail(dto.getEmail());
-    dto.getAdditionalProperties()
+    dto.additionalProperties()
         .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
     return this;
   }
@@ -2204,7 +2204,7 @@ public static final class Builder {
     setStringVal(dto.getStringVal());
     setIntVal(dto.getIntVal());
     setDoubleVal(dto.getDoubleVal());
-    dto.getAdditionalProperties()
+    dto.additionalProperties()
         .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
     return this;
   }
@@ -2213,7 +2213,7 @@ public static final class Builder {
     setStringVal(dto.getStringVal());
     setBirthdate(dto.getBirthdate());
     setEmail(dto.getEmail());
-    dto.getAdditionalProperties()
+    dto.additionalProperties()
         .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
     return this;
   }

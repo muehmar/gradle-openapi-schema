@@ -13,8 +13,6 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.JavaEscaper;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNotNullFlagName;
-import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
@@ -298,9 +296,15 @@ class ConstraintConditions {
             additionalPropertiesName, propertyValue.getName(), nullOrReadableValueCheck);
       }
       // A required nullable member is valid iff present; a present but null value is spec-valid.
-      return writer.print("%s", IsPresentFlagName.fromName(propertyValue.getName()).getName());
+      return propertyValue
+          .getFlagFieldName()
+          .map(flagFieldName -> writer.print("%s", flagFieldName))
+          .orElse(writer);
     } else if (propertyValue.isOptionalAndNotNullable()) {
-      return writer.print("%s", IsNotNullFlagName.fromName(propertyValue.getName()).getName());
+      return propertyValue
+          .getFlagFieldName()
+          .map(flagFieldName -> writer.print("%s", flagFieldName))
+          .orElse(writer);
     } else {
       return writer;
     }

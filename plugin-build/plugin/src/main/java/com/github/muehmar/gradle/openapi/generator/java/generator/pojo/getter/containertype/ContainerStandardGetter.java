@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.containertype;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.AccessorProfile.Visibility;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -24,7 +25,11 @@ public class ContainerStandardGetter {
         .methodName(JavaPojoMember::getGetterNameWithSuffix)
         .noArguments()
         .doesNotThrow()
-        .content((member, s, w) -> w.append(ContainerRendering.returnMappedContainer(member)))
+        .content(
+            (member, s, w) ->
+                // No companion flag is read here, hence the scope is unused.
+                w.append(
+                    ContainerRendering.returnMappedContainer(member, FlagFieldNameScope.empty())))
         .build();
   }
 }

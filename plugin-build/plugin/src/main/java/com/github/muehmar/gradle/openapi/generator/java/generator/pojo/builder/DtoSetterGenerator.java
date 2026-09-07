@@ -106,7 +106,8 @@ public class DtoSetterGenerator {
   }
 
   private static <B> Generator<ParentPojoAndComposedPojo, B> setNotNullableAdditionalProperties() {
-    return Generator.<ParentPojoAndComposedPojo, B>constant("dto.getAdditionalProperties()")
+    return Generator.<ParentPojoAndComposedPojo, B>constant(
+            String.format("dto.%s()", MethodNames.Framework.additionalProperties()))
         .append(
             constant(".forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue()));"),
             2)
@@ -115,7 +116,8 @@ public class DtoSetterGenerator {
   }
 
   private static <B> Generator<ParentPojoAndComposedPojo, B> setNullableAdditionalProperties() {
-    return Generator.<ParentPojoAndComposedPojo, B>constant("dto.getAdditionalProperties()")
+    return Generator.<ParentPojoAndComposedPojo, B>constant(
+            String.format("dto.%s()", MethodNames.Framework.additionalProperties()))
         .append(
             constant(
                 ".forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));"),

@@ -54,8 +54,8 @@ class TestFreeForm {
     expectedMap.put("firstName", "Dexter");
     expectedMap.put("lastName", "Morgan");
 
-    assertEquals(Tristate.ofValue("Dexter"), dto1.getAdditionalProperty("firstName"));
-    assertEquals(Tristate.ofValue("Morgan"), dto1.getAdditionalProperty("lastName"));
+    assertEquals(Tristate.ofValue("Dexter"), dto1.additionalProperty("firstName"));
+    assertEquals(Tristate.ofValue("Morgan"), dto1.additionalProperty("lastName"));
 
     assertEquals(FreeForm1Dto.fromProperties(expectedMap), dto1);
     assertEquals(FreeForm2Dto.fromProperties(expectedMap), dto2);

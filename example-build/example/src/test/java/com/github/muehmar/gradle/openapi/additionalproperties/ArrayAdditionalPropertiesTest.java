@@ -26,7 +26,7 @@ class ArrayAdditionalPropertiesTest {
 
     assertEquals(
         Optional.of(Arrays.asList("hello", "world")),
-        dto.getAdditionalProperty("data").map(ArrayAdditionalPropertiesPropertyDto::getItems));
+        dto.additionalProperty("data").map(ArrayAdditionalPropertiesPropertyDto::getItems));
 
     final Set<ConstraintViolation<ArrayAdditionalPropertiesDto>> violations = validate(dto);
 

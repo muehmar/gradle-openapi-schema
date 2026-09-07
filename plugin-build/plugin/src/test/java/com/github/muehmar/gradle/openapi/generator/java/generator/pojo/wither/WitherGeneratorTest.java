@@ -14,6 +14,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
@@ -47,6 +48,7 @@ class WitherGeneratorTest {
             .className(witherContent.getClassName())
             .membersForWithers(PList.single(member))
             .technicalPojoMembers(witherContent.getTechnicalPojoMembers())
+            .flagFieldNameScope(witherContent.getFlagFieldNameScope())
             .build();
 
     final Writer writer =
@@ -87,7 +89,8 @@ class WitherGeneratorTest {
                 .membersForWithers(PList.single(requiredString()))
                 .technicalPojoMembers(
                     PList.of(requiredString(), requiredBirthdate())
-                        .flatMap(JavaPojoMember::getTechnicalMembers))
+                        .flatMap(m -> m.getTechnicalMembers(FlagFieldNameScope.empty())))
+                .flagFieldNameScope(FlagFieldNameScope.empty())
                 .build(),
             defaultTestSettings(),
             javaWriter());

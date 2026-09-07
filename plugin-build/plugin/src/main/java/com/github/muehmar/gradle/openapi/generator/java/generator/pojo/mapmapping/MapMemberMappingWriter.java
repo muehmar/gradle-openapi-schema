@@ -5,6 +5,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversionRenderer;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.api.ApiType;
@@ -28,14 +29,15 @@ public class MapMemberMappingWriter {
   private final Function<JavaPojoMember, Writer> wrapMap;
   private final boolean trailingSemicolon;
 
-  public static Writer fullAutoMapMemberMappingWriter(JavaPojoMember member, String prefix) {
+  public static Writer fullAutoMapMemberMappingWriter(
+      JavaPojoMember member, FlagFieldNameScope nameScope, String prefix) {
     return fullMapMemberMappingWriterBuilder()
         .member(member)
         .prefix(prefix)
         .autoMapMapItemType()
         .autoWrapMapItem()
         .autoMapMapType()
-        .autoWrapMap()
+        .autoWrapMap(nameScope)
         .trailingSemicolon()
         .build();
   }
@@ -134,21 +136,22 @@ public class MapMemberMappingWriter {
       return member -> javaWriter().print("Optional::ofNullable").ref(JavaRefs.JAVA_UTIL_OPTIONAL);
     }
 
-    static Function<JavaPojoMember, Writer> wrapTristateMap() {
+    static Function<JavaPojoMember, Writer> wrapTristateMap(FlagFieldNameScope nameScope) {
       return member ->
           javaWriter()
-              .print("m -> Tristate.ofNullableAndNullFlag(m, %s)", member.getIsNullFlagName())
+              .print(
+                  "m -> Tristate.ofNullableAndNullFlag(m, %s)", member.getIsNullFlagName(nameScope))
               .ref(OpenApiUtilRefs.TRISTATE);
     }
 
-    static Function<JavaPojoMember, Writer> autoWrapMap() {
+    static Function<JavaPojoMember, Writer> autoWrapMap(FlagFieldNameScope nameScope) {
       return member -> {
         if (member.isRequiredAndNotNullable()) {
           return wrapMapNotNecessary().apply(member);
         } else if (member.isRequiredAndNullable() || member.isOptionalAndNotNullable()) {
           return wrapOptionalMap().apply(member);
         } else {
-          return wrapTristateMap().apply(member);
+          return wrapTristateMap(nameScope).apply(member);
         }
       };
     }

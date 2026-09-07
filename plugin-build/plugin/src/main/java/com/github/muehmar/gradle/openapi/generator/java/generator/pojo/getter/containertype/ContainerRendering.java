@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.c
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.listmapping.ListMemberMappingWriter.fullAutoListMemberMappingWriter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.mapmapping.MapMemberMappingWriter.fullAutoMapMemberMappingWriter;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import io.github.muehmar.codegenerator.writer.Writer;
 
@@ -16,9 +17,9 @@ class ContainerRendering {
         .asStringWrappingNullableValueType();
   }
 
-  static Writer returnMappedContainer(JavaPojoMember member) {
+  static Writer returnMappedContainer(JavaPojoMember member, FlagFieldNameScope nameScope) {
     return member.getJavaType().isArrayType()
-        ? fullAutoListMemberMappingWriter(member, "return ")
-        : fullAutoMapMemberMappingWriter(member, "return ");
+        ? fullAutoListMemberMappingWriter(member, nameScope, "return ")
+        : fullAutoMapMemberMappingWriter(member, nameScope, "return ");
   }
 }

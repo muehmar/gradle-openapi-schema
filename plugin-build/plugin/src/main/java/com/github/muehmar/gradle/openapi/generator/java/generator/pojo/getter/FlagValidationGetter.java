@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.DeprecatedMethodGenerator.deprecatedJavaDocAndAnnotationForValidationMethod;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator.assertTrue;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.SettingsFunctions;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -14,24 +15,37 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 public class FlagValidationGetter {
   private FlagValidationGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> flagValidationGetterGenerator() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(deprecatedJavaDocAndAnnotationForValidationMethod())
-        .append(assertTrue(FlagValidationGetter::assertionMessage))
+  public static Generator<MemberAndNameScope, PojoSettings> flagValidationGetterGenerator() {
+    return Generator.<MemberAndNameScope, PojoSettings>emptyGen()
+        .append(deprecatedJavaDocAndAnnotationForValidationMethod(), MemberAndNameScope::getMember)
+        .append(assertTrue(mas -> assertionMessage(mas.getMember())))
         .append(method())
         .filter(Filters.isValidationEnabled());
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> method() {
-    return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
+  private static Generator<MemberAndNameScope, PojoSettings> method() {
+    return JavaGenerators.<MemberAndNameScope, PojoSettings>methodGen()
         .modifiers(SettingsFunctions::validationMethodModifiers)
         .noGenericTypes()
         .returnType("boolean")
-        .methodName(FlagValidationGetter::flagName)
+        .methodName(FlagValidationGetter::methodName)
         .noArguments()
         .doesNotThrow()
-        .content(member -> String.format("return %s;", flagName(member)))
+        .content(mas -> String.format("return %s;", fieldName(mas)))
         .build();
+  }
+
+  /**
+   * Resolved separately from the field it returns: the method name becomes the property path of a
+   * constraint violation, whereas the field is private and freely renameable.
+   */
+  private static JavaName methodName(MemberAndNameScope mas) {
+    return mas.getDtoNameScope().resolveFieldName(plainFlagName(mas.getMember()));
+  }
+
+  private static JavaName fieldName(MemberAndNameScope mas) {
+    final JavaPojoMember member = mas.getMember();
+    return member.isRequiredAndNullable() ? mas.getIsPresentFlagName() : mas.getIsNotNullFlagName();
   }
 
   private static String assertionMessage(JavaPojoMember member) {
@@ -42,11 +56,9 @@ public class FlagValidationGetter {
     }
   }
 
-  private static JavaName flagName(JavaPojoMember member) {
-    if (member.isRequiredAndNullable()) {
-      return member.getIsPresentFlagName();
-    } else {
-      return member.getIsNotNullFlagName();
-    }
+  private static JavaName plainFlagName(JavaPojoMember member) {
+    return member.isRequiredAndNullable()
+        ? member.getIsPresentFlagName()
+        : member.getIsNotNullFlagName();
   }
 }

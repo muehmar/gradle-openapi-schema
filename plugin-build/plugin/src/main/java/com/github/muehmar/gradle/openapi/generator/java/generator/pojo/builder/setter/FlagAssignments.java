@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -13,17 +14,18 @@ public class FlagAssignments {
    * {@link Optional} or the Tristate class.
    */
   public static class Raw {
-    public static String requiredNullableFlagAssignment(JavaPojoMember member) {
-      return String.format("this.%s = true;", member.getIsPresentFlagName());
+    public static String requiredNullableFlagAssignment(MemberAndNameScope mas) {
+      return String.format("this.%s = true;", mas.getIsPresentFlagName());
     }
 
-    public static String optionalNotNullableFlagAssignment(JavaPojoMember member) {
+    public static String optionalNotNullableFlagAssignment(MemberAndNameScope mas) {
       return String.format(
-          "this.%s = %s != null;", member.getIsNotNullFlagName(), member.getName());
+          "this.%s = %s != null;", mas.getIsNotNullFlagName(), mas.getMember().getName());
     }
 
-    public static String optionalNullableFlagAssignment(JavaPojoMember member) {
-      return String.format("this.%s = %s == null;", member.getIsNullFlagName(), member.getName());
+    public static String optionalNullableFlagAssignment(MemberAndNameScope mas) {
+      return String.format(
+          "this.%s = %s == null;", mas.getIsNullFlagName(), mas.getMember().getName());
     }
   }
 
@@ -32,50 +34,54 @@ public class FlagAssignments {
    * {@link Optional} or the Tristate class.
    */
   public static class Wrapped {
-    public static String requiredNullableFlagAssignment(JavaPojoMember member) {
-      return Raw.requiredNullableFlagAssignment(member);
+    public static String requiredNullableFlagAssignment(MemberAndNameScope mas) {
+      return Raw.requiredNullableFlagAssignment(mas);
     }
 
-    public static String optionalNotNullableFlagAssignment(JavaPojoMember member) {
-      return String.format("this.%s = true;", member.getIsNotNullFlagName());
+    public static String optionalNotNullableFlagAssignment(MemberAndNameScope mas) {
+      return String.format("this.%s = true;", mas.getIsNotNullFlagName());
     }
 
-    public static String optionalNullableFlagAssignment(JavaPojoMember member) {
+    public static String optionalNullableFlagAssignment(MemberAndNameScope mas) {
       return String.format(
           "this.%s = %s.%s;",
-          member.getIsNullFlagName(), member.getName(), member.tristateToIsNullFlag());
+          mas.getIsNullFlagName(),
+          mas.getMember().getName(),
+          mas.getMember().tristateToIsNullFlag());
     }
   }
 
-  public static Optional<String> forStandardMemberSetter(JavaPojoMember member) {
+  public static Optional<String> forStandardMemberSetter(MemberAndNameScope mas) {
+    final JavaPojoMember member = mas.getMember();
     if (member.isRequiredAndNullable()) {
-      return Optional.of(Raw.requiredNullableFlagAssignment(member));
+      return Optional.of(Raw.requiredNullableFlagAssignment(mas));
     } else if (member.isOptionalAndNotNullable()) {
-      return Optional.of(Raw.optionalNotNullableFlagAssignment(member));
+      return Optional.of(Raw.optionalNotNullableFlagAssignment(mas));
     } else if (member.isOptionalAndNullable()) {
-      return Optional.of(Raw.optionalNullableFlagAssignment(member));
+      return Optional.of(Raw.optionalNullableFlagAssignment(mas));
     }
     return Optional.empty();
   }
 
-  public static Generator<JavaPojoMember, PojoSettings> forStandardMemberSetter() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+  public static Generator<MemberAndNameScope, PojoSettings> forStandardMemberSetter() {
+    return Generator.<MemberAndNameScope, PojoSettings>emptyGen()
         .appendOptional((v, s, w) -> w.println(v), FlagAssignments::forStandardMemberSetter);
   }
 
-  public static Optional<String> forWrappedMemberSetter(JavaPojoMember member) {
+  public static Optional<String> forWrappedMemberSetter(MemberAndNameScope mas) {
+    final JavaPojoMember member = mas.getMember();
     if (member.isRequiredAndNullable()) {
-      return Optional.of(Wrapped.requiredNullableFlagAssignment(member));
+      return Optional.of(Wrapped.requiredNullableFlagAssignment(mas));
     } else if (member.isOptionalAndNotNullable()) {
-      return Optional.of(Wrapped.optionalNotNullableFlagAssignment(member));
+      return Optional.of(Wrapped.optionalNotNullableFlagAssignment(mas));
     } else if (member.isOptionalAndNullable()) {
-      return Optional.of(Wrapped.optionalNullableFlagAssignment(member));
+      return Optional.of(Wrapped.optionalNullableFlagAssignment(mas));
     }
     return Optional.empty();
   }
 
-  public static Generator<JavaPojoMember, PojoSettings> forWrappedMemberSetter() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+  public static Generator<MemberAndNameScope, PojoSettings> forWrappedMemberSetter() {
+    return Generator.<MemberAndNameScope, PojoSettings>emptyGen()
         .appendOptional((v, s, w) -> w.println(v), FlagAssignments::forWrappedMemberSetter);
   }
 }

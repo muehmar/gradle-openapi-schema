@@ -23,10 +23,10 @@ java.util.function.Function
  */
 public <T> List<T> foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto) {
   final List<T> result = new ArrayList<>();
-  if (isValidAgainstSampleObjectPojo1Dto()) {
+  if (validAgainstSampleObjectPojo1Dto()) {
     result.add(onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto()));
   }
-  if (isValidAgainstSampleObjectPojo2Dto()) {
+  if (validAgainstSampleObjectPojo2Dto()) {
     result.add(onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto()));
   }
   return result;
@@ -55,10 +55,10 @@ java.util.function.Supplier
  * returned.
  */
 public <T> T foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
-  if ("obj1".equals(stringVal) && isValidAgainstSampleObjectPojo1Dto()) {
+  if ("obj1".equals(stringVal) && validAgainstSampleObjectPojo1Dto()) {
     return onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto());
   }
-  else if ("obj2".equals(stringVal) && isValidAgainstSampleObjectPojo2Dto()) {
+  else if ("obj2".equals(stringVal) && validAgainstSampleObjectPojo2Dto()) {
     return onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto());
   }
   else {
@@ -113,10 +113,10 @@ java.util.function.Supplier
  * returned.
  */
 public <T> T foldAnyOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
-  if ("SampleObjectPojo1".equals(stringVal) && isValidAgainstSampleObjectPojo1Dto()) {
+  if ("SampleObjectPojo1".equals(stringVal) && validAgainstSampleObjectPojo1Dto()) {
     return onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto());
   }
-  else if ("SampleObjectPojo2".equals(stringVal) && isValidAgainstSampleObjectPojo2Dto()) {
+  else if ("SampleObjectPojo2".equals(stringVal) && validAgainstSampleObjectPojo2Dto()) {
     return onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto());
   }
   else {
@@ -171,10 +171,10 @@ java.util.function.Supplier
  * the schema described by the discriminator and its value is returned.
  */
 public <T> T foldOneOf(Function<Illegal_IdentifierDto, T> onIllegal_IdentifierDto, Function<Illegal_IdentifierDto, T> onIllegal_IdentifierDto, Supplier<T> onInvalid) {
-  if ("Illegal?Identifier".equals(switch_) && isValidAgainstIllegal_IdentifierDto()) {
+  if ("Illegal?Identifier".equals(switch_) && validAgainstIllegal_IdentifierDto()) {
     return onIllegal_IdentifierDto.apply(asIllegal_IdentifierDto());
   }
-  if ("Illegal?Identifier".equals(switch_) && isValidAgainstIllegal_IdentifierDto()) {
+  if ("Illegal?Identifier".equals(switch_) && validAgainstIllegal_IdentifierDto()) {
     return onIllegal_IdentifierDto.apply(asIllegal_IdentifierDto());
   }
   else {
@@ -230,10 +230,10 @@ java.util.function.Supplier
  * the schema described by the discriminator and its value is returned.
  */
 public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
-  if ("obj1".equals(stringVal) && isValidAgainstSampleObjectPojo1Dto()) {
+  if ("obj1".equals(stringVal) && validAgainstSampleObjectPojo1Dto()) {
     return onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto());
   }
-  else if ("obj2".equals(stringVal) && isValidAgainstSampleObjectPojo2Dto()) {
+  else if ("obj2".equals(stringVal) && validAgainstSampleObjectPojo2Dto()) {
     return onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto());
   }
   else {
@@ -289,10 +289,10 @@ java.util.function.Supplier
  * the schema described by the discriminator and its value is returned.
  */
 public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
-  if ("SampleObjectPojo1".equals(stringVal) && isValidAgainstSampleObjectPojo1Dto()) {
+  if ("SampleObjectPojo1".equals(stringVal) && validAgainstSampleObjectPojo1Dto()) {
     return onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto());
   }
-  else if ("SampleObjectPojo2".equals(stringVal) && isValidAgainstSampleObjectPojo2Dto()) {
+  else if ("SampleObjectPojo2".equals(stringVal) && validAgainstSampleObjectPojo2Dto()) {
     return onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto());
   }
   else {
@@ -347,10 +347,10 @@ java.util.function.Supplier
  * returned.
  */
 public <T> T foldOneOf(Function<SampleObjectPojo1Dto, T> onSampleObjectPojo1Dto, Function<SampleObjectPojo2Dto, T> onSampleObjectPojo2Dto, Supplier<T> onInvalid) {
-  if (isValidAgainstSampleObjectPojo1Dto()) {
+  if (validAgainstSampleObjectPojo1Dto()) {
     return onSampleObjectPojo1Dto.apply(asSampleObjectPojo1Dto());
   }
-  else if (isValidAgainstSampleObjectPojo2Dto()) {
+  else if (validAgainstSampleObjectPojo2Dto()) {
     return onSampleObjectPojo2Dto.apply(asSampleObjectPojo2Dto());
   }
   else {
@@ -403,10 +403,10 @@ java.util.function.Supplier
  * schema described by the discriminator and its value is returned.
  */
 public <T> T foldOneOf(Function<YellowDto, T> onYellowDto, Function<OrangeDto, T> onOrangeDto, Supplier<T> onInvalid) {
-  if ("yellow".equals(color) && isValidAgainstYellowDto()) {
+  if ("yellow".equals(color) && validAgainstYellowDto()) {
     return onYellowDto.apply(asYellowDto());
   }
-  else if ("orange".equals(color) && isValidAgainstOrangeDto()) {
+  else if ("orange".equals(color) && validAgainstOrangeDto()) {
     return onOrangeDto.apply(asOrangeDto());
   }
   else {

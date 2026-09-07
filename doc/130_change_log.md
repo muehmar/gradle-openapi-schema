@@ -1,19 +1,15 @@
 ## Change Log
 
 * next
-    * [#438](https://github.com/muehmar/gradle-openapi-schema/issues/438) - Read the properties of a member DTO through
-      dedicated internal accessors when a composed DTO reconstructs itself from it, instead of through the public
-      getters. The accessors carry a fixed, improbable suffix, so that both the declaration in the member DTO and the
-      call site in the composed DTO derive the same name without knowing each other's properties - a property named
-      after the previous flag accessor, e.g. `isNameNotNull` next to `name`, no longer produces two identical
-      declarations. As the accessors return the internal representation, the value no longer makes a round trip
-      through a configured type conversion, which is not guaranteed to be lossless
-    * [#438](https://github.com/muehmar/gradle-openapi-schema/issues/438) - Keep the JSON getter and the JSON setter of
-      a property free of the names generated for its siblings. These anchors are declaration-only - they are never
-      referenced by generated code - hence a collision with the api of a sibling, e.g. the properties `name` and
-      `nameJson` in the same schema, is resolved by appending a counter to the anchor (`getNameJson` becomes
-      `getNameJson1`). Such a schema previously generated two identical declarations and did not compile. A schema
-      without a collision generates unchanged code
+    * [#438](https://github.com/muehmar/gradle-openapi-schema/issues/438) - Resolve the collisions between the names
+      generated for a property and the names generated for its siblings or for the DTO itself, which previously
+      produced code which did not compile. Declaration-only names - the JSON getter and setter, the validation getter,
+      the companion flag field - are renamed, as is a framework method a property collides with; renaming a public
+      framework method emits the new `NAME_COLLISION` warning. Two colliding api getters cannot be renamed and let the
+      generation fail. See [Name Collisions](115_name_collisions.md). Breaking: `getAdditionalProperties()` and
+      `getAdditionalProperty(...)` are now `additionalProperties()` and `additionalProperty(...)`, and a composed DTO
+      reads its member DTOs through internal accessors, so a property value no longer makes a round trip through a
+      configured type conversion
     * [#436](https://github.com/muehmar/gradle-openapi-schema/issues/436) - Annotate the generated DTOs and their
       builders with `@JsonAutoDetect` and switch Jackson's auto-detection off, instead of annotating every method
       which must not be serialized with `@JsonIgnore`. Every serialized member carries an explicit annotation

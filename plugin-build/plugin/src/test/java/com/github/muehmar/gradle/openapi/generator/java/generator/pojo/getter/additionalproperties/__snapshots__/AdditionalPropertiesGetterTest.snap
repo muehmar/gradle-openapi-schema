@@ -25,7 +25,7 @@ private Map<String, @NotNull @Valid UserPropertyDto> getAdditionalProperties_() 
   return props;
 }
 
-public List<AdditionalProperty<UserPropertyDto>> getAdditionalProperties() {
+public List<AdditionalProperty<UserPropertyDto>> additionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 
@@ -40,7 +40,7 @@ public List<AdditionalProperty<UserPropertyDto>> getAdditionalProperties() {
  * Returns the additional property with {@code key} wrapped in an {@link Optional}
  * if present, {@link Optional#empty()} otherwise
  */
-public Optional<UserPropertyDto> getAdditionalProperty(String key) {
+public Optional<UserPropertyDto> additionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key))
       .flatMap(this::castAdditionalProperty);
 }
@@ -85,7 +85,7 @@ private Map<String, @NotNull @Valid ObjectDto> getAdditionalProperties_() {
   return props;
 }
 
-public List<AdditionalProperty<ObjectDto>> getAdditionalProperties() {
+public List<AdditionalProperty<ObjectDto>> additionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 
@@ -100,7 +100,7 @@ public List<AdditionalProperty<ObjectDto>> getAdditionalProperties() {
  * Returns the additional property with {@code key} wrapped in an {@link Optional}
  * if present, {@link Optional#empty()} otherwise
  */
-public Optional<ObjectDto> getAdditionalProperty(String key) {
+public Optional<ObjectDto> additionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key))
       .flatMap(this::castAdditionalProperty);
 }
@@ -147,7 +147,7 @@ private Map<String, @NotNull @Size(min = 5) @Pattern(regexp="pattern") String> g
   return props;
 }
 
-public List<AdditionalProperty<String>> getAdditionalProperties() {
+public List<AdditionalProperty<String>> additionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 
@@ -162,7 +162,7 @@ public List<AdditionalProperty<String>> getAdditionalProperties() {
  * Returns the additional property with {@code key} wrapped in an {@link Optional}
  * if present, {@link Optional#empty()} otherwise
  */
-public Optional<String> getAdditionalProperty(String key) {
+public Optional<String> additionalProperty(String key) {
   return Optional.ofNullable(additionalProperties.get(key))
       .flatMap(this::castAdditionalProperty);
 }

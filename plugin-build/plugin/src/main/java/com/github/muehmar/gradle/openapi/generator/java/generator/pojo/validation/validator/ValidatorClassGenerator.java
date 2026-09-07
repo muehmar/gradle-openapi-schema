@@ -6,16 +6,17 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition.Type.ANY_OF;
 import static com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition.Type.ONE_OF;
 import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.Composition.isValidAgainstTheCorrectSchemaMethodName;
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.getPropertyCountMethodName;
 import static io.github.muehmar.codegenerator.Generator.newLine;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.NonEmptyList;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndFlagFieldScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ConditionsWriter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.IsPropertyValidMethodName;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.PropertyValue;
+import com.github.muehmar.gradle.openapi.generator.java.model.composition.DiscriminatableJavaComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAllOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
@@ -55,7 +56,10 @@ public class ValidatorClassGenerator {
 
   private static Generator<JavaObjectPojo, PojoSettings> validationClassContent() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendList(memberValidationGenerator(), JavaObjectPojo::getMembers, newLine())
+        .appendList(
+            memberValidationGenerator(),
+            pojo -> MemberAndFlagFieldScope.forMembers(pojo.getMembers(), pojo),
+            newLine())
         .appendSingleBlankLine()
         .append(requiredAdditionalPropertyGenerator())
         .appendSingleBlankLine()
@@ -131,7 +135,11 @@ public class ValidatorClassGenerator {
   }
 
   private static Condition methodContentOneOfCondition() {
-    return Condition.constant("getOneOfValidCount() == 1")
+    return Condition.constant(
+            String.format(
+                "%s() == 1",
+                MethodNames.Composition.getCompositionValidCountMethodName(
+                    DiscriminatableJavaComposition.Type.ONE_OF)))
         .filter(
             (pojo, settings) ->
                 pojo.getOneOfComposition()
@@ -150,7 +158,11 @@ public class ValidatorClassGenerator {
   }
 
   private static Condition methodContentAnyOfCondition() {
-    return Condition.constant("getAnyOfValidCount() >= 1")
+    return Condition.constant(
+            String.format(
+                "%s() >= 1",
+                MethodNames.Composition.getCompositionValidCountMethodName(
+                    DiscriminatableJavaComposition.Type.ANY_OF)))
         .filter(JavaObjectPojo::hasAnyOfComposition);
   }
 
@@ -165,26 +177,35 @@ public class ValidatorClassGenerator {
   }
 
   private static Condition additionalPropertiesTypeCondition() {
-    return Condition.constant("isAllAdditionalPropertiesHaveCorrectType()")
+    return Condition.constant(
+            String.format("%s()", MethodNames.Framework.allAdditionalPropertiesHaveCorrectType()))
         .filter(pojo -> pojo.getAdditionalProperties().isNotValueAnyType());
   }
 
   private static Condition minPropertyCountCondition() {
-    return Condition.optional(
-        (p, w) ->
+    return Condition.optionalWithSettings(
+        (p, settings, w) ->
             p.getConstraints()
                 .getPropertyCount()
                 .flatMap(PropertyCount::getMinProperties)
-                .map(min -> w.print("%d <= %s()", min, getPropertyCountMethodName())));
+                .map(
+                    min ->
+                        w.print(
+                            "%d <= %s()",
+                            min, p.getFrameworkMethodNames(settings).propertyCount(settings))));
   }
 
   private static Condition maxPropertyCountCondition() {
-    return Condition.optional(
-        (p, w) ->
+    return Condition.optionalWithSettings(
+        (p, settings, w) ->
             p.getConstraints()
                 .getPropertyCount()
                 .flatMap(PropertyCount::getMaxProperties)
-                .map(max -> w.print("%s() <= %d", getPropertyCountMethodName(), max)));
+                .map(
+                    max ->
+                        w.print(
+                            "%s() <= %d",
+                            p.getFrameworkMethodNames(settings).propertyCount(settings), max)));
   }
 
   private static Condition noAdditionalPropertiesCondition() {
@@ -197,6 +218,11 @@ public class ValidatorClassGenerator {
         .filter(pojo -> pojo.getAdditionalProperties().isAllowed());
   }
 
+  @FunctionalInterface
+  private interface SettingsAwareCondition {
+    Optional<Writer> apply(JavaObjectPojo pojo, PojoSettings settings, Writer writer);
+  }
+
   private interface Condition extends Generator<JavaObjectPojo, PojoSettings> {
     static Condition constant(String constant) {
       return (p, s, w) -> w.print(constant);
@@ -204,6 +230,11 @@ public class ValidatorClassGenerator {
 
     static Condition optional(BiFunction<JavaObjectPojo, Writer, Optional<Writer>> condition) {
       return (p, s, w) -> condition.apply(p, w).orElse(w);
+    }
+
+    /** A condition which needs the settings, e.g. to resolve a framework method name. */
+    static Condition optionalWithSettings(SettingsAwareCondition condition) {
+      return (p, s, w) -> condition.apply(p, s, w).orElse(w);
     }
 
     @Override

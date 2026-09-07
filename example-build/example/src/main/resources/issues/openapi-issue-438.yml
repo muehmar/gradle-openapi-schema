@@ -50,3 +50,44 @@ components:
           nullable: true
         nameJson:
           type: string
+
+    # A required and nullable property carries the companion flag field isNamePresent, which is also
+    # the field of the sibling property of that name. The flag field is private and only ever read
+    # within its own class, hence the collision is resolved by renaming the flag.
+    PresenceFlagFieldCollision:
+      type: object
+      required:
+        - name
+        - isNamePresent
+      properties:
+        name:
+          type: string
+          nullable: true
+        isNamePresent:
+          type: string
+
+    # An optional and not-nullable property carries the companion flag isNameNotNull. The @AssertTrue
+    # method of that flag keeps its own name, which is what the violation property path is derived
+    # from.
+    NotNullFlagFieldCollision:
+      type: object
+      required:
+        - isNameNotNull
+      properties:
+        name:
+          type: string
+        isNameNotNull:
+          type: string
+
+    # An optional and nullable property carries the companion flag isNameNull, which has no
+    # @AssertTrue method of its own.
+    NullFlagFieldCollision:
+      type: object
+      required:
+        - isNameNull
+      properties:
+        name:
+          type: string
+          nullable: true
+        isNameNull:
+          type: string

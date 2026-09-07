@@ -5,7 +5,9 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndFlagFieldScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.validator.ConditionsWriter;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -33,7 +35,11 @@ public class ValidatorClassGenerator {
 
   private static Generator<JavaArrayPojo, PojoSettings> validationClassContent() {
     return Generator.<JavaArrayPojo, PojoSettings>emptyGen()
-        .append(memberValidationGenerator(), JavaArrayPojo::getArrayPojoMember)
+        .append(
+            memberValidationGenerator(),
+            // The value member of an array pojo has no sibling.
+            pojo ->
+                new MemberAndFlagFieldScope(pojo.getArrayPojoMember(), FlagFieldNameScope.empty()))
         .appendSingleBlankLine()
         .append(isValidMethod());
   }

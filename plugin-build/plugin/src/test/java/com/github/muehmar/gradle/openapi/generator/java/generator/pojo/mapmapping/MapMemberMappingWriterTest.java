@@ -12,6 +12,7 @@ import static com.github.muehmar.gradle.openapi.snapshot.SnapshotUtil.writerSnap
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaMapType;
@@ -90,7 +91,7 @@ class MapMemberMappingWriterTest {
             .mapMapItemTypeNotNecessary()
             .wrapMapItemNotNecessary()
             .mapMapTypeNotNecessary()
-            .wrapTristateMap()
+            .wrapTristateMap(FlagFieldNameScope.empty())
             .noTrailingSemicolon()
             .build();
 
@@ -142,7 +143,7 @@ class MapMemberMappingWriterTest {
             .autoMapMapItemType()
             .autoWrapMapItem()
             .autoMapMapType()
-            .autoWrapMap()
+            .autoWrapMap(FlagFieldNameScope.empty())
             .noTrailingSemicolon()
             .build();
 

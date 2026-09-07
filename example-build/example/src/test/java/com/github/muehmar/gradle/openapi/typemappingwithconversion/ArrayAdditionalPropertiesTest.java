@@ -33,7 +33,7 @@ public class ArrayAdditionalPropertiesTest {
     assertEquals(DTO, actual);
 
     final List<AdditionalProperty<ArrayAdditionalPropertiesPropertyDto>> additionalProperties =
-        actual.getAdditionalProperties();
+        actual.additionalProperties();
 
     assertEquals(
         Collections.singletonList(new AdditionalProperty<>("key-0", ARRAY_0)),

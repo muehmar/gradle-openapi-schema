@@ -351,7 +351,7 @@ public class SampleObjectPojo1Dto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -362,7 +362,7 @@ public class SampleObjectPojo1Dto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)

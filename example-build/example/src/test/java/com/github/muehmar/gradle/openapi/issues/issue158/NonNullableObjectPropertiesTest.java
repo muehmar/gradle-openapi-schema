@@ -55,12 +55,12 @@ public class NonNullableObjectPropertiesTest {
             .build();
 
     assertEquals(expectedDto, dto);
-    assertEquals(Optional.empty(), dto.getAdditionalProperty("hi"));
+    assertEquals(Optional.empty(), dto.additionalProperty("hi"));
     assertEquals(
         Optional.of(nonNullableObjectPropertiesPropertyDtoBuilder().setBar("bar").build()),
-        dto.getAdditionalProperty("hello"));
+        dto.additionalProperty("hello"));
     final String joinedProperties =
-        dto.getAdditionalProperties().stream()
+        dto.additionalProperties().stream()
             .sorted(Comparator.comparing(AdditionalProperty::getName))
             .map(prop -> String.format("%s: %s", prop.getName(), prop.getValue()))
             .collect(Collectors.joining(", "));

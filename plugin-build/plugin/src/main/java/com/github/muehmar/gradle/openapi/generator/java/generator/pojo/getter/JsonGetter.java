@@ -36,7 +36,7 @@ public class JsonGetter {
         .methodName(m -> m.getMember().getJsonGetterName(m.getDtoNameScope()))
         .noArguments()
         .doesNotThrow()
-        .content(methodContent().contraMap(MemberAndNameScope::getMember))
+        .content(methodContent())
         .build()
         .append(RefsGenerator.fieldRefs(), MemberAndNameScope::getMember);
   }
@@ -47,37 +47,37 @@ public class JsonGetter {
         : member.getJavaType().getParameterizedClassName().asString();
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> methodContent() {
+  private static Generator<MemberAndNameScope, PojoSettings> methodContent() {
     return notNullableMethodContent()
         .append(requiredNullableMethodContent())
         .append(optionalNullableMethodContent());
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> notNullableMethodContent() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append((m, s, w) -> w.println("return %s;", m.getName()))
-        .filter(JavaPojoMember::isNotNullable);
+  private static Generator<MemberAndNameScope, PojoSettings> notNullableMethodContent() {
+    return Generator.<MemberAndNameScope, PojoSettings>emptyGen()
+        .append((mas, s, w) -> w.println("return %s;", mas.getMember().getName()))
+        .filter(mas -> mas.getMember().isNotNullable());
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> requiredNullableMethodContent() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+  private static Generator<MemberAndNameScope, PojoSettings> requiredNullableMethodContent() {
+    return Generator.<MemberAndNameScope, PojoSettings>emptyGen()
         .append(
-            (m, s, w) ->
+            (mas, s, w) ->
                 w.println(
                     "return %s ? new JacksonNullContainer<>(%s) : null;",
-                    m.getIsPresentFlagName(), m.getName()))
+                    mas.getIsPresentFlagName(), mas.getMember().getName()))
         .append(ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER))
-        .filter(JavaPojoMember::isRequiredAndNullable);
+        .filter(mas -> mas.getMember().isRequiredAndNullable());
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> optionalNullableMethodContent() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
+  private static Generator<MemberAndNameScope, PojoSettings> optionalNullableMethodContent() {
+    return Generator.<MemberAndNameScope, PojoSettings>emptyGen()
         .append(
-            (m, s, w) ->
+            (mas, s, w) ->
                 w.println(
                     "return %s ? new JacksonNullContainer<>(%s) : %s;",
-                    m.getIsNullFlagName(), m.getName(), m.getName()))
+                    mas.getIsNullFlagName(), mas.getMember().getName(), mas.getMember().getName()))
         .append(ref(OpenApiUtilRefs.JACKSON_NULL_CONTAINER))
-        .filter(JavaPojoMember::isOptionalAndNullable);
+        .filter(mas -> mas.getMember().isOptionalAndNullable());
   }
 }

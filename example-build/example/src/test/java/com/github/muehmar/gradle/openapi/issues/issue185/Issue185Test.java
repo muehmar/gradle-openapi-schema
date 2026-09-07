@@ -24,7 +24,7 @@ public class Issue185Test {
     final UserDto userDto =
         UserDto.userDtoBuilder().setUserBaseDto(userBaseDto).setName("name").build();
 
-    assertEquals(Collections.emptyList(), userDto.getAdditionalProperties());
+    assertEquals(Collections.emptyList(), userDto.additionalProperties());
     assertEquals("{\"id\":1234,\"name\":\"name\"}", MAPPER.writeValueAsString(userDto));
   }
 
@@ -40,7 +40,7 @@ public class Issue185Test {
             .addAdditionalProperty("name", "additional-property-name")
             .build();
 
-    assertEquals(Collections.emptyList(), userDto.getAdditionalProperties());
+    assertEquals(Collections.emptyList(), userDto.additionalProperties());
     assertEquals("{\"id\":1234,\"name\":\"name\"}", MAPPER.writeValueAsString(userDto));
   }
 
@@ -56,7 +56,7 @@ public class Issue185Test {
             .addAdditionalProperty("id", "additional-property-id")
             .build();
 
-    assertEquals(Collections.emptyList(), userDto.getAdditionalProperties());
+    assertEquals(Collections.emptyList(), userDto.additionalProperties());
     assertEquals("{\"id\":1234,\"name\":\"name\"}", MAPPER.writeValueAsString(userDto));
   }
 }

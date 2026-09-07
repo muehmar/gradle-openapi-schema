@@ -169,7 +169,8 @@ class JavaPojoMemberTest {
   void getTechnicalMembers_when_called_then_matchExpectedFieldNames(
       JavaPojoMember member, String expected) {
 
-    final PList<TechnicalPojoMember> technicalMembers = member.getTechnicalMembers();
+    final PList<TechnicalPojoMember> technicalMembers =
+        member.getTechnicalMembers(FlagFieldNameScope.empty());
 
     assertEquals(expected, technicalMembers.map(TechnicalPojoMember::getName).mkString(","));
   }

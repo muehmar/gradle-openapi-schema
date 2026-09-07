@@ -31,9 +31,11 @@ import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAn
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaAnyOfComposition.AnyOfCompositionPromotionResult;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition;
 import com.github.muehmar.gradle.openapi.generator.java.model.composition.JavaOneOfComposition.OneOfCompositionPromotionResult;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.FrameworkMethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.QualifiedClassNames;
@@ -44,6 +46,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.promotion.Promotab
 import com.github.muehmar.gradle.openapi.generator.model.constraints.Constraints;
 import com.github.muehmar.gradle.openapi.generator.model.name.SchemaName;
 import com.github.muehmar.gradle.openapi.generator.model.pojo.ObjectPojo;
+import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import com.github.muehmar.gradle.openapi.generator.settings.TypeMappings;
 import io.github.muehmar.pojobuilder.annotations.PojoBuilder;
 import java.util.Comparator;
@@ -395,9 +398,44 @@ public class JavaObjectPojo implements JavaPojo {
     return members.add(getComposedMembers()).asList();
   }
 
+  /**
+   * Two api getters of the same name make the dto not compile and neither may be renamed. Depends
+   * on the configured getter suffixes, hence it is not asserted in the constructor.
+   */
+  public void assertApiGettersDoNotCollide(PojoSettings settings) {
+    PList.fromIter(
+            getAllMembers()
+                .groupBy(member -> member.getGetterNameWithSuffix(settings).asString())
+                .entrySet())
+        .filter(entry -> entry.getValue().toPList().size() > 1)
+        .headOption()
+        .ifPresent(
+            entry -> {
+              final String properties =
+                  entry.getValue().toPList().map(m -> m.getName().asString()).mkString("', '");
+              throw new OpenApiGeneratorException(
+                  String.format(
+                      "Cannot create DTO %s: The properties '%s' all generate the getter '%s()'. A getter is part of "
+                          + "the api of the dto and can therefore not be renamed, hence rename one of the properties "
+                          + "or configure different getter suffixes.",
+                      name, properties, entry.getKey()));
+            });
+  }
+
+  /** The framework method names of this pojo, resolved against its properties. */
+  public FrameworkMethodNames getFrameworkMethodNames(PojoSettings settings) {
+    return FrameworkMethodNames.of(getJavaPojoName(), getAllMembers(), settings);
+  }
+
+  /** The scope the companion flag fields are resolved in. */
+  public FlagFieldNameScope getFlagFieldNameScope() {
+    return FlagFieldNameScope.ofMembers(getAllMembers());
+  }
+
   public PList<TechnicalPojoMember> getTechnicalMembers() {
+    final FlagFieldNameScope nameScope = getFlagFieldNameScope();
     return getAllMembers()
-        .flatMap(JavaPojoMember::getTechnicalMembers)
+        .flatMap(member -> member.getTechnicalMembers(nameScope))
         .add(additionalProperties.asTechnicalPojoMember());
   }
 
@@ -460,7 +498,7 @@ public class JavaObjectPojo implements JavaPojo {
   public MemberGenerator.MemberContent getMemberContent() {
     return fullMemberContentBuilder()
         .isArrayPojo(false)
-        .members(getAllMembers().flatMap(JavaPojoMember::getTechnicalMembers))
+        .members(getAllMembers().flatMap(m -> m.getTechnicalMembers(getFlagFieldNameScope())))
         .additionalProperties(additionalProperties)
         .build();
   }
@@ -487,7 +525,7 @@ public class JavaObjectPojo implements JavaPojo {
     return fullConstructorContentBuilder()
         .isArray(false)
         .className(getClassName())
-        .members(getAllMembers().flatMap(JavaPojoMember::getTechnicalMembers))
+        .members(getAllMembers().flatMap(m -> m.getTechnicalMembers(getFlagFieldNameScope())))
         .modifier(Optional.empty())
         .additionalProperties(additionalProperties)
         .build();
@@ -501,6 +539,7 @@ public class JavaObjectPojo implements JavaPojo {
         .className(getClassName())
         .membersForWithers(membersForWithers)
         .technicalPojoMembers(getTechnicalMembers())
+        .flagFieldNameScope(getFlagFieldNameScope())
         .build();
   }
 

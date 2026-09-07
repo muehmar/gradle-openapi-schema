@@ -423,6 +423,7 @@ warnings {
     failOnWarnings = true
     failOnUnsupportedValidation = true
     failOnMissingMappingConversion = true
+    failOnNameCollision = true
 }
 ```
 
@@ -432,3 +433,4 @@ warnings {
 | failOnWarnings              | boolean   | false                     | Global setting to fail on warnings. Will be used as default for every warning type if not configured explicitly. |
 | failOnUnsupportedValidation | boolean   | value of `failOnWarnings` | Fail on unsupported validations. Uses `failOnWarnings` if omitted.                                               |
 | failOnMissingMappingConversion | boolean | value of `failOnWarnings` | Fail on missing conversions in class mappings or format type mappings. Uses `failOnWarnings` if omitted.         |
+| failOnNameCollision       | boolean   | value of `failOnWarnings` | Fail when a property forced a public method of the DTO to be renamed, see [Name Collisions](115_name_collisions.md). Uses `failOnWarnings` if omitted. |

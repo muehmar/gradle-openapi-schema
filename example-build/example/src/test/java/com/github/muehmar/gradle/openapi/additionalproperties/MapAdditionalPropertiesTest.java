@@ -24,8 +24,8 @@ public class MapAdditionalPropertiesTest {
 
     assertEquals(
         Optional.of(Collections.singletonList(new AdditionalProperty<>("hello", "world"))),
-        dto.getAdditionalProperty("data")
-            .map(MapAdditionalPropertiesPropertyDto::getAdditionalProperties));
+        dto.additionalProperty("data")
+            .map(MapAdditionalPropertiesPropertyDto::additionalProperties));
 
     final Set<ConstraintViolation<MapAdditionalPropertiesDto>> violations = validate(dto);
 

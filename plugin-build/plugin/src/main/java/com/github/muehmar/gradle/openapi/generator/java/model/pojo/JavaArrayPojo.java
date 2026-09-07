@@ -17,6 +17,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.Ha
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.PojoConstructorGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.ToStringGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.PojoType;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -130,27 +131,27 @@ public class JavaArrayPojo implements JavaPojo {
   public MemberGenerator.MemberContent getMemberContent() {
     return MemberContentBuilder.create()
         .isArrayPojo(true)
-        .members(getArrayPojoMember().getTechnicalMembers())
+        .members(getArrayPojoMember().getTechnicalMembers(FlagFieldNameScope.empty()))
         .build();
   }
 
   public HashCodeGenerator.HashCodeContent getHashCodeContent() {
     return fullHashCodeContentBuilder()
-        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers())
+        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers(FlagFieldNameScope.empty()))
         .build();
   }
 
   public EqualsGenerator.EqualsContent getEqualsContent() {
     return fullEqualsContentBuilder()
         .className(getClassName())
-        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers())
+        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers(FlagFieldNameScope.empty()))
         .build();
   }
 
   public ToStringGenerator.ToStringContent getToStringContent() {
     return fullToStringContentBuilder()
         .className(getClassName())
-        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers())
+        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers(FlagFieldNameScope.empty()))
         .build();
   }
 
@@ -158,7 +159,7 @@ public class JavaArrayPojo implements JavaPojo {
     return fullConstructorContentBuilder()
         .isArray(true)
         .className(getClassName())
-        .members(getArrayPojoMember().getTechnicalMembers())
+        .members(getArrayPojoMember().getTechnicalMembers(FlagFieldNameScope.empty()))
         .modifier(Optional.empty())
         .additionalProperties(Optional.empty())
         .build();
@@ -168,7 +169,8 @@ public class JavaArrayPojo implements JavaPojo {
     return fullWitherContentBuilder()
         .className(getClassName())
         .membersForWithers(PList.single(getArrayPojoMember()))
-        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers())
+        .technicalPojoMembers(getArrayPojoMember().getTechnicalMembers(FlagFieldNameScope.empty()))
+        .flagFieldNameScope(FlagFieldNameScope.empty())
         .build();
   }
 

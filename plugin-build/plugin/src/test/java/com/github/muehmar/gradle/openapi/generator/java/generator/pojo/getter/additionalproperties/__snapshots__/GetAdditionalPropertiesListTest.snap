@@ -3,7 +3,7 @@ com.github.muehmar.openapi.util.AdditionalProperty
 java.util.List
 java.util.stream.Collectors
 
-public List<AdditionalProperty<Object>> getAdditionalProperties() {
+public List<AdditionalProperty<Object>> additionalProperties() {
   return additionalProperties.entrySet().stream()
       .map(entry -> new AdditionalProperty<>(entry.getKey(), entry.getValue()))
       .collect(Collectors.toList());
@@ -17,7 +17,7 @@ java.util.List
 java.util.stream.Collectors
 java.util.stream.Stream
 
-public List<AdditionalProperty<UserPropertyDto>> getAdditionalProperties() {
+public List<AdditionalProperty<UserPropertyDto>> additionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 
@@ -36,7 +36,7 @@ java.util.List
 java.util.stream.Collectors
 java.util.stream.Stream
 
-public List<AdditionalProperty<ObjectDto>> getAdditionalProperties() {
+public List<AdditionalProperty<ObjectDto>> additionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 
@@ -55,7 +55,7 @@ java.util.List
 java.util.stream.Collectors
 java.util.stream.Stream
 
-public List<AdditionalProperty<CustomString>> getAdditionalProperties() {
+public List<AdditionalProperty<CustomString>> additionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 
@@ -74,7 +74,7 @@ com.github.muehmar.openapi.util.NullableAdditionalProperty
 java.util.List
 java.util.stream.Collectors
 
-public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+public List<NullableAdditionalProperty<Object>> additionalProperties() {
   return additionalProperties.entrySet().stream()
       .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
       .collect(Collectors.toList());
@@ -88,7 +88,7 @@ java.util.List
 java.util.stream.Collectors
 java.util.stream.Stream
 
-public List<NullableAdditionalProperty<UserPropertyDto>> getAdditionalProperties() {
+public List<NullableAdditionalProperty<UserPropertyDto>> additionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 
@@ -107,7 +107,7 @@ java.util.List
 java.util.stream.Collectors
 java.util.stream.Stream
 
-public List<NullableAdditionalProperty<ObjectDto>> getAdditionalProperties() {
+public List<NullableAdditionalProperty<ObjectDto>> additionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 
@@ -126,7 +126,7 @@ java.util.List
 java.util.stream.Collectors
 java.util.stream.Stream
 
-public List<NullableAdditionalProperty<CustomString>> getAdditionalProperties() {
+public List<NullableAdditionalProperty<CustomString>> additionalProperties() {
   return additionalProperties.entrySet().stream()
       .flatMap(
           entry -> 

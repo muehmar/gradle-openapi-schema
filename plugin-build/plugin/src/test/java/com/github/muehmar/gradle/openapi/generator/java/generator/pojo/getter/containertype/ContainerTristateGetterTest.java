@@ -13,6 +13,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.AccessorProfile.Visibility;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -34,10 +35,14 @@ class ContainerTristateGetterTest {
   @MethodSource("containerMembers")
   @SnapshotName("containerMembers")
   void generate_when_listMembers_then_matchSnapshot(JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator =
+    final Generator<MemberAndNameScope, PojoSettings> generator =
         containerTristateGetterGenerator(Visibility.PUBLIC);
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(member, defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
@@ -59,11 +64,15 @@ class ContainerTristateGetterTest {
   @MethodSource("visibilities")
   @SnapshotName("visibility")
   void generate_when_visibility_then_matchSnapshot(Visibility visibility) {
-    final Generator<JavaPojoMember, PojoSettings> generator =
+    final Generator<MemberAndNameScope, PojoSettings> generator =
         containerTristateGetterGenerator(visibility);
 
     final Writer writer;
-    writer = generator.generate(requiredStringList(), defaultTestSettings(), javaWriter());
+    writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(requiredStringList(), defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(visibility.name()).toMatchSnapshot(writerSnapshot(writer));
   }

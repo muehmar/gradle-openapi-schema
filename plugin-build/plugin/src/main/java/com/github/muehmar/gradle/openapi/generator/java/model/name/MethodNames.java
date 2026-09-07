@@ -83,7 +83,7 @@ public class MethodNames {
     }
 
     public static JavaName getValidCountMethodName(DiscriminatableJavaComposition.Type type) {
-      return JavaName.fromString(String.format("get%sValidCount", type.getName()));
+      return JavaName.fromString(String.format("%sValidCount", type.getName().startLowerCase()));
     }
 
     public static JavaName getInvalidCompositionMethodName(
@@ -102,7 +102,7 @@ public class MethodNames {
 
     public static JavaName getCompositionValidCountMethodName(
         DiscriminatableJavaComposition.Type type) {
-      return JavaName.fromString(String.format("get%sValidCount", type.getName()));
+      return JavaName.fromString(String.format("%sValidCount", type.getName().startLowerCase()));
     }
 
     public static JavaName getCompositionMethodName(DiscriminatableJavaComposition.Type type) {
@@ -122,7 +122,7 @@ public class MethodNames {
     }
 
     public static Name isValidAgainstMethodName(JavaPojo pojo) {
-      return Name.ofString(String.format("isValidAgainst%s", pojo.getClassName()));
+      return Name.ofString(String.format("validAgainst%s", pojo.getClassName()));
     }
 
     public static Name asConversionMethodName(JavaPojo pojo) {
@@ -134,8 +134,31 @@ public class MethodNames {
     }
   }
 
-  public static JavaName getPropertyCountMethodName() {
-    return JavaName.fromString("getPropertyCount");
+  /**
+   * The plain names of the methods every dto carries. Those which may be renamed carry none of the
+   * prefixes a property produces ({@code get}, {@code with}, {@code is}), so no property can reach
+   * them. See {@code doc/115_name_collisions.md}.
+   */
+  public static class Framework {
+    private Framework() {}
+
+    public static JavaName propertyCount() {
+      // Carries @Min/@Max for minProperties/maxProperties, hence it must stay getter-shaped.
+      return JavaName.fromString("getPropertyCount");
+    }
+
+    public static JavaName additionalProperties() {
+      return JavaName.fromString("additionalProperties");
+    }
+
+    public static JavaName additionalProperty() {
+      return JavaName.fromString("additionalProperty");
+    }
+
+    public static JavaName allAdditionalPropertiesHaveCorrectType() {
+      // Carries @AssertTrue, hence it must stay getter-shaped.
+      return JavaName.fromString("isAllAdditionalPropertiesHaveCorrectType");
+    }
   }
 
   public static JavaName getIsMultipleOfValidMethodName(JavaName memberName) {

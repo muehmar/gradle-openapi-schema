@@ -15,6 +15,7 @@ import com.github.muehmar.gradle.openapi.generator.java.generator.shared.additio
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.additionalproperties.NullableAdditionalPropertyClassGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversionRenderer;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -34,7 +35,7 @@ class GetAdditionalPropertiesList {
         .modifiers(PUBLIC)
         .noGenericTypes()
         .returnType(GetAdditionalPropertiesList::className)
-        .methodName("getAdditionalProperties")
+        .methodName(MethodNames.Framework.additionalProperties().asString())
         .noArguments()
         .doesNotThrow()
         .content(methodContent())

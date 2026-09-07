@@ -6,7 +6,7 @@ javax.validation.Valid
 @Valid
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
-  if(getOneOfValidCount() != 1) {
+  if(oneOfValidCount() != 1) {
     dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
     dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
   }
@@ -16,7 +16,7 @@ private Map<String, Object> getInvalidOneOf() {
 @Valid
 private Map<String, Object> getInvalidAnyOf() {
   final Map<String, Object> dtos = new HashMap<>();
-  if(getAnyOfValidCount() == 0) {
+  if(anyOfValidCount() == 0) {
     dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
     dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
   }
@@ -33,7 +33,7 @@ javax.validation.Valid
 @Valid
 private Map<String, Object> getInvalidAnyOf() {
   final Map<String, Object> dtos = new HashMap<>();
-  if(getAnyOfValidCount() == 0) {
+  if(anyOfValidCount() == 0) {
     dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
     dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
   }
@@ -50,7 +50,7 @@ javax.validation.Valid
 @Valid
 private Map<String, Object> getInvalidAnyOf() {
   final Map<String, Object> dtos = new HashMap<>();
-  if(getAnyOfValidCount() == 0 || !isValidAgainstTheCorrectAnyOfSchema()) {
+  if(anyOfValidCount() == 0 || !isValidAgainstTheCorrectAnyOfSchema()) {
     if(type != null) {
       switch(type) {
         case "SampleObjectPojo1":
@@ -77,7 +77,7 @@ javax.validation.Valid
 @Valid
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
-  if(getOneOfValidCount() != 1) {
+  if(oneOfValidCount() != 1) {
     dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
     dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
   }
@@ -94,7 +94,7 @@ javax.validation.Valid
 @Valid
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
-  if(getOneOfValidCount() != 1 || !isValidAgainstTheCorrectOneOfSchema()) {
+  if(oneOfValidCount() != 1 || !isValidAgainstTheCorrectOneOfSchema()) {
     if(type != null) {
       switch(type) {
         case "SampleObjectPojo1":
@@ -121,7 +121,7 @@ javax.validation.Valid
 @Valid
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
-  if(getOneOfValidCount() == 0 || !isValidAgainstTheCorrectOneOfSchema()) {
+  if(oneOfValidCount() == 0 || !isValidAgainstTheCorrectOneOfSchema()) {
     if(color != null) {
       switch(color) {
         case "yellow":
@@ -148,7 +148,7 @@ javax.validation.Valid
 @Valid
 private Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
-  if(getOneOfValidCount() != 1 || !isValidAgainstTheCorrectOneOfSchema()) {
+  if(oneOfValidCount() != 1 || !isValidAgainstTheCorrectOneOfSchema()) {
     if(color != null) {
       switch(color) {
         case "yellow":
@@ -180,7 +180,7 @@ javax.validation.Valid
 @Valid
 public Map<String, Object> getInvalidOneOf() {
   final Map<String, Object> dtos = new HashMap<>();
-  if(getOneOfValidCount() != 1) {
+  if(oneOfValidCount() != 1) {
     dtos.put("SampleObjectPojo1", asSampleObjectPojo1Dto());
     dtos.put("SampleObjectPojo2", asSampleObjectPojo2Dto());
   }

@@ -1,13 +1,13 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo;
 
 import static com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties.additionalPropertiesName;
-import static com.github.muehmar.gradle.openapi.generator.java.model.name.MethodNames.getPropertyCountMethodName;
 import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.validation.ValidationAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -27,7 +27,9 @@ public class PojoPropertyCountMethod {
             .modifiers(PUBLIC)
             .noGenericTypes()
             .returnType("int")
-            .methodName(getPropertyCountMethodName().asString())
+            .methodName(
+                (pojo, settings) ->
+                    pojo.getFrameworkMethodNames(settings).propertyCount(settings).asString())
             .noArguments()
             .doesNotThrow()
             .content(propertyCountMethodContent())
@@ -62,7 +64,7 @@ public class PojoPropertyCountMethod {
 
   private static Generator<PojoAndMember, PojoSettings> requiredNullablePropertyCount() {
     return Generator.<PojoAndMember, PojoSettings>emptyGen()
-        .append((pam, s, w) -> w.println("(%s ? 1 : 0) +", pam.getMember().getIsPresentFlagName()))
+        .append((pam, s, w) -> w.println("(%s ? 1 : 0) +", pam.getIsPresentFlagName()))
         .filter(pam -> pam.getMember().isRequiredAndNullable());
   }
 
@@ -78,7 +80,7 @@ public class PojoPropertyCountMethod {
             (pam, s, w) ->
                 w.println(
                     "((%s || %s != null) ? 1 : 0) +",
-                    pam.getMember().getIsNullFlagName(), pam.getMember().getName()))
+                    pam.getIsNullFlagName(), pam.getMember().getName()))
         .filter(pam -> pam.getMember().isOptionalAndNullable());
   }
 
@@ -94,6 +96,14 @@ public class PojoPropertyCountMethod {
 
     private static PList<PojoAndMember> fromPojo(JavaObjectPojo pojo) {
       return pojo.getAllMembers().map(member -> new PojoAndMember(pojo, member));
+    }
+
+    private JavaName getIsPresentFlagName() {
+      return member.getIsPresentFlagName(pojo.getFlagFieldNameScope());
+    }
+
+    private JavaName getIsNullFlagName() {
+      return member.getIsNullFlagName(pojo.getFlagFieldNameScope());
     }
   }
 }

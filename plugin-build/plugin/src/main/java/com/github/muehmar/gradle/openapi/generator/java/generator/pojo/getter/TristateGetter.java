@@ -3,6 +3,7 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ConversionGenerationMode.NO_NULL_CHECK;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.apitype.ToApiTypeConversionRenderer.toApiTypeConversion;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.AccessorProfile.Visibility;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.ref.OpenApiUtilRefs;
@@ -13,26 +14,29 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 public class TristateGetter {
   private TristateGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> tristateGetterGenerator(
+  public static Generator<MemberAndNameScope, PojoSettings> tristateGetterGenerator(
       Visibility visibility) {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(visibility.javaDocGenerator())
+    return Generator.<MemberAndNameScope, PojoSettings>emptyGen()
+        .append(visibility.javaDocGenerator(), MemberAndNameScope::getMember)
         .append(getterMethod(visibility));
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> getterMethod(Visibility visibility) {
-    return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
+  private static Generator<MemberAndNameScope, PojoSettings> getterMethod(Visibility visibility) {
+    return JavaGenerators.<MemberAndNameScope, PojoSettings>methodGen()
         .modifiers(visibility.getModifiers())
         .noGenericTypes()
-        .returnType(m -> String.format("Tristate<%s>", ReturnType.fromPojoMember(m)))
-        .methodName(JavaPojoMember::getGetterNameWithSuffix)
+        .returnType(
+            mas -> String.format("Tristate<%s>", ReturnType.fromPojoMember(mas.getMember())))
+        .methodName((mas, s) -> mas.getMember().getGetterNameWithSuffix(s))
         .noArguments()
         .doesNotThrow()
         .content(
-            f ->
+            mas ->
                 String.format(
                     "return Tristate.ofNullableAndNullFlag(%s, %s)%s;",
-                    f.getName(), f.getIsNullFlagName(), apiMapping(f)))
+                    mas.getMember().getName(),
+                    mas.getIsNullFlagName(),
+                    apiMapping(mas.getMember())))
         .build()
         .append(w -> w.ref(OpenApiUtilRefs.TRISTATE));
   }

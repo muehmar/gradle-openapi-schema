@@ -7,8 +7,8 @@ private boolean isValidAgainstTheCorrectOneOfSchema() {
     return false;
   }
   switch(stringVal) {
-    case "obj1": return isValidAgainstSampleObjectPojo1Dto();
-    case "obj2": return isValidAgainstSampleObjectPojo2Dto();
+    case "obj1": return validAgainstSampleObjectPojo1Dto();
+    case "obj2": return validAgainstSampleObjectPojo2Dto();
   }
   return false;
 }
@@ -25,8 +25,8 @@ private boolean isValidAgainstTheCorrectOneOfSchema() {
     return false;
   }
   switch(stringVal) {
-    case "SampleObjectPojo1": return isValidAgainstSampleObjectPojo1Dto();
-    case "SampleObjectPojo2": return isValidAgainstSampleObjectPojo2Dto();
+    case "SampleObjectPojo1": return validAgainstSampleObjectPojo1Dto();
+    case "SampleObjectPojo2": return validAgainstSampleObjectPojo2Dto();
   }
   return false;
 }
@@ -48,8 +48,8 @@ protected boolean isValidAgainstTheCorrectOneOfSchema() {
     return false;
   }
   switch(stringVal) {
-    case "obj1": return isValidAgainstSampleObjectPojo1Dto();
-    case "obj2": return isValidAgainstSampleObjectPojo2Dto();
+    case "obj1": return validAgainstSampleObjectPojo1Dto();
+    case "obj2": return validAgainstSampleObjectPojo2Dto();
   }
   return false;
 }
@@ -66,8 +66,8 @@ private boolean isValidAgainstTheCorrectOneOfSchema() {
     return false;
   }
   switch(color) {
-    case "yellow": return isValidAgainstYellowDto();
-    case "orange": return isValidAgainstOrangeDto();
+    case "yellow": return validAgainstYellowDto();
+    case "orange": return validAgainstOrangeDto();
   }
   return false;
 }
@@ -84,8 +84,8 @@ private boolean isValidAgainstTheCorrectOneOfSchema() {
     return false;
   }
   switch(switch_) {
-    case "Illegal?Identifier": return isValidAgainstIllegal_IdentifierDto();
-    case "Illegal?Identifier": return isValidAgainstIllegal_IdentifierDto();
+    case "Illegal?Identifier": return validAgainstIllegal_IdentifierDto();
+    case "Illegal?Identifier": return validAgainstIllegal_IdentifierDto();
   }
   return false;
 }

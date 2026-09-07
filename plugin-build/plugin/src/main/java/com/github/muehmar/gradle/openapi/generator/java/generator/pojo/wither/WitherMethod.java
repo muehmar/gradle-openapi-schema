@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.wither;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
@@ -97,13 +98,14 @@ abstract class WitherMethod {
   }
 
   private StringOrWriter companionFlagReplacementForConstructorCall(JavaName propertyName) {
-    if (propertyName.equals(pojoMember.getIsPresentFlagName())
+    final FlagFieldNameScope nameScope = witherContent.getFlagFieldNameScope();
+    if (propertyName.equals(pojoMember.getIsPresentFlagName(nameScope))
         && pojoMember.isRequiredAndNullable()) {
       return StringOrWriter.ofString("true");
-    } else if (propertyName.equals(pojoMember.getIsNotNullFlagName())
+    } else if (propertyName.equals(pojoMember.getIsNotNullFlagName(nameScope))
         && pojoMember.isOptionalAndNotNullable()) {
       return StringOrWriter.ofString("true");
-    } else if (propertyName.equals(pojoMember.getIsNullFlagName())
+    } else if (propertyName.equals(pojoMember.getIsNullFlagName(nameScope))
         && pojoMember.isOptionalAndNullable()) {
       if (isOverloadedWither()) {
         final String flagValue =

@@ -113,7 +113,7 @@ public class PersonDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -124,7 +124,7 @@ public class PersonDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -337,14 +337,14 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties()
+      dto.additionalProperties()
           .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties()
+      dto.additionalProperties()
           .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
@@ -724,7 +724,7 @@ public class PersonDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -735,7 +735,7 @@ public class PersonDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -803,10 +803,10 @@ public class PersonDto {
    */
   public <T> List<T> foldAnyOf(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto) {
     final List<T> result = new ArrayList<>();
-    if (isValidAgainstAdminDto()) {
+    if (validAgainstAdminDto()) {
       result.add(onAdminDto.apply(asAdminDto()));
     }
-    if (isValidAgainstUserDto()) {
+    if (validAgainstUserDto()) {
       result.add(onUserDto.apply(asUserDto()));
     }
     return result;
@@ -843,35 +843,35 @@ public class PersonDto {
   @Valid
   private Map<String, Object> getInvalidAnyOf() {
     final Map<String, Object> dtos = new HashMap<>();
-    if(getAnyOfValidCount() == 0) {
+    if(anyOfValidCount() == 0) {
       dtos.put("Admin", asAdminDto());
       dtos.put("User", asUserDto());
     }
     return dtos;
   }
 
-  private boolean isValidAgainstAdminDto() {
+  private boolean validAgainstAdminDto() {
     return asAdminDto().isValid();
   }
 
-  private boolean isValidAgainstUserDto() {
+  private boolean validAgainstUserDto() {
     return asUserDto().isValid();
   }
 
-  private int getAnyOfValidCount() {
+  private int anyOfValidCount() {
     return
-      (isValidAgainstAdminDto() ? 1 : 0) +
-      (isValidAgainstUserDto() ? 1 : 0);
+      (validAgainstAdminDto() ? 1 : 0) +
+      (validAgainstUserDto() ? 1 : 0);
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [Admin, User]")
   private boolean isValidAgainstNoAnyOfSchema() {
-    return getAnyOfValidCount() == 0;
+    return anyOfValidCount() == 0;
   }
 
   @Valid
   private Object getAnyOf() {
-    if (getAnyOfValidCount() == 0) {
+    if (anyOfValidCount() == 0) {
       return null;
     }
     return foldAnyOf(dto -> dto, dto -> dto);
@@ -904,7 +904,7 @@ public class PersonDto {
 
     private boolean isValid() {
       return isRequiredStringValValid()
-          && getAnyOfValidCount() >= 1
+          && anyOfValidCount() >= 1
           && isAdditionalPropertiesValid();
     }
   }
@@ -1001,14 +1001,14 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties()
+      dto.additionalProperties()
           .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties()
+      dto.additionalProperties()
           .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
@@ -1331,7 +1331,7 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  public List<AdditionalProperty<Object>> getAdditionalProperties() {
+  public List<AdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> new AdditionalProperty<>(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -1341,7 +1341,7 @@ public class ObjectPojo1Dto {
    * Returns the additional property with {@code key} wrapped in an {@link Optional}
    * if present, {@link Optional#empty()} otherwise
    */
-  public Optional<Object> getAdditionalProperty(String key) {
+  public Optional<Object> additionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key));
   }
 
@@ -1799,7 +1799,7 @@ public class UserDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -1810,7 +1810,7 @@ public class UserDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -2816,7 +2816,7 @@ public class UserDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -2827,7 +2827,7 @@ public class UserDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -3678,7 +3678,7 @@ public class UserDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -3689,7 +3689,7 @@ public class UserDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -4227,7 +4227,7 @@ public class Illegal_IdentifierDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -4238,7 +4238,7 @@ public class Illegal_IdentifierDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -4791,7 +4791,7 @@ public class ObjectPojo1Dto {
     return props;
   }
 
-  public List<AdditionalProperty<ColorEnum>> getAdditionalProperties() {
+  public List<AdditionalProperty<ColorEnum>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .flatMap(
             entry -> 
@@ -4807,7 +4807,7 @@ public class ObjectPojo1Dto {
    * Returns the additional property with {@code key} wrapped in an {@link Optional}
    * if present, {@link Optional#empty()} otherwise
    */
-  public Optional<ColorEnum> getAdditionalProperty(String key) {
+  public Optional<ColorEnum> additionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key))
         .flatMap(this::castAdditionalProperty).map(val -> ColorEnum.fromValue(val));
   }
@@ -5077,7 +5077,7 @@ public class ObjectPojo1Dto {
     return props;
   }
 
-  public List<AdditionalProperty<Integer>> getAdditionalProperties() {
+  public List<AdditionalProperty<Integer>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .flatMap(
             entry -> 
@@ -5092,7 +5092,7 @@ public class ObjectPojo1Dto {
    * Returns the additional property with {@code key} wrapped in an {@link Optional}
    * if present, {@link Optional#empty()} otherwise
    */
-  public Optional<Integer> getAdditionalProperty(String key) {
+  public Optional<Integer> additionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key))
         .flatMap(this::castAdditionalProperty);
   }
@@ -5459,7 +5459,7 @@ public class UserDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -5470,7 +5470,7 @@ public class UserDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -5848,7 +5848,7 @@ public class UserDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -5859,7 +5859,7 @@ public class UserDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -6727,7 +6727,7 @@ public class NecessityAndNullabilityDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -6738,7 +6738,7 @@ public class NecessityAndNullabilityDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -10496,7 +10496,7 @@ public class ObjectPojo1Dto {
     return props;
   }
 
-  public List<AdditionalProperty<HelloDto>> getAdditionalProperties() {
+  public List<AdditionalProperty<HelloDto>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .flatMap(
             entry -> 
@@ -10511,7 +10511,7 @@ public class ObjectPojo1Dto {
    * Returns the additional property with {@code key} wrapped in an {@link Optional}
    * if present, {@link Optional#empty()} otherwise
    */
-  public Optional<HelloDto> getAdditionalProperty(String key) {
+  public Optional<HelloDto> additionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key))
         .flatMap(this::castAdditionalProperty);
   }
@@ -10771,7 +10771,7 @@ public class ObjectPojo1Dto {
     return props;
   }
 
-  public List<AdditionalProperty<HelloDto>> getAdditionalProperties() {
+  public List<AdditionalProperty<HelloDto>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .flatMap(
             entry -> 
@@ -10786,7 +10786,7 @@ public class ObjectPojo1Dto {
    * Returns the additional property with {@code key} wrapped in an {@link Optional}
    * if present, {@link Optional#empty()} otherwise
    */
-  public Optional<HelloDto> getAdditionalProperty(String key) {
+  public Optional<HelloDto> additionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key))
         .flatMap(this::castAdditionalProperty);
   }
@@ -11036,7 +11036,7 @@ public class ObjectPojo1Dto {
     return props;
   }
 
-  public List<AdditionalProperty<HelloDto>> getAdditionalProperties() {
+  public List<AdditionalProperty<HelloDto>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .flatMap(
             entry -> 
@@ -11051,7 +11051,7 @@ public class ObjectPojo1Dto {
    * Returns the additional property with {@code key} wrapped in an {@link Optional}
    * if present, {@link Optional#empty()} otherwise
    */
-  public Optional<HelloDto> getAdditionalProperty(String key) {
+  public Optional<HelloDto> additionalProperty(String key) {
     return Optional.ofNullable(additionalProperties.get(key))
         .flatMap(this::castAdditionalProperty);
   }
@@ -11327,7 +11327,7 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -11338,7 +11338,7 @@ public class ObjectPojo1Dto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -11770,7 +11770,7 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -11781,7 +11781,7 @@ public class ObjectPojo1Dto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -12247,7 +12247,7 @@ public class PersonDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -12258,7 +12258,7 @@ public class PersonDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -12323,10 +12323,10 @@ public class PersonDto {
    * returned.
    */
   public <T> T foldOneOf(Function<AdminDto, T> onAdminDto, Function<UserDto, T> onUserDto, Supplier<T> onInvalid) {
-    if (isValidAgainstAdminDto()) {
+    if (validAgainstAdminDto()) {
       return onAdminDto.apply(asAdminDto());
     }
-    else if (isValidAgainstUserDto()) {
+    else if (validAgainstUserDto()) {
       return onUserDto.apply(asUserDto());
     }
     else {
@@ -12386,40 +12386,40 @@ public class PersonDto {
   @Valid
   private Map<String, Object> getInvalidOneOf() {
     final Map<String, Object> dtos = new HashMap<>();
-    if(getOneOfValidCount() != 1) {
+    if(oneOfValidCount() != 1) {
       dtos.put("Admin", asAdminDto());
       dtos.put("User", asUserDto());
     }
     return dtos;
   }
 
-  private boolean isValidAgainstAdminDto() {
+  private boolean validAgainstAdminDto() {
     return asAdminDto().isValid();
   }
 
-  private boolean isValidAgainstUserDto() {
+  private boolean validAgainstUserDto() {
     return asUserDto().isValid();
   }
 
-  private int getOneOfValidCount() {
+  private int oneOfValidCount() {
     return
-      (isValidAgainstAdminDto() ? 1 : 0) +
-      (isValidAgainstUserDto() ? 1 : 0);
+      (validAgainstAdminDto() ? 1 : 0) +
+      (validAgainstUserDto() ? 1 : 0);
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [Admin, User]")
   private boolean isValidAgainstNoOneOfSchema() {
-    return getOneOfValidCount() == 0;
+    return oneOfValidCount() == 0;
   }
 
   @AssertFalse(message = "Is valid against more than one of the schemas [Admin, User]")
   private boolean isValidAgainstMoreThanOneSchema() {
-    return getOneOfValidCount() > 1;
+    return oneOfValidCount() > 1;
   }
 
   @Valid
   private Object getOneOf() {
-    if (getOneOfValidCount() != 1) {
+    if (oneOfValidCount() != 1) {
       return null;
     }
     return foldOneOf(dto -> dto, dto -> dto, () -> null);
@@ -12452,7 +12452,7 @@ public class PersonDto {
 
     private boolean isValid() {
       return isRequiredStringValValid()
-          && getOneOfValidCount() == 1
+          && oneOfValidCount() == 1
           && isAdditionalPropertiesValid();
     }
   }
@@ -12549,14 +12549,14 @@ public class PersonDto {
 
     private Builder setAdminDto(AdminDto dto) {
       setBirthdate(dto.getBirthdate());
-      dto.getAdditionalProperties()
+      dto.additionalProperties()
           .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
 
     private Builder setUserDto(UserDto dto) {
       setUsername(dto.getUsername());
-      dto.getAdditionalProperties()
+      dto.additionalProperties()
           .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
@@ -12907,7 +12907,7 @@ public class UserDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -12918,7 +12918,7 @@ public class UserDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -13237,7 +13237,7 @@ public class UserDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -13248,7 +13248,7 @@ public class UserDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -13557,7 +13557,7 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -13568,7 +13568,7 @@ public class ObjectPojo1Dto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -14172,7 +14172,7 @@ public class UserDto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -14183,7 +14183,7 @@ public class UserDto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)

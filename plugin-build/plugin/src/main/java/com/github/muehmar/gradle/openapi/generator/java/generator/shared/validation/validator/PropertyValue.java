@@ -7,6 +7,7 @@ import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.RequiredAdditionalPropertiesGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.additionalproperties.FrameworkAdditionalPropertiesGetter;
 import com.github.muehmar.gradle.openapi.generator.java.model.JavaAdditionalProperties;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
@@ -32,7 +33,14 @@ public class PropertyValue {
   boolean isNested;
   boolean isAdditionalProperty;
 
-  public static PropertyValue fromJavaMember(JavaPojoMember member) {
+  /**
+   * The companion flag field backing this property, resolved in the scope of the class it is
+   * declared in: the validator reads the field, whose name avoids the property names of that class.
+   * Empty where no such field exists, i.e. for the additional properties and the nested values.
+   */
+  Optional<JavaName> flagFieldName;
+
+  public static PropertyValue fromJavaMember(JavaPojoMember member, FlagFieldNameScope nameScope) {
     return fullPropertyValueBuilder()
         .propertyInfoName(member.getPropertyInfoName())
         .name(member.getName())
@@ -42,7 +50,19 @@ public class PropertyValue {
         .necessity(member.getNecessity())
         .isNested(false)
         .isAdditionalProperty(false)
+        .flagFieldName(flagFieldNameOf(member, nameScope))
         .build();
+  }
+
+  private static Optional<JavaName> flagFieldNameOf(
+      JavaPojoMember member, FlagFieldNameScope nameScope) {
+    if (member.isRequiredAndNullable()) {
+      return Optional.of(member.getIsPresentFlagName(nameScope));
+    } else if (member.isOptionalAndNotNullable()) {
+      return Optional.of(member.getIsNotNullFlagName(nameScope));
+    } else {
+      return Optional.empty();
+    }
   }
 
   public static PList<PropertyValue> fromRequiredAdditionalProperties(JavaObjectPojo pojo) {
@@ -64,6 +84,7 @@ public class PropertyValue {
         .necessity(Necessity.REQUIRED)
         .isNested(false)
         .isAdditionalProperty(true)
+        .flagFieldName(Optional.empty())
         .build();
   }
 
@@ -84,6 +105,7 @@ public class PropertyValue {
         .necessity(Necessity.REQUIRED)
         .isNested(false)
         .isAdditionalProperty(false)
+        .flagFieldName(Optional.empty())
         .build();
   }
 
@@ -111,6 +133,7 @@ public class PropertyValue {
         .necessity(Necessity.OPTIONAL)
         .isNested(true)
         .isAdditionalProperty(false)
+        .flagFieldName(Optional.empty())
         .build();
   }
 

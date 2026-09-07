@@ -18,7 +18,7 @@ class OneOfBuilderTest {
     assertAll(
         () -> assertEquals(Optional.of(adminDto), adminOrUserDto.getAdminDto()),
         () -> assertEquals(Optional.empty(), adminOrUserDto.getUserDto()),
-        () -> assertEquals(Collections.emptyList(), adminOrUserDto.getAdditionalProperties()));
+        () -> assertEquals(Collections.emptyList(), adminOrUserDto.additionalProperties()));
   }
 
   @Test
@@ -31,6 +31,6 @@ class OneOfBuilderTest {
     assertAll(
         () -> assertEquals(Optional.empty(), adminOrUserDto.getAdminDto()),
         () -> assertEquals(Optional.of(userDto), adminOrUserDto.getUserDto()),
-        () -> assertEquals(Collections.emptyList(), adminOrUserDto.getAdditionalProperties()));
+        () -> assertEquals(Collections.emptyList(), adminOrUserDto.additionalProperties()));
   }
 }

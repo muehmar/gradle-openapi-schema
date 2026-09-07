@@ -56,14 +56,14 @@ public class NullableAnyPropertiesTest {
             .build();
 
     assertEquals(expectedDto, dto);
-    assertEquals(Tristate.ofNull(), dto.getAdditionalProperty("hi"));
-    assertEquals(Tristate.ofValue("world"), dto.getAdditionalProperty("hello"));
-    assertEquals(Tristate.ofValue(5), dto.getAdditionalProperty("ciao"));
+    assertEquals(Tristate.ofNull(), dto.additionalProperty("hi"));
+    assertEquals(Tristate.ofValue("world"), dto.additionalProperty("hello"));
+    assertEquals(Tristate.ofValue(5), dto.additionalProperty("ciao"));
     assertEquals(
-        Tristate.ofValue(Collections.singletonList(true)), dto.getAdditionalProperty("allegra"));
-    assertEquals(Tristate.ofAbsent(), dto.getAdditionalProperty("salut"));
+        Tristate.ofValue(Collections.singletonList(true)), dto.additionalProperty("allegra"));
+    assertEquals(Tristate.ofAbsent(), dto.additionalProperty("salut"));
     final String joinedProperties =
-        dto.getAdditionalProperties().stream()
+        dto.additionalProperties().stream()
             .sorted(Comparator.comparing(NullableAdditionalProperty::getName))
             .map(prop -> String.format("%s: %s", prop.getName(), prop.getValue().orElse(null)))
             .collect(Collectors.joining(", "));

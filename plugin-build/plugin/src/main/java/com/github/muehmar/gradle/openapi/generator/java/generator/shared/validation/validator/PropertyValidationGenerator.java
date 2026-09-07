@@ -19,7 +19,7 @@ import static io.github.muehmar.codegenerator.java.MethodGen.Argument.argument;
 import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 
 import ch.bluecare.commons.data.PList;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndFlagFieldScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaObjectPojo;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -30,8 +30,9 @@ import io.github.muehmar.codegenerator.writer.Writer;
 public class PropertyValidationGenerator {
   private PropertyValidationGenerator() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> memberValidationGenerator() {
-    return propertyValueValidationGenerator().contraMap(PropertyValue::fromJavaMember);
+  public static Generator<MemberAndFlagFieldScope, PojoSettings> memberValidationGenerator() {
+    return propertyValueValidationGenerator()
+        .contraMap(mas -> PropertyValue.fromJavaMember(mas.getMember(), mas.getNameScope()));
   }
 
   public static Generator<JavaObjectPojo, PojoSettings> requiredAdditionalPropertyGenerator() {

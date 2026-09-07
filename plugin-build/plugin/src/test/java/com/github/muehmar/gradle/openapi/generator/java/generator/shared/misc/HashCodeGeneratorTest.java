@@ -11,7 +11,7 @@ import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.misc.HashCodeGenerator.HashCodeContent;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.member.FlagFieldNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TechnicalPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -67,7 +67,8 @@ class HashCodeGeneratorTest {
     final Generator<HashCodeContent, PojoSettings> generator = hashCodeMethod();
 
     final PList<TechnicalPojoMember> technicalMembers =
-        PList.of(byteArrayMember(), requiredDouble()).flatMap(JavaPojoMember::getTechnicalMembers);
+        PList.of(byteArrayMember(), requiredDouble())
+            .flatMap(m -> m.getTechnicalMembers(FlagFieldNameScope.empty()));
     final HashCodeContent hashCodeContent =
         HashCodeContentBuilder.create().technicalPojoMembers(technicalMembers).build();
     final Writer writer = generator.generate(hashCodeContent, defaultTestSettings(), javaWriter());

@@ -6,6 +6,7 @@ import static io.github.muehmar.codegenerator.Generator.constant;
 import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.definition.SetterGeneratorSetting;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.definition.SetterGeneratorSettings;
@@ -25,33 +26,34 @@ import java.util.function.Function;
 public class ContainerSetter {
   private ContainerSetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> containerSetterGenerator(
+  public static Generator<MemberAndNameScope, PojoSettings> containerSetterGenerator(
       SetterGeneratorSetting... settings) {
     return containerSetterGenerator(new SetterGeneratorSettings(PList.of(settings)));
   }
 
-  public static Generator<JavaPojoMember, PojoSettings> containerSetterGenerator(
+  public static Generator<MemberAndNameScope, PojoSettings> containerSetterGenerator(
       SetterGeneratorSettings settings) {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(javaDoc(), JavaPojoMember::getDescription)
+    return Generator.<MemberAndNameScope, PojoSettings>emptyGen()
+        .append(javaDoc(), mas -> mas.getMember().getDescription())
         .append(setterMethod(settings));
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> setterMethod(
+  private static Generator<MemberAndNameScope, PojoSettings> setterMethod(
       SetterGeneratorSettings settings) {
-    return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
-        .modifiers(SetterModifier.modifiers())
+    return JavaGenerators.<MemberAndNameScope, PojoSettings>methodGen()
+        .modifiers(SetterModifier.scopedModifiers())
         .noGenericTypes()
         .returnType("Builder")
-        .methodName((m, s) -> methodName(m, s, settings))
+        .methodName((mas, s) -> methodName(mas.getMember(), s, settings))
         .singleArgument(
-            member ->
-                new MethodGen.Argument(argumentType(member, settings), member.getName().asString()))
+            mas ->
+                new MethodGen.Argument(
+                    argumentType(mas.getMember(), settings), mas.getMember().getName().asString()))
         .doesNotThrow()
         .content(methodContent(settings))
         .build()
-        .append(RefsGenerator.fieldRefs())
-        .append(settings.wrappingRefs());
+        .append(RefsGenerator.fieldRefs(), MemberAndNameScope::getMember)
+        .append(settings.wrappingRefs(), MemberAndNameScope::getMember);
   }
 
   private static JavaName methodName(
@@ -72,10 +74,10 @@ public class ContainerSetter {
         settings.typeFormat(), asStringFunction.apply(writeableParameterizedClassName));
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> methodContent(
+  private static Generator<MemberAndNameScope, PojoSettings> methodContent(
       SetterGeneratorSettings settings) {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append((m, s, w) -> w.append(methodWriter(m, settings)))
+    return Generator.<MemberAndNameScope, PojoSettings>emptyGen()
+        .append((mas, s, w) -> w.append(methodWriter(mas.getMember(), settings)))
         .append(settings.flagAssigment())
         .append(constant("return this;"));
   }

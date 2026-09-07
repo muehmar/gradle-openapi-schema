@@ -24,7 +24,7 @@ class StringAdditionalPropertyTest {
         MAPPER.readValue(
             "{\"name\":\"hello\",\"message\":\"world\"}", StringAdditionalPropertiesDto.class);
 
-    assertEquals(Optional.of("world"), dto.getAdditionalProperty("message"));
+    assertEquals(Optional.of("world"), dto.additionalProperty("message"));
 
     final Set<ConstraintViolation<StringAdditionalPropertiesDto>> violations = validate(dto);
 

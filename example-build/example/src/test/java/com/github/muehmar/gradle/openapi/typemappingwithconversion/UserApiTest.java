@@ -28,13 +28,13 @@ public class UserApiTest {
             .addAdditionalProperty("key-2", Tristate.ofValue(customString("value-2")))
             .build();
 
-    assertEquals(Tristate.ofValue(customString("value-0")), userDto.getAdditionalProperty("key-0"));
+    assertEquals(Tristate.ofValue(customString("value-0")), userDto.additionalProperty("key-0"));
     assertEquals(
         Arrays.asList(
             NullableAdditionalProperty.ofNullable("key-0", customString("value-0")),
             NullableAdditionalProperty.ofNullable("key-1", customString("value-1")),
             NullableAdditionalProperty.ofNullable("key-2", customString("value-2"))),
-        userDto.getAdditionalProperties().stream()
+        userDto.additionalProperties().stream()
             .sorted(comparing(NullableAdditionalProperty::getName))
             .collect(Collectors.toList()));
   }

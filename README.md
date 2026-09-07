@@ -72,8 +72,9 @@ openApiGenerator {
 10. [Integration with OpenAPI Generator](doc/095_official_openapi_generator_integration.md)
 11. [Incremental Build](doc/100_incremental_build.md)
 12. [Limitations](doc/110_limitations.md)
-13. [Migration Guides](doc/120_migration_guides.md)
-14. [Change Log](doc/130_change_log.md)
+13. [Name Collisions](doc/115_name_collisions.md)
+14. [Migration Guides](doc/120_migration_guides.md)
+15. [Change Log](doc/130_change_log.md)
 
 ## Credits
 

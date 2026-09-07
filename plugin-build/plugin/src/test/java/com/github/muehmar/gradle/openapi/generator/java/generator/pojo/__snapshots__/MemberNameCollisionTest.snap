@@ -4,7 +4,7 @@ dtoSetterReadingTheFlagAccessorAcrossClasses=[
 private Builder setVariantDto(VariantDto dto) {
   setName(dto.getName());
   setIsNameNotNull(dto.getIsNameNotNull());
-  dto.getAdditionalProperties()
+  dto.additionalProperties()
       .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
   return this;
 }
@@ -44,18 +44,18 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
     fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class OneOfPojo1Dto {
   private final String name;
-  private final boolean isNameNotNull;
+  private final boolean isNameNotNull_;
   private final String isNameNotNull;
   private final Map<String, Object> additionalProperties;
 
   OneOfPojo1Dto(
       String name,
-      boolean isNameNotNull,
+      boolean isNameNotNull_,
       String isNameNotNull,
       Map<String, Object> additionalProperties
     ) {
     this.name = name;
-    this.isNameNotNull = isNameNotNull;
+    this.isNameNotNull_ = isNameNotNull_;
     this.isNameNotNull = isNameNotNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
@@ -75,7 +75,7 @@ public class OneOfPojo1Dto {
   }
 
   boolean getNameInternal2741988768Flag() {
-    return isNameNotNull;
+    return isNameNotNull_;
   }
 .
 .
@@ -99,7 +99,7 @@ public class OneOfPojo1Dto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -110,7 +110,7 @@ public class OneOfPojo1Dto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -153,7 +153,7 @@ public class OneOfPojo1Dto {
    * returned.
    */
   public <T> T foldOneOf(Function<VariantDto, T> onVariantDto, Supplier<T> onInvalid) {
-    if (isValidAgainstVariantDto()) {
+    if (validAgainstVariantDto()) {
       return onVariantDto.apply(asVariantDto());
     }
     else {
@@ -185,7 +185,7 @@ public class OneOfPojo1Dto {
     Map<String, Object> props = new HashMap<>(additionalProperties);
     return new VariantDto(
       name,
-      isNameNotNull,
+      isNameNotNull_,
       isNameNotNull,
       props
     );
@@ -194,34 +194,34 @@ public class OneOfPojo1Dto {
   @Valid
   private Map<String, Object> getInvalidOneOf() {
     final Map<String, Object> dtos = new HashMap<>();
-    if(getOneOfValidCount() != 1) {
+    if(oneOfValidCount() != 1) {
       dtos.put("ObjectPojo1", asVariantDto());
     }
     return dtos;
   }
 
-  private boolean isValidAgainstVariantDto() {
+  private boolean validAgainstVariantDto() {
     return asVariantDto().isValid();
   }
 
-  private int getOneOfValidCount() {
+  private int oneOfValidCount() {
     return
-      (isValidAgainstVariantDto() ? 1 : 0);
+      (validAgainstVariantDto() ? 1 : 0);
   }
 
   @AssertFalse(message = "Is not valid against one of the schemas [ObjectPojo1]")
   private boolean isValidAgainstNoOneOfSchema() {
-    return getOneOfValidCount() == 0;
+    return oneOfValidCount() == 0;
   }
 
   @AssertFalse(message = "Is valid against more than one of the schemas [ObjectPojo1]")
   private boolean isValidAgainstMoreThanOneSchema() {
-    return getOneOfValidCount() > 1;
+    return oneOfValidCount() > 1;
   }
 
   @Valid
   private Object getOneOf() {
-    if (getOneOfValidCount() != 1) {
+    if (oneOfValidCount() != 1) {
       return null;
     }
     return foldOneOf(dto -> dto, () -> null);
@@ -246,7 +246,7 @@ public class OneOfPojo1Dto {
     }
 
     private boolean isValid() {
-      return getOneOfValidCount() == 1
+      return oneOfValidCount() == 1
           && isAdditionalPropertiesValid();
     }
   }
@@ -257,7 +257,7 @@ public class OneOfPojo1Dto {
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final OneOfPojo1Dto other = (OneOfPojo1Dto) obj;
     return Objects.deepEquals(this.name, other.name)
-        && Objects.deepEquals(this.isNameNotNull, other.isNameNotNull)
+        && Objects.deepEquals(this.isNameNotNull_, other.isNameNotNull_)
         && Objects.deepEquals(this.isNameNotNull, other.isNameNotNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
@@ -266,7 +266,7 @@ public class OneOfPojo1Dto {
   public int hashCode() {
     return Objects.hash(
       name,
-      isNameNotNull,
+      isNameNotNull_,
       isNameNotNull,
       additionalProperties
     );
@@ -276,7 +276,7 @@ public class OneOfPojo1Dto {
   public String toString() {
     return "OneOfPojo1Dto{" +
       "name=" + "'" + name + "'" + ", " +
-      "isNameNotNull=" + isNameNotNull + ", " +
+      "isNameNotNull_=" + isNameNotNull_ + ", " +
       "isNameNotNull=" + "'" + isNameNotNull + "'" + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -295,14 +295,14 @@ public class OneOfPojo1Dto {
     }
 
     private String name;
-    private boolean isNameNotNull = true;
+    private boolean isNameNotNull_ = true;
     private String isNameNotNull;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonProperty("name")
     private Builder setNameJson(String name) {
       this.name = name;
-      this.isNameNotNull = name != null;
+      this.isNameNotNull_ = name != null;
       return this;
     }
 
@@ -311,7 +311,7 @@ public class OneOfPojo1Dto {
      */
     public Builder setName(String name) {
       this.name = name;
-      this.isNameNotNull = name != null;
+      this.isNameNotNull_ = name != null;
       return this;
     }
 
@@ -320,7 +320,7 @@ public class OneOfPojo1Dto {
      */
     public Builder setName(Optional<String> name) {
       this.name = name.orElse(null);
-      this.isNameNotNull = true;
+      this.isNameNotNull_ = true;
       return this;
     }
 
@@ -341,7 +341,7 @@ public class OneOfPojo1Dto {
     private Builder setVariantDto(VariantDto dto) {
       setName(dto.getName());
       setIsNameNotNull(dto.getIsNameNotNull());
-      dto.getAdditionalProperties()
+      dto.additionalProperties()
           .forEach(prop -> addAdditionalProperty(prop.getName(), prop.getValue().orElse(null)));
       return this;
     }
@@ -369,7 +369,7 @@ public class OneOfPojo1Dto {
       additionalProperties.remove("name");
       additionalProperties.remove("isNameNotNull");
 
-      return new OneOfPojo1Dto(name, isNameNotNull, isNameNotNull, additionalProperties);
+      return new OneOfPojo1Dto(name, isNameNotNull_, isNameNotNull, additionalProperties);
     }
   }
 
@@ -522,6 +522,371 @@ public class OneOfPojo1Dto {
 ]
 
 
+frameworkMethodCollidingWithProperty=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
+public class ObjectPojo1Dto {
+  private final String propertyCount;
+  private final Map<String, Object> additionalProperties;
+
+  ObjectPojo1Dto(
+      String propertyCount,
+      Map<String, Object> additionalProperties
+    ) {
+    this.propertyCount = propertyCount;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * propertyCount
+   */
+  public String getPropertyCount() {
+    return propertyCount;
+  }
+
+  @JsonProperty("propertyCount")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getPropertyCountJson() {
+    return propertyCount;
+  }
+
+  @NotNull
+  private String getPropertyCount_1() {
+    return propertyCount;
+  }
+
+  @Valid
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> additionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount_() {
+    return
+      (propertyCount != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * propertyCount
+   */
+  public ObjectPojo1Dto withPropertyCount(String propertyCount) {
+    return
+      new ObjectPojo1Dto(
+        propertyCount,
+        additionalProperties
+      );
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isPropertyCountValid() {
+      return propertyCount != null;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isPropertyCountValid()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.propertyCount, other.propertyCount)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      propertyCount,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "propertyCount=" + "'" + propertyCount + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String propertyCount;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("propertyCount")
+    private Builder setPropertyCountJson(String propertyCount) {
+      this.propertyCount = propertyCount;
+      return this;
+    }
+
+    /**
+     * propertyCount
+     */
+    private Builder setPropertyCount(String propertyCount) {
+      this.propertyCount = propertyCount;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      additionalProperties.remove("propertyCount");
+
+      return new ObjectPojo1Dto(propertyCount, additionalProperties);
+    }
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Convenience factory method for DTO's with a single property. Instantiates
+   * directly the DTO with the given property. This method is only generated if the
+   * DTO has exactly one property.
+   */
+  public static ObjectPojo1Dto fromPropertyCount(String propertyCount) {
+    return fullBuilder().setPropertyCount(propertyCount).build();
+  }
+
+  public static final class BuilderStages {
+    private BuilderStages() {}
+
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * propertyCount
+       */
+      public FullOptPropertyBuilder0 setPropertyCount(String propertyCount) {
+        return new FullOptPropertyBuilder0(builder.setPropertyCount(propertyCount));
+      }
+
+    }
+
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * propertyCount
+       */
+      public PropertyBuilder1 setPropertyCount(String propertyCount) {
+        return new PropertyBuilder1(builder.setPropertyCount(propertyCount));
+      }
+
+    }
+
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+  }
+}
+]
+
+
 jsonAnchorCollidingWithApiAccessorOfSibling=[
 package com.github.muehmar;
 
@@ -596,7 +961,7 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -607,7 +972,7 @@ public class ObjectPojo1Dto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -1031,7 +1396,7 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -1042,7 +1407,7 @@ public class ObjectPojo1Dto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -1424,18 +1789,18 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
     fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final String name;
-  private final boolean isNameNotNull;
+  private final boolean isNameNotNull_;
   private final String isNameNotNull;
   private final Map<String, Object> additionalProperties;
 
   ObjectPojo1Dto(
       String name,
-      boolean isNameNotNull,
+      boolean isNameNotNull_,
       String isNameNotNull,
       Map<String, Object> additionalProperties
     ) {
     this.name = name;
-    this.isNameNotNull = isNameNotNull;
+    this.isNameNotNull_ = isNameNotNull_;
     this.isNameNotNull = isNameNotNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
@@ -1468,7 +1833,7 @@ public class ObjectPojo1Dto {
 
   @AssertTrue(message = "name is required to be non-null but is null")
   private boolean isNameNotNull() {
-    return isNameNotNull;
+    return isNameNotNull_;
   }
 .
 .
@@ -1496,7 +1861,7 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -1507,7 +1872,7 @@ public class ObjectPojo1Dto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -1535,7 +1900,7 @@ public class ObjectPojo1Dto {
       new ObjectPojo1Dto(
         name,
         true,
-        true,
+        isNameNotNull,
         additionalProperties
       );
   }
@@ -1548,7 +1913,7 @@ public class ObjectPojo1Dto {
       new ObjectPojo1Dto(
         name.orElse(null),
         true,
-        true,
+        isNameNotNull,
         additionalProperties
       );
   }
@@ -1560,7 +1925,7 @@ public class ObjectPojo1Dto {
     return
       new ObjectPojo1Dto(
         name,
-        isNameNotNull,
+        isNameNotNull_,
         isNameNotNull,
         additionalProperties
       );
@@ -1572,7 +1937,7 @@ public class ObjectPojo1Dto {
 
   private class Validator {
     private boolean isNameValid() {
-      return isNameNotNull;
+      return isNameNotNull_;
     }
 
     private boolean isIsNameNotNullValid() {
@@ -1604,7 +1969,7 @@ public class ObjectPojo1Dto {
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
     return Objects.deepEquals(this.name, other.name)
-        && Objects.deepEquals(this.isNameNotNull, other.isNameNotNull)
+        && Objects.deepEquals(this.isNameNotNull_, other.isNameNotNull_)
         && Objects.deepEquals(this.isNameNotNull, other.isNameNotNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
@@ -1613,7 +1978,7 @@ public class ObjectPojo1Dto {
   public int hashCode() {
     return Objects.hash(
       name,
-      isNameNotNull,
+      isNameNotNull_,
       isNameNotNull,
       additionalProperties
     );
@@ -1623,7 +1988,7 @@ public class ObjectPojo1Dto {
   public String toString() {
     return "ObjectPojo1Dto{" +
       "name=" + "'" + name + "'" + ", " +
-      "isNameNotNull=" + isNameNotNull + ", " +
+      "isNameNotNull_=" + isNameNotNull_ + ", " +
       "isNameNotNull=" + "'" + isNameNotNull + "'" + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -1642,14 +2007,14 @@ public class ObjectPojo1Dto {
     }
 
     private String name;
-    private boolean isNameNotNull = true;
+    private boolean isNameNotNull_ = true;
     private String isNameNotNull;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonProperty("name")
     private Builder setNameJson(String name) {
       this.name = name;
-      this.isNameNotNull = name != null;
+      this.isNameNotNull_ = name != null;
       return this;
     }
 
@@ -1658,7 +2023,7 @@ public class ObjectPojo1Dto {
      */
     public Builder setName(String name) {
       this.name = name;
-      this.isNameNotNull = name != null;
+      this.isNameNotNull_ = name != null;
       return this;
     }
 
@@ -1667,7 +2032,7 @@ public class ObjectPojo1Dto {
      */
     public Builder setName(Optional<String> name) {
       this.name = name.orElse(null);
-      this.isNameNotNull = true;
+      this.isNameNotNull_ = true;
       return this;
     }
 
@@ -1708,7 +2073,7 @@ public class ObjectPojo1Dto {
       additionalProperties.remove("name");
       additionalProperties.remove("isNameNotNull");
 
-      return new ObjectPojo1Dto(name, isNameNotNull, isNameNotNull, additionalProperties);
+      return new ObjectPojo1Dto(name, isNameNotNull_, isNameNotNull, additionalProperties);
     }
   }
 
@@ -1933,18 +2298,18 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
     fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final String name;
-  private final boolean isNameNull;
+  private final boolean isNameNull_;
   private final String isNameNull;
   private final Map<String, Object> additionalProperties;
 
   ObjectPojo1Dto(
       String name,
-      boolean isNameNull,
+      boolean isNameNull_,
       String isNameNull,
       Map<String, Object> additionalProperties
     ) {
     this.name = name;
-    this.isNameNull = isNameNull;
+    this.isNameNull_ = isNameNull_;
     this.isNameNull = isNameNull;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
@@ -1953,13 +2318,13 @@ public class ObjectPojo1Dto {
    * name
    */
   public Tristate<String> getName() {
-    return Tristate.ofNullableAndNullFlag(name, isNameNull);
+    return Tristate.ofNullableAndNullFlag(name, isNameNull_);
   }
 
   @JsonProperty("name")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getNameJson() {
-    return isNameNull ? new JacksonNullContainer<>(name) : name;
+    return isNameNull_ ? new JacksonNullContainer<>(name) : name;
   }
 
   private String getName_() {
@@ -1991,7 +2356,7 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -2002,7 +2367,7 @@ public class ObjectPojo1Dto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -2017,7 +2382,7 @@ public class ObjectPojo1Dto {
    */
   public int getPropertyCount() {
     return
-      ((isNameNull || name != null) ? 1 : 0) +
+      ((isNameNull_ || name != null) ? 1 : 0) +
       (isNameNull != null ? 1 : 0) +
       additionalProperties.size();
   }
@@ -2030,7 +2395,7 @@ public class ObjectPojo1Dto {
       new ObjectPojo1Dto(
         name,
         false,
-        false,
+        isNameNull,
         additionalProperties
       );
   }
@@ -2043,7 +2408,7 @@ public class ObjectPojo1Dto {
       new ObjectPojo1Dto(
         name.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
         name.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
-        name.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+        isNameNull,
         additionalProperties
       );
   }
@@ -2055,7 +2420,7 @@ public class ObjectPojo1Dto {
     return
       new ObjectPojo1Dto(
         name,
-        isNameNull,
+        isNameNull_,
         isNameNull,
         additionalProperties
       );
@@ -2099,7 +2464,7 @@ public class ObjectPojo1Dto {
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
     return Objects.deepEquals(this.name, other.name)
-        && Objects.deepEquals(this.isNameNull, other.isNameNull)
+        && Objects.deepEquals(this.isNameNull_, other.isNameNull_)
         && Objects.deepEquals(this.isNameNull, other.isNameNull)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
@@ -2108,7 +2473,7 @@ public class ObjectPojo1Dto {
   public int hashCode() {
     return Objects.hash(
       name,
-      isNameNull,
+      isNameNull_,
       isNameNull,
       additionalProperties
     );
@@ -2118,7 +2483,7 @@ public class ObjectPojo1Dto {
   public String toString() {
     return "ObjectPojo1Dto{" +
       "name=" + "'" + name + "'" + ", " +
-      "isNameNull=" + isNameNull + ", " +
+      "isNameNull_=" + isNameNull_ + ", " +
       "isNameNull=" + "'" + isNameNull + "'" + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -2137,14 +2502,14 @@ public class ObjectPojo1Dto {
     }
 
     private String name;
-    private boolean isNameNull = false;
+    private boolean isNameNull_ = false;
     private String isNameNull;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonProperty("name")
     private Builder setNameJson(String name) {
       this.name = name;
-      this.isNameNull = name == null;
+      this.isNameNull_ = name == null;
       return this;
     }
 
@@ -2153,7 +2518,7 @@ public class ObjectPojo1Dto {
      */
     public Builder setName(String name) {
       this.name = name;
-      this.isNameNull = name == null;
+      this.isNameNull_ = name == null;
       return this;
     }
 
@@ -2162,7 +2527,7 @@ public class ObjectPojo1Dto {
      */
     public Builder setName(Tristate<String> name) {
       this.name = name.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
-      this.isNameNull = name.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      this.isNameNull_ = name.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
       return this;
     }
 
@@ -2203,7 +2568,7 @@ public class ObjectPojo1Dto {
       additionalProperties.remove("name");
       additionalProperties.remove("isNameNull");
 
-      return new ObjectPojo1Dto(name, isNameNull, isNameNull, additionalProperties);
+      return new ObjectPojo1Dto(name, isNameNull_, isNameNull, additionalProperties);
     }
   }
 
@@ -2429,18 +2794,18 @@ import tools.jackson.databind.annotation.JsonPOJOBuilder;
     fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class ObjectPojo1Dto {
   private final String name;
-  private final boolean isNamePresent;
+  private final boolean isNamePresent_;
   private final String isNamePresent;
   private final Map<String, Object> additionalProperties;
 
   ObjectPojo1Dto(
       String name,
-      boolean isNamePresent,
+      boolean isNamePresent_,
       String isNamePresent,
       Map<String, Object> additionalProperties
     ) {
     this.name = name;
-    this.isNamePresent = isNamePresent;
+    this.isNamePresent_ = isNamePresent_;
     this.isNamePresent = isNamePresent;
     this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
   }
@@ -2464,7 +2829,7 @@ public class ObjectPojo1Dto {
   @JsonProperty("name")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object getNameJson() {
-    return isNamePresent ? new JacksonNullContainer<>(name) : null;
+    return isNamePresent_ ? new JacksonNullContainer<>(name) : null;
   }
 
   private String getName_() {
@@ -2473,7 +2838,7 @@ public class ObjectPojo1Dto {
 
   @AssertTrue(message = "name is required but it is not present")
   private boolean isNamePresent() {
-    return isNamePresent;
+    return isNamePresent_;
   }
 .
 .
@@ -2501,7 +2866,7 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -2512,7 +2877,7 @@ public class ObjectPojo1Dto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)
@@ -2527,7 +2892,7 @@ public class ObjectPojo1Dto {
    */
   public int getPropertyCount() {
     return
-      (isNamePresent ? 1 : 0) +
+      (isNamePresent_ ? 1 : 0) +
       (isNamePresent != null ? 1 : 0) +
       additionalProperties.size();
   }
@@ -2540,7 +2905,7 @@ public class ObjectPojo1Dto {
       new ObjectPojo1Dto(
         name,
         true,
-        true,
+        isNamePresent,
         additionalProperties
       );
   }
@@ -2553,7 +2918,7 @@ public class ObjectPojo1Dto {
       new ObjectPojo1Dto(
         name.orElse(null),
         true,
-        true,
+        isNamePresent,
         additionalProperties
       );
   }
@@ -2565,7 +2930,7 @@ public class ObjectPojo1Dto {
     return
       new ObjectPojo1Dto(
         name,
-        isNamePresent,
+        isNamePresent_,
         isNamePresent,
         additionalProperties
       );
@@ -2577,7 +2942,7 @@ public class ObjectPojo1Dto {
 
   private class Validator {
     private boolean isNameValid() {
-      return isNamePresent;
+      return isNamePresent_;
     }
 
     private boolean isIsNamePresentValid() {
@@ -2609,7 +2974,7 @@ public class ObjectPojo1Dto {
     if (obj == null || this.getClass() != obj.getClass()) return false;
     final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
     return Objects.deepEquals(this.name, other.name)
-        && Objects.deepEquals(this.isNamePresent, other.isNamePresent)
+        && Objects.deepEquals(this.isNamePresent_, other.isNamePresent_)
         && Objects.deepEquals(this.isNamePresent, other.isNamePresent)
         && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
   }
@@ -2618,7 +2983,7 @@ public class ObjectPojo1Dto {
   public int hashCode() {
     return Objects.hash(
       name,
-      isNamePresent,
+      isNamePresent_,
       isNamePresent,
       additionalProperties
     );
@@ -2628,7 +2993,7 @@ public class ObjectPojo1Dto {
   public String toString() {
     return "ObjectPojo1Dto{" +
       "name=" + "'" + name + "'" + ", " +
-      "isNamePresent=" + isNamePresent + ", " +
+      "isNamePresent_=" + isNamePresent_ + ", " +
       "isNamePresent=" + "'" + isNamePresent + "'" + ", " +
       "additionalProperties=" + additionalProperties +
       "}";
@@ -2647,14 +3012,14 @@ public class ObjectPojo1Dto {
     }
 
     private String name;
-    private boolean isNamePresent = false;
+    private boolean isNamePresent_ = false;
     private String isNamePresent;
     private Map<String, Object> additionalProperties = new HashMap<>();
 
     @JsonProperty("name")
     private Builder setNameJson(String name) {
       this.name = name;
-      this.isNamePresent = true;
+      this.isNamePresent_ = true;
       return this;
     }
 
@@ -2663,7 +3028,7 @@ public class ObjectPojo1Dto {
      */
     private Builder setName(String name) {
       this.name = name;
-      this.isNamePresent = true;
+      this.isNamePresent_ = true;
       return this;
     }
 
@@ -2672,7 +3037,7 @@ public class ObjectPojo1Dto {
      */
     private Builder setName(Optional<String> name) {
       this.name = name.orElse(null);
-      this.isNamePresent = true;
+      this.isNamePresent_ = true;
       return this;
     }
 
@@ -2713,7 +3078,7 @@ public class ObjectPojo1Dto {
       additionalProperties.remove("name");
       additionalProperties.remove("isNamePresent");
 
-      return new ObjectPojo1Dto(name, isNamePresent, isNamePresent, additionalProperties);
+      return new ObjectPojo1Dto(name, isNamePresent_, isNamePresent, additionalProperties);
     }
   }
 
@@ -2993,7 +3358,7 @@ public class ObjectPojo1Dto {
     return additionalProperties;
   }
 
-  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+  public List<NullableAdditionalProperty<Object>> additionalProperties() {
     return additionalProperties.entrySet().stream()
         .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
@@ -3004,7 +3369,7 @@ public class ObjectPojo1Dto {
    * class represents the possible three states of the property: present and
    * non-null, present and null, absent.
    */
-  public Tristate<Object> getAdditionalProperty(String key) {
+  public Tristate<Object> additionalProperty(String key) {
     if (additionalProperties.containsKey(key)) {
       return Optional.ofNullable(additionalProperties.get(key))
           .map(Tristate::ofValue)

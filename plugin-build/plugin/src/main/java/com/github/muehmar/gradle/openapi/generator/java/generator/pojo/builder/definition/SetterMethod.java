@@ -29,22 +29,16 @@ enum SetterMethod {
 
   private final Generator<MemberAndNameScope, PojoSettings> generator;
 
-  /**
-   * The setters which are derived from the member alone. Only the anchor whose name has to avoid
-   * the names of its siblings needs the whole {@link MemberAndNameScope}.
-   */
-  SetterMethod(Generator<JavaPojoMember, PojoSettings> generator) {
-    this.generator = generator.contraMap(MemberAndNameScope::getMember);
+  /** Every setter carries the name scope, as it assigns the companion flag field. */
+  SetterMethod(Generator<MemberAndNameScope, PojoSettings> generator) {
+    this.generator = generator;
   }
 
   SetterMethod(NameScopeAware nameScopeAware) {
     this.generator = nameScopeAware.generator;
   }
 
-  /**
-   * Holder for the setters needing the sibling names: an enum constant cannot reference a generator
-   * of its own enum before the enum is initialised.
-   */
+  /** An enum constant cannot reference a generator of its own enum before it is initialised. */
   private enum NameScopeAware {
     JSON(jsonSetterGenerator());
 

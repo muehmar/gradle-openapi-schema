@@ -22,7 +22,7 @@ class Issue364Test {
         MAPPER.readValue(
             "{\"id\":123,\"message\":\"hello\"}", TypeMappedAdditionalPropertiesDto.class);
 
-    assertEquals(Optional.of(CustomString.create("hello")), dto.getAdditionalProperty("message"));
+    assertEquals(Optional.of(CustomString.create("hello")), dto.additionalProperty("message"));
 
     final Set<ConstraintViolation<TypeMappedAdditionalPropertiesDto>> violations = validate(dto);
 
@@ -101,8 +101,7 @@ class Issue364Test {
             "{\"name\":\"test\",\"message\":\"hello\"}",
             TypeMappedAdditionalPropertiesWithNullableDto.class);
 
-    assertEquals(
-        Tristate.ofValue(CustomString.create("hello")), dto.getAdditionalProperty("message"));
+    assertEquals(Tristate.ofValue(CustomString.create("hello")), dto.additionalProperty("message"));
 
     final Set<ConstraintViolation<TypeMappedAdditionalPropertiesWithNullableDto>> violations =
         validate(dto);
@@ -118,7 +117,7 @@ class Issue364Test {
             "{\"name\":\"test\",\"message\":null}",
             TypeMappedAdditionalPropertiesWithNullableDto.class);
 
-    assertEquals(Tristate.ofNull(), dto.getAdditionalProperty("message"));
+    assertEquals(Tristate.ofNull(), dto.additionalProperty("message"));
 
     final Set<ConstraintViolation<TypeMappedAdditionalPropertiesWithNullableDto>> violations =
         validate(dto);
@@ -134,7 +133,7 @@ class Issue364Test {
             .setName(CustomString.create("test"))
             .build();
 
-    assertEquals(Tristate.ofAbsent(), dto.getAdditionalProperty("message"));
+    assertEquals(Tristate.ofAbsent(), dto.additionalProperty("message"));
 
     final Set<ConstraintViolation<TypeMappedAdditionalPropertiesWithNullableDto>> violations =
         validate(dto);
@@ -230,7 +229,7 @@ class Issue364Test {
             .addAdditionalProperty("key", CustomString.create("value"))
             .build();
 
-    final Tristate<CustomString> result = dto.getAdditionalProperty("key");
+    final Tristate<CustomString> result = dto.additionalProperty("key");
 
     assertEquals(Tristate.ofValue(CustomString.create("value")), result);
   }
@@ -244,7 +243,7 @@ class Issue364Test {
             .addAdditionalProperty("key", Tristate.ofNull())
             .build();
 
-    final Tristate<CustomString> result = dto.getAdditionalProperty("key");
+    final Tristate<CustomString> result = dto.additionalProperty("key");
 
     assertEquals(Tristate.ofNull(), result);
   }
@@ -256,7 +255,7 @@ class Issue364Test {
             .setName(CustomString.create("test"))
             .build();
 
-    final Tristate<CustomString> result = dto.getAdditionalProperty("nonexistent");
+    final Tristate<CustomString> result = dto.additionalProperty("nonexistent");
 
     assertEquals(Tristate.ofAbsent(), result);
   }

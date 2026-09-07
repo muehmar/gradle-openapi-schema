@@ -1,5 +1,7 @@
 package com.github.muehmar.gradle.openapi.warnings;
 
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.PropertyInfoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.java.model.validation.ConstraintType;
@@ -39,6 +41,21 @@ public class Warning {
             "FormatTypeMapping for format %s has no conversion defined.",
             formatTypeMapping.getFormatType());
     return new Warning(WarningType.MISSING_MAPPING_CONVERSION, message);
+  }
+
+  /**
+   * A property forced a public method of the generated dto to be renamed. Only the methods which
+   * are part of the api of the dto warn: renaming one of them changes code the user calls by hand,
+   * as opposed to the internal anchors and the private methods, whose rename is either invisible or
+   * only moves the property path of a constraint violation.
+   */
+  public static Warning nameCollision(
+      JavaPojoName pojoName, JavaName propertyName, JavaName originalName, JavaName renamedTo) {
+    final String message =
+        String.format(
+            "The property %s of %s collides with the generated method %s(), which is part of the api of the dto. The method is renamed to %s(). Rename the property to keep the original method name.",
+            propertyName, pojoName, originalName, renamedTo);
+    return new Warning(WarningType.NAME_COLLISION, message);
   }
 
   public static Warning missingMappingConversion(DtoMapping dtoMapping) {

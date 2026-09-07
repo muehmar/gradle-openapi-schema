@@ -139,6 +139,10 @@ def jacksonMajorVersions = ['jackson2', 'jackson3']
 
 specifications.addAll(issueNumbers.collect { issueNumber -> [name: "Issue${issueNumber}", file: "issues/openapi-issue-${issueNumber}.yml"] })
 
+// Emits a NAME_COLLISION warning by design, hence it is not part of issueNumbers: the warning would
+// let the build fail everywhere the schema is generated.
+specifications.add([name: "Issue438FrameworkMethod", file: "issues/openapi-issue-438-framework-method.yml", allowNameCollision: true])
+
 compileJava.dependsOn compileNoJsonJava
 compileJava.dependsOn compileNoValidationJava
 compileJava.dependsOn compileNoJsonAndValidationJava
@@ -441,6 +445,19 @@ openApiGenerator {
                 }
             }
 
+            "${jacksonMajorVersion}Issue438FrameworkMethod" {
+                sourceSet = targetSourceSet
+                outputDir = targetOutputDir
+                inputSpec = "$projectDir/src/main/resources/issues/openapi-issue-438-framework-method.yml"
+                packageName = "com.github.muehmar.gradle.openapi.issues.issue438frameworkmethod"
+                jsonSupport = jsonSupportValue
+
+                // The collision is the point of this schema.
+                warnings {
+                    failOnNameCollision = false
+                }
+            }
+
             "${jacksonMajorVersion}Issue340Mapping" {
                 sourceSet = targetSourceSet
                 outputDir = targetOutputDir
@@ -622,6 +639,12 @@ openApiGenerator {
                     validation {
                         enabled = false
                     }
+
+                    if (spec.allowNameCollision) {
+                        warnings {
+                            failOnNameCollision = false
+                        }
+                    }
                 }
             }
         }
@@ -634,6 +657,12 @@ openApiGenerator {
                     inputSpec = "$projectDir/src/main/resources/${spec.file}"
                     packageName = "${project.group}.${project.name}.api.nojsonsupport.${spec.name}.model"
                     jsonSupport = "none"
+
+                    if (spec.allowNameCollision) {
+                        warnings {
+                            failOnNameCollision = false
+                        }
+                    }
                 }
             }
         }
@@ -649,6 +678,12 @@ openApiGenerator {
 
                     validation {
                         enabled = false
+                    }
+
+                    if (spec.allowNameCollision) {
+                        warnings {
+                            failOnNameCollision = false
+                        }
                     }
                 }
             }
