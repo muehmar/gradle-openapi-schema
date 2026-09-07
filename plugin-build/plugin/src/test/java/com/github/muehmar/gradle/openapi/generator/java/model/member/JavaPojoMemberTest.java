@@ -19,8 +19,10 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.EnumConstantName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MemberNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaEnumType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
 import com.github.muehmar.gradle.openapi.generator.model.Nullability;
@@ -94,21 +96,24 @@ class JavaPojoMemberTest {
   @MethodSource("membersWithValidationGetterName")
   void getValidationGetterName_when_calledWithMemberAndGetterSuffixes_then_correctMethodName(
       JavaPojoMember member, GetterSuffixes getterSuffixes, String expectedValidationGetterName) {
+    final PojoSettings settings = defaultTestSettings().withGetterSuffixes(getterSuffixes);
     JavaName validationGetterName =
-        member.getValidationGetterName(defaultTestSettings().withGetterSuffixes(getterSuffixes));
+        member.getValidationGetterName(settings, nameScopeOf(member, settings));
     assertEquals(expectedValidationGetterName, validationGetterName.asString());
   }
 
   @Test
   void
-      getValidationGetterName_when_nameEndsWithSuffixAfterSanitizing_then_suffixRepeatedToAvoidApiGetterName() {
+      getValidationGetterName_when_nameEndsWithSuffixAfterSanitizing_then_counterAppendedToAvoidApiGetterName() {
     final JavaPojoMember member =
         TestJavaPojoMembers.requiredString().withName(JavaName.fromString("point."));
 
     final PojoSettings settings = defaultTestSettings();
 
     assertEquals("getPoint_", member.getGetterNameWithSuffix(settings).asString());
-    assertEquals("getPoint__", member.getValidationGetterName(settings).asString());
+    assertEquals(
+        "getPoint_1",
+        member.getValidationGetterName(settings, nameScopeOf(member, settings)).asString());
   }
 
   @Test
@@ -119,7 +124,13 @@ class JavaPojoMemberTest {
         defaultTestSettings()
             .withValidationMethods(defaultValidationMethods().withGetterSuffix(""));
 
-    assertEquals("getStringVal", member.getValidationGetterName(settings).asString());
+    assertEquals(
+        "getStringVal",
+        member.getValidationGetterName(settings, nameScopeOf(member, settings)).asString());
+  }
+
+  private static MemberNameScope nameScopeOf(JavaPojoMember member, PojoSettings settings) {
+    return MemberAndNameScope.singleMember(member, settings).getDtoNameScope();
   }
 
   /**

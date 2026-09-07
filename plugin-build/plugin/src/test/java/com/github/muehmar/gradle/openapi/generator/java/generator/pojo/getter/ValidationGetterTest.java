@@ -9,6 +9,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -29,9 +30,13 @@ class ValidationGetterTest {
   @SnapshotName("members")
   @MethodSource("members")
   void generate_when_members_then_matchSnapshot(JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = validationGetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = validationGetterGenerator();
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(member, defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
@@ -39,11 +44,13 @@ class ValidationGetterTest {
   @Test
   @SnapshotName("validationDisabled")
   void generate_when_validationDisabled_then_matchSnapshot() {
-    final Generator<JavaPojoMember, PojoSettings> generator = validationGetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = validationGetterGenerator();
 
     final Writer writer =
         generator.generate(
-            TestJavaPojoMembers.requiredString(),
+            MemberAndNameScope.singleMember(
+                TestJavaPojoMembers.requiredString(),
+                defaultTestSettings().withEnableValidation(false)),
             defaultTestSettings().withEnableValidation(false),
             javaWriter());
 

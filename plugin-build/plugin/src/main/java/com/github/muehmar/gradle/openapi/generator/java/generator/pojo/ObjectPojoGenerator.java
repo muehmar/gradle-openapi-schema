@@ -104,9 +104,24 @@ public class ObjectPojoGenerator implements Generator<JavaObjectPojo, PojoSettin
         .append(builders());
   }
 
+  /**
+   * The getters of every property. The members are paired with the names taken by their siblings,
+   * as the anchors must not collide with them, see issue #438.
+   */
+  private static Generator<JavaObjectPojo, PojoSettings> memberGetters() {
+    final Generator<MemberAndNameScope, PojoSettings> getterGenerator = getterGenerator();
+    return (pojo, settings, writer) ->
+        Generator.<JavaObjectPojo, PojoSettings>emptyGen()
+            .appendList(
+                getterGenerator,
+                ignore -> MemberAndNameScope.forMembers(pojo.getAllMembers(), settings),
+                newLine())
+            .generate(pojo, settings, writer);
+  }
+
   private static Generator<JavaObjectPojo, PojoSettings> getters() {
     return Generator.<JavaObjectPojo, PojoSettings>emptyGen()
-        .appendList(getterGenerator(), JavaObjectPojo::getAllMembers, newLine())
+        .append(memberGetters())
         .appendSingleBlankLine()
         .append(allOfDtoGetterGenerator())
         .appendSingleBlankLine()

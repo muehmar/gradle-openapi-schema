@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.FlagGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.FlagValidationGetter;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.JsonGetter;
@@ -28,22 +29,46 @@ enum GetterMethod {
   CONTAINER_TRISTATE_GETTER(ContainerTristateGetter::containerTristateGetterGenerator),
   OPTIONAL_OR_GETTER(OptionalOrGetter::optionalOrGetterGenerator),
   CONTAINER_OPTIONAL_OR_GETTER(ContainerOptionalOrGetter::containerOptionalOrGetterGenerator),
-  JSON_GETTER(JsonGetter::jsonGetterGenerator),
-  VALIDATION_GETTER(ValidationGetter::validationGetterGenerator),
+  JSON_GETTER(GetterMethod.NameScopeAware.JSON),
+  VALIDATION_GETTER(GetterMethod.NameScopeAware.VALIDATION),
   FLAG_VALIDATION_GETTER(FlagValidationGetter::flagValidationGetterGenerator),
   FLAG_GETTER(FlagGetter::flagGetterGenerator);
 
-  private final Function<Visibility, Generator<JavaPojoMember, PojoSettings>> generator;
+  private final Function<Visibility, Generator<MemberAndNameScope, PojoSettings>> generator;
 
+  /**
+   * The getters which are derived from the member alone. Only the anchors whose name has to avoid
+   * the names of their siblings need the whole {@link MemberAndNameScope}.
+   */
   GetterMethod(Function<Visibility, Generator<JavaPojoMember, PojoSettings>> generator) {
-    this.generator = generator;
+    this.generator =
+        visibility -> generator.apply(visibility).contraMap(MemberAndNameScope::getMember);
   }
 
   GetterMethod(Supplier<Generator<JavaPojoMember, PojoSettings>> generator) {
     this(ignoredVisibility -> generator.get());
   }
 
-  public Generator<JavaPojoMember, PojoSettings> createGenerator(Visibility visibility) {
+  GetterMethod(NameScopeAware nameScopeAware) {
+    this.generator = ignoredVisibility -> nameScopeAware.generator;
+  }
+
+  /**
+   * Holder for the getters needing the sibling names: an enum constant cannot reference a generator
+   * of its own enum before the enum is initialised.
+   */
+  private enum NameScopeAware {
+    JSON(JsonGetter.jsonGetterGenerator()),
+    VALIDATION(ValidationGetter.validationGetterGenerator());
+
+    private final Generator<MemberAndNameScope, PojoSettings> generator;
+
+    NameScopeAware(Generator<MemberAndNameScope, PojoSettings> generator) {
+      this.generator = generator;
+    }
+  }
+
+  public Generator<MemberAndNameScope, PojoSettings> createGenerator(Visibility visibility) {
     return generator.apply(visibility);
   }
 }

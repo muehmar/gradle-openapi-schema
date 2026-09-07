@@ -1,0 +1,2830 @@
+jsonAnchorCollidingWithApiAccessorOfSibling=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
+public class ObjectPojo1Dto {
+  private final String name;
+  private final String nameJson;
+  private final Map<String, Object> additionalProperties;
+
+  ObjectPojo1Dto(
+      String name,
+      String nameJson,
+      Map<String, Object> additionalProperties
+    ) {
+    this.name = name;
+    this.nameJson = nameJson;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * name
+   */
+  public String getName() {
+    return name;
+  }
+
+  @JsonProperty("name")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getNameJson1() {
+    return name;
+  }
+.
+.
+  /**
+   * nameJson
+   */
+  public String getNameJson() {
+    return nameJson;
+  }
+
+  @JsonProperty("nameJson")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getNameJsonJson() {
+    return nameJson;
+  }
+
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (name != null ? 1 : 0) +
+      (nameJson != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * name
+   */
+  public ObjectPojo1Dto withName(String name) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        nameJson,
+        additionalProperties
+      );
+  }
+
+  /**
+   * nameJson
+   */
+  public ObjectPojo1Dto withNameJson(String nameJson) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        nameJson,
+        additionalProperties
+      );
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isNameValid() {
+      return name != null;
+    }
+
+    private boolean isNameJsonValid() {
+      return nameJson != null;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isNameValid()
+          && isNameJsonValid()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.nameJson, other.nameJson)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      name,
+      nameJson,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "name=" + "'" + name + "'" + ", " +
+      "nameJson=" + "'" + nameJson + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String name;
+    private String nameJson;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("name")
+    private Builder setNameJson1(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * name
+     */
+    private Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    @JsonProperty("nameJson")
+    private Builder setNameJsonJson(String nameJson) {
+      this.nameJson = nameJson;
+      return this;
+    }
+
+    /**
+     * nameJson
+     */
+    private Builder setNameJson(String nameJson) {
+      this.nameJson = nameJson;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      additionalProperties.remove("name");
+      additionalProperties.remove("nameJson");
+
+      return new ObjectPojo1Dto(name, nameJson, additionalProperties);
+    }
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  public static final class BuilderStages {
+    private BuilderStages() {}
+
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public FullPropertyBuilder1 setName(String name) {
+        return new FullPropertyBuilder1(builder.setName(name));
+      }
+
+    }
+
+    public static final class FullPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * nameJson
+       */
+      public FullOptPropertyBuilder0 setNameJson(String nameJson) {
+        return new FullOptPropertyBuilder0(builder.setNameJson(nameJson));
+      }
+
+    }
+
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public PropertyBuilder1 setName(String name) {
+        return new PropertyBuilder1(builder.setName(name));
+      }
+
+    }
+
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * nameJson
+       */
+      public PropertyBuilder2 setNameJson(String nameJson) {
+        return new PropertyBuilder2(builder.setNameJson(nameJson));
+      }
+
+    }
+
+    public static final class PropertyBuilder2 {
+      private final Builder builder;
+
+      private PropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+  }
+}
+]
+
+
+jsonAnchorsWithBuilderMethodPrefixOfTheGetters=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
+public class ObjectPojo1Dto {
+  private final String name;
+  private final String nameJson;
+  private final Map<String, Object> additionalProperties;
+
+  ObjectPojo1Dto(
+      String name,
+      String nameJson,
+      Map<String, Object> additionalProperties
+    ) {
+    this.name = name;
+    this.nameJson = nameJson;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * name
+   */
+  public String getName() {
+    return name;
+  }
+
+  @JsonProperty("name")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getNameJson1() {
+    return name;
+  }
+.
+.
+  /**
+   * nameJson
+   */
+  public String getNameJson() {
+    return nameJson;
+  }
+
+  @JsonProperty("nameJson")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getNameJsonJson() {
+    return nameJson;
+  }
+
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (name != null ? 1 : 0) +
+      (nameJson != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * name
+   */
+  public ObjectPojo1Dto withName(String name) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        nameJson,
+        additionalProperties
+      );
+  }
+
+  /**
+   * nameJson
+   */
+  public ObjectPojo1Dto withNameJson(String nameJson) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        nameJson,
+        additionalProperties
+      );
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isNameValid() {
+      return name != null;
+    }
+
+    private boolean isNameJsonValid() {
+      return nameJson != null;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isNameValid()
+          && isNameJsonValid()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.nameJson, other.nameJson)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      name,
+      nameJson,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "name=" + "'" + name + "'" + ", " +
+      "nameJson=" + "'" + nameJson + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String name;
+    private String nameJson;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("name")
+    private Builder getNameJson1(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * name
+     */
+    private Builder getName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    @JsonProperty("nameJson")
+    private Builder getNameJsonJson(String nameJson) {
+      this.nameJson = nameJson;
+      return this;
+    }
+
+    /**
+     * nameJson
+     */
+    private Builder getNameJson(String nameJson) {
+      this.nameJson = nameJson;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      additionalProperties.remove("name");
+      additionalProperties.remove("nameJson");
+
+      return new ObjectPojo1Dto(name, nameJson, additionalProperties);
+    }
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  public static final class BuilderStages {
+    private BuilderStages() {}
+
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public FullPropertyBuilder1 getName(String name) {
+        return new FullPropertyBuilder1(builder.getName(name));
+      }
+
+    }
+
+    public static final class FullPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * nameJson
+       */
+      public FullOptPropertyBuilder0 getNameJson(String nameJson) {
+        return new FullOptPropertyBuilder0(builder.getNameJson(nameJson));
+      }
+
+    }
+
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public PropertyBuilder1 getName(String name) {
+        return new PropertyBuilder1(builder.getName(name));
+      }
+
+    }
+
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * nameJson
+       */
+      public PropertyBuilder2 getNameJson(String nameJson) {
+        return new PropertyBuilder2(builder.getNameJson(nameJson));
+      }
+
+    }
+
+    public static final class PropertyBuilder2 {
+      private final Builder builder;
+
+      private PropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+  }
+}
+]
+
+
+notNullFlagFieldCollidingWithPropertyOfSibling=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
+public class ObjectPojo1Dto {
+  private final String name;
+  private final boolean isNameNotNull;
+  private final String isNameNotNull;
+  private final Map<String, Object> additionalProperties;
+
+  ObjectPojo1Dto(
+      String name,
+      boolean isNameNotNull,
+      String isNameNotNull,
+      Map<String, Object> additionalProperties
+    ) {
+    this.name = name;
+    this.isNameNotNull = isNameNotNull;
+    this.isNameNotNull = isNameNotNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * name
+   */
+  public Optional<String> getName() {
+    return Optional.ofNullable(name);
+  }
+
+  /**
+   * name
+   */
+  public String getNameOr(String defaultValue) {
+    return this.name == null
+        ? defaultValue
+        : this.name;
+  }
+
+  @JsonProperty("name")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getNameJson() {
+    return name;
+  }
+
+  private String getName_() {
+    return name;
+  }
+
+  @AssertTrue(message = "name is required to be non-null but is null")
+  private boolean isNameNotNull() {
+    return isNameNotNull;
+  }
+.
+.
+  /**
+   * isNameNotNull
+   */
+  public String getIsNameNotNull() {
+    return isNameNotNull;
+  }
+
+  @JsonProperty("isNameNotNull")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getIsNameNotNullJson() {
+    return isNameNotNull;
+  }
+
+  @NotNull
+  private String getIsNameNotNull_() {
+    return isNameNotNull;
+  }
+
+  @Valid
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (name != null ? 1 : 0) +
+      (isNameNotNull != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * name
+   */
+  public ObjectPojo1Dto withName(String name) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        true,
+        true,
+        additionalProperties
+      );
+  }
+
+  /**
+   * name
+   */
+  public ObjectPojo1Dto withName(Optional<String> name) {
+    return
+      new ObjectPojo1Dto(
+        name.orElse(null),
+        true,
+        true,
+        additionalProperties
+      );
+  }
+
+  /**
+   * isNameNotNull
+   */
+  public ObjectPojo1Dto withIsNameNotNull(String isNameNotNull) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        isNameNotNull,
+        isNameNotNull,
+        additionalProperties
+      );
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isNameValid() {
+      return isNameNotNull;
+    }
+
+    private boolean isIsNameNotNullValid() {
+      return isNameNotNull != null;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isNameValid()
+          && isIsNameNotNullValid()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.isNameNotNull, other.isNameNotNull)
+        && Objects.deepEquals(this.isNameNotNull, other.isNameNotNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      name,
+      isNameNotNull,
+      isNameNotNull,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "name=" + "'" + name + "'" + ", " +
+      "isNameNotNull=" + isNameNotNull + ", " +
+      "isNameNotNull=" + "'" + isNameNotNull + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String name;
+    private boolean isNameNotNull = true;
+    private String isNameNotNull;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("name")
+    private Builder setNameJson(String name) {
+      this.name = name;
+      this.isNameNotNull = name != null;
+      return this;
+    }
+
+    /**
+     * name
+     */
+    public Builder setName(String name) {
+      this.name = name;
+      this.isNameNotNull = name != null;
+      return this;
+    }
+
+    /**
+     * name
+     */
+    public Builder setName(Optional<String> name) {
+      this.name = name.orElse(null);
+      this.isNameNotNull = true;
+      return this;
+    }
+
+    @JsonProperty("isNameNotNull")
+    private Builder setIsNameNotNullJson(String isNameNotNull) {
+      this.isNameNotNull = isNameNotNull;
+      return this;
+    }
+
+    /**
+     * isNameNotNull
+     */
+    private Builder setIsNameNotNull(String isNameNotNull) {
+      this.isNameNotNull = isNameNotNull;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      additionalProperties.remove("name");
+      additionalProperties.remove("isNameNotNull");
+
+      return new ObjectPojo1Dto(name, isNameNotNull, isNameNotNull, additionalProperties);
+    }
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  public static final class BuilderStages {
+    private BuilderStages() {}
+
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * isNameNotNull
+       */
+      public FullOptPropertyBuilder0 setIsNameNotNull(String isNameNotNull) {
+        return new FullOptPropertyBuilder0(builder.setIsNameNotNull(isNameNotNull));
+      }
+
+    }
+
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public FullOptPropertyBuilder1 setName(String name) {
+        return new FullOptPropertyBuilder1(builder.setName(name));
+      }
+
+      /**
+       * name
+       */
+      public FullOptPropertyBuilder1 setName(Optional<String> name) {
+        return new FullOptPropertyBuilder1(builder.setName(name));
+      }
+
+    }
+
+    public static final class FullOptPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * isNameNotNull
+       */
+      public PropertyBuilder1 setIsNameNotNull(String isNameNotNull) {
+        return new PropertyBuilder1(builder.setIsNameNotNull(isNameNotNull));
+      }
+
+    }
+
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public OptPropertyBuilder1 setName(String name) {
+        return new OptPropertyBuilder1(builder.setName(name));
+      }
+
+      /**
+       * name
+       */
+      public OptPropertyBuilder1 setName(Optional<String> name) {
+        return new OptPropertyBuilder1(builder.setName(name));
+      }
+
+    }
+
+    public static final class OptPropertyBuilder1 {
+      private final Builder builder;
+
+      private OptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+  }
+}
+]
+
+
+nullFlagFieldCollidingWithPropertyOfSibling=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
+public class ObjectPojo1Dto {
+  private final String name;
+  private final boolean isNameNull;
+  private final String isNameNull;
+  private final Map<String, Object> additionalProperties;
+
+  ObjectPojo1Dto(
+      String name,
+      boolean isNameNull,
+      String isNameNull,
+      Map<String, Object> additionalProperties
+    ) {
+    this.name = name;
+    this.isNameNull = isNameNull;
+    this.isNameNull = isNameNull;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * name
+   */
+  public Tristate<String> getName() {
+    return Tristate.ofNullableAndNullFlag(name, isNameNull);
+  }
+
+  @JsonProperty("name")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getNameJson() {
+    return isNameNull ? new JacksonNullContainer<>(name) : name;
+  }
+
+  private String getName_() {
+    return name;
+  }
+.
+.
+  /**
+   * isNameNull
+   */
+  public String getIsNameNull() {
+    return isNameNull;
+  }
+
+  @JsonProperty("isNameNull")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getIsNameNullJson() {
+    return isNameNull;
+  }
+
+  @NotNull
+  private String getIsNameNull_() {
+    return isNameNull;
+  }
+
+  @Valid
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      ((isNameNull || name != null) ? 1 : 0) +
+      (isNameNull != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * name
+   */
+  public ObjectPojo1Dto withName(String name) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        false,
+        false,
+        additionalProperties
+      );
+  }
+
+  /**
+   * name
+   */
+  public ObjectPojo1Dto withName(Tristate<String> name) {
+    return
+      new ObjectPojo1Dto(
+        name.onValue(val -> val).onNull(() -> null).onAbsent(() -> null),
+        name.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+        name.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false),
+        additionalProperties
+      );
+  }
+
+  /**
+   * isNameNull
+   */
+  public ObjectPojo1Dto withIsNameNull(String isNameNull) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        isNameNull,
+        isNameNull,
+        additionalProperties
+      );
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isNameValid() {
+      return true;
+    }
+
+    private boolean isIsNameNullValid() {
+      return isNameNull != null;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isNameValid()
+          && isIsNameNullValid()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.isNameNull, other.isNameNull)
+        && Objects.deepEquals(this.isNameNull, other.isNameNull)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      name,
+      isNameNull,
+      isNameNull,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "name=" + "'" + name + "'" + ", " +
+      "isNameNull=" + isNameNull + ", " +
+      "isNameNull=" + "'" + isNameNull + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String name;
+    private boolean isNameNull = false;
+    private String isNameNull;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("name")
+    private Builder setNameJson(String name) {
+      this.name = name;
+      this.isNameNull = name == null;
+      return this;
+    }
+
+    /**
+     * name
+     */
+    public Builder setName(String name) {
+      this.name = name;
+      this.isNameNull = name == null;
+      return this;
+    }
+
+    /**
+     * name
+     */
+    public Builder setName(Tristate<String> name) {
+      this.name = name.onValue(val -> val).onNull(() -> null).onAbsent(() -> null);
+      this.isNameNull = name.onValue(ignore -> false).onNull(() -> true).onAbsent(() -> false);
+      return this;
+    }
+
+    @JsonProperty("isNameNull")
+    private Builder setIsNameNullJson(String isNameNull) {
+      this.isNameNull = isNameNull;
+      return this;
+    }
+
+    /**
+     * isNameNull
+     */
+    private Builder setIsNameNull(String isNameNull) {
+      this.isNameNull = isNameNull;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      additionalProperties.remove("name");
+      additionalProperties.remove("isNameNull");
+
+      return new ObjectPojo1Dto(name, isNameNull, isNameNull, additionalProperties);
+    }
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  public static final class BuilderStages {
+    private BuilderStages() {}
+
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * isNameNull
+       */
+      public FullOptPropertyBuilder0 setIsNameNull(String isNameNull) {
+        return new FullOptPropertyBuilder0(builder.setIsNameNull(isNameNull));
+      }
+
+    }
+
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public FullOptPropertyBuilder1 setName(String name) {
+        return new FullOptPropertyBuilder1(builder.setName(name));
+      }
+
+      /**
+       * name
+       */
+      public FullOptPropertyBuilder1 setName(Tristate<String> name) {
+        return new FullOptPropertyBuilder1(builder.setName(name));
+      }
+
+    }
+
+    public static final class FullOptPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * isNameNull
+       */
+      public PropertyBuilder1 setIsNameNull(String isNameNull) {
+        return new PropertyBuilder1(builder.setIsNameNull(isNameNull));
+      }
+
+    }
+
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public OptPropertyBuilder1 setName(String name) {
+        return new OptPropertyBuilder1(builder.setName(name));
+      }
+
+      /**
+       * name
+       */
+      public OptPropertyBuilder1 setName(Tristate<String> name) {
+        return new OptPropertyBuilder1(builder.setName(name));
+      }
+
+    }
+
+    public static final class OptPropertyBuilder1 {
+      private final Builder builder;
+
+      private OptPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder1 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder1 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder1(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder1 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder1(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+  }
+}
+]
+
+
+presenceFlagFieldCollidingWithPropertyOfSibling=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.muehmar.openapi.util.JacksonNullContainer;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
+public class ObjectPojo1Dto {
+  private final String name;
+  private final boolean isNamePresent;
+  private final String isNamePresent;
+  private final Map<String, Object> additionalProperties;
+
+  ObjectPojo1Dto(
+      String name,
+      boolean isNamePresent,
+      String isNamePresent,
+      Map<String, Object> additionalProperties
+    ) {
+    this.name = name;
+    this.isNamePresent = isNamePresent;
+    this.isNamePresent = isNamePresent;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * name
+   */
+  public Optional<String> getName() {
+    return Optional.ofNullable(name);
+  }
+
+  /**
+   * name
+   */
+  public String getNameOr(String defaultValue) {
+    return this.name == null
+        ? defaultValue
+        : this.name;
+  }
+
+  @JsonProperty("name")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object getNameJson() {
+    return isNamePresent ? new JacksonNullContainer<>(name) : null;
+  }
+
+  private String getName_() {
+    return name;
+  }
+
+  @AssertTrue(message = "name is required but it is not present")
+  private boolean isNamePresent() {
+    return isNamePresent;
+  }
+.
+.
+  /**
+   * isNamePresent
+   */
+  public String getIsNamePresent() {
+    return isNamePresent;
+  }
+
+  @JsonProperty("isNamePresent")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getIsNamePresentJson() {
+    return isNamePresent;
+  }
+
+  @NotNull
+  private String getIsNamePresent_() {
+    return isNamePresent;
+  }
+
+  @Valid
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (isNamePresent ? 1 : 0) +
+      (isNamePresent != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * name
+   */
+  public ObjectPojo1Dto withName(String name) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        true,
+        true,
+        additionalProperties
+      );
+  }
+
+  /**
+   * name
+   */
+  public ObjectPojo1Dto withName(Optional<String> name) {
+    return
+      new ObjectPojo1Dto(
+        name.orElse(null),
+        true,
+        true,
+        additionalProperties
+      );
+  }
+
+  /**
+   * isNamePresent
+   */
+  public ObjectPojo1Dto withIsNamePresent(String isNamePresent) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        isNamePresent,
+        isNamePresent,
+        additionalProperties
+      );
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isNameValid() {
+      return isNamePresent;
+    }
+
+    private boolean isIsNamePresentValid() {
+      return isNamePresent != null;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isNameValid()
+          && isIsNamePresentValid()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.isNamePresent, other.isNamePresent)
+        && Objects.deepEquals(this.isNamePresent, other.isNamePresent)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      name,
+      isNamePresent,
+      isNamePresent,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "name=" + "'" + name + "'" + ", " +
+      "isNamePresent=" + isNamePresent + ", " +
+      "isNamePresent=" + "'" + isNamePresent + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String name;
+    private boolean isNamePresent = false;
+    private String isNamePresent;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("name")
+    private Builder setNameJson(String name) {
+      this.name = name;
+      this.isNamePresent = true;
+      return this;
+    }
+
+    /**
+     * name
+     */
+    private Builder setName(String name) {
+      this.name = name;
+      this.isNamePresent = true;
+      return this;
+    }
+
+    /**
+     * name
+     */
+    private Builder setName(Optional<String> name) {
+      this.name = name.orElse(null);
+      this.isNamePresent = true;
+      return this;
+    }
+
+    @JsonProperty("isNamePresent")
+    private Builder setIsNamePresentJson(String isNamePresent) {
+      this.isNamePresent = isNamePresent;
+      return this;
+    }
+
+    /**
+     * isNamePresent
+     */
+    private Builder setIsNamePresent(String isNamePresent) {
+      this.isNamePresent = isNamePresent;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      additionalProperties.remove("name");
+      additionalProperties.remove("isNamePresent");
+
+      return new ObjectPojo1Dto(name, isNamePresent, isNamePresent, additionalProperties);
+    }
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  public static final class BuilderStages {
+    private BuilderStages() {}
+
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public FullPropertyBuilder1 setName(String name) {
+        return new FullPropertyBuilder1(builder.setName(name));
+      }
+
+      /**
+       * name
+       */
+      public FullPropertyBuilder1 setName(Optional<String> name) {
+        return new FullPropertyBuilder1(builder.setName(name));
+      }
+
+    }
+
+    public static final class FullPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * isNamePresent
+       */
+      public FullOptPropertyBuilder0 setIsNamePresent(String isNamePresent) {
+        return new FullOptPropertyBuilder0(builder.setIsNamePresent(isNamePresent));
+      }
+
+    }
+
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public PropertyBuilder1 setName(String name) {
+        return new PropertyBuilder1(builder.setName(name));
+      }
+
+      /**
+       * name
+       */
+      public PropertyBuilder1 setName(Optional<String> name) {
+        return new PropertyBuilder1(builder.setName(name));
+      }
+
+    }
+
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * isNamePresent
+       */
+      public PropertyBuilder2 setIsNamePresent(String isNamePresent) {
+        return new PropertyBuilder2(builder.setIsNamePresent(isNamePresent));
+      }
+
+    }
+
+    public static final class PropertyBuilder2 {
+      private final Builder builder;
+
+      private PropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+  }
+}
+]
+
+
+validationGetterCollidingWithApiAccessorOfSibling=[
+package com.github.muehmar;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.muehmar.openapi.util.NullableAdditionalProperty;
+import com.github.muehmar.openapi.util.Tristate;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = ObjectPojo1Dto.Builder.class)
+@JsonAutoDetect(
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
+    creatorVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.NONE)
+public class ObjectPojo1Dto {
+  private final String name;
+  private final String name_;
+  private final Map<String, Object> additionalProperties;
+
+  ObjectPojo1Dto(
+      String name,
+      String name_,
+      Map<String, Object> additionalProperties
+    ) {
+    this.name = name;
+    this.name_ = name_;
+    this.additionalProperties = Collections.unmodifiableMap(additionalProperties);
+  }
+
+  /**
+   * name
+   */
+  public String getName() {
+    return name;
+  }
+
+  @JsonProperty("name")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getNameJson() {
+    return name;
+  }
+
+  @NotNull
+  private String getName_1() {
+    return name;
+  }
+.
+.
+  /**
+   * name_
+   */
+  public String getName_() {
+    return name_;
+  }
+
+  @JsonProperty("name_")
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String getName_Json() {
+    return name_;
+  }
+
+  @NotNull
+  private String getName__() {
+    return name_;
+  }
+
+  @Valid
+  @JsonAnyGetter
+  private Map<String, Object> getAdditionalProperties_() {
+    return additionalProperties;
+  }
+
+  public List<NullableAdditionalProperty<Object>> getAdditionalProperties() {
+    return additionalProperties.entrySet().stream()
+        .map(entry -> NullableAdditionalProperty.ofNullable(entry.getKey(), entry.getValue()))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Returns the additional property with {@code key} where the {@link Tristate}
+   * class represents the possible three states of the property: present and
+   * non-null, present and null, absent.
+   */
+  public Tristate<Object> getAdditionalProperty(String key) {
+    if (additionalProperties.containsKey(key)) {
+      return Optional.ofNullable(additionalProperties.get(key))
+          .map(Tristate::ofValue)
+          .orElseGet(Tristate::ofNull);
+    } else {
+      return Tristate.ofAbsent();
+    }
+  }
+
+  /**
+   * Returns the number of present properties of this object.
+   */
+  public int getPropertyCount() {
+    return
+      (name != null ? 1 : 0) +
+      (name_ != null ? 1 : 0) +
+      additionalProperties.size();
+  }
+
+  /**
+   * name
+   */
+  public ObjectPojo1Dto withName(String name) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        name_,
+        additionalProperties
+      );
+  }
+
+  /**
+   * name_
+   */
+  public ObjectPojo1Dto withName_(String name_) {
+    return
+      new ObjectPojo1Dto(
+        name,
+        name_,
+        additionalProperties
+      );
+  }
+
+  boolean isValid() {
+    return new Validator().isValid();
+  }
+
+  private class Validator {
+    private boolean isNameValid() {
+      return name != null;
+    }
+
+    private boolean isName_Valid() {
+      return name_ != null;
+    }
+
+    private boolean isAdditionalPropertiesValid() {
+      if(getAdditionalProperties_() != null) {
+        return getAdditionalProperties_().values().stream().allMatch(this::isAdditionalPropertiesValueValid);
+      }
+
+      return false;
+    }
+
+    private boolean isAdditionalPropertiesValueValid(Object additionalPropertiesValue) {
+      return true;
+    }
+
+    private boolean isValid() {
+      return isNameValid()
+          && isName_Valid()
+          && isAdditionalPropertiesValid();
+    }
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || this.getClass() != obj.getClass()) return false;
+    final ObjectPojo1Dto other = (ObjectPojo1Dto) obj;
+    return Objects.deepEquals(this.name, other.name)
+        && Objects.deepEquals(this.name_, other.name_)
+        && Objects.deepEquals(this.additionalProperties, other.additionalProperties);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+      name,
+      name_,
+      additionalProperties
+    );
+  }
+
+  @Override
+  public String toString() {
+    return "ObjectPojo1Dto{" +
+      "name=" + "'" + name + "'" + ", " +
+      "name_=" + "'" + name_ + "'" + ", " +
+      "additionalProperties=" + additionalProperties +
+      "}";
+  }
+
+  @JsonPOJOBuilder(withPrefix = "set")
+  @JsonAutoDetect(
+      getterVisibility = JsonAutoDetect.Visibility.NONE,
+      isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+      setterVisibility = JsonAutoDetect.Visibility.NONE,
+      creatorVisibility = JsonAutoDetect.Visibility.NONE,
+      fieldVisibility = JsonAutoDetect.Visibility.NONE)
+  public static final class Builder {
+
+    private Builder() {
+    }
+
+    private String name;
+    private String name_;
+    private Map<String, Object> additionalProperties = new HashMap<>();
+
+    @JsonProperty("name")
+    private Builder setNameJson(String name) {
+      this.name = name;
+      return this;
+    }
+
+    /**
+     * name
+     */
+    private Builder setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    @JsonProperty("name_")
+    private Builder setName_Json(String name_) {
+      this.name_ = name_;
+      return this;
+    }
+
+    /**
+     * name_
+     */
+    private Builder setName_(String name_) {
+      this.name_ = name_;
+      return this;
+    }
+
+    @JsonAnySetter
+    public Builder addAdditionalProperty(String key, Object value) {
+      this.additionalProperties.put(key, value);
+      return this;
+    }
+
+    public Builder addAdditionalProperty(String key, Tristate<Object> value) {
+      value
+          .onValue(val -> this.additionalProperties.put(key, val))
+          .onNull(() -> this.additionalProperties.put(key, null))
+          .onAbsent(() -> null);
+      return this;
+    }
+
+    public Builder setAdditionalProperties(Map<String, Object> additionalProperties) {
+      this.additionalProperties = new HashMap<>(additionalProperties);
+      return this;
+    }
+
+    public ObjectPojo1Dto build() {
+      additionalProperties.remove("name");
+      additionalProperties.remove("name_");
+
+      return new ObjectPojo1Dto(name, name_, additionalProperties);
+    }
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.FullPropertyBuilder0 fullObjectPojo1DtoBuilder() {
+    return new BuilderStages.FullPropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 builder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  /**
+   * Instantiates a new staged builder. Explicit properties have precedence over
+   * additional properties, i.e. an additional property with the same name as an
+   * explicit property will be discarded.
+   */
+  public static BuilderStages.PropertyBuilder0 objectPojo1DtoBuilder() {
+    return new BuilderStages.PropertyBuilder0(new Builder());
+  }
+
+  public static final class BuilderStages {
+    private BuilderStages() {}
+
+    public static final class FullPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public FullPropertyBuilder1 setName(String name) {
+        return new FullPropertyBuilder1(builder.setName(name));
+      }
+
+    }
+
+    public static final class FullPropertyBuilder1 {
+      private final Builder builder;
+
+      private FullPropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name_
+       */
+      public FullOptPropertyBuilder0 setName_(String name_) {
+        return new FullOptPropertyBuilder0(builder.setName_(name_));
+      }
+
+    }
+
+    public static final class FullOptPropertyBuilder0 {
+      private final Builder builder;
+
+      private FullOptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new FullOptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public FullOptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new FullOptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class PropertyBuilder0 {
+      private final Builder builder;
+
+      private PropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name
+       */
+      public PropertyBuilder1 setName(String name) {
+        return new PropertyBuilder1(builder.setName(name));
+      }
+
+    }
+
+    public static final class PropertyBuilder1 {
+      private final Builder builder;
+
+      private PropertyBuilder1(Builder builder) {
+        this.builder = builder;
+      }
+
+      /**
+       * name_
+       */
+      public PropertyBuilder2 setName_(String name_) {
+        return new PropertyBuilder2(builder.setName_(name_));
+      }
+
+    }
+
+    public static final class PropertyBuilder2 {
+      private final Builder builder;
+
+      private PropertyBuilder2(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 andAllOptionals(){
+        return new OptPropertyBuilder0(builder);
+      }
+
+      public Builder andOptionals(){
+        return builder;
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+
+    public static final class OptPropertyBuilder0 {
+      private final Builder builder;
+
+      private OptPropertyBuilder0(Builder builder) {
+        this.builder = builder;
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Object value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 addAdditionalProperty(String key, Tristate<Object> value) {
+        return new OptPropertyBuilder0(builder.addAdditionalProperty(key, value));
+      }
+
+      public OptPropertyBuilder0 setAdditionalProperties(Map<String, Object> additionalProperties) {
+        return new OptPropertyBuilder0(builder.setAdditionalProperties(additionalProperties));
+      }
+
+      public ObjectPojo1Dto build(){
+        return builder.build();
+      }
+    }
+  }
+}
+]

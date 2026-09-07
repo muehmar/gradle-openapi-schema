@@ -7,6 +7,7 @@ import com.github.muehmar.gradle.openapi.generator.java.model.name.IsNullFlagNam
 import com.github.muehmar.gradle.openapi.generator.java.model.name.IsPresentFlagName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaPojoName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MemberNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.name.PropertyInfoName;
 import com.github.muehmar.gradle.openapi.generator.java.model.type.JavaType;
 import com.github.muehmar.gradle.openapi.generator.model.Necessity;
@@ -186,20 +187,32 @@ public class JavaPojoMember {
   }
 
   /**
-   * The suffix is repeated until the name is free: a property whose name already ends in it -
-   * {@code point.} sanitized to {@code point_} - would otherwise yield the name of the api getter.
+   * The name of the getter anchoring the serialization of this member, free of the names of the
+   * given siblings.
    */
-  public JavaName getValidationGetterName(PojoSettings settings) {
+  public JavaName getJsonGetterName(MemberNameScope nameScope) {
+    return nameScope.resolveAnchorName(getGetterName().append("Json"));
+  }
+
+  /**
+   * The name of the setter anchoring the deserialization of this member, free of the names of the
+   * given siblings.
+   */
+  public JavaName getJsonSetterName(PojoSettings settings, MemberNameScope nameScope) {
+    return nameScope.resolveAnchorName(
+        prefixedMethodName(settings.getBuilderMethodPrefix()).append("Json"));
+  }
+
+  /**
+   * The name of the getter carrying the constraints of this member, free of the names of the given
+   * siblings. An empty suffix is the explicit request to validate the api getter itself, hence its
+   * name is used unchanged.
+   */
+  public JavaName getValidationGetterName(PojoSettings settings, MemberNameScope nameScope) {
     final String suffix = settings.getValidationMethods().getGetterSuffix();
-    if (suffix.isEmpty()) {
-      return getGetterName();
-    }
-    final JavaName apiGetterName = getGetterNameWithSuffix(settings);
-    JavaName validationGetterName = getGetterName().append(suffix);
-    while (validationGetterName.asString().equals(apiGetterName.asString())) {
-      validationGetterName = validationGetterName.append(suffix);
-    }
-    return validationGetterName;
+    return suffix.isEmpty()
+        ? getGetterName()
+        : nameScope.resolveAnchorName(getGetterName().append(suffix));
   }
 
   public JavaName getGetterNameWithSuffix(PojoSettings settings) {

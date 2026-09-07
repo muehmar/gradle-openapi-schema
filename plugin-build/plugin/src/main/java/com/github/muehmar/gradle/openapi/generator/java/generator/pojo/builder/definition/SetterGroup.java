@@ -1,6 +1,7 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.definition;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
@@ -24,13 +25,13 @@ public class SetterGroup {
     }
   }
 
-  public Generator<JavaPojoMember, PojoSettings> generator() {
+  public Generator<MemberAndNameScope, PojoSettings> generator() {
     return generators
         .map(generator -> generator.create(memberFilter))
         .foldLeft(
-            Generator.<JavaPojoMember, PojoSettings>emptyGen(),
+            Generator.<MemberAndNameScope, PojoSettings>emptyGen(),
             (gen1, gen2) -> gen1.append(gen2).appendSingleBlankLine())
-        .append(RefsGenerator.fieldRefs());
+        .append(RefsGenerator.fieldRefs(), MemberAndNameScope::getMember);
   }
 
   public SetterGroup additionalMemberFilter(Predicate<JavaPojoMember> nestedMemberFilter) {

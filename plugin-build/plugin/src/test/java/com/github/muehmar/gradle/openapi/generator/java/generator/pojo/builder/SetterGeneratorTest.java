@@ -13,6 +13,7 @@ import static io.github.muehmar.codegenerator.writer.Writer.javaWriter;
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMemberXml;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaPojos;
@@ -38,12 +39,14 @@ class SetterGeneratorTest {
   @SnapshotName("allNecessityAndNullabilityVariants")
   void memberSetterGenerator_when_calledWithNullabilityAndNecessityVariants_then_matchSnapshot(
       JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = memberSetterGenerator();
 
     final Writer writer =
         generator.generate(
-            member.withMemberXml(
-                new JavaPojoMemberXml(Optional.empty(), Optional.of(true), Optional.empty())),
+            MemberAndNameScope.singleMember(
+                member.withMemberXml(
+                    new JavaPojoMemberXml(Optional.empty(), Optional.of(true), Optional.empty())),
+                defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3)),
             defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3),
             javaWriter());
 
@@ -62,9 +65,13 @@ class SetterGeneratorTest {
   @SnapshotName("allOneOfNecessityAndNullabilityVariants")
   void memberSetterGenerator_when_calledWithOneOfNullabilityAndNecessityVariants_then_matchSnapshot(
       JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = memberSetterGenerator();
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(member, defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
@@ -83,11 +90,14 @@ class SetterGeneratorTest {
   void
       memberSetterGenerator_when_calledWithAllArraysNecessityAndNullabilityVariantsWithArrayXml_then_matchSnapshot(
           JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = memberSetterGenerator();
 
     final Writer writer =
         generator.generate(
-            member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3), javaWriter());
+            MemberAndNameScope.singleMember(
+                member, defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3)),
+            defaultTestSettings().withXmlSupport(XmlSupport.JACKSON_3),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
@@ -114,9 +124,13 @@ class SetterGeneratorTest {
   void
       memberSetterGenerator_when_calledWithNecessityAndNullabilityVariantsTypeMapped_then_matchSnapshot(
           JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = memberSetterGenerator();
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(member, defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
@@ -134,9 +148,13 @@ class SetterGeneratorTest {
   void
       memberSetterGenerator_when_allListNecessityAndNullabilityVariantsFullyTypeMapped_then_matchSnapshot(
           JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = memberSetterGenerator();
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(member, defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
@@ -158,9 +176,13 @@ class SetterGeneratorTest {
   void
       memberSetterGenerator_when_allListNecessityAndNullabilityVariantsOnlyListTypeMapped_then_matchSnapshot(
           JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = memberSetterGenerator();
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(member, defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
@@ -180,9 +202,13 @@ class SetterGeneratorTest {
   void
       memberSetterGenerator_when_allMapNecessityAndNullabilityVariantsFullyTypeMapped_then_matchSnapshot(
           JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = memberSetterGenerator();
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(member, defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
@@ -207,9 +233,13 @@ class SetterGeneratorTest {
   void
       memberSetterGenerator_when_allMapNecessityAndNullabilityVariantsOnlyMapTypeMapped_then_matchSnapshot(
           JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = memberSetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = memberSetterGenerator();
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(member, defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }

@@ -14,9 +14,9 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.ge
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.GetterMethod.VALIDATION_GETTER;
 
 import ch.bluecare.commons.data.PList;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.definition.AccessorProfile.Rendering;
-import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 
@@ -25,18 +25,19 @@ public class GetterGroupsDefinition {
 
   private GetterGroupsDefinition() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> create() {
-    return (member, settings, writer) ->
-        chainOf(AccessorProfile.of(member)).generate(member, settings, writer);
+  public static Generator<MemberAndNameScope, PojoSettings> create() {
+    return (memberAndNameScope, settings, writer) ->
+        chainOf(AccessorProfile.of(memberAndNameScope.getMember()))
+            .generate(memberAndNameScope, settings, writer);
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> chainOf(AccessorProfile profile) {
+  private static Generator<MemberAndNameScope, PojoSettings> chainOf(AccessorProfile profile) {
     return generatorsOf(profile)
         .map(GetterGenerator::create)
         .foldLeft(
-            Generator.<JavaPojoMember, PojoSettings>emptyGen(),
+            Generator.<MemberAndNameScope, PojoSettings>emptyGen(),
             (gen1, gen2) -> gen1.append(gen2).appendSingleBlankLine())
-        .append(RefsGenerator.fieldRefs());
+        .append(RefsGenerator.fieldRefs(), MemberAndNameScope::getMember);
   }
 
   /** The api accessors first, then the anchors which are not part of the api. */

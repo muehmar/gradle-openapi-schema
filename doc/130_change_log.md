@@ -1,6 +1,12 @@
 ## Change Log
 
 * next
+    * [#438](https://github.com/muehmar/gradle-openapi-schema/issues/438) - Keep the JSON getter and the JSON setter of
+      a property free of the names generated for its siblings. These anchors are declaration-only - they are never
+      referenced by generated code - hence a collision with the api of a sibling, e.g. the properties `name` and
+      `nameJson` in the same schema, is resolved by appending a counter to the anchor (`getNameJson` becomes
+      `getNameJson1`). Such a schema previously generated two identical declarations and did not compile. A schema
+      without a collision generates unchanged code
     * [#436](https://github.com/muehmar/gradle-openapi-schema/issues/436) - Annotate the generated DTOs and their
       builders with `@JsonAutoDetect` and switch Jackson's auto-detection off, instead of annotating every method
       which must not be serialized with `@JsonIgnore`. Every serialized member carries an explicit annotation

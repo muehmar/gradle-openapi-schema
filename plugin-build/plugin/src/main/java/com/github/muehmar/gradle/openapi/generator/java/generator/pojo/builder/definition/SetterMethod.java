@@ -7,6 +7,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.bu
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.generator.JsonSetter.jsonSetterGenerator;
 import static com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.setter.generator.StandardSetter.setterGenerator;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -24,16 +25,39 @@ enum SetterMethod {
   CONTAINER_TRISTATE_SETTER(containerSetterGenerator(S_TRISTATE_SETTER)),
   CONTAINER_NULLABLE_VALUE_TRISTATE_SETTER(
       containerSetterGenerator(S_TRISTATE_SETTER, S_NULLABLE_CONTAINER_VALUE)),
-  JSON_SETTER(jsonSetterGenerator());
+  JSON_SETTER(SetterMethod.NameScopeAware.JSON);
 
-  private final Generator<JavaPojoMember, PojoSettings> generator;
+  private final Generator<MemberAndNameScope, PojoSettings> generator;
 
+  /**
+   * The setters which are derived from the member alone. Only the anchor whose name has to avoid
+   * the names of its siblings needs the whole {@link MemberAndNameScope}.
+   */
   SetterMethod(Generator<JavaPojoMember, PojoSettings> generator) {
-    this.generator = generator;
+    this.generator = generator.contraMap(MemberAndNameScope::getMember);
   }
 
-  public Generator<JavaPojoMember, PojoSettings> createGenerator(
+  SetterMethod(NameScopeAware nameScopeAware) {
+    this.generator = nameScopeAware.generator;
+  }
+
+  /**
+   * Holder for the setters needing the sibling names: an enum constant cannot reference a generator
+   * of its own enum before the enum is initialised.
+   */
+  private enum NameScopeAware {
+    JSON(jsonSetterGenerator());
+
+    private final Generator<MemberAndNameScope, PojoSettings> generator;
+
+    NameScopeAware(Generator<MemberAndNameScope, PojoSettings> generator) {
+      this.generator = generator;
+    }
+  }
+
+  public Generator<MemberAndNameScope, PojoSettings> createGenerator(
       Predicate<JavaPojoMember> memberFilter) {
-    return generator.filter(memberFilter);
+    return generator.filter(
+        memberAndNameScope -> memberFilter.test(memberAndNameScope.getMember()));
   }
 }

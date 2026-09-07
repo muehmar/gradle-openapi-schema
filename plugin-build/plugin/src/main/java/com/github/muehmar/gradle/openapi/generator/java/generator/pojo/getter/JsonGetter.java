@@ -5,6 +5,7 @@ import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.
 import static com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator.*;
 import static io.github.muehmar.codegenerator.java.JavaModifier.PRIVATE;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.RefsGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.Filters;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
@@ -16,28 +17,28 @@ import io.github.muehmar.codegenerator.java.JavaGenerators;
 public class JsonGetter {
   private JsonGetter() {}
 
-  public static Generator<JavaPojoMember, PojoSettings> jsonGetterGenerator() {
-    return Generator.<JavaPojoMember, PojoSettings>emptyGen()
-        .append(jsonProperty())
-        .append(jsonFormat())
-        .append(jsonIncludeNonNull())
-        .append(jacksonXmlProperty())
-        .append(jacksonXmlElementWrapper())
+  public static Generator<MemberAndNameScope, PojoSettings> jsonGetterGenerator() {
+    return Generator.<MemberAndNameScope, PojoSettings>emptyGen()
+        .append(jsonProperty(), MemberAndNameScope::getMember)
+        .append(jsonFormat(), MemberAndNameScope::getMember)
+        .append(jsonIncludeNonNull(), MemberAndNameScope::getMember)
+        .append(jacksonXmlProperty(), MemberAndNameScope::getMember)
+        .append(jacksonXmlElementWrapper(), MemberAndNameScope::getMember)
         .append(getterMethod())
-        .filter(Filters.<JavaPojoMember>isJacksonJson().or(isJacksonXml()));
+        .filter(Filters.<MemberAndNameScope>isJacksonJson().or(isJacksonXml()));
   }
 
-  private static Generator<JavaPojoMember, PojoSettings> getterMethod() {
-    return JavaGenerators.<JavaPojoMember, PojoSettings>methodGen()
+  private static Generator<MemberAndNameScope, PojoSettings> getterMethod() {
+    return JavaGenerators.<MemberAndNameScope, PojoSettings>methodGen()
         .modifiers(PRIVATE)
         .noGenericTypes()
-        .returnType(JsonGetter::methodReturnType)
-        .methodName(f -> f.getGetterName().append("Json"))
+        .returnType(m -> methodReturnType(m.getMember()))
+        .methodName(m -> m.getMember().getJsonGetterName(m.getDtoNameScope()))
         .noArguments()
         .doesNotThrow()
-        .content(methodContent())
+        .content(methodContent().contraMap(MemberAndNameScope::getMember))
         .build()
-        .append(RefsGenerator.fieldRefs());
+        .append(RefsGenerator.fieldRefs(), MemberAndNameScope::getMember);
   }
 
   private static String methodReturnType(JavaPojoMember member) {

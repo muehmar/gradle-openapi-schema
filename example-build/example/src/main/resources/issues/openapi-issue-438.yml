@@ -1,0 +1,52 @@
+openapi: "3.0.0"
+
+info: { }
+
+paths: { }
+
+# The names generated for a property must not collide with the names generated for one of its
+# siblings. The json getter and the json setter of a property are declaration-only anchors: they are
+# never referenced by generated code, hence a collision with the api of a sibling is resolved by
+# renaming the anchor.
+components:
+  schemas:
+
+    # 'name' is serialized through getNameJson()/setNameJson(), which are also the api getter and the
+    # standard builder setter of the sibling 'nameJson'.
+    JsonAnchorCollision:
+      type: object
+      required:
+        - name
+        - nameJson
+      properties:
+        name:
+          type: string
+        nameJson:
+          type: string
+
+    # The renamed anchor of 'name' must in turn not collide with the anchor of 'nameJson'.
+    JsonAnchorChainCollision:
+      type: object
+      required:
+        - name
+        - nameJson
+        - nameJsonJson
+      properties:
+        name:
+          type: string
+        nameJson:
+          type: string
+        nameJsonJson:
+          type: string
+
+    # The anchors of the optional and of the nullable variants are renamed the same way.
+    JsonAnchorCollisionOptional:
+      type: object
+      required:
+        - nameJson
+      properties:
+        name:
+          type: string
+          nullable: true
+        nameJson:
+          type: string

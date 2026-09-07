@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.TestJavaPojoMembers;
 import com.github.muehmar.gradle.openapi.generator.settings.JsonSupport;
@@ -31,9 +32,13 @@ class JsonGetterTest {
   @MethodSource("members")
   @SnapshotName("members")
   void generate_when_generatorSettings_then_matchSnapshot(JavaPojoMember member) {
-    final Generator<JavaPojoMember, PojoSettings> generator = jsonGetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = jsonGetterGenerator();
 
-    final Writer writer = generator.generate(member, defaultTestSettings(), javaWriter());
+    final Writer writer =
+        generator.generate(
+            MemberAndNameScope.singleMember(member, defaultTestSettings()),
+            defaultTestSettings(),
+            javaWriter());
 
     expect.scenario(member.getName().asString()).toMatchSnapshot(writerSnapshot(writer));
   }
@@ -46,11 +51,12 @@ class JsonGetterTest {
 
   @Test
   void generate_when_noJson_then_noOutput() {
-    final Generator<JavaPojoMember, PojoSettings> generator = jsonGetterGenerator();
+    final Generator<MemberAndNameScope, PojoSettings> generator = jsonGetterGenerator();
 
     final Writer writer =
         generator.generate(
-            optionalString(),
+            MemberAndNameScope.singleMember(
+                optionalString(), defaultTestSettings().withJsonSupport(JsonSupport.NONE)),
             defaultTestSettings().withJsonSupport(JsonSupport.NONE),
             javaWriter());
 

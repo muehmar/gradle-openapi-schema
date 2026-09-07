@@ -2513,7 +2513,7 @@ private Object getPoint_Json() {
   return isPoint_Null ? new JacksonNullContainer<>(point_) : point_;
 }
 
-private String getPoint__() {
+private String getPoint_1() {
   return point_;
 }
 

@@ -1,5 +1,6 @@
 package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.builder.definition;
 
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
@@ -10,7 +11,7 @@ import lombok.Value;
 class SetterGenerator {
   SetterMethod setterMethod;
 
-  Generator<JavaPojoMember, PojoSettings> create(Predicate<JavaPojoMember> memberFilter) {
+  Generator<MemberAndNameScope, PojoSettings> create(Predicate<JavaPojoMember> memberFilter) {
     return setterMethod.createGenerator(memberFilter);
   }
 }

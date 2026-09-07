@@ -331,6 +331,26 @@ public class TestJavaPojoMembers {
     return JavaPojoMember.wrap(PojoMembers.optionalNullableMap(), invoiceName(), typeMappings);
   }
 
+  /** A required, not-nullable string property with the given name. */
+  public static JavaPojoMember requiredStringNamed(String name) {
+    return stringNamed(name, REQUIRED, NOT_NULLABLE);
+  }
+
+  /** A string property with the given name, necessity and nullability. */
+  public static JavaPojoMember stringNamed(
+      String name, Necessity necessity, Nullability nullability) {
+    return javaPojoMemberBuilder()
+        .pojoName(invoiceName())
+        .name(JavaName.fromString(name))
+        .description(name)
+        .javaType(
+            JavaType.wrap(StringType.noFormat(), TypeMappings.empty()).withNullability(nullability))
+        .necessity(necessity)
+        .type(OBJECT_MEMBER)
+        .memberXml(JavaPojoMemberXml.noDefinition())
+        .build();
+  }
+
   public static JavaPojoMember requiredString() {
     return requiredString(TypeMappings.empty());
   }

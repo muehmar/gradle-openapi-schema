@@ -18,6 +18,7 @@ import static io.github.muehmar.codegenerator.java.JavaModifier.PUBLIC;
 
 import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.generator.enumpojo.EnumGenerator;
+import com.github.muehmar.gradle.openapi.generator.java.generator.pojo.MemberAndNameScope;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.PackageGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.generator.shared.jackson.JacksonAnnotationGenerator;
 import com.github.muehmar.gradle.openapi.generator.java.model.pojo.JavaArrayPojo;
@@ -62,7 +63,10 @@ public class ArrayPojoGenerator implements Generator<JavaArrayPojo, PojoSettings
         .appendSingleBlankLine()
         .appendOptional(EnumGenerator.nested(), pojo -> pojo.getArrayPojoMember().asEnumContent())
         .appendSingleBlankLine()
-        .append(getterGenerator(), JavaArrayPojo::getArrayPojoMember)
+        .append(
+            getterGenerator(),
+            (pojo, settings) ->
+                MemberAndNameScope.singleMember(pojo.getArrayPojoMember(), settings))
         .appendSingleBlankLine()
         .append(witherGenerator(), JavaArrayPojo::getWitherContent)
         .appendSingleBlankLine()

@@ -3,7 +3,10 @@ package com.github.muehmar.gradle.openapi.generator.java.generator.pojo.getter.d
 import static com.github.muehmar.gradle.openapi.generator.java.GeneratorUtil.noSettingsGen;
 import static io.github.muehmar.codegenerator.java.JavaDocGenerator.javaDoc;
 
+import ch.bluecare.commons.data.PList;
 import com.github.muehmar.gradle.openapi.generator.java.model.member.JavaPojoMember;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.JavaName;
+import com.github.muehmar.gradle.openapi.generator.java.model.name.MemberNameScope;
 import com.github.muehmar.gradle.openapi.generator.settings.PojoSettings;
 import io.github.muehmar.codegenerator.Generator;
 import io.github.muehmar.codegenerator.java.JavaModifier;
@@ -122,5 +125,32 @@ public class AccessorProfile {
   /** The flag accessor readable from outside the dto, as opposed to the validation assertion. */
   public boolean hasReadableFlagAccessor() {
     return hasPresenceFlag() && !hasOwnConstraints() && isPackagePrivate();
+  }
+
+  /**
+   * The names of the accessors this profile actually emits which are part of the api of the
+   * generated dto: they are referenced from outside the declaration and must therefore never be
+   * renamed, as opposed to the anchors. See {@link MemberNameScope}.
+   */
+  public PList<JavaName> contractGetterNames(JavaPojoMember member, PojoSettings settings) {
+    final PList<JavaName> apiGetterNames =
+        shape == Shape.OPTIONAL && !isPackagePrivate()
+            ? PList.of(
+                member.getGetterNameWithSuffix(settings), member.getGetterName().append("Or"))
+            : PList.single(member.getGetterNameWithSuffix(settings));
+    return hasReadableFlagAccessor()
+        ? apiGetterNames.cons(member.getFlagGetterName())
+        : apiGetterNames;
+  }
+
+  /**
+   * The names of the builder setters which are part of the api of the generated builder. The {@code
+   * _} variant is the setter of a container with a nullable value type.
+   */
+  public PList<JavaName> contractSetterNames(JavaPojoMember member, PojoSettings settings) {
+    final JavaName setterName = member.prefixedMethodName(settings.getBuilderMethodPrefix());
+    return rendering == Rendering.CONTAINER && member.getJavaType().isNullableContainerValueType()
+        ? PList.of(setterName, setterName.append("_"))
+        : PList.single(setterName);
   }
 }
